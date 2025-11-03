@@ -41,7 +41,7 @@
   <div class="collection-banner-carousel-wrapper" style="padding-top: 0; padding-bottom: 40px;">
     <div class="container-1770">
       
-      <div class="collection-banner-slideshow{% if banner_count > 1 %}" 
+      <div class="collection-banner-slideshow" 
            {% if banner_count > 1 %}data-loader-script="{{ 'halo.slide-show.js' | asset_url }}" data-init-slideshow data-arrows="true" data-dots="true" data-autoplay="true" data-autoplay-speed="5000" data-fade="true"{% endif %}>
         
         {%- if banner_1_desktop != blank -%}
