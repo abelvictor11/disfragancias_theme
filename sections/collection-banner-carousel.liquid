@@ -1,11 +1,10 @@
-{{ 'component-collection-banner-carousel.css' | asset_url | stylesheet_tag }}
-
 {%- liquid
   assign show_section = section.settings.enable_banner_carousel
   assign autoplay = section.settings.autoplay
   assign autoplay_speed = section.settings.autoplay_speed
   assign show_arrows = section.settings.show_arrows
   assign show_dots = section.settings.show_dots
+  assign fade = section.settings.slideshow_transition
   
   assign banner_1_desktop = collection.metafields.custom.banner_carousel_1_desktop
   assign banner_1_mobile = collection.metafields.custom.banner_carousel_1_mobile
@@ -28,277 +27,259 @@
   assign banner_5_link = collection.metafields.custom.banner_carousel_5_link
   
   assign has_banners = false
-  if banner_1_desktop != blank or banner_2_desktop != blank or banner_3_desktop != blank or banner_4_desktop != blank or banner_5_desktop != blank
+  if banner_1_desktop \!= blank or banner_2_desktop \!= blank or banner_3_desktop \!= blank or banner_4_desktop \!= blank or banner_5_desktop \!= blank
     assign has_banners = true
+  endif
+  
+  assign banner_count = 0
+  if banner_1_desktop \!= blank
+    assign banner_count = banner_count | plus: 1
+  endif
+  if banner_2_desktop \!= blank
+    assign banner_count = banner_count | plus: 1
+  endif
+  if banner_3_desktop \!= blank
+    assign banner_count = banner_count | plus: 1
+  endif
+  if banner_4_desktop \!= blank
+    assign banner_count = banner_count | plus: 1
+  endif
+  if banner_5_desktop \!= blank
+    assign banner_count = banner_count | plus: 1
   endif
 -%}
 
 {%- if show_section and has_banners -%}
-<div class="collection-banner-carousel-section" data-section-id="{{ section.id }}" data-section-type="collection-banner-carousel">
+<div class="collection-banner-carousel-wrapper section-block-{{ section.id }}" id="collection-banner-carousel-{{ section.id }}">
   <div class="{% if section.settings.container == 'fullwidth' %}container-full{% elsif section.settings.container == '1770' %}container-1770{% elsif section.settings.container == '1170' %}container-1170{% else %}container{% endif %}">
     
-    <banner-carousel class="collection-banner-carousel{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}" 
-         data-autoplay="{{ autoplay }}" 
-         data-autoplay-speed="{{ autoplay_speed }}"
-         data-arrows="{{ show_arrows }}"
-         data-dots="{{ show_dots }}">
+    <div class="collection-banner-slideshow{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}" 
+         {% if banner_count > 1 %}data-loader-script="{{ 'halo.slide-show.js' | asset_url }}" data-init-slideshow data-arrows="{{ show_arrows }}" data-dots="{{ show_dots }}" data-autoplay="{{ autoplay }}" data-autoplay-speed="{{ autoplay_speed }}" data-fade="{{ fade }}"{% endif %}>
       
       {%- comment -%} Banner 1 {%- endcomment -%}
-      {%- if banner_1_desktop != blank -%}
-        <div class="banner-carousel-slide">
-          {%- if banner_1_link != blank -%}<a href="{{ banner_1_link }}" class="banner-carousel-link">{%- endif -%}
-            <picture>
-              {%- if banner_1_mobile != blank -%}
-                <source media="(max-width: 749px)" srcset="{{ banner_1_mobile | image_url: width: 750 }} 750w, {{ banner_1_mobile | image_url: width: 1100 }} 1100w">
-              {%- endif -%}
-              <img 
-                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_1_desktop | image_url: width: 750 }} 750w,
+      {%- if banner_1_desktop \!= blank -%}
+        <div class="item">
+          <div class="images-contain{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}">
+            {%- if banner_1_mobile \!= blank -%}
+              <div class="adaptive_height image slide-mobile" style="padding-top: {{ 1 | divided_by: banner_1_mobile.aspect_ratio | times: 100 }}%">
+                <a {% if banner_1_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_1_link }}"{% endif %} class="slide-image">
+                  <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_1_mobile | image_url: width: 375 }} 375w,
+                    {{ banner_1_mobile | image_url: width: 750 }} 750w,
+                    {{ banner_1_mobile | image_url: width: 1100 }} 1100w"
+                    {% unless settings.enable_lazyload %}src="{{ banner_1_mobile | image_url: width: 750 }}"{% endunless %}
+                    alt="{{ banner_1_mobile.alt | default: collection.title | escape }}"
+                    width="{{ banner_1_mobile.width }}"
+                    height="{{ banner_1_mobile.height }}"
+                    {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
+                  {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+                </a>
+              </div>
+            {%- endif -%}
+            
+            <div class="adaptive_height image{% if banner_1_mobile \!= blank %} slide-pc{% endif %}" style="padding-top: {{ 1 | divided_by: banner_1_desktop.aspect_ratio | times: 100 }}%">
+              <a {% if banner_1_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_1_link }}"{% endif %} class="slide-image">
+                <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_1_desktop | image_url: width: 750 }} 750w,
                   {{ banner_1_desktop | image_url: width: 1100 }} 1100w,
                   {{ banner_1_desktop | image_url: width: 1500 }} 1500w,
                   {{ banner_1_desktop | image_url: width: 1780 }} 1780w,
                   {{ banner_1_desktop | image_url: width: 2000 }} 2000w,
-                  {{ banner_1_desktop | image_url: width: 3000 }} 3000w"
-                {% unless settings.enable_lazyload %}src="{{ banner_1_desktop | image_url: width: 1500 }}"{% endunless %}
-                alt="{{ banner_1_desktop.alt | default: collection.title | escape }}"
-                width="{{ banner_1_desktop.width }}"
-                height="{{ banner_1_desktop.height }}"
-                {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
-            </picture>
-          {%- if banner_1_link != blank -%}</a>{%- endif -%}
+                  {{ banner_1_desktop | image_url: width: 2800 }} 2800w"
+                  {% unless settings.enable_lazyload %}src="{{ banner_1_desktop | image_url: width: 1500 }}"{% endunless %}
+                  alt="{{ banner_1_desktop.alt | default: collection.title | escape }}"
+                  width="{{ banner_1_desktop.width }}"
+                  height="{{ banner_1_desktop.height }}"
+                  {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
+                {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+              </a>
+            </div>
+          </div>
         </div>
       {%- endif -%}
       
       {%- comment -%} Banner 2 {%- endcomment -%}
-      {%- if banner_2_desktop != blank -%}
-        <div class="banner-carousel-slide">
-          {%- if banner_2_link != blank -%}<a href="{{ banner_2_link }}" class="banner-carousel-link">{%- endif -%}
-            <picture>
-              {%- if banner_2_mobile != blank -%}
-                <source media="(max-width: 749px)" srcset="{{ banner_2_mobile | image_url: width: 750 }} 750w, {{ banner_2_mobile | image_url: width: 1100 }} 1100w">
-              {%- endif -%}
-              <img 
-                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_2_desktop | image_url: width: 750 }} 750w,
+      {%- if banner_2_desktop \!= blank -%}
+        <div class="item">
+          <div class="images-contain{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}">
+            {%- if banner_2_mobile \!= blank -%}
+              <div class="adaptive_height image slide-mobile" style="padding-top: {{ 1 | divided_by: banner_2_mobile.aspect_ratio | times: 100 }}%">
+                <a {% if banner_2_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_2_link }}"{% endif %} class="slide-image">
+                  <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_2_mobile | image_url: width: 375 }} 375w,
+                    {{ banner_2_mobile | image_url: width: 750 }} 750w,
+                    {{ banner_2_mobile | image_url: width: 1100 }} 1100w"
+                    {% unless settings.enable_lazyload %}src="{{ banner_2_mobile | image_url: width: 750 }}"{% endunless %}
+                    alt="{{ banner_2_mobile.alt | default: collection.title | escape }}"
+                    width="{{ banner_2_mobile.width }}"
+                    height="{{ banner_2_mobile.height }}"
+                    {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
+                  {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+                </a>
+              </div>
+            {%- endif -%}
+            
+            <div class="adaptive_height image{% if banner_2_mobile \!= blank %} slide-pc{% endif %}" style="padding-top: {{ 1 | divided_by: banner_2_desktop.aspect_ratio | times: 100 }}%">
+              <a {% if banner_2_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_2_link }}"{% endif %} class="slide-image">
+                <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_2_desktop | image_url: width: 750 }} 750w,
                   {{ banner_2_desktop | image_url: width: 1100 }} 1100w,
                   {{ banner_2_desktop | image_url: width: 1500 }} 1500w,
                   {{ banner_2_desktop | image_url: width: 1780 }} 1780w,
                   {{ banner_2_desktop | image_url: width: 2000 }} 2000w,
-                  {{ banner_2_desktop | image_url: width: 3000 }} 3000w"
-                {% unless settings.enable_lazyload %}src="{{ banner_2_desktop | image_url: width: 1500 }}"{% endunless %}
-                alt="{{ banner_2_desktop.alt | default: collection.title | escape }}"
-                width="{{ banner_2_desktop.width }}"
-                height="{{ banner_2_desktop.height }}"
-                {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
-            </picture>
-          {%- if banner_2_link != blank -%}</a>{%- endif -%}
+                  {{ banner_2_desktop | image_url: width: 2800 }} 2800w"
+                  {% unless settings.enable_lazyload %}src="{{ banner_2_desktop | image_url: width: 1500 }}"{% endunless %}
+                  alt="{{ banner_2_desktop.alt | default: collection.title | escape }}"
+                  width="{{ banner_2_desktop.width }}"
+                  height="{{ banner_2_desktop.height }}"
+                  {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
+                {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+              </a>
+            </div>
+          </div>
         </div>
       {%- endif -%}
       
       {%- comment -%} Banner 3 {%- endcomment -%}
-      {%- if banner_3_desktop != blank -%}
-        <div class="banner-carousel-slide">
-          {%- if banner_3_link != blank -%}<a href="{{ banner_3_link }}" class="banner-carousel-link">{%- endif -%}
-            <picture>
-              {%- if banner_3_mobile != blank -%}
-                <source media="(max-width: 749px)" srcset="{{ banner_3_mobile | image_url: width: 750 }} 750w, {{ banner_3_mobile | image_url: width: 1100 }} 1100w">
-              {%- endif -%}
-              <img 
-                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_3_desktop | image_url: width: 750 }} 750w,
+      {%- if banner_3_desktop \!= blank -%}
+        <div class="item">
+          <div class="images-contain{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}">
+            {%- if banner_3_mobile \!= blank -%}
+              <div class="adaptive_height image slide-mobile" style="padding-top: {{ 1 | divided_by: banner_3_mobile.aspect_ratio | times: 100 }}%">
+                <a {% if banner_3_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_3_link }}"{% endif %} class="slide-image">
+                  <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_3_mobile | image_url: width: 375 }} 375w,
+                    {{ banner_3_mobile | image_url: width: 750 }} 750w,
+                    {{ banner_3_mobile | image_url: width: 1100 }} 1100w"
+                    {% unless settings.enable_lazyload %}src="{{ banner_3_mobile | image_url: width: 750 }}"{% endunless %}
+                    alt="{{ banner_3_mobile.alt | default: collection.title | escape }}"
+                    width="{{ banner_3_mobile.width }}"
+                    height="{{ banner_3_mobile.height }}"
+                    {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
+                  {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+                </a>
+              </div>
+            {%- endif -%}
+            
+            <div class="adaptive_height image{% if banner_3_mobile \!= blank %} slide-pc{% endif %}" style="padding-top: {{ 1 | divided_by: banner_3_desktop.aspect_ratio | times: 100 }}%">
+              <a {% if banner_3_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_3_link }}"{% endif %} class="slide-image">
+                <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_3_desktop | image_url: width: 750 }} 750w,
                   {{ banner_3_desktop | image_url: width: 1100 }} 1100w,
                   {{ banner_3_desktop | image_url: width: 1500 }} 1500w,
                   {{ banner_3_desktop | image_url: width: 1780 }} 1780w,
                   {{ banner_3_desktop | image_url: width: 2000 }} 2000w,
-                  {{ banner_3_desktop | image_url: width: 3000 }} 3000w"
-                {% unless settings.enable_lazyload %}src="{{ banner_3_desktop | image_url: width: 1500 }}"{% endunless %}
-                alt="{{ banner_3_desktop.alt | default: collection.title | escape }}"
-                width="{{ banner_3_desktop.width }}"
-                height="{{ banner_3_desktop.height }}"
-                {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
-            </picture>
-          {%- if banner_3_link != blank -%}</a>{%- endif -%}
+                  {{ banner_3_desktop | image_url: width: 2800 }} 2800w"
+                  {% unless settings.enable_lazyload %}src="{{ banner_3_desktop | image_url: width: 1500 }}"{% endunless %}
+                  alt="{{ banner_3_desktop.alt | default: collection.title | escape }}"
+                  width="{{ banner_3_desktop.width }}"
+                  height="{{ banner_3_desktop.height }}"
+                  {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
+                {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+              </a>
+            </div>
+          </div>
         </div>
       {%- endif -%}
       
       {%- comment -%} Banner 4 {%- endcomment -%}
-      {%- if banner_4_desktop != blank -%}
-        <div class="banner-carousel-slide">
-          {%- if banner_4_link != blank -%}<a href="{{ banner_4_link }}" class="banner-carousel-link">{%- endif -%}
-            <picture>
-              {%- if banner_4_mobile != blank -%}
-                <source media="(max-width: 749px)" srcset="{{ banner_4_mobile | image_url: width: 750 }} 750w, {{ banner_4_mobile | image_url: width: 1100 }} 1100w">
-              {%- endif -%}
-              <img 
-                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_4_desktop | image_url: width: 750 }} 750w,
+      {%- if banner_4_desktop \!= blank -%}
+        <div class="item">
+          <div class="images-contain{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}">
+            {%- if banner_4_mobile \!= blank -%}
+              <div class="adaptive_height image slide-mobile" style="padding-top: {{ 1 | divided_by: banner_4_mobile.aspect_ratio | times: 100 }}%">
+                <a {% if banner_4_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_4_link }}"{% endif %} class="slide-image">
+                  <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_4_mobile | image_url: width: 375 }} 375w,
+                    {{ banner_4_mobile | image_url: width: 750 }} 750w,
+                    {{ banner_4_mobile | image_url: width: 1100 }} 1100w"
+                    {% unless settings.enable_lazyload %}src="{{ banner_4_mobile | image_url: width: 750 }}"{% endunless %}
+                    alt="{{ banner_4_mobile.alt | default: collection.title | escape }}"
+                    width="{{ banner_4_mobile.width }}"
+                    height="{{ banner_4_mobile.height }}"
+                    {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
+                  {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+                </a>
+              </div>
+            {%- endif -%}
+            
+            <div class="adaptive_height image{% if banner_4_mobile \!= blank %} slide-pc{% endif %}" style="padding-top: {{ 1 | divided_by: banner_4_desktop.aspect_ratio | times: 100 }}%">
+              <a {% if banner_4_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_4_link }}"{% endif %} class="slide-image">
+                <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_4_desktop | image_url: width: 750 }} 750w,
                   {{ banner_4_desktop | image_url: width: 1100 }} 1100w,
                   {{ banner_4_desktop | image_url: width: 1500 }} 1500w,
                   {{ banner_4_desktop | image_url: width: 1780 }} 1780w,
                   {{ banner_4_desktop | image_url: width: 2000 }} 2000w,
-                  {{ banner_4_desktop | image_url: width: 3000 }} 3000w"
-                {% unless settings.enable_lazyload %}src="{{ banner_4_desktop | image_url: width: 1500 }}"{% endunless %}
-                alt="{{ banner_4_desktop.alt | default: collection.title | escape }}"
-                width="{{ banner_4_desktop.width }}"
-                height="{{ banner_4_desktop.height }}"
-                {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
-            </picture>
-          {%- if banner_4_link != blank -%}</a>{%- endif -%}
+                  {{ banner_4_desktop | image_url: width: 2800 }} 2800w"
+                  {% unless settings.enable_lazyload %}src="{{ banner_4_desktop | image_url: width: 1500 }}"{% endunless %}
+                  alt="{{ banner_4_desktop.alt | default: collection.title | escape }}"
+                  width="{{ banner_4_desktop.width }}"
+                  height="{{ banner_4_desktop.height }}"
+                  {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
+                {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+              </a>
+            </div>
+          </div>
         </div>
       {%- endif -%}
       
       {%- comment -%} Banner 5 {%- endcomment -%}
-      {%- if banner_5_desktop != blank -%}
-        <div class="banner-carousel-slide">
-          {%- if banner_5_link != blank -%}<a href="{{ banner_5_link }}" class="banner-carousel-link">{%- endif -%}
-            <picture>
-              {%- if banner_5_mobile != blank -%}
-                <source media="(max-width: 749px)" srcset="{{ banner_5_mobile | image_url: width: 750 }} 750w, {{ banner_5_mobile | image_url: width: 1100 }} 1100w">
-              {%- endif -%}
-              <img 
-                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_5_desktop | image_url: width: 750 }} 750w,
+      {%- if banner_5_desktop \!= blank -%}
+        <div class="item">
+          <div class="images-contain{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}">
+            {%- if banner_5_mobile \!= blank -%}
+              <div class="adaptive_height image slide-mobile" style="padding-top: {{ 1 | divided_by: banner_5_mobile.aspect_ratio | times: 100 }}%">
+                <a {% if banner_5_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_5_link }}"{% endif %} class="slide-image">
+                  <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_5_mobile | image_url: width: 375 }} 375w,
+                    {{ banner_5_mobile | image_url: width: 750 }} 750w,
+                    {{ banner_5_mobile | image_url: width: 1100 }} 1100w"
+                    {% unless settings.enable_lazyload %}src="{{ banner_5_mobile | image_url: width: 750 }}"{% endunless %}
+                    alt="{{ banner_5_mobile.alt | default: collection.title | escape }}"
+                    width="{{ banner_5_mobile.width }}"
+                    height="{{ banner_5_mobile.height }}"
+                    {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
+                  {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+                </a>
+              </div>
+            {%- endif -%}
+            
+            <div class="adaptive_height image{% if banner_5_mobile \!= blank %} slide-pc{% endif %}" style="padding-top: {{ 1 | divided_by: banner_5_desktop.aspect_ratio | times: 100 }}%">
+              <a {% if banner_5_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_5_link }}"{% endif %} class="slide-image">
+                <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_5_desktop | image_url: width: 750 }} 750w,
                   {{ banner_5_desktop | image_url: width: 1100 }} 1100w,
                   {{ banner_5_desktop | image_url: width: 1500 }} 1500w,
                   {{ banner_5_desktop | image_url: width: 1780 }} 1780w,
                   {{ banner_5_desktop | image_url: width: 2000 }} 2000w,
-                  {{ banner_5_desktop | image_url: width: 3000 }} 3000w"
-                {% unless settings.enable_lazyload %}src="{{ banner_5_desktop | image_url: width: 1500 }}"{% endunless %}
-                alt="{{ banner_5_desktop.alt | default: collection.title | escape }}"
-                width="{{ banner_5_desktop.width }}"
-                height="{{ banner_5_desktop.height }}"
-                {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
-            </picture>
-          {%- if banner_5_link != blank -%}</a>{%- endif -%}
+                  {{ banner_5_desktop | image_url: width: 2800 }} 2800w"
+                  {% unless settings.enable_lazyload %}src="{{ banner_5_desktop | image_url: width: 1500 }}"{% endunless %}
+                  alt="{{ banner_5_desktop.alt | default: collection.title | escape }}"
+                  width="{{ banner_5_desktop.width }}"
+                  height="{{ banner_5_desktop.height }}"
+                  {%- if settings.enable_lazyload -%}class="lazyload" loading="lazy"{%- endif -%}>
+                {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+              </a>
+            </div>
+          </div>
         </div>
       {%- endif -%}
       
-    </banner-carousel>
+    </div>
   </div>
 </div>
 
 <style>
-  .collection-banner-carousel-section {
+  .collection-banner-carousel-wrapper {
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
   
   @media (max-width: 1024px) {
-    .collection-banner-carousel-section {
+    .collection-banner-carousel-wrapper {
       padding-top: {{ section.settings.padding_top_tablet }}px;
       padding-bottom: {{ section.settings.padding_bottom_tablet }}px;
     }
   }
   
   @media (max-width: 749px) {
-    .collection-banner-carousel-section {
+    .collection-banner-carousel-wrapper {
       padding-top: {{ section.settings.padding_top_mobile }}px;
       padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
     }
   }
 </style>
-
-<script>
-  if (!customElements.get('banner-carousel')) {
-    class BannerCarousel extends HTMLElement {
-      constructor() {
-        super();
-      }
-      
-      connectedCallback() {
-        this.slides = this.querySelectorAll('.banner-carousel-slide');
-        this.currentSlide = 0;
-        this.autoplay = this.dataset.autoplay === 'true';
-        this.autoplaySpeed = parseInt(this.dataset.autoplaySpeed) || 5000;
-        this.showArrows = this.dataset.arrows === 'true';
-        this.showDots = this.dataset.dots === 'true';
-        
-        if (this.slides.length > 1) {
-          this.init();
-        } else if (this.slides.length === 1) {
-          this.slides[0].classList.add('active');
-        }
-      }
-    
-    init() {
-      this.createControls();
-      this.showSlide(0);
-      if (this.autoplay) {
-        this.startAutoplay();
-      }
-    }
-    
-    createControls() {
-      if (this.showArrows) {
-        const prevBtn = document.createElement('button');
-        prevBtn.className = 'carousel-arrow carousel-prev';
-        prevBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-        prevBtn.addEventListener('click', () => this.prev());
-        
-        const nextBtn = document.createElement('button');
-        nextBtn.className = 'carousel-arrow carousel-next';
-        nextBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-        nextBtn.addEventListener('click', () => this.next());
-        
-        this.appendChild(prevBtn);
-        this.appendChild(nextBtn);
-      }
-      
-      if (this.showDots) {
-        const dotsContainer = document.createElement('div');
-        dotsContainer.className = 'carousel-dots';
-        this.slides.forEach((_, index) => {
-          const dot = document.createElement('button');
-          dot.className = 'carousel-dot';
-          dot.addEventListener('click', () => this.goToSlide(index));
-          dotsContainer.appendChild(dot);
-        });
-        this.appendChild(dotsContainer);
-      }
-    }
-    
-    showSlide(index) {
-      this.slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-      });
-      
-      if (this.showDots) {
-        const dots = this.querySelectorAll('.carousel-dot');
-        dots.forEach((dot, i) => {
-          dot.classList.toggle('active', i === index);
-        });
-      }
-      
-      this.currentSlide = index;
-    }
-    
-    next() {
-      const nextIndex = (this.currentSlide + 1) % this.slides.length;
-      this.showSlide(nextIndex);
-      this.resetAutoplay();
-    }
-    
-    prev() {
-      const prevIndex = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-      this.showSlide(prevIndex);
-      this.resetAutoplay();
-    }
-    
-    goToSlide(index) {
-      this.showSlide(index);
-      this.resetAutoplay();
-    }
-    
-    startAutoplay() {
-      this.autoplayInterval = setInterval(() => this.next(), this.autoplaySpeed);
-    }
-    
-    resetAutoplay() {
-      if (this.autoplay) {
-        clearInterval(this.autoplayInterval);
-        this.startAutoplay();
-      }
-    }
-    }
-    
-    customElements.define('banner-carousel', BannerCarousel);
-  }
-</script>
 {%- endif -%}
 
 {% schema %}
@@ -378,6 +359,13 @@
       "default": true
     },
     {
+      "type": "checkbox",
+      "id": "slideshow_transition",
+      "label": "Transición fade",
+      "default": true,
+      "info": "Activar para transición fade, desactivar para slide"
+    },
+    {
       "type": "header",
       "content": "Espaciado"
     },
@@ -389,7 +377,7 @@
       "max": 100,
       "step": 5,
       "unit": "px",
-      "default": 40
+      "default": 0
     },
     {
       "type": "range",
@@ -409,7 +397,7 @@
       "max": 100,
       "step": 5,
       "unit": "px",
-      "default": 30
+      "default": 0
     },
     {
       "type": "range",
@@ -429,7 +417,7 @@
       "max": 100,
       "step": 5,
       "unit": "px",
-      "default": 20
+      "default": 0
     },
     {
       "type": "range",

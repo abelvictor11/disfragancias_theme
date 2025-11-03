@@ -1,147 +1,56 @@
-/* Collection Banner Carousel Component */
-.collection-banner-carousel-section {
+/* Collection Banner Carousel - Uses same structure as slideshow */
+.collection-banner-carousel-wrapper {
   width: 100%;
-  overflow: hidden;
 }
 
-banner-carousel,
-.collection-banner-carousel {
+.collection-banner-slideshow {
   position: relative;
   width: 100%;
-  display: block;
-  overflow: hidden;
 }
 
-.banner-carousel-slide {
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+.collection-banner-slideshow .item {
+  position: relative;
   outline: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-  z-index: 1;
 }
 
-.banner-carousel-slide:first-child {
+.collection-banner-slideshow .images-contain {
   position: relative;
+  width: 100%;
 }
 
-.banner-carousel-slide.active {
+.collection-banner-slideshow .adaptive_height {
   position: relative;
-  opacity: 1;
-  visibility: visible;
-  z-index: 2;
+  width: 100%;
 }
 
-.banner-carousel-link {
+.collection-banner-slideshow .slide-image {
   display: block;
   position: relative;
   overflow: hidden;
 }
 
-.banner-carousel-slide picture {
-  display: block;
-  width: 100%;
-}
-
-.banner-carousel-slide img {
+.collection-banner-slideshow img {
   width: 100%;
   height: auto;
   display: block;
   object-fit: cover;
 }
 
-/* Navigation Arrows */
-.carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  color: #333;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Mobile/Desktop image switching */
+@media (max-width: 550px) {
+  .collection-banner-slideshow .slide-pc {
+    display: none \!important;
+  }
 }
 
-.carousel-arrow:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: translateY(-50%) scale(1.1);
+@media (min-width: 551px) {
+  .collection-banner-slideshow .slide-mobile {
+    display: none \!important;
+  }
 }
 
-.carousel-arrow.carousel-prev {
-  left: 20px;
-}
-
-.carousel-arrow.carousel-next {
-  right: 20px;
-}
-
-.carousel-arrow svg {
-  width: 24px;
-  height: 24px;
-}
-
-/* Navigation Dots */
-.carousel-dots {
-  position: absolute;
-  width: 100%;
-  bottom: 20px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  text-align: center;
-  line-height: 1;
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-}
-
-.carousel-dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  padding: 0;
-  background: rgba(255, 255, 255, 0.5);
-  border: none;
-  border-radius: 50%;
-  opacity: 0.7;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.carousel-dot:hover {
-  opacity: 1;
-  transform: scale(1.2);
-}
-
-.carousel-dot.active {
-  background: rgba(255, 255, 255, 1);
-  opacity: 1;
-  width: 12px;
-  height: 12px;
-}
-
-/* Hover effect on images */
-.banner-carousel-link img {
-  transition: transform 0.6s ease;
-}
-
-.banner-carousel-link:hover img {
-  transform: scale(1.05);
-}
-
-/* Lazy loading placeholder */
-.banner-carousel-slide .data-lazy-loading {
+/* Lazy loading */
+.collection-banner-slideshow .data-lazy-loading {
   position: absolute;
   top: 0;
   left: 0;
@@ -151,12 +60,13 @@ banner-carousel,
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
 
-.banner-carousel-slide .data-lazy-loading::after {
+.collection-banner-slideshow .data-lazy-loading::after {
   content: '';
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border: 3px solid #ddd;
   border-top-color: #333;
   border-radius: 50%;
@@ -167,90 +77,16 @@ banner-carousel,
   to { transform: rotate(360deg); }
 }
 
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .collection-banner-carousel .flickity-button {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .collection-banner-carousel .flickity-button.previous {
-    left: 15px;
-  }
-  
-  .collection-banner-carousel .flickity-button.next {
-    right: 15px;
-  }
-  
-  .collection-banner-carousel .flickity-page-dots {
-    bottom: 15px;
-  }
-}
-
-@media (max-width: 749px) {
-  .collection-banner-carousel .flickity-button {
-    width: 35px;
-    height: 35px;
-  }
-  
-  .collection-banner-carousel .flickity-button.previous {
-    left: 10px;
-  }
-  
-  .collection-banner-carousel .flickity-button.next {
-    right: 10px;
-  }
-  
-  .collection-banner-carousel .flickity-page-dots {
-    bottom: 10px;
-  }
-  
-  .collection-banner-carousel .flickity-page-dots .dot {
-    width: 8px;
-    height: 8px;
-    margin: 0 4px;
-  }
-  
-  .collection-banner-carousel .flickity-page-dots .dot.is-selected {
-    width: 10px;
-    height: 10px;
-  }
-}
-
 /* Animation support */
-.collection-banner-carousel.scroll-trigger.animate--slide-in {
-  animation: slide-in 0.6s ease-out;
+.collection-banner-slideshow.scroll-trigger.animate--fade-in {
+  animation: fade-in 0.6s ease-out;
 }
 
-@keyframes slide-in {
+@keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(30px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Fullwidth container adjustments */
-.container-full .collection-banner-carousel {
-  max-width: 100%;
-}
-
-/* Prevent layout shift during load */
-.banner-carousel-slide {
-  min-height: 200px;
-}
-
-@media (min-width: 750px) {
-  .banner-carousel-slide {
-    min-height: 400px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .banner-carousel-slide {
-    min-height: 500px;
   }
 }
