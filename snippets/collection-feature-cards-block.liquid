@@ -1,0 +1,131 @@
+{% comment %}
+  Renders the Feature Cards section as a block within Main Collection
+  
+  Usage:
+  {% render 'collection-feature-cards-block', collection: collection %}
+{% endcomment %}
+
+{%- liquid
+  assign card_1_image = collection.metafields.custom.card_1_image
+  assign card_2_image = collection.metafields.custom.card_2_image
+  assign card_3_image = collection.metafields.custom.card_3_image
+  assign card_4_image = collection.metafields.custom.card_4_image
+  assign card_5_image = collection.metafields.custom.card_5_image
+  
+  assign has_cards = false
+  if card_1_image != blank or card_2_image != blank or card_3_image != blank or card_4_image != blank or card_5_image != blank
+    assign has_cards = true
+  endif
+-%}
+
+{%- if has_cards -%}
+  {{ 'component-collection-feature-cards.css' | asset_url | stylesheet_tag }}
+  
+  <div class="collection-feature-cards-wrapper">
+    <div class="container">
+      <div class="feature-cards-grid feature-cards-grid--5 feature-cards-style--standard">
+        
+        {%- if card_1_image != blank -%}
+          <div class="feature-card">
+            <a href="{{ collection.metafields.custom.card_1_link | default: '#' }}" class="feature-card-link">
+              <div class="feature-card-image-wrapper">
+                <img src="{{ card_1_image | image_url: width: 400 }}"
+                     alt="{{ collection.metafields.custom.card_1_title | default: collection.title }}"
+                     class="feature-card-image"
+                     loading="lazy"
+                     width="400"
+                     height="400">
+              </div>
+              {%- if collection.metafields.custom.card_1_title != blank -%}
+                <div class="feature-card-content">
+                  <h3 class="feature-card-title">{{ collection.metafields.custom.card_1_title }}</h3>
+                </div>
+              {%- endif -%}
+            </a>
+          </div>
+        {%- endif -%}
+        
+        {%- if card_2_image != blank -%}
+          <div class="feature-card">
+            <a href="{{ collection.metafields.custom.card_2_link | default: '#' }}" class="feature-card-link">
+              <div class="feature-card-image-wrapper">
+                <img src="{{ card_2_image | image_url: width: 400 }}"
+                     alt="{{ collection.metafields.custom.card_2_title | default: collection.title }}"
+                     class="feature-card-image"
+                     loading="lazy"
+                     width="400"
+                     height="400">
+              </div>
+              {%- if collection.metafields.custom.card_2_title != blank -%}
+                <div class="feature-card-content">
+                  <h3 class="feature-card-title">{{ collection.metafields.custom.card_2_title }}</h3>
+                </div>
+              {%- endif -%}
+            </a>
+          </div>
+        {%- endif -%}
+        
+        {%- if card_3_image != blank -%}
+          <div class="feature-card">
+            <a href="{{ collection.metafields.custom.card_3_link | default: '#' }}" class="feature-card-link">
+              <div class="feature-card-image-wrapper">
+                <img src="{{ card_3_image | image_url: width: 400 }}"
+                     alt="{{ collection.metafields.custom.card_3_title | default: collection.title }}"
+                     class="feature-card-image"
+                     loading="lazy"
+                     width="400"
+                     height="400">
+              </div>
+              {%- if collection.metafields.custom.card_3_title != blank -%}
+                <div class="feature-card-content">
+                  <h3 class="feature-card-title">{{ collection.metafields.custom.card_3_title }}</h3>
+                </div>
+              {%- endif -%}
+            </a>
+          </div>
+        {%- endif -%}
+        
+        {%- if card_4_image != blank -%}
+          <div class="feature-card">
+            <a href="{{ collection.metafields.custom.card_4_link | default: '#' }}" class="feature-card-link">
+              <div class="feature-card-image-wrapper">
+                <img src="{{ card_4_image | image_url: width: 400 }}"
+                     alt="{{ collection.metafields.custom.card_4_title | default: collection.title }}"
+                     class="feature-card-image"
+                     loading="lazy"
+                     width="400"
+                     height="400">
+              </div>
+              {%- if collection.metafields.custom.card_4_title != blank -%}
+                <div class="feature-card-content">
+                  <h3 class="feature-card-title">{{ collection.metafields.custom.card_4_title }}</h3>
+                </div>
+              {%- endif -%}
+            </a>
+          </div>
+        {%- endif -%}
+        
+        {%- if card_5_image != blank -%}
+          <div class="feature-card">
+            <a href="{{ collection.metafields.custom.card_5_link | default: '#' }}" class="feature-card-link">
+              <div class="feature-card-image-wrapper">
+                <img src="{{ card_5_image | image_url: width: 400 }}"
+                     alt="{{ collection.metafields.custom.card_5_title | default: collection.title }}"
+                     class="feature-card-image"
+                     loading="lazy"
+                     width="400"
+                     height="400">
+              </div>
+              {%- if collection.metafields.custom.card_5_title != blank -%}
+                <div class="feature-card-content">
+                  <h3 class="feature-card-title">{{ collection.metafields.custom.card_5_title }}</h3>
+                </div>
+              {%- endif -%}
+            </a>
+          </div>
+        {%- endif -%}
+        
+      </div>
+    </div>
+  </div>
+{%- endif -%}
