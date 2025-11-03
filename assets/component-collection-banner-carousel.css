@@ -14,16 +14,25 @@ banner-carousel,
 
 .banner-carousel-slide {
   width: 100%;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   outline: none;
-  display: none;
   opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  z-index: 1;
+}
+
+.banner-carousel-slide:first-child {
+  position: relative;
 }
 
 .banner-carousel-slide.active {
-  display: block;
+  position: relative;
   opacity: 1;
+  visibility: visible;
+  z-index: 2;
 }
 
 .banner-carousel-link {
