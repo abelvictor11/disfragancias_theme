@@ -6,16 +6,21 @@
 {% endcomment %}
 
 {%- liquid
-  assign banner_1_desktop = collection.metafields.custom.banner_1_desktop
-  assign banner_1_mobile = collection.metafields.custom.banner_1_mobile
-  assign banner_2_desktop = collection.metafields.custom.banner_2_desktop
-  assign banner_2_mobile = collection.metafields.custom.banner_2_mobile
-  assign banner_3_desktop = collection.metafields.custom.banner_3_desktop
-  assign banner_3_mobile = collection.metafields.custom.banner_3_mobile
-  assign banner_4_desktop = collection.metafields.custom.banner_4_desktop
-  assign banner_4_mobile = collection.metafields.custom.banner_4_mobile
-  assign banner_5_desktop = collection.metafields.custom.banner_5_desktop
-  assign banner_5_mobile = collection.metafields.custom.banner_5_mobile
+  assign banner_1_desktop = collection.metafields.custom.banner_carousel_1_desktop
+  assign banner_1_mobile = collection.metafields.custom.banner_carousel_1_mobile
+  assign banner_1_link = collection.metafields.custom.banner_carousel_1_link
+  assign banner_2_desktop = collection.metafields.custom.banner_carousel_2_desktop
+  assign banner_2_mobile = collection.metafields.custom.banner_carousel_2_mobile
+  assign banner_2_link = collection.metafields.custom.banner_carousel_2_link
+  assign banner_3_desktop = collection.metafields.custom.banner_carousel_3_desktop
+  assign banner_3_mobile = collection.metafields.custom.banner_carousel_3_mobile
+  assign banner_3_link = collection.metafields.custom.banner_carousel_3_link
+  assign banner_4_desktop = collection.metafields.custom.banner_carousel_4_desktop
+  assign banner_4_mobile = collection.metafields.custom.banner_carousel_4_mobile
+  assign banner_4_link = collection.metafields.custom.banner_carousel_4_link
+  assign banner_5_desktop = collection.metafields.custom.banner_carousel_5_desktop
+  assign banner_5_mobile = collection.metafields.custom.banner_carousel_5_mobile
+  assign banner_5_link = collection.metafields.custom.banner_carousel_5_link
   
   assign banner_count = 0
   if banner_1_desktop != blank
@@ -52,7 +57,7 @@
           <div class="item">
             <div class="images-contain">
               {%- if banner_1_mobile != blank -%}
-                <a class="image slide-mb" href="{{ collection.metafields.custom.banner_1_link | default: collection.url }}">
+                <a class="image slide-mb" href="{{ banner_1_link | default: collection.url }}">
                   <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
                     <img src="{{ banner_1_mobile | image_url: width: 800 }}"
                          alt="{{ collection.title }}"
@@ -62,7 +67,7 @@
                   </div>
                 </a>
               {%- endif -%}
-              <a class="image slide-pc" href="{{ collection.metafields.custom.banner_1_link | default: collection.url }}">
+              <a class="image slide-pc" href="{{ banner_1_link | default: collection.url }}">
                 <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
                   <img src="{{ banner_1_desktop | image_url: width: 1770 }}"
                        alt="{{ collection.title }}"
@@ -79,7 +84,7 @@
           <div class="item">
             <div class="images-contain">
               {%- if banner_2_mobile != blank -%}
-                <a class="image slide-mb" href="{{ collection.metafields.custom.banner_2_link | default: collection.url }}">
+                <a class="image slide-mb" href="{{ banner_2_link | default: collection.url }}">
                   <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
                     <img src="{{ banner_2_mobile | image_url: width: 800 }}"
                          alt="{{ collection.title }}"
@@ -89,7 +94,7 @@
                   </div>
                 </a>
               {%- endif -%}
-              <a class="image slide-pc" href="{{ collection.metafields.custom.banner_2_link | default: collection.url }}">
+              <a class="image slide-pc" href="{{ banner_2_link | default: collection.url }}">
                 <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
                   <img src="{{ banner_2_desktop | image_url: width: 1770 }}"
                        alt="{{ collection.title }}"
@@ -106,7 +111,7 @@
           <div class="item">
             <div class="images-contain">
               {%- if banner_3_mobile != blank -%}
-                <a class="image slide-mb" href="{{ collection.metafields.custom.banner_3_link | default: collection.url }}">
+                <a class="image slide-mb" href="{{ banner_3_link | default: collection.url }}">
                   <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
                     <img src="{{ banner_3_mobile | image_url: width: 800 }}"
                          alt="{{ collection.title }}"
@@ -116,7 +121,7 @@
                   </div>
                 </a>
               {%- endif -%}
-              <a class="image slide-pc" href="{{ collection.metafields.custom.banner_3_link | default: collection.url }}">
+              <a class="image slide-pc" href="{{ banner_3_link | default: collection.url }}">
                 <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
                   <img src="{{ banner_3_desktop | image_url: width: 1770 }}"
                        alt="{{ collection.title }}"
@@ -133,7 +138,7 @@
           <div class="item">
             <div class="images-contain">
               {%- if banner_4_mobile != blank -%}
-                <a class="image slide-mb" href="{{ collection.metafields.custom.banner_4_link | default: collection.url }}">
+                <a class="image slide-mb" href="{{ banner_4_link | default: collection.url }}">
                   <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
                     <img src="{{ banner_4_mobile | image_url: width: 800 }}"
                          alt="{{ collection.title }}"
@@ -143,7 +148,7 @@
                   </div>
                 </a>
               {%- endif -%}
-              <a class="image slide-pc" href="{{ collection.metafields.custom.banner_4_link | default: collection.url }}">
+              <a class="image slide-pc" href="{{ banner_4_link | default: collection.url }}">
                 <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
                   <img src="{{ banner_4_desktop | image_url: width: 1770 }}"
                        alt="{{ collection.title }}"
@@ -160,7 +165,7 @@
           <div class="item">
             <div class="images-contain">
               {%- if banner_5_mobile != blank -%}
-                <a class="image slide-mb" href="{{ collection.metafields.custom.banner_5_link | default: collection.url }}">
+                <a class="image slide-mb" href="{{ banner_5_link | default: collection.url }}">
                   <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
                     <img src="{{ banner_5_mobile | image_url: width: 800 }}"
                          alt="{{ collection.title }}"
@@ -170,7 +175,7 @@
                   </div>
                 </a>
               {%- endif -%}
-              <a class="image slide-pc" href="{{ collection.metafields.custom.banner_5_link | default: collection.url }}">
+              <a class="image slide-pc" href="{{ banner_5_link | default: collection.url }}">
                 <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
                   <img src="{{ banner_5_desktop | image_url: width: 1770 }}"
                        alt="{{ collection.title }}"
