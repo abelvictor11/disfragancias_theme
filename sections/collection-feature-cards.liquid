@@ -1,0 +1,540 @@
+{{ 'component-collection-feature-cards.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign show_section = section.settings.enable_feature_cards
+  assign cards_per_row = section.settings.cards_per_row
+  assign card_style = section.settings.card_style
+  
+  assign card_1_image = collection.metafields.custom.feature_card_1_image
+  assign card_1_title = collection.metafields.custom.feature_card_1_title
+  assign card_1_link = collection.metafields.custom.feature_card_1_link
+  
+  assign card_2_image = collection.metafields.custom.feature_card_2_image
+  assign card_2_title = collection.metafields.custom.feature_card_2_title
+  assign card_2_link = collection.metafields.custom.feature_card_2_link
+  
+  assign card_3_image = collection.metafields.custom.feature_card_3_image
+  assign card_3_title = collection.metafields.custom.feature_card_3_title
+  assign card_3_link = collection.metafields.custom.feature_card_3_link
+  
+  assign card_4_image = collection.metafields.custom.feature_card_4_image
+  assign card_4_title = collection.metafields.custom.feature_card_4_title
+  assign card_4_link = collection.metafields.custom.feature_card_4_link
+  
+  assign card_5_image = collection.metafields.custom.feature_card_5_image
+  assign card_5_title = collection.metafields.custom.feature_card_5_title
+  assign card_5_link = collection.metafields.custom.feature_card_5_link
+  
+  assign has_cards = false
+  if card_1_image != blank or card_2_image != blank or card_3_image != blank or card_4_image != blank or card_5_image != blank
+    assign has_cards = true
+  endif
+-%}
+
+{%- if show_section and has_cards -%}
+<div class="collection-feature-cards-section" data-section-id="{{ section.id }}">
+  <div class="{% if section.settings.container == 'fullwidth' %}container-full{% elsif section.settings.container == '1770' %}container-1770{% elsif section.settings.container == '1170' %}container-1170{% else %}container{% endif %}">
+    
+    {%- if section.settings.section_title != blank -%}
+      <div class="feature-cards-header text-{{ section.settings.title_alignment }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+        <h2 class="feature-cards-title" style="--title-color: {{ section.settings.title_color }}; --title-size: {{ section.settings.title_size }}px;">
+          {{ section.settings.section_title }}
+        </h2>
+        {%- if section.settings.section_description != blank -%}
+          <div class="feature-cards-description" style="--desc-color: {{ section.settings.description_color }};">
+            {{ section.settings.section_description }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    
+    <div class="feature-cards-grid feature-cards-grid--{{ cards_per_row }} feature-cards-style--{{ card_style }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+      
+      {%- comment -%} Card 1 {%- endcomment -%}
+      {%- if card_1_image != blank -%}
+        <div class="feature-card{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+          {%- if card_1_link != blank -%}<a href="{{ card_1_link }}" class="feature-card-link">{%- endif -%}
+            <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
+              <img 
+                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ card_1_image | image_url: width: 375 }} 375w,
+                  {{ card_1_image | image_url: width: 550 }} 550w,
+                  {{ card_1_image | image_url: width: 750 }} 750w,
+                  {{ card_1_image | image_url: width: 1100 }} 1100w"
+                {% unless settings.enable_lazyload %}src="{{ card_1_image | image_url: width: 550 }}"{% endunless %}
+                alt="{{ card_1_image.alt | default: card_1_title | escape }}"
+                width="{{ card_1_image.width }}"
+                height="{{ card_1_image.height }}"
+                {%- if settings.enable_lazyload -%}class="lazyload feature-card-image" loading="lazy"{% else %}class="feature-card-image"{% endif %}>
+              {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+            </div>
+            {%- if card_1_title != blank -%}
+              <div class="feature-card-content">
+                <h3 class="feature-card-title" style="--card-title-color: {{ section.settings.card_title_color }}; --card-title-size: {{ section.settings.card_title_size }}px;">
+                  {{ card_1_title }}
+                </h3>
+                {%- if section.settings.show_link_text and card_1_link != blank -%}
+                  <span class="feature-card-link-text" style="--link-color: {{ section.settings.link_color }};">
+                    {{ section.settings.link_text }}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- if card_1_link != blank -%}</a>{%- endif -%}
+        </div>
+      {%- endif -%}
+      
+      {%- comment -%} Card 2 {%- endcomment -%}
+      {%- if card_2_image != blank -%}
+        <div class="feature-card{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+          {%- if card_2_link != blank -%}<a href="{{ card_2_link }}" class="feature-card-link">{%- endif -%}
+            <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
+              <img 
+                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ card_2_image | image_url: width: 375 }} 375w,
+                  {{ card_2_image | image_url: width: 550 }} 550w,
+                  {{ card_2_image | image_url: width: 750 }} 750w,
+                  {{ card_2_image | image_url: width: 1100 }} 1100w"
+                {% unless settings.enable_lazyload %}src="{{ card_2_image | image_url: width: 550 }}"{% endunless %}
+                alt="{{ card_2_image.alt | default: card_2_title | escape }}"
+                width="{{ card_2_image.width }}"
+                height="{{ card_2_image.height }}"
+                {%- if settings.enable_lazyload -%}class="lazyload feature-card-image" loading="lazy"{% else %}class="feature-card-image"{% endif %}>
+              {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+            </div>
+            {%- if card_2_title != blank -%}
+              <div class="feature-card-content">
+                <h3 class="feature-card-title" style="--card-title-color: {{ section.settings.card_title_color }}; --card-title-size: {{ section.settings.card_title_size }}px;">
+                  {{ card_2_title }}
+                </h3>
+                {%- if section.settings.show_link_text and card_2_link != blank -%}
+                  <span class="feature-card-link-text" style="--link-color: {{ section.settings.link_color }};">
+                    {{ section.settings.link_text }}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- if card_2_link != blank -%}</a>{%- endif -%}
+        </div>
+      {%- endif -%}
+      
+      {%- comment -%} Card 3 {%- endcomment -%}
+      {%- if card_3_image != blank -%}
+        <div class="feature-card{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+          {%- if card_3_link != blank -%}<a href="{{ card_3_link }}" class="feature-card-link">{%- endif -%}
+            <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
+              <img 
+                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ card_3_image | image_url: width: 375 }} 375w,
+                  {{ card_3_image | image_url: width: 550 }} 550w,
+                  {{ card_3_image | image_url: width: 750 }} 750w,
+                  {{ card_3_image | image_url: width: 1100 }} 1100w"
+                {% unless settings.enable_lazyload %}src="{{ card_3_image | image_url: width: 550 }}"{% endunless %}
+                alt="{{ card_3_image.alt | default: card_3_title | escape }}"
+                width="{{ card_3_image.width }}"
+                height="{{ card_3_image.height }}"
+                {%- if settings.enable_lazyload -%}class="lazyload feature-card-image" loading="lazy"{% else %}class="feature-card-image"{% endif %}>
+              {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+            </div>
+            {%- if card_3_title != blank -%}
+              <div class="feature-card-content">
+                <h3 class="feature-card-title" style="--card-title-color: {{ section.settings.card_title_color }}; --card-title-size: {{ section.settings.card_title_size }}px;">
+                  {{ card_3_title }}
+                </h3>
+                {%- if section.settings.show_link_text and card_3_link != blank -%}
+                  <span class="feature-card-link-text" style="--link-color: {{ section.settings.link_color }};">
+                    {{ section.settings.link_text }}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- if card_3_link != blank -%}</a>{%- endif -%}
+        </div>
+      {%- endif -%}
+      
+      {%- comment -%} Card 4 {%- endcomment -%}
+      {%- if card_4_image != blank -%}
+        <div class="feature-card{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+          {%- if card_4_link != blank -%}<a href="{{ card_4_link }}" class="feature-card-link">{%- endif -%}
+            <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
+              <img 
+                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ card_4_image | image_url: width: 375 }} 375w,
+                  {{ card_4_image | image_url: width: 550 }} 550w,
+                  {{ card_4_image | image_url: width: 750 }} 750w,
+                  {{ card_4_image | image_url: width: 1100 }} 1100w"
+                {% unless settings.enable_lazyload %}src="{{ card_4_image | image_url: width: 550 }}"{% endunless %}
+                alt="{{ card_4_image.alt | default: card_4_title | escape }}"
+                width="{{ card_4_image.width }}"
+                height="{{ card_4_image.height }}"
+                {%- if settings.enable_lazyload -%}class="lazyload feature-card-image" loading="lazy"{% else %}class="feature-card-image"{% endif %}>
+              {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+            </div>
+            {%- if card_4_title != blank -%}
+              <div class="feature-card-content">
+                <h3 class="feature-card-title" style="--card-title-color: {{ section.settings.card_title_color }}; --card-title-size: {{ section.settings.card_title_size }}px;">
+                  {{ card_4_title }}
+                </h3>
+                {%- if section.settings.show_link_text and card_4_link != blank -%}
+                  <span class="feature-card-link-text" style="--link-color: {{ section.settings.link_color }};">
+                    {{ section.settings.link_text }}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- if card_4_link != blank -%}</a>{%- endif -%}
+        </div>
+      {%- endif -%}
+      
+      {%- comment -%} Card 5 {%- endcomment -%}
+      {%- if card_5_image != blank -%}
+        <div class="feature-card{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+          {%- if card_5_link != blank -%}<a href="{{ card_5_link }}" class="feature-card-link">{%- endif -%}
+            <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
+              <img 
+                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ card_5_image | image_url: width: 375 }} 375w,
+                  {{ card_5_image | image_url: width: 550 }} 550w,
+                  {{ card_5_image | image_url: width: 750 }} 750w,
+                  {{ card_5_image | image_url: width: 1100 }} 1100w"
+                {% unless settings.enable_lazyload %}src="{{ card_5_image | image_url: width: 550 }}"{% endunless %}
+                alt="{{ card_5_image.alt | default: card_5_title | escape }}"
+                width="{{ card_5_image.width }}"
+                height="{{ card_5_image.height }}"
+                {%- if settings.enable_lazyload -%}class="lazyload feature-card-image" loading="lazy"{% else %}class="feature-card-image"{% endif %}>
+              {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+            </div>
+            {%- if card_5_title != blank -%}
+              <div class="feature-card-content">
+                <h3 class="feature-card-title" style="--card-title-color: {{ section.settings.card_title_color }}; --card-title-size: {{ section.settings.card_title_size }}px;">
+                  {{ card_5_title }}
+                </h3>
+                {%- if section.settings.show_link_text and card_5_link != blank -%}
+                  <span class="feature-card-link-text" style="--link-color: {{ section.settings.link_color }};">
+                    {{ section.settings.link_text }}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- if card_5_link != blank -%}</a>{%- endif -%}
+        </div>
+      {%- endif -%}
+      
+    </div>
+  </div>
+</div>
+
+<style>
+  .collection-feature-cards-section {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.background_color }};
+  }
+  
+  @media (max-width: 1024px) {
+    .collection-feature-cards-section {
+      padding-top: {{ section.settings.padding_top_tablet }}px;
+      padding-bottom: {{ section.settings.padding_bottom_tablet }}px;
+    }
+  }
+  
+  @media (max-width: 749px) {
+    .collection-feature-cards-section {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cards de Colección",
+  "class": "collection-feature-cards-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Configuración General"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_feature_cards",
+      "label": "Activar Cards",
+      "default": true,
+      "info": "Las cards se configuran mediante metafields de colección"
+    },
+    {
+      "type": "paragraph",
+      "content": "⚠️ IMPORTANTE: Debes configurar los metafields de colección para que aparezcan las cards. Ver documentación en METAFIELDS_SETUP.md"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Ancho del contenedor",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Contenedor estándar"
+        },
+        {
+          "value": "1170",
+          "label": "1170px"
+        },
+        {
+          "value": "1770",
+          "label": "1770px"
+        },
+        {
+          "value": "fullwidth",
+          "label": "Ancho completo"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color de fondo",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Título de Sección"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Título",
+      "default": "Destacados"
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Alineación del título",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Izquierda"
+        },
+        {
+          "value": "center",
+          "label": "Centro"
+        },
+        {
+          "value": "right",
+          "label": "Derecha"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Tamaño del título",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color del título",
+      "default": "#000000"
+    },
+    {
+      "type": "richtext",
+      "id": "section_description",
+      "label": "Descripción"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Color de la descripción",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Configuración de Cards"
+    },
+    {
+      "type": "select",
+      "id": "cards_per_row",
+      "label": "Cards por fila",
+      "default": "3",
+      "options": [
+        {
+          "value": "2",
+          "label": "2 cards"
+        },
+        {
+          "value": "3",
+          "label": "3 cards"
+        },
+        {
+          "value": "4",
+          "label": "4 cards"
+        },
+        {
+          "value": "5",
+          "label": "5 cards"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "Estilo de card",
+      "default": "standard",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Estándar"
+        },
+        {
+          "value": "elevated",
+          "label": "Elevado (con sombra)"
+        },
+        {
+          "value": "outlined",
+          "label": "Con borde"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_hover_effect",
+      "label": "Efecto hover en imagen",
+      "default": "zoom",
+      "options": [
+        {
+          "value": "none",
+          "label": "Ninguno"
+        },
+        {
+          "value": "zoom",
+          "label": "Zoom"
+        },
+        {
+          "value": "fade",
+          "label": "Fade"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "label": "Tamaño del título de card",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Color del título de card",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_link_text",
+      "label": "Mostrar texto de enlace",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Texto del enlace",
+      "default": "Ver más"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Color del enlace",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Espaciado"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding superior (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding inferior (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_top_tablet",
+      "label": "Padding superior (Tablet)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_tablet",
+      "label": "Padding inferior (Tablet)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding superior (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding inferior (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cards de Colección"
+    }
+  ]
+}
+{% endschema %}

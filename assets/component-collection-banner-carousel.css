@@ -1,0 +1,243 @@
+/* Collection Banner Carousel Component */
+.collection-banner-carousel-section {
+  width: 100%;
+  overflow: hidden;
+}
+
+.collection-banner-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.banner-carousel-slide {
+  width: 100%;
+  position: relative;
+  outline: none;
+}
+
+.banner-carousel-link {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-carousel-slide picture {
+  display: block;
+  width: 100%;
+}
+
+.banner-carousel-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Flickity overrides for banner carousel */
+.collection-banner-carousel .flickity-viewport {
+  overflow: hidden;
+  position: relative;
+  height: auto;
+}
+
+.collection-banner-carousel .flickity-slider {
+  display: flex;
+  align-items: center;
+}
+
+/* Navigation Arrows */
+.collection-banner-carousel .flickity-button {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  color: #333;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.collection-banner-carousel .flickity-button:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+}
+
+.collection-banner-carousel .flickity-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.collection-banner-carousel .flickity-button.previous {
+  left: 20px;
+}
+
+.collection-banner-carousel .flickity-button.next {
+  right: 20px;
+}
+
+.collection-banner-carousel .flickity-button-icon {
+  fill: currentColor;
+}
+
+/* Navigation Dots */
+.collection-banner-carousel .flickity-page-dots {
+  position: absolute;
+  width: 100%;
+  bottom: 20px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  line-height: 1;
+  z-index: 10;
+}
+
+.collection-banner-carousel .flickity-page-dots .dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 6px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.collection-banner-carousel .flickity-page-dots .dot:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.collection-banner-carousel .flickity-page-dots .dot.is-selected {
+  background: rgba(255, 255, 255, 1);
+  opacity: 1;
+  width: 12px;
+  height: 12px;
+}
+
+/* Hover effect on images */
+.banner-carousel-link img {
+  transition: transform 0.6s ease;
+}
+
+.banner-carousel-link:hover img {
+  transform: scale(1.05);
+}
+
+/* Lazy loading placeholder */
+.banner-carousel-slide .data-lazy-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-carousel-slide .data-lazy-loading::after {
+  content: '';
+  width: 40px;
+  height: 40px;
+  border: 3px solid #ddd;
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .collection-banner-carousel .flickity-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .collection-banner-carousel .flickity-button.previous {
+    left: 15px;
+  }
+  
+  .collection-banner-carousel .flickity-button.next {
+    right: 15px;
+  }
+  
+  .collection-banner-carousel .flickity-page-dots {
+    bottom: 15px;
+  }
+}
+
+@media (max-width: 749px) {
+  .collection-banner-carousel .flickity-button {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .collection-banner-carousel .flickity-button.previous {
+    left: 10px;
+  }
+  
+  .collection-banner-carousel .flickity-button.next {
+    right: 10px;
+  }
+  
+  .collection-banner-carousel .flickity-page-dots {
+    bottom: 10px;
+  }
+  
+  .collection-banner-carousel .flickity-page-dots .dot {
+    width: 8px;
+    height: 8px;
+    margin: 0 4px;
+  }
+  
+  .collection-banner-carousel .flickity-page-dots .dot.is-selected {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Animation support */
+.collection-banner-carousel.scroll-trigger.animate--slide-in {
+  animation: slide-in 0.6s ease-out;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fullwidth container adjustments */
+.container-full .collection-banner-carousel {
+  max-width: 100%;
+}
+
+/* Prevent layout shift during load */
+.banner-carousel-slide {
+  min-height: 200px;
+}
+
+@media (min-width: 750px) {
+  .banner-carousel-slide {
+    min-height: 400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .banner-carousel-slide {
+    min-height: 500px;
+  }
+}
