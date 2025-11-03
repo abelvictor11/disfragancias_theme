@@ -58,7 +58,7 @@
             <div class="images-contain">
               {%- if banner_1_mobile != blank -%}
                 <a class="image slide-mb" href="{{ banner_1_link | default: collection.url }}">
-                  <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
+                  <div class="slide-image adaptive_height">
                     <img src="{{ banner_1_mobile | image_url: width: 800 }}"
                          alt="{{ collection.title }}"
                          loading="lazy"
@@ -68,7 +68,7 @@
                 </a>
               {%- endif -%}
               <a class="image slide-pc" href="{{ banner_1_link | default: collection.url }}">
-                <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
+                <div class="slide-image adaptive_height">
                   <img src="{{ banner_1_desktop | image_url: width: 1770 }}"
                        alt="{{ collection.title }}"
                        loading="lazy"
@@ -85,7 +85,7 @@
             <div class="images-contain">
               {%- if banner_2_mobile != blank -%}
                 <a class="image slide-mb" href="{{ banner_2_link | default: collection.url }}">
-                  <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
+                  <div class="slide-image adaptive_height">
                     <img src="{{ banner_2_mobile | image_url: width: 800 }}"
                          alt="{{ collection.title }}"
                          loading="lazy"
@@ -95,7 +95,7 @@
                 </a>
               {%- endif -%}
               <a class="image slide-pc" href="{{ banner_2_link | default: collection.url }}">
-                <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
+                <div class="slide-image adaptive_height">
                   <img src="{{ banner_2_desktop | image_url: width: 1770 }}"
                        alt="{{ collection.title }}"
                        loading="lazy"
@@ -112,7 +112,7 @@
             <div class="images-contain">
               {%- if banner_3_mobile != blank -%}
                 <a class="image slide-mb" href="{{ banner_3_link | default: collection.url }}">
-                  <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
+                  <div class="slide-image adaptive_height">
                     <img src="{{ banner_3_mobile | image_url: width: 800 }}"
                          alt="{{ collection.title }}"
                          loading="lazy"
@@ -122,7 +122,7 @@
                 </a>
               {%- endif -%}
               <a class="image slide-pc" href="{{ banner_3_link | default: collection.url }}">
-                <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
+                <div class="slide-image adaptive_height">
                   <img src="{{ banner_3_desktop | image_url: width: 1770 }}"
                        alt="{{ collection.title }}"
                        loading="lazy"
@@ -139,7 +139,7 @@
             <div class="images-contain">
               {%- if banner_4_mobile != blank -%}
                 <a class="image slide-mb" href="{{ banner_4_link | default: collection.url }}">
-                  <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
+                  <div class="slide-image adaptive_height">
                     <img src="{{ banner_4_mobile | image_url: width: 800 }}"
                          alt="{{ collection.title }}"
                          loading="lazy"
@@ -149,7 +149,7 @@
                 </a>
               {%- endif -%}
               <a class="image slide-pc" href="{{ banner_4_link | default: collection.url }}">
-                <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
+                <div class="slide-image adaptive_height">
                   <img src="{{ banner_4_desktop | image_url: width: 1770 }}"
                        alt="{{ collection.title }}"
                        loading="lazy"
@@ -166,7 +166,7 @@
             <div class="images-contain">
               {%- if banner_5_mobile != blank -%}
                 <a class="image slide-mb" href="{{ banner_5_link | default: collection.url }}">
-                  <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
+                  <div class="slide-image adaptive_height">
                     <img src="{{ banner_5_mobile | image_url: width: 800 }}"
                          alt="{{ collection.title }}"
                          loading="lazy"
@@ -176,7 +176,7 @@
                 </a>
               {%- endif -%}
               <a class="image slide-pc" href="{{ banner_5_link | default: collection.url }}">
-                <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
+                <div class="slide-image adaptive_height">
                   <img src="{{ banner_5_desktop | image_url: width: 1770 }}"
                        alt="{{ collection.title }}"
                        loading="lazy"
@@ -194,16 +194,44 @@
   
   <style>
     /* Inline styles for block version */
-    .collection-banner-carousel-wrapper .adaptive_height {
+    .collection-banner-carousel-wrapper .collection-banner-slideshow .adaptive_height {
+      display: block;
+      max-width: 100%;
+      position: relative;
+      margin: 0 auto;
+      height: 500px !important;
+      padding-top: 0 !important;
       border-radius: 5px;
       overflow: hidden;
     }
     
+    .collection-banner-carousel-wrapper .slide-image {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 5px;
+    }
+    
     .collection-banner-carousel-wrapper .adaptive_height img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
       border-radius: 5px;
     }
     
     @media (max-width: 749px) {
+      .collection-banner-carousel-wrapper .collection-banner-slideshow .adaptive_height {
+        height: 250px !important;
+      }
+      
       .collection-banner-carousel-wrapper .slide-pc {
         display: none !important;
       }
