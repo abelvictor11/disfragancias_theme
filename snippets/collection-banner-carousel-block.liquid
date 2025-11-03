@@ -35,9 +35,10 @@
   endif
 -%}
 
+<!-- Banner Carousel Block: banner_count = {{ banner_count }} -->
+{{ 'component-collection-banner-carousel.css' | asset_url | stylesheet_tag }}
+
 {%- if banner_count > 0 -%}
-  {{ 'component-collection-banner-carousel.css' | asset_url | stylesheet_tag }}
-  
   <div class="collection-banner-carousel-wrapper" style="padding-top: 0; padding-bottom: 40px;">
     <div class="container-1770">
       
