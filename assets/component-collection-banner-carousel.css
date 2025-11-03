@@ -115,6 +115,23 @@
   letter-spacing: 0;
 }
 
+/* Description - Overlay version (with banners) */
+.banner-carousel-description {
+  font-size: 16px;
+  color: #fff;
+  margin: 15px 0 0 0;
+  line-height: 1.6;
+  max-width: 600px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Description - Normal version (no banners) */
+.banner-carousel-header--no-overlay .banner-carousel-description {
+  color: #666;
+  text-shadow: none;
+  margin-top: 12px;
+}
+
 .collection-banner-slideshow {
   position: relative;
   width: 100%;
@@ -138,6 +155,8 @@
   margin: 0 auto;
   height: 250px !important;
   padding-top: 0 !important;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .collection-banner-slideshow .slide-image {
@@ -148,6 +167,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+  border-radius: 5px;
 }
 
 .collection-banner-slideshow .adaptive_height img {
@@ -158,6 +178,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 5px;
 }
 
 /* Mobile/Desktop image switching */
@@ -246,5 +267,17 @@
   /* Normal title */
   .banner-carousel-header--no-overlay .banner-carousel-title {
     font-size: 24px;
+  }
+  
+  /* Description responsive */
+  .banner-carousel-description {
+    font-size: 14px;
+    margin-top: 10px;
+    max-width: 100%;
+  }
+  
+  .banner-carousel-header--no-overlay .banner-carousel-description {
+    font-size: 14px;
+    margin-top: 10px;
   }
 }

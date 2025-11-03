@@ -36,25 +36,42 @@
 
 /* Grid Layout */
 .feature-cards-grid {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 30px;
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: stretch;
 }
 
-.feature-cards-grid--2 {
-  grid-template-columns: repeat(2, 1fr);
+/* Card sizing based on grid configuration */
+.feature-cards-grid--2 .feature-card {
+  flex: 0 0 calc(50% - 15px);
+  max-width: 400px;
 }
 
-.feature-cards-grid--3 {
-  grid-template-columns: repeat(3, 1fr);
+.feature-cards-grid--3 .feature-card {
+  flex: 0 0 calc(33.333% - 20px);
+  max-width: 350px;
 }
 
-.feature-cards-grid--4 {
-  grid-template-columns: repeat(4, 1fr);
+.feature-cards-grid--4 .feature-card {
+  flex: 0 0 calc(25% - 22.5px);
+  max-width: 300px;
 }
 
-.feature-cards-grid--5 {
-  grid-template-columns: repeat(5, 1fr);
+.feature-cards-grid--5 .feature-card {
+  flex: 0 0 calc(20% - 24px);
+  max-width: 280px;
+}
+
+/* Single card - always centered */
+.feature-cards-grid .feature-card:only-child {
+  flex: 0 0 auto;
+  max-width: 400px;
+  width: 100%;
 }
 
 /* Feature Card */
@@ -106,6 +123,7 @@
   width: 100%;
   padding-top: 100%; /* 1:1 aspect ratio by default */
   background: #f5f5f5;
+  border-radius: 5px;
 }
 
 .feature-cards-style--elevated .feature-card-image-wrapper,
@@ -121,6 +139,7 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.6s ease, opacity 0.3s ease;
+  border-radius: 5px;
 }
 
 /* Image Hover Effects */
@@ -262,9 +281,11 @@
     gap: 20px;
   }
   
-  .feature-cards-grid--4,
-  .feature-cards-grid--5 {
-    grid-template-columns: repeat(3, 1fr);
+  /* Tablet: 3 columns for 4-5 card layouts */
+  .feature-cards-grid--4 .feature-card,
+  .feature-cards-grid--5 .feature-card {
+    flex: 0 0 calc(33.333% - 14px);
+    max-width: 320px;
   }
   
   .feature-card-content {
