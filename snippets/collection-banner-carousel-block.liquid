@@ -35,7 +35,10 @@
   endif
 -%}
 
-<!-- Banner Carousel Block: banner_count = {{ banner_count }} -->
+<!-- Banner Carousel Block DEBUG -->
+<!-- collection.handle: {{ collection.handle }} -->
+<!-- banner_1_desktop: {{ collection.metafields.custom.banner_1_desktop }} -->
+<!-- banner_count: {{ banner_count }} -->
 {{ 'component-collection-banner-carousel.css' | asset_url | stylesheet_tag }}
 
 {%- if banner_count > 0 -%}

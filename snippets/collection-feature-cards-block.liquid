@@ -18,7 +18,10 @@
   endif
 -%}
 
-<!-- Feature Cards Block: has_cards = {{ has_cards }} -->
+<!-- Feature Cards Block DEBUG -->
+<!-- collection.handle: {{ collection.handle }} -->
+<!-- card_1_image: {{ collection.metafields.custom.card_1_image }} -->
+<!-- has_cards: {{ has_cards }} -->
 {{ 'component-collection-feature-cards.css' | asset_url | stylesheet_tag }}
 
 {%- if has_cards -%}
