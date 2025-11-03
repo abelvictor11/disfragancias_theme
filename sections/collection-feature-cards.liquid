@@ -56,16 +56,16 @@
           {%- if card_1_link != blank -%}<a href="{{ card_1_link }}" class="feature-card-link">{%- endif -%}
             <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
               <img 
-                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ card_1_image | image_url: width: 375 }} 375w,
+                src="{{ card_1_image | image_url: width: 550 }}"
+                srcset="{{ card_1_image | image_url: width: 375 }} 375w,
                   {{ card_1_image | image_url: width: 550 }} 550w,
                   {{ card_1_image | image_url: width: 750 }} 750w,
                   {{ card_1_image | image_url: width: 1100 }} 1100w"
-                {% unless settings.enable_lazyload %}src="{{ card_1_image | image_url: width: 550 }}"{% endunless %}
                 alt="{{ card_1_image.alt | default: card_1_title | escape }}"
                 width="{{ card_1_image.width }}"
                 height="{{ card_1_image.height }}"
-                {%- if settings.enable_lazyload -%}class="lazyload feature-card-image" loading="lazy"{% else %}class="feature-card-image"{% endif %}>
-              {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+                class="feature-card-image"
+                loading="lazy">
             </div>
             {%- if card_1_title != blank -%}
               <div class="feature-card-content">
@@ -92,16 +92,16 @@
           {%- if card_2_link != blank -%}<a href="{{ card_2_link }}" class="feature-card-link">{%- endif -%}
             <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
               <img 
-                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ card_2_image | image_url: width: 375 }} 375w,
+                src="{{ card_2_image | image_url: width: 550 }}"
+                srcset="{{ card_2_image | image_url: width: 375 }} 375w,
                   {{ card_2_image | image_url: width: 550 }} 550w,
                   {{ card_2_image | image_url: width: 750 }} 750w,
                   {{ card_2_image | image_url: width: 1100 }} 1100w"
-                {% unless settings.enable_lazyload %}src="{{ card_2_image | image_url: width: 550 }}"{% endunless %}
                 alt="{{ card_2_image.alt | default: card_2_title | escape }}"
                 width="{{ card_2_image.width }}"
                 height="{{ card_2_image.height }}"
-                {%- if settings.enable_lazyload -%}class="lazyload feature-card-image" loading="lazy"{% else %}class="feature-card-image"{% endif %}>
-              {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+                class="feature-card-image"
+                loading="lazy">
             </div>
             {%- if card_2_title != blank -%}
               <div class="feature-card-content">
@@ -128,16 +128,16 @@
           {%- if card_3_link != blank -%}<a href="{{ card_3_link }}" class="feature-card-link">{%- endif -%}
             <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
               <img 
-                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ card_3_image | image_url: width: 375 }} 375w,
+                src="{{ card_3_image | image_url: width: 550 }}"
+                srcset="{{ card_3_image | image_url: width: 375 }} 375w,
                   {{ card_3_image | image_url: width: 550 }} 550w,
                   {{ card_3_image | image_url: width: 750 }} 750w,
                   {{ card_3_image | image_url: width: 1100 }} 1100w"
-                {% unless settings.enable_lazyload %}src="{{ card_3_image | image_url: width: 550 }}"{% endunless %}
                 alt="{{ card_3_image.alt | default: card_3_title | escape }}"
                 width="{{ card_3_image.width }}"
                 height="{{ card_3_image.height }}"
-                {%- if settings.enable_lazyload -%}class="lazyload feature-card-image" loading="lazy"{% else %}class="feature-card-image"{% endif %}>
-              {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+                class="feature-card-image"
+                loading="lazy">
             </div>
             {%- if card_3_title != blank -%}
               <div class="feature-card-content">
@@ -164,16 +164,16 @@
           {%- if card_4_link != blank -%}<a href="{{ card_4_link }}" class="feature-card-link">{%- endif -%}
             <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
               <img 
-                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ card_4_image | image_url: width: 375 }} 375w,
+                src="{{ card_4_image | image_url: width: 550 }}"
+                srcset="{{ card_4_image | image_url: width: 375 }} 375w,
                   {{ card_4_image | image_url: width: 550 }} 550w,
                   {{ card_4_image | image_url: width: 750 }} 750w,
                   {{ card_4_image | image_url: width: 1100 }} 1100w"
-                {% unless settings.enable_lazyload %}src="{{ card_4_image | image_url: width: 550 }}"{% endunless %}
                 alt="{{ card_4_image.alt | default: card_4_title | escape }}"
                 width="{{ card_4_image.width }}"
                 height="{{ card_4_image.height }}"
-                {%- if settings.enable_lazyload -%}class="lazyload feature-card-image" loading="lazy"{% else %}class="feature-card-image"{% endif %}>
-              {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+                class="feature-card-image"
+                loading="lazy">
             </div>
             {%- if card_4_title != blank -%}
               <div class="feature-card-content">
@@ -200,16 +200,16 @@
           {%- if card_5_link != blank -%}<a href="{{ card_5_link }}" class="feature-card-link">{%- endif -%}
             <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
               <img 
-                {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ card_5_image | image_url: width: 375 }} 375w,
+                src="{{ card_5_image | image_url: width: 550 }}"
+                srcset="{{ card_5_image | image_url: width: 375 }} 375w,
                   {{ card_5_image | image_url: width: 550 }} 550w,
                   {{ card_5_image | image_url: width: 750 }} 750w,
                   {{ card_5_image | image_url: width: 1100 }} 1100w"
-                {% unless settings.enable_lazyload %}src="{{ card_5_image | image_url: width: 550 }}"{% endunless %}
                 alt="{{ card_5_image.alt | default: card_5_title | escape }}"
                 width="{{ card_5_image.width }}"
                 height="{{ card_5_image.height }}"
-                {%- if settings.enable_lazyload -%}class="lazyload feature-card-image" loading="lazy"{% else %}class="feature-card-image"{% endif %}>
-              {%- if settings.enable_lazyload -%}<span class="data-lazy-loading"></span>{%- endif -%}
+                class="feature-card-image"
+                loading="lazy">
             </div>
             {%- if card_5_title != blank -%}
               <div class="feature-card-content">
