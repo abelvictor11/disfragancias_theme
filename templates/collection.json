@@ -137,10 +137,6 @@
           "type": "banner_carousel_block",
           "settings": {}
         },
-        "feature_cards_block_BfwxHn": {
-          "type": "feature_cards_block",
-          "settings": {}
-        },
         "lookbook_RbdRWJ": {
           "type": "lookbook",
           "settings": {
@@ -186,15 +182,19 @@
             "product_block_dots": true,
             "product_block_arrows": true
           }
+        },
+        "feature_cards_block_BfwxHn": {
+          "type": "feature_cards_block",
+          "settings": {}
         }
       },
       "block_order": [
         "banner_carousel_block_xGE3U7",
-        "feature_cards_block_BfwxHn",
         "lookbook_RbdRWJ",
         "ce351101-2c54-4627-b740-b2c592067b4a",
         "6684d566-6940-4457-9cf9-f1a8a6e80573",
-        "3978fd59-b580-49e1-9893-38d762f48f10"
+        "3978fd59-b580-49e1-9893-38d762f48f10",
+        "feature_cards_block_BfwxHn"
       ],
       "settings": {
         "colors_bg": "rgba(0,0,0,0)",
