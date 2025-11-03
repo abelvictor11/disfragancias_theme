@@ -66,6 +66,10 @@
       {%- if section.settings.show_title -%}
         <h1 class="banner-carousel-title">{{ collection.title }}</h1>
       {%- endif -%}
+      
+      {%- if section.settings.show_description and collection.description != blank -%}
+        <div class="banner-carousel-description">{{ collection.description }}</div>
+      {%- endif -%}
     </div>
     
     <div class="collection-banner-slideshow{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}" 
@@ -281,9 +285,9 @@
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
   
-  /* Force height for carousel images */
+  /* Force height for carousel images - Desktop */
   #collection-banner-carousel-{{ section.id }} .collection-banner-slideshow .adaptive_height {
-    height: 250px !important;
+    height: 500px !important;
     padding-top: 0 !important;
   }
   
@@ -307,6 +311,11 @@
     .collection-banner-carousel-wrapper {
       padding-top: {{ section.settings.padding_top_mobile }}px;
       padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+    
+    /* Mobile: 250px height */
+    #collection-banner-carousel-{{ section.id }} .collection-banner-slideshow .adaptive_height {
+      height: 250px !important;
     }
   }
 </style>
@@ -349,6 +358,13 @@
       "label": "Mostrar Título de Colección",
       "default": true,
       "info": "Muestra el título de la colección sobre el banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Mostrar Descripción de Colección",
+      "default": true,
+      "info": "Muestra la descripción de la colección debajo del título"
     },
     {
       "type": "header",
