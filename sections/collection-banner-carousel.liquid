@@ -53,6 +53,21 @@
 <div class="collection-banner-carousel-wrapper section-block-{{ section.id }}" id="collection-banner-carousel-{{ section.id }}">
   <div class="{% if section.settings.container == 'fullwidth' %}container-full{% elsif section.settings.container == '1770' %}container-1770{% elsif section.settings.container == '1170' %}container-1170{% else %}container{% endif %}">
     
+    {%- comment -%} Breadcrumb and Title Overlay {%- endcomment -%}
+    <div class="banner-carousel-header">
+      {%- if section.settings.show_breadcrumb -%}
+        <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+          <a href="{{ routes.root_url }}" title="Inicio">Inicio</a>
+          <span class="breadcrumb-separator" aria-hidden="true">›</span>
+          <span class="breadcrumb-current">{{ collection.title }}</span>
+        </nav>
+      {%- endif -%}
+      
+      {%- if section.settings.show_title -%}
+        <h1 class="banner-carousel-title">{{ collection.title }}</h1>
+      {%- endif -%}
+    </div>
+    
     <div class="collection-banner-slideshow{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}" 
          {% if banner_count > 1 %}data-loader-script="{{ 'halo.slide-show.js' | asset_url }}" data-init-slideshow data-arrows="{{ show_arrows }}" data-dots="{{ show_dots }}" data-autoplay="{{ autoplay }}" data-autoplay-speed="{{ autoplay_speed }}" data-fade="{{ fade }}"{% endif %}>
       
@@ -316,6 +331,28 @@
     {
       "type": "paragraph",
       "content": "⚠️ IMPORTANTE: Debes configurar los metafields de colección para que aparezcan los banners. Ver documentación en METAFIELDS_SETUP.md"
+    },
+    {
+      "type": "header",
+      "content": "Breadcrumb y Título"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Mostrar Breadcrumb",
+      "default": true,
+      "info": "Muestra la navegación de migas de pan sobre el banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Mostrar Título de Colección",
+      "default": true,
+      "info": "Muestra el título de la colección sobre el banner"
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
     },
     {
       "type": "select",
