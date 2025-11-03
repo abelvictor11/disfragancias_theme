@@ -21,19 +21,27 @@
 .collection-banner-slideshow .adaptive_height {
   position: relative;
   width: 100%;
+  overflow: hidden;
 }
 
 .collection-banner-slideshow .slide-image {
   display: block;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
 .collection-banner-slideshow img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 /* Mobile/Desktop image switching */
