@@ -81,6 +81,7 @@
     },
     "collection_banner_carousel_mj6XyL": {
       "type": "collection-banner-carousel",
+      "disabled": true,
       "name": "Banner Carousel Colección",
       "settings": {
         "enable_banner_carousel": true,
