@@ -36,7 +36,7 @@
   <div class="{% if section.settings.container == 'fullwidth' %}container-full{% elsif section.settings.container == '1770' %}container-1770{% elsif section.settings.container == '1170' %}container-1170{% else %}container{% endif %}">
     
     {%- if section.settings.section_title != blank -%}
-      <div class="feature-cards-header text-{{ section.settings.title_alignment }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="feature-cards-header text-{{ section.settings.title_alignment }}">
         <h2 class="feature-cards-title" style="--title-color: {{ section.settings.title_color }}; --title-size: {{ section.settings.title_size }}px;">
           {{ section.settings.section_title }}
         </h2>
@@ -48,11 +48,11 @@
       </div>
     {%- endif -%}
     
-    <div class="feature-cards-grid feature-cards-grid--{{ cards_per_row }} feature-cards-style--{{ card_style }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+    <div class="feature-cards-grid feature-cards-grid--{{ cards_per_row }} feature-cards-style--{{ card_style }}">
       
       {%- comment -%} Card 1 {%- endcomment -%}
       {%- if card_1_image != blank -%}
-        <div class="feature-card{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+        <div class="feature-card">
           {%- if card_1_link != blank -%}<a href="{{ card_1_link }}" class="feature-card-link">{%- endif -%}
             <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
               <img 
@@ -88,7 +88,7 @@
       
       {%- comment -%} Card 2 {%- endcomment -%}
       {%- if card_2_image != blank -%}
-        <div class="feature-card{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+        <div class="feature-card">
           {%- if card_2_link != blank -%}<a href="{{ card_2_link }}" class="feature-card-link">{%- endif -%}
             <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
               <img 
@@ -124,7 +124,7 @@
       
       {%- comment -%} Card 3 {%- endcomment -%}
       {%- if card_3_image != blank -%}
-        <div class="feature-card{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+        <div class="feature-card">
           {%- if card_3_link != blank -%}<a href="{{ card_3_link }}" class="feature-card-link">{%- endif -%}
             <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
               <img 
@@ -160,7 +160,7 @@
       
       {%- comment -%} Card 4 {%- endcomment -%}
       {%- if card_4_image != blank -%}
-        <div class="feature-card{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+        <div class="feature-card">
           {%- if card_4_link != blank -%}<a href="{{ card_4_link }}" class="feature-card-link">{%- endif -%}
             <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
               <img 
@@ -196,7 +196,7 @@
       
       {%- comment -%} Card 5 {%- endcomment -%}
       {%- if card_5_image != blank -%}
-        <div class="feature-card{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+        <div class="feature-card">
           {%- if card_5_link != blank -%}<a href="{{ card_5_link }}" class="feature-card-link">{%- endif -%}
             <div class="feature-card-image-wrapper{% if section.settings.image_hover_effect != 'none' %} image-hover-{{ section.settings.image_hover_effect }}{% endif %}">
               <img 
