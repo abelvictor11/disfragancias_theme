@@ -61,7 +61,7 @@
         <div class="item">
           <div class="images-contain{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}">
             {%- if banner_1_mobile != blank -%}
-              <div class="adaptive_height image slide-mobile" style="padding-top: {{ 1 | divided_by: banner_1_mobile.aspect_ratio | times: 100 }}%">
+              <div class="adaptive_height image slide-mobile">
                 <a {% if banner_1_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_1_link }}"{% endif %} class="slide-image">
                   <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_1_mobile | image_url: width: 375 }} 375w,
                     {{ banner_1_mobile | image_url: width: 750 }} 750w,
@@ -76,7 +76,7 @@
               </div>
             {%- endif -%}
             
-            <div class="adaptive_height image{% if banner_1_mobile != blank %} slide-pc{% endif %}" style="padding-top: {{ 1 | divided_by: banner_1_desktop.aspect_ratio | times: 100 }}%">
+            <div class="adaptive_height image{% if banner_1_mobile != blank %} slide-pc{% endif %}">
               <a {% if banner_1_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_1_link }}"{% endif %} class="slide-image">
                 <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_1_desktop | image_url: width: 750 }} 750w,
                   {{ banner_1_desktop | image_url: width: 1100 }} 1100w,
@@ -101,7 +101,7 @@
         <div class="item">
           <div class="images-contain{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}">
             {%- if banner_2_mobile != blank -%}
-              <div class="adaptive_height image slide-mobile" style="padding-top: {{ 1 | divided_by: banner_2_mobile.aspect_ratio | times: 100 }}%">
+              <div class="adaptive_height image slide-mobile">
                 <a {% if banner_2_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_2_link }}"{% endif %} class="slide-image">
                   <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_2_mobile | image_url: width: 375 }} 375w,
                     {{ banner_2_mobile | image_url: width: 750 }} 750w,
@@ -116,7 +116,7 @@
               </div>
             {%- endif -%}
             
-            <div class="adaptive_height image{% if banner_2_mobile != blank %} slide-pc{% endif %}" style="padding-top: {{ 1 | divided_by: banner_2_desktop.aspect_ratio | times: 100 }}%">
+            <div class="adaptive_height image{% if banner_2_mobile != blank %} slide-pc{% endif %}">
               <a {% if banner_2_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_2_link }}"{% endif %} class="slide-image">
                 <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_2_desktop | image_url: width: 750 }} 750w,
                   {{ banner_2_desktop | image_url: width: 1100 }} 1100w,
@@ -141,7 +141,7 @@
         <div class="item">
           <div class="images-contain{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}">
             {%- if banner_3_mobile != blank -%}
-              <div class="adaptive_height image slide-mobile" style="padding-top: {{ 1 | divided_by: banner_3_mobile.aspect_ratio | times: 100 }}%">
+              <div class="adaptive_height image slide-mobile">
                 <a {% if banner_3_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_3_link }}"{% endif %} class="slide-image">
                   <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_3_mobile | image_url: width: 375 }} 375w,
                     {{ banner_3_mobile | image_url: width: 750 }} 750w,
@@ -156,7 +156,7 @@
               </div>
             {%- endif -%}
             
-            <div class="adaptive_height image{% if banner_3_mobile != blank %} slide-pc{% endif %}" style="padding-top: {{ 1 | divided_by: banner_3_desktop.aspect_ratio | times: 100 }}%">
+            <div class="adaptive_height image{% if banner_3_mobile != blank %} slide-pc{% endif %}">
               <a {% if banner_3_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_3_link }}"{% endif %} class="slide-image">
                 <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_3_desktop | image_url: width: 750 }} 750w,
                   {{ banner_3_desktop | image_url: width: 1100 }} 1100w,
@@ -181,7 +181,7 @@
         <div class="item">
           <div class="images-contain{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}">
             {%- if banner_4_mobile != blank -%}
-              <div class="adaptive_height image slide-mobile" style="padding-top: {{ 1 | divided_by: banner_4_mobile.aspect_ratio | times: 100 }}%">
+              <div class="adaptive_height image slide-mobile">
                 <a {% if banner_4_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_4_link }}"{% endif %} class="slide-image">
                   <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_4_mobile | image_url: width: 375 }} 375w,
                     {{ banner_4_mobile | image_url: width: 750 }} 750w,
@@ -196,7 +196,7 @@
               </div>
             {%- endif -%}
             
-            <div class="adaptive_height image{% if banner_4_mobile != blank %} slide-pc{% endif %}" style="padding-top: {{ 1 | divided_by: banner_4_desktop.aspect_ratio | times: 100 }}%">
+            <div class="adaptive_height image{% if banner_4_mobile != blank %} slide-pc{% endif %}">
               <a {% if banner_4_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_4_link }}"{% endif %} class="slide-image">
                 <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_4_desktop | image_url: width: 750 }} 750w,
                   {{ banner_4_desktop | image_url: width: 1100 }} 1100w,
@@ -221,7 +221,7 @@
         <div class="item">
           <div class="images-contain{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}">
             {%- if banner_5_mobile != blank -%}
-              <div class="adaptive_height image slide-mobile" style="padding-top: {{ 1 | divided_by: banner_5_mobile.aspect_ratio | times: 100 }}%">
+              <div class="adaptive_height image slide-mobile">
                 <a {% if banner_5_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_5_link }}"{% endif %} class="slide-image">
                   <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_5_mobile | image_url: width: 375 }} 375w,
                     {{ banner_5_mobile | image_url: width: 750 }} 750w,
@@ -236,7 +236,7 @@
               </div>
             {%- endif -%}
             
-            <div class="adaptive_height image{% if banner_5_mobile != blank %} slide-pc{% endif %}" style="padding-top: {{ 1 | divided_by: banner_5_desktop.aspect_ratio | times: 100 }}%">
+            <div class="adaptive_height image{% if banner_5_mobile != blank %} slide-pc{% endif %}">
               <a {% if banner_5_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ banner_5_link }}"{% endif %} class="slide-image">
                 <img {% if settings.enable_lazyload %}data-{% endif %}srcset="{{ banner_5_desktop | image_url: width: 750 }} 750w,
                   {{ banner_5_desktop | image_url: width: 1100 }} 1100w,
