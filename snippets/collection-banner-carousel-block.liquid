@@ -1,0 +1,209 @@
+{% comment %}
+  Renders the Banner Carousel as a block within Main Collection
+  
+  Usage:
+  {% render 'collection-banner-carousel-block', collection: collection %}
+{% endcomment %}
+
+{%- liquid
+  assign banner_1_desktop = collection.metafields.custom.banner_1_desktop
+  assign banner_1_mobile = collection.metafields.custom.banner_1_mobile
+  assign banner_2_desktop = collection.metafields.custom.banner_2_desktop
+  assign banner_2_mobile = collection.metafields.custom.banner_2_mobile
+  assign banner_3_desktop = collection.metafields.custom.banner_3_desktop
+  assign banner_3_mobile = collection.metafields.custom.banner_3_mobile
+  assign banner_4_desktop = collection.metafields.custom.banner_4_desktop
+  assign banner_4_mobile = collection.metafields.custom.banner_4_mobile
+  assign banner_5_desktop = collection.metafields.custom.banner_5_desktop
+  assign banner_5_mobile = collection.metafields.custom.banner_5_mobile
+  
+  assign banner_count = 0
+  if banner_1_desktop != blank
+    assign banner_count = banner_count | plus: 1
+  endif
+  if banner_2_desktop != blank
+    assign banner_count = banner_count | plus: 1
+  endif
+  if banner_3_desktop != blank
+    assign banner_count = banner_count | plus: 1
+  endif
+  if banner_4_desktop != blank
+    assign banner_count = banner_count | plus: 1
+  endif
+  if banner_5_desktop != blank
+    assign banner_count = banner_count | plus: 1
+  endif
+-%}
+
+{%- if banner_count > 0 -%}
+  {{ 'component-collection-banner-carousel.css' | asset_url | stylesheet_tag }}
+  
+  <div class="collection-banner-carousel-wrapper" style="padding-top: 0; padding-bottom: 40px;">
+    <div class="container-1770">
+      
+      <div class="collection-banner-slideshow{% if banner_count > 1 %}" 
+           {% if banner_count > 1 %}data-loader-script="{{ 'halo.slide-show.js' | asset_url }}" data-init-slideshow data-arrows="true" data-dots="true" data-autoplay="true" data-autoplay-speed="5000" data-fade="true"{% endif %}>
+        
+        {%- if banner_1_desktop != blank -%}
+          <div class="item">
+            <div class="images-contain">
+              {%- if banner_1_mobile != blank -%}
+                <a class="image slide-mb" href="{{ collection.metafields.custom.banner_1_link | default: collection.url }}">
+                  <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
+                    <img src="{{ banner_1_mobile | image_url: width: 800 }}"
+                         alt="{{ collection.title }}"
+                         loading="lazy"
+                         width="800"
+                         height="250">
+                  </div>
+                </a>
+              {%- endif -%}
+              <a class="image slide-pc" href="{{ collection.metafields.custom.banner_1_link | default: collection.url }}">
+                <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
+                  <img src="{{ banner_1_desktop | image_url: width: 1770 }}"
+                       alt="{{ collection.title }}"
+                       loading="lazy"
+                       width="1770"
+                       height="500">
+                </div>
+              </a>
+            </div>
+          </div>
+        {%- endif -%}
+        
+        {%- if banner_2_desktop != blank -%}
+          <div class="item">
+            <div class="images-contain">
+              {%- if banner_2_mobile != blank -%}
+                <a class="image slide-mb" href="{{ collection.metafields.custom.banner_2_link | default: collection.url }}">
+                  <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
+                    <img src="{{ banner_2_mobile | image_url: width: 800 }}"
+                         alt="{{ collection.title }}"
+                         loading="lazy"
+                         width="800"
+                         height="250">
+                  </div>
+                </a>
+              {%- endif -%}
+              <a class="image slide-pc" href="{{ collection.metafields.custom.banner_2_link | default: collection.url }}">
+                <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
+                  <img src="{{ banner_2_desktop | image_url: width: 1770 }}"
+                       alt="{{ collection.title }}"
+                       loading="lazy"
+                       width="1770"
+                       height="500">
+                </div>
+              </a>
+            </div>
+          </div>
+        {%- endif -%}
+        
+        {%- if banner_3_desktop != blank -%}
+          <div class="item">
+            <div class="images-contain">
+              {%- if banner_3_mobile != blank -%}
+                <a class="image slide-mb" href="{{ collection.metafields.custom.banner_3_link | default: collection.url }}">
+                  <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
+                    <img src="{{ banner_3_mobile | image_url: width: 800 }}"
+                         alt="{{ collection.title }}"
+                         loading="lazy"
+                         width="800"
+                         height="250">
+                  </div>
+                </a>
+              {%- endif -%}
+              <a class="image slide-pc" href="{{ collection.metafields.custom.banner_3_link | default: collection.url }}">
+                <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
+                  <img src="{{ banner_3_desktop | image_url: width: 1770 }}"
+                       alt="{{ collection.title }}"
+                       loading="lazy"
+                       width="1770"
+                       height="500">
+                </div>
+              </a>
+            </div>
+          </div>
+        {%- endif -%}
+        
+        {%- if banner_4_desktop != blank -%}
+          <div class="item">
+            <div class="images-contain">
+              {%- if banner_4_mobile != blank -%}
+                <a class="image slide-mb" href="{{ collection.metafields.custom.banner_4_link | default: collection.url }}">
+                  <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
+                    <img src="{{ banner_4_mobile | image_url: width: 800 }}"
+                         alt="{{ collection.title }}"
+                         loading="lazy"
+                         width="800"
+                         height="250">
+                  </div>
+                </a>
+              {%- endif -%}
+              <a class="image slide-pc" href="{{ collection.metafields.custom.banner_4_link | default: collection.url }}">
+                <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
+                  <img src="{{ banner_4_desktop | image_url: width: 1770 }}"
+                       alt="{{ collection.title }}"
+                       loading="lazy"
+                       width="1770"
+                       height="500">
+                </div>
+              </a>
+            </div>
+          </div>
+        {%- endif -%}
+        
+        {%- if banner_5_desktop != blank -%}
+          <div class="item">
+            <div class="images-contain">
+              {%- if banner_5_mobile != blank -%}
+                <a class="image slide-mb" href="{{ collection.metafields.custom.banner_5_link | default: collection.url }}">
+                  <div class="slide-image adaptive_height" style="padding-top: 0; height: 250px;">
+                    <img src="{{ banner_5_mobile | image_url: width: 800 }}"
+                         alt="{{ collection.title }}"
+                         loading="lazy"
+                         width="800"
+                         height="250">
+                  </div>
+                </a>
+              {%- endif -%}
+              <a class="image slide-pc" href="{{ collection.metafields.custom.banner_5_link | default: collection.url }}">
+                <div class="slide-image adaptive_height" style="padding-top: 0; height: 500px;">
+                  <img src="{{ banner_5_desktop | image_url: width: 1770 }}"
+                       alt="{{ collection.title }}"
+                       loading="lazy"
+                       width="1770"
+                       height="500">
+                </div>
+              </a>
+            </div>
+          </div>
+        {%- endif -%}
+        
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    /* Inline styles for block version */
+    .collection-banner-carousel-wrapper .adaptive_height {
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .collection-banner-carousel-wrapper .adaptive_height img {
+      border-radius: 5px;
+    }
+    
+    @media (max-width: 749px) {
+      .collection-banner-carousel-wrapper .slide-pc {
+        display: none !important;
+      }
+    }
+    
+    @media (min-width: 750px) {
+      .collection-banner-carousel-wrapper .slide-mb {
+        display: none !important;
+      }
+    }
+  </style>
+{%- endif -%}
