@@ -142,4 +142,60 @@
       </div>
     </div>
   </div>
+  
+  <script>
+    // Initialize Slick carousel for mobile
+    if (window.innerWidth <= 749) {
+      const cardsGrid = document.querySelector('.collection-feature-cards-wrapper .feature-cards-grid');
+      if (cardsGrid && !cardsGrid.classList.contains('slick-initialized')) {
+        // Load Slick if not already loaded
+        if (typeof jQuery !== 'undefined' && typeof jQuery.fn.slick !== 'undefined') {
+          jQuery(cardsGrid).slick({
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            dots: true,
+            arrows: false,
+            infinite: false,
+            responsive: [
+              {
+                breakpoint: 749,
+                settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 1
+                }
+              }
+            ]
+          });
+        } else {
+          // Load Slick library if not present
+          const slickCSS = document.createElement('link');
+          slickCSS.rel = 'stylesheet';
+          slickCSS.href = 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css';
+          document.head.appendChild(slickCSS);
+          
+          const slickJS = document.createElement('script');
+          slickJS.src = 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js';
+          slickJS.onload = function() {
+            jQuery(cardsGrid).slick({
+              slidesToShow: 2,
+              slidesToScroll: 1,
+              dots: true,
+              arrows: false,
+              infinite: false,
+              responsive: [
+                {
+                  breakpoint: 749,
+                  settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                  }
+                }
+              ]
+            });
+          };
+          document.body.appendChild(slickJS);
+        }
+      }
+    }
+  </script>
 {%- endif -%}
