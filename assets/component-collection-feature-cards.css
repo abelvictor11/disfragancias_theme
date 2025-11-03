@@ -39,22 +39,35 @@
   display: grid;
   gap: 30px;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-items: center;
 }
 
 .feature-cards-grid--2 {
   grid-template-columns: repeat(2, 1fr);
+  max-width: 800px;
 }
 
 .feature-cards-grid--3 {
   grid-template-columns: repeat(3, 1fr);
+  max-width: 1000px;
 }
 
 .feature-cards-grid--4 {
   grid-template-columns: repeat(4, 1fr);
+  max-width: 1200px;
 }
 
 .feature-cards-grid--5 {
   grid-template-columns: repeat(5, 1fr);
+  max-width: 1400px;
+}
+
+/* When only 1 card is active, center it with max width */
+.feature-cards-grid .feature-card:only-child {
+  max-width: 400px;
+  width: 100%;
 }
 
 /* Feature Card */
