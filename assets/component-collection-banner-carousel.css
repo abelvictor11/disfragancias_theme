@@ -1,0 +1,104 @@
+/* Collection Banner Carousel - Uses same structure as slideshow */
+.collection-banner-carousel-wrapper {
+  width: 100%;
+}
+
+.collection-banner-slideshow {
+  position: relative;
+  width: 100%;
+}
+
+.collection-banner-slideshow .item {
+  position: relative;
+  outline: none;
+}
+
+.collection-banner-slideshow .images-contain {
+  position: relative;
+  width: 100%;
+}
+
+/* Specific styles for collection carousel */
+.collection-banner-slideshow .adaptive_height {
+  display: block;
+  max-width: 100%;
+  position: relative;
+  margin: 0 auto;
+  height: 250px !important;
+  padding-top: 0 !important;
+}
+
+.collection-banner-slideshow .slide-image {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.collection-banner-slideshow .adaptive_height img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Mobile/Desktop image switching */
+@media (max-width: 550px) {
+  .collection-banner-slideshow .slide-pc {
+    display: none \!important;
+  }
+}
+
+@media (min-width: 551px) {
+  .collection-banner-slideshow .slide-mobile {
+    display: none \!important;
+  }
+}
+
+/* Lazy loading */
+.collection-banner-slideshow .data-lazy-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.collection-banner-slideshow .data-lazy-loading::after {
+  content: '';
+  width: 30px;
+  height: 30px;
+  border: 3px solid #ddd;
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+  to { transform: rotate(360deg); }
+}
+
+/* Animation support */
+.collection-banner-slideshow.scroll-trigger.animate--fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
