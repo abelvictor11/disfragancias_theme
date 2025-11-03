@@ -57,6 +57,7 @@
       "block_order": [
         "description_743dqD"
       ],
+      "disabled": true,
       "settings": {
         "show_breadcrumb": true,
         "breadcrumb_alignment": "left",
@@ -84,6 +85,8 @@
       "name": "Banner Carousel Colección",
       "settings": {
         "enable_banner_carousel": true,
+        "show_breadcrumb": true,
+        "show_title": true,
         "container": "1770",
         "autoplay": true,
         "autoplay_speed": 5000,
