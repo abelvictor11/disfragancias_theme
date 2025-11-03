@@ -194,23 +194,26 @@
 </style>
 
 <script>
-  class BannerCarousel extends HTMLElement {
-    constructor() {
-      super();
-      this.carousel = this.querySelector('.collection-banner-carousel');
-      this.slides = this.querySelectorAll('.banner-carousel-slide');
-      this.currentSlide = 0;
-      this.autoplay = this.dataset.autoplay === 'true';
-      this.autoplaySpeed = parseInt(this.dataset.autoplaySpeed) || 5000;
-      this.showArrows = this.dataset.arrows === 'true';
-      this.showDots = this.dataset.dots === 'true';
-      
-      if (this.slides.length > 1) {
-        this.init();
-      } else if (this.slides.length === 1) {
-        this.slides[0].classList.add('active');
+  if (!customElements.get('banner-carousel')) {
+    class BannerCarousel extends HTMLElement {
+      constructor() {
+        super();
       }
-    }
+      
+      connectedCallback() {
+        this.slides = this.querySelectorAll('.banner-carousel-slide');
+        this.currentSlide = 0;
+        this.autoplay = this.dataset.autoplay === 'true';
+        this.autoplaySpeed = parseInt(this.dataset.autoplaySpeed) || 5000;
+        this.showArrows = this.dataset.arrows === 'true';
+        this.showDots = this.dataset.dots === 'true';
+        
+        if (this.slides.length > 1) {
+          this.init();
+        } else if (this.slides.length === 1) {
+          this.slides[0].classList.add('active');
+        }
+      }
     
     init() {
       this.createControls();
@@ -291,9 +294,10 @@
         this.startAutoplay();
       }
     }
+    }
+    
+    customElements.define('banner-carousel', BannerCarousel);
   }
-  
-  customElements.define('banner-carousel', BannerCarousel);
 </script>
 {%- endif -%}
 
