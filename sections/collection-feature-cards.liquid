@@ -234,50 +234,6 @@
   </div>
 </div>
 
-<script>
-  // Initialize carousel on mobile
-  document.addEventListener('DOMContentLoaded', function() {
-    const grid = document.querySelector('[data-section-id="{{ section.id }}"] .feature-cards-grid');
-    
-    function initMobileCarousel() {
-      if (window.innerWidth <= 749 && grid && !grid.classList.contains('slick-initialized')) {
-        // Load Slick if not already loaded
-        if (typeof jQuery !== 'undefined' && typeof jQuery.fn.slick !== 'undefined') {
-          jQuery(grid).slick({
-            slidesToShow: 2,
-            slidesToScroll: 2,
-            dots: true,
-            arrows: false,
-            infinite: false,
-            responsive: [
-              {
-                breakpoint: 480,
-                settings: {
-                  slidesToShow: 1.5,
-                  slidesToScroll: 1
-                }
-              }
-            ]
-          });
-        }
-      } else if (window.innerWidth > 749 && grid && grid.classList.contains('slick-initialized')) {
-        // Destroy carousel on desktop
-        if (typeof jQuery !== 'undefined' && typeof jQuery.fn.slick !== 'undefined') {
-          jQuery(grid).slick('unslick');
-        }
-      }
-    }
-    
-    initMobileCarousel();
-    
-    let resizeTimer;
-    window.addEventListener('resize', function() {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(initMobileCarousel, 250);
-    });
-  });
-</script>
-
 <style>
   .collection-feature-cards-section {
     padding-top: {{ section.settings.padding_top }}px;
