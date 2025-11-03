@@ -57,9 +57,9 @@
     <div class="banner-carousel-header">
       {%- if section.settings.show_breadcrumb -%}
         <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
-          <a href="{{ routes.root_url }}" title="{{ 'general.breadcrumbs.home' | t }}">{{ 'general.breadcrumbs.home' | t }}</a>
-          <span aria-hidden="true">›</span>
-          <span>{{ collection.title }}</span>
+          <a href="{{ routes.root_url }}" title="Inicio">Inicio</a>
+          <span class="breadcrumb-separator" aria-hidden="true">›</span>
+          <span class="breadcrumb-current">{{ collection.title }}</span>
         </nav>
       {%- endif -%}
       
