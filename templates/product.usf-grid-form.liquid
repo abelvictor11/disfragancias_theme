@@ -1,0 +1,35 @@
+{% layout none %}
+
+{%- liquid
+    assign product_swatch_option = settings.swatch | downcase
+    assign isColor = false
+    assign variant_img = ''
+    for option in product_card_product.options_with_values
+        assign option_name = option.name | downcase
+        if product_swatch_option contains option_name
+            assign isColor = true
+            assign index = forloop.index0
+            assign position = forloop.index | minus: 1
+            assign variant_selected = option.selected_value
+            if settings.show_quick_shop
+                for variant in product_card_product.variants limit: 1
+                    if variant.image != null  
+                        assign variant_img = variant.image
+                    endif
+                endfor
+            endif
+          break
+        else 
+            assign position = 0
+        endif
+    endfor
+
+    if sectionId == blank 
+    assign sectionId = section.id
+  endif
+-%}
+{% render 'add-to-cart-form',
+  product: product,
+  id: 'form',
+  position: position,
+ %}

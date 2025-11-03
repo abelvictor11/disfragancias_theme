@@ -1,0 +1,120 @@
+{%- schema -%}
+{
+  "name": "Carousel de Marcas",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Título de la sección",
+      "default": "Explora Nuestras Marcas"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "slide_id",
+          "label": "ID del Slide"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Imagen de Fondo"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Logo de la Marca"
+        },
+        {
+          "type": "text",
+          "id": "logo_height",
+          "label": "Altura del Logo",
+          "default": "50px"
+        },
+        {
+          "type": "text",
+          "id": "slide_text",
+          "label": "Texto del Slide",
+          "default": "Descripción del slide."
+        },
+        {
+          "type": "url",
+          "id": "slide_link",
+          "label": "Enlace del Slide"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Carousel de Marcas",
+      "category": "Custom"
+    }
+  ]
+}
+{%- endschema -%}
+
+{%- stylesheet -%}
+<style>
+  .carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+  }
+  .carousel-cell {
+    flex: 0 0 auto;
+    width: 80%;
+    margin-right: 10px;
+    position: relative;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease-in-out;
+  }
+  .carousel-cell:hover {
+    transform: scale(1.05);
+  }
+  .contenido-slide img {
+    max-width: 100px;
+    height: 30px;
+  }
+</style>
+{%- endstylesheet -%}
+
+{%- javascript -%}
+<script defer src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var carousel = document.querySelector('.carousel');
+    if (carousel) {
+      new Flickity(carousel, {
+        freeScroll: true,
+        contain: true,
+        prevNextButtons: false,
+        pageDots: false,
+        wrapAround: true,
+        autoPlay: true
+      });
+    }
+  });
+</script>
+{%- endjavascript -%}
+
+<div class="carousel"
+  data-flickity='{"freeScroll": true, "contain": true, "prevNextButtons": false, "pageDots": false, "wrapAround": true, "autoPlay": true}'>
+  <h2>{{ section.settings.section_title }}</h2>
+  {%- for block in section.blocks -%}
+    <a href="{{ block.settings.slide_link }}" class="carousel-cell" id="{{ block.settings.slide_id }}" style="background-image: url('{{ block.settings.background_image | img_url: '2000x' }}');">
+      <div class="overlayslide"></div>
+      <div class="contenido-slide">
+        <img src="{{ block.settings.logo_image | img_url: '800x' }}" height="{{ block.settings.logo_height }}">
+        <p>{{ block.settings.slide_text }}</p>
+        <span class="btn-card-marcas">Ver productos</span>
+      </div>
+    </a>
+  {%- endfor -%}
+</div>

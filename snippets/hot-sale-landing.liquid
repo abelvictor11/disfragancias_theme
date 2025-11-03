@@ -1,0 +1,275 @@
+{%- comment -%}
+  Hot Sale Landing - Disfragancias
+  Inserción: agrega un bloque "Custom liquid" y pega:
+  {% render 'hot-sale-landing' %}
+{%- endcomment -%}
+
+{%- comment -%} Carga de assets propios {%- endcomment -%}
+<link id="hot-sale-landing-css" rel="stylesheet" href="{{ 'hot-sale-landing.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ 'hot-sale-landing.css' | asset_url }}"></noscript>
+<script src="{{ 'hot-sale-landing.js' | asset_url }}" defer></script>
+
+<div class="hot-sale-landing" id="hot-sale-landing" role="region" aria-label="Hot Sale Disfragancias">
+  <div class="container">
+
+    <section class="hot-sale-landing__hero reveal" aria-labelledby="hs-hero-title">
+      <div class="hot-sale-landing__hero-copy">
+        <p class="hot-sale-landing__eyebrow">¡El Evento de Fragancias Más Esperado ha Llegado a Disfragancias.com!</p>
+        <h1 id="hs-hero-title">Prepárate para el Hot Sale</h1>
+        <p class="hot-sale-landing__lead">La oportunidad perfecta para adquirir tus perfumes de lujo y diseñador favoritos con descuentos que te dejarán sin aliento. ¡Tu próxima firma olfativa te espera!</p>
+        <p>
+          <a class="cta-btn" href="#newsletter" aria-label="Ir al formulario de suscripción">Quiero Acceso VIP</a>
+        </p>
+      </div>
+      <div class="hot-sale-landing__hero-media" aria-hidden="true">
+        {{ 'image' | placeholder_svg_tag: 'placeholder' }}
+      </div>
+    </section>
+
+    <section aria-labelledby="hs-what-title" class="reveal">
+      <h2 class="section-title" id="hs-what-title">Lo que Encontrarás Durante el Evento</h2>
+      <p>El Hot Sale es la campaña de ventas en línea ideal para renovar tu colección de fragancias con los mejores precios del año. En Disfragancias.com, hemos preparado una selección exclusiva de eau de toilette, eau de parfum y sets de regalo.</p>
+      <ul class="hot-sale-landing__list stagger">
+        <li>
+          <span class="tick" aria-hidden="true">✓</span>
+          <div>
+            <strong>Descuentos Directos:</strong>
+            Cientos de referencias con porcentajes de descuento que no verás el resto del año.
+          </div>
+        </li>
+        <li>
+          <span class="tick" aria-hidden="true">✓</span>
+          <div>
+            <strong>Ofertas Relámpago (Flash Sales):</strong>
+            Descuentos aún más agresivos en fragancias top, ¡disponibles solo por pocas horas!
+          </div>
+        </li>
+        <li>
+          <span class="tick" aria-hidden="true">✓</span>
+          <div>
+            <strong>Kits de Lujo Exclusivos:</strong>
+            Sets de perfume + loción + miniaturas a precios inigualables, perfectos para regalar o regalarte.
+          </div>
+        </li>
+        <li>
+          <span class="tick" aria-hidden="true">✓</span>
+          <div>
+            <strong>Opciones de Pago:</strong>
+            Facilidades con métodos de pago populares en Colombia (como PSE, tarjetas de crédito y apps de pago).
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="reveal" aria-labelledby="hs-featured-title">
+      <h2 class="section-title" id="hs-featured-title">Destacados del Hot Sale</h2>
+      <div class="hs-carousel" role="region" aria-label="Carrusel de destacados">
+        <div class="hs-carousel__viewport">
+          <div class="hs-carousel__track">
+            <article class="hs-carousel__slide" aria-hidden="false">
+              <div class="hs-carousel__media">
+                {{ 'image' | placeholder_svg_tag: 'placeholder' }}
+              </div>
+              <div class="hs-carousel__overlay">
+                <div class="hs-carousel__caption">
+                  <h3>Top Fragancias de Diseñador</h3>
+                  <p>Los best-sellers con descuentos imperdibles.</p>
+                  <a class="cta-btn" href="/collections/all" aria-label="Ver ofertas de fragancias de diseñador">Ver ofertas</a>
+                </div>
+              </div>
+            </article>
+            <article class="hs-carousel__slide" aria-hidden="true">
+              <div class="hs-carousel__media">
+                {{ 'image' | placeholder_svg_tag: 'placeholder' }}
+              </div>
+              <div class="hs-carousel__overlay">
+                <div class="hs-carousel__caption">
+                  <h3>Perfumería Nicho</h3>
+                  <p>Aromas exclusivos y memorables.</p>
+                  <a class="cta-btn" href="/collections/all?nicho=true" aria-label="Ver ofertas de perfumería nicho">Descubrir</a>
+                </div>
+              </div>
+            </article>
+            <article class="hs-carousel__slide" aria-hidden="true">
+              <div class="hs-carousel__media">
+                {{ 'image' | placeholder_svg_tag: 'placeholder' }}
+              </div>
+              <div class="hs-carousel__overlay">
+                <div class="hs-carousel__caption">
+                  <h3>Sets y Estuches</h3>
+                  <p>Regalos perfectos con precio especial.</p>
+                  <a class="cta-btn" href="/collections/all?set=true" aria-label="Ver sets y estuches">Ver sets</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="hs-carousel__nav" aria-hidden="true">
+          <button type="button" class="hs-carousel__btn" data-prev aria-label="Slide anterior">‹</button>
+          <button type="button" class="hs-carousel__btn" data-next aria-label="Siguiente slide">›</button>
+        </div>
+        <div class="hs-carousel__dots" aria-label="Paginación del carrusel"></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="hs-cats-brands-title" class="reveal">
+      <h2 class="section-title" id="hs-cats-brands-title">Categorías y Marcas de Perfumería con Descuento</h2>
+      <p>Disfruta de promociones únicas en fragancias para toda ocasión, desde las más frescas y casuales hasta las más intensas y elegantes.</p>
+
+      <div class="hot-sale-landing__grid">
+        <div>
+          <h3 class="section-title">Categorías Destacadas en Oferta</h3>
+          <div style="display:flex; justify-content:flex-end; margin: 6px 0 10px;">
+            <button type="button" class="cta-btn" data-export-csv>Exportar a Hojas de cálculo (CSV)</button>
+          </div>
+          <table class="hot-sale-landing__table" id="categories-table">
+            <thead>
+              <tr>
+                <th scope="col">Categoría</th>
+                <th scope="col">¿Qué esperar?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Fragancias de Diseñador</strong></td>
+                <td>Descuentos en los best-sellers más buscados para hombre y mujer.</td>
+              </tr>
+              <tr>
+                <td><strong>Perfumería Nicho</strong></td>
+                <td>Oportunidades únicas para adquirir aromas exclusivos y gourmet que te distinguen.</td>
+              </tr>
+              <tr>
+                <td><strong>Sets de Regalo y Estuches</strong></td>
+                <td>La opción ideal para sorprender con un obsequio completo y a un precio especial.</td>
+              </tr>
+              <tr>
+                <td><strong>Cuidado de la Piel y Cuerpo</strong></td>
+                <td>Cremas, lociones y body mists que complementan tu perfume favorito.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3 class="section-title">Algunas de las Casas de Perfume que Amas</h3>
+          <p>El Hot Sale es tu momento para adquirir fragancias de alta calidad. Encuentra ofertas en marcas de prestigio internacional, incluyendo:</p>
+          <div class="brand-grid stagger" role="list" aria-label="Marcas destacadas">
+            <div class="brand-card" role="listitem">Dior</div>
+            <div class="brand-card" role="listitem">Chanel</div>
+            <div class="brand-card" role="listitem">Versace</div>
+            <div class="brand-card" role="listitem">Calvin&nbsp;Klein</div>
+            <div class="brand-card" role="listitem">Carolina&nbsp;Herrera</div>
+            <div class="brand-card" role="listitem">Paco&nbsp;Rabanne</div>
+            <div class="brand-card" role="listitem">Dolce&nbsp;&amp;&nbsp;Gabbana</div>
+          </div>
+          <p style="margin-top:12px; color: var(--hs-muted); font-size: .95rem;">
+            <strong>Lujo y Diseñador:</strong> Dior, Chanel, Versace, Calvin Klein, Carolina Herrera, Paco Rabanne, Dolce &amp; Gabbana.
+            <br>
+            <strong>Nicho y Exclusivas:</strong> Fragancias especiales, indie y ediciones limitadas (sujeto a disponibilidad y stock).
+            <br>
+            <strong>Clásicas:</strong> Las icónicas que nunca pasan de moda y que siempre tienen un lugar en tu tocador.
+          </p>
+          <div class="brand-marquee" aria-hidden="true">
+            <div class="brand-marquee__track">
+              <span class="brand-marquee__item">Dior</span>
+              <span class="brand-marquee__item">Chanel</span>
+              <span class="brand-marquee__item">Versace</span>
+              <span class="brand-marquee__item">Calvin&nbsp;Klein</span>
+              <span class="brand-marquee__item">Carolina&nbsp;Herrera</span>
+              <span class="brand-marquee__item">Paco&nbsp;Rabanne</span>
+              <span class="brand-marquee__item">Dolce&nbsp;&amp;&nbsp;Gabbana</span>
+              <span class="brand-marquee__item">Giorgio&nbsp;Armani</span>
+              <span class="brand-marquee__item">Yves&nbsp;Saint&nbsp;Laurent</span>
+              <!-- duplicate for seamless loop -->
+              <span class="brand-marquee__item">Dior</span>
+              <span class="brand-marquee__item">Chanel</span>
+              <span class="brand-marquee__item">Versace</span>
+              <span class="brand-marquee__item">Calvin&nbsp;Klein</span>
+              <span class="brand-marquee__item">Carolina&nbsp;Herrera</span>
+              <span class="brand-marquee__item">Paco&nbsp;Rabanne</span>
+              <span class="brand-marquee__item">Dolce&nbsp;&amp;&nbsp;Gabbana</span>
+              <span class="brand-marquee__item">Giorgio&nbsp;Armani</span>
+              <span class="brand-marquee__item">Yves&nbsp;Saint&nbsp;Laurent</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="newsletter" class="newsletter reveal" aria-labelledby="hs-news-title">
+      <h2 class="section-title" id="hs-news-title">¡Suscríbete y Obtén Acceso VIP a las Fragancias!</h2>
+      <p>Las mejores ofertas de perfumes en el Hot Sale se agotan rápidamente. ¡Asegura tus favoritas antes que nadie!</p>
+      <div class="newsletter__checks" role="list">
+        <div role="listitem">✔️ Acceso Anticipado a la venta. Compra 24 horas antes que el público general.</div>
+        <div role="listitem">✔️ Notificaciones de las Flash Sales para que no se te escape esa fragancia soñada.</div>
+        <div role="listitem">✔️ Cupones de Descuento Especiales solo para suscriptores.</div>
+      </div>
+
+      {% form 'customer', id: 'HotSaleNewsletter' %}
+        {% if form.posted_successfully? %}
+          <div class="feedback feedback--success" role="status">Gracias por suscribirte. Revisa tu correo para confirmar tu suscripción.</div>
+        {% elsif form.errors %}
+          <div class="feedback feedback--error" role="alert">{{ form.errors | default_errors }}</div>
+        {% endif %}
+
+        <div class="form-row">
+          <div class="field">
+            <label for="HotSaleName">Nombre</label>
+            <input id="HotSaleName" type="text" name="contact[first_name]" autocomplete="given-name" placeholder="Tu nombre">
+          </div>
+          <div class="field">
+            <label for="HotSaleEmail">Correo electrónico</label>
+            <input id="HotSaleEmail" type="email" name="contact[email]" autocomplete="email" placeholder="tu@correo.com" required>
+          </div>
+          <div class="field" style="align-self:end;">
+            <button class="cta-btn" type="submit">Quiero Acceso VIP al Hot Sale de Perfumes</button>
+          </div>
+        </div>
+        <input type="hidden" name="contact[tags]" value="newsletter, hot-sale, landing">
+      {% endform %}
+
+      <p class="form-note">
+        No compartiremos tu información. Recibirás solo alertas de ofertas de alto valor.
+        {% if shop.privacy_policy %}
+          Consulta nuestra <a href="{{ shop.privacy_policy.url }}" target="_blank" rel="noopener">Política de Privacidad</a>.
+        {% else %}
+          Consulta nuestra <a href="/policies/privacy-policy" target="_blank" rel="noopener">Política de Privacidad</a>.
+        {% endif %}
+      </p>
+    </section>
+
+    <section class="faq reveal" aria-labelledby="hs-faq-title">
+      <h2 class="section-title" id="hs-faq-title">Preguntas Frecuentes (FAQ)</h2>
+
+      <details>
+        <summary>¿Cuándo se realizará el Hot Sale en Disfragancias.com?</summary>
+        <div>
+          El Hot Sale se adhiere a la campaña nacional de ventas en Colombia. Suscríbete para ser notificado sobre las fechas exactas en que iniciaremos nuestra oleada de descuentos.
+        </div>
+      </details>
+
+      <details>
+        <summary>¿Las fragancias son originales y tienen garantía?</summary>
+        <div>
+          ¡Absolutamente! En Disfragancias.com solo comercializamos perfumes 100% originales y sellados, provenientes de distribuidores autorizados. Todas tus compras están respaldadas por nuestra política de garantía.
+        </div>
+      </details>
+
+      <details>
+        <summary>¿Cómo puedo pagar mis perfumes en oferta?</summary>
+        <div>
+          Aceptamos los principales métodos de pago en Colombia: tarjetas de crédito (con opciones de cuotas/MSI según tu banco), PSE y otros medios electrónicos para tu conveniencia.
+        </div>
+      </details>
+
+      <details>
+        <summary>¿Hay cobro de envío en el Hot Sale?</summary>
+        <div>
+          Ofreceremos envío gratis en la mayoría de las ciudades principales de Colombia a partir de un valor de compra mínimo durante el Hot Sale. Los detalles específicos se mostrarán en la página de pago.
+        </div>
+      </details>
+    </section>
+
+    <p class="kicker">¡Prepara tu olfato! La cuenta regresiva para el Hot Sale ha comenzado. ¿Cuál será el primer perfume que añadas a tu carrito?</p>
+
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<script src="{{ 'slider.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+
+{%- if settings.show_calculator_free_shipping_message -%}
+    <script src="{{ 'free-shipping-message.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+
+{% if template == 'index' %}
+  <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js" defer="defer"></script>
+{% endif %}
