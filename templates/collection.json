@@ -82,6 +82,7 @@
     },
     "collection_banner_carousel_mj6XyL": {
       "type": "collection-banner-carousel",
+      "disabled": true,
       "name": "Banner Carousel Colección",
       "settings": {
         "enable_banner_carousel": true,
@@ -104,6 +105,7 @@
     },
     "collection_feature_cards_qcYN9V": {
       "type": "collection-feature-cards",
+      "disabled": true,
       "name": "Cards de Colección",
       "settings": {
         "enable_feature_cards": true,
@@ -134,6 +136,10 @@
     "product-grid": {
       "type": "main-collection-product-grid",
       "blocks": {
+        "banner_carousel_block_xGE3U7": {
+          "type": "banner_carousel_block",
+          "settings": {}
+        },
         "feature_cards_block_BfwxHn": {
           "type": "feature_cards_block",
           "settings": {}
@@ -186,6 +192,7 @@
         }
       },
       "block_order": [
+        "banner_carousel_block_xGE3U7",
         "feature_cards_block_BfwxHn",
         "lookbook_RbdRWJ",
         "ce351101-2c54-4627-b740-b2c592067b4a",
