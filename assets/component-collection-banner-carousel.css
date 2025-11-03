@@ -25,47 +25,85 @@
   top: auto;
   left: auto;
   right: auto;
-  padding: 20px;
+  padding: 20px 20px 30px 20px;
   pointer-events: auto;
   margin-bottom: 0;
+  background: transparent;
 }
 
+/* Breadcrumb - Overlay version (with banners) */
 .banner-carousel-header .breadcrumb {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #666;
+  color: #fff;
   margin-bottom: 10px;
   flex-wrap: wrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .banner-carousel-header .breadcrumb a {
-  color: #666;
+  color: #fff;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .banner-carousel-header .breadcrumb a:hover {
-  color: #000;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .banner-carousel-header .breadcrumb span[aria-hidden] {
-  color: #999;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .banner-carousel-header .breadcrumb span:last-child {
-  color: #333;
+  color: #fff;
   font-weight: 500;
 }
 
-.banner-carousel-title {
-  font-size: 32px;
-  font-weight: 600;
+/* Breadcrumb - Normal version (no banners) */
+.banner-carousel-header--no-overlay .breadcrumb {
+  color: #666;
+  text-shadow: none;
+  margin-bottom: 15px;
+}
+
+.banner-carousel-header--no-overlay .breadcrumb a {
+  color: #666;
+}
+
+.banner-carousel-header--no-overlay .breadcrumb a:hover {
   color: #000;
+}
+
+.banner-carousel-header--no-overlay .breadcrumb span[aria-hidden] {
+  color: #999;
+}
+
+.banner-carousel-header--no-overlay .breadcrumb span:last-child {
+  color: #333;
+}
+
+/* Title - Overlay version (with banners) */
+.banner-carousel-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
   margin: 0;
   line-height: 1.2;
   text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.5px;
+}
+
+/* Title - Normal version (no banners) */
+.banner-carousel-header--no-overlay .banner-carousel-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #000;
+  text-shadow: none;
+  letter-spacing: 0;
 }
 
 .collection-banner-slideshow {
@@ -170,9 +208,15 @@
 
 /* Responsive styles */
 @media (max-width: 749px) {
+  /* Overlay version */
   .banner-carousel-header {
     top: 15px;
     padding: 0 15px;
+  }
+  
+  /* Normal version */
+  .banner-carousel-header--no-overlay {
+    padding: 15px 15px 25px 15px;
   }
   
   .banner-carousel-header .breadcrumb {
@@ -181,7 +225,17 @@
     margin-bottom: 8px;
   }
   
+  .banner-carousel-header--no-overlay .breadcrumb {
+    margin-bottom: 12px;
+  }
+  
+  /* Overlay title */
   .banner-carousel-title {
+    font-size: 28px;
+  }
+  
+  /* Normal title */
+  .banner-carousel-header--no-overlay .banner-carousel-title {
     font-size: 24px;
   }
 }
