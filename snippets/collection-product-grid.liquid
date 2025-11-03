@@ -112,7 +112,11 @@
                 {%- endif -%}
 
                 {%- for block in section.blocks -%}
-                    {%- if block.type == 'lookbook' and block.settings.banner_pos == 'top' -%}
+                    {%- if block.type == 'banner_carousel_block' -%}
+                        {%- render 'collection-banner-carousel-block', collection: collection -%}
+                    {%- elsif block.type == 'feature_cards_block' -%}
+                        {%- render 'collection-feature-cards-block', collection: collection -%}
+                    {%- elsif block.type == 'lookbook' and block.settings.banner_pos == 'top' -%}
                         {%- liquid
                             if collection.image
                                 assign image = collection.image
