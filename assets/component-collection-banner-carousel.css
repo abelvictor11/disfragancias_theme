@@ -153,7 +153,7 @@
   max-width: 100%;
   position: relative;
   margin: 0 auto;
-  height: 250px !important;
+  height: 500px !important;
   padding-top: 0 !important;
   border-radius: 5px;
   overflow: hidden;
@@ -182,15 +182,19 @@
 }
 
 /* Mobile/Desktop image switching */
-@media (max-width: 550px) {
+@media (max-width: 749px) {
+  .collection-banner-slideshow .adaptive_height {
+    height: 250px !important;
+  }
+  
   .collection-banner-slideshow .slide-pc {
-    display: none \!important;
+    display: none !important;
   }
 }
 
-@media (min-width: 551px) {
-  .collection-banner-slideshow .slide-mobile {
-    display: none \!important;
+@media (min-width: 750px) {
+  .collection-banner-slideshow .slide-mb {
+    display: none !important;
   }
 }
 
