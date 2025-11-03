@@ -20,7 +20,12 @@
 
 /* Specific styles for collection carousel */
 .collection-banner-slideshow .adaptive_height {
-  max-height: 250px;
+  display: block;
+  max-width: 100%;
+  position: relative;
+  margin: 0 auto;
+  height: 250px !important;
+  padding-top: 0 !important;
 }
 
 .collection-banner-slideshow .slide-image {
@@ -39,7 +44,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  max-height: 250px;
   object-fit: cover;
   display: block;
 }
