@@ -36,36 +36,40 @@
 
 /* Grid Layout */
 .feature-cards-grid {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 30px;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  justify-items: center;
-}
-
-.feature-cards-grid--2 {
-  grid-template-columns: repeat(2, 1fr);
-  max-width: 800px;
-}
-
-.feature-cards-grid--3 {
-  grid-template-columns: repeat(3, 1fr);
-  max-width: 1000px;
-}
-
-.feature-cards-grid--4 {
-  grid-template-columns: repeat(4, 1fr);
-  max-width: 1200px;
-}
-
-.feature-cards-grid--5 {
-  grid-template-columns: repeat(5, 1fr);
   max-width: 1400px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: stretch;
 }
 
-/* When only 1 card is active, center it with max width */
+/* Card sizing based on grid configuration */
+.feature-cards-grid--2 .feature-card {
+  flex: 0 0 calc(50% - 15px);
+  max-width: 400px;
+}
+
+.feature-cards-grid--3 .feature-card {
+  flex: 0 0 calc(33.333% - 20px);
+  max-width: 350px;
+}
+
+.feature-cards-grid--4 .feature-card {
+  flex: 0 0 calc(25% - 22.5px);
+  max-width: 300px;
+}
+
+.feature-cards-grid--5 .feature-card {
+  flex: 0 0 calc(20% - 24px);
+  max-width: 280px;
+}
+
+/* Single card - always centered */
 .feature-cards-grid .feature-card:only-child {
+  flex: 0 0 auto;
   max-width: 400px;
   width: 100%;
 }
@@ -275,9 +279,11 @@
     gap: 20px;
   }
   
-  .feature-cards-grid--4,
-  .feature-cards-grid--5 {
-    grid-template-columns: repeat(3, 1fr);
+  /* Tablet: 3 columns for 4-5 card layouts */
+  .feature-cards-grid--4 .feature-card,
+  .feature-cards-grid--5 .feature-card {
+    flex: 0 0 calc(33.333% - 14px);
+    max-width: 320px;
   }
   
   .feature-card-content {
