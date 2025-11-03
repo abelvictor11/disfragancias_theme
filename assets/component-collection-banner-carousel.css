@@ -19,6 +19,17 @@
   pointer-events: auto;
 }
 
+/* When no banners, show as normal block */
+.banner-carousel-header--no-overlay {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  padding: 20px;
+  pointer-events: auto;
+  margin-bottom: 0;
+}
+
 .banner-carousel-header .breadcrumb {
   display: flex;
   align-items: center;
