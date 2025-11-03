@@ -289,15 +289,22 @@
     font-size: 14px;
   }
   
+  /* Convert to carousel on mobile */
   .feature-cards-grid {
-    gap: 15px;
+    display: block;
+    overflow: hidden;
   }
   
-  .feature-cards-grid--2,
-  .feature-cards-grid--3,
-  .feature-cards-grid--4,
-  .feature-cards-grid--5 {
-    grid-template-columns: repeat(2, 1fr);
+  .feature-cards-grid.slick-initialized {
+    display: block;
+  }
+  
+  .feature-cards-grid .slick-list {
+    margin: 0 -7.5px;
+  }
+  
+  .feature-cards-grid .slick-slide {
+    padding: 0 7.5px;
   }
   
   .feature-card-content {
@@ -315,6 +322,37 @@
   
   .feature-card-link-text {
     font-size: 13px;
+  }
+  
+  /* Carousel dots for mobile */
+  .feature-cards-grid .slick-dots {
+    display: flex !important;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .feature-cards-grid .slick-dots li {
+    margin: 0;
+  }
+  
+  .feature-cards-grid .slick-dots button {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #ddd;
+    font-size: 0;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .feature-cards-grid .slick-dots .slick-active button {
+    background: #333;
+    transform: scale(1.2);
   }
 }
 
