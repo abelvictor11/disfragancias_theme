@@ -134,6 +134,10 @@
     "product-grid": {
       "type": "main-collection-product-grid",
       "blocks": {
+        "feature_cards_block_BfwxHn": {
+          "type": "feature_cards_block",
+          "settings": {}
+        },
         "lookbook_RbdRWJ": {
           "type": "lookbook",
           "settings": {
@@ -153,10 +157,6 @@
             "margin_bottom": 25,
             "des_color": "#3c3c3c"
           }
-        },
-        "feature_cards_block_BfwxHn": {
-          "type": "feature_cards_block",
-          "settings": {}
         },
         "ce351101-2c54-4627-b740-b2c592067b4a": {
           "type": "filter",
@@ -186,8 +186,8 @@
         }
       },
       "block_order": [
-        "lookbook_RbdRWJ",
         "feature_cards_block_BfwxHn",
+        "lookbook_RbdRWJ",
         "ce351101-2c54-4627-b740-b2c592067b4a",
         "6684d566-6940-4457-9cf9-f1a8a6e80573",
         "3978fd59-b580-49e1-9893-38d762f48f10"
