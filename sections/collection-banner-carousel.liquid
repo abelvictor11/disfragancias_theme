@@ -27,24 +27,24 @@
   assign banner_5_link = collection.metafields.custom.banner_carousel_5_link
   
   assign has_banners = false
-  if banner_1_desktop \!= blank or banner_2_desktop \!= blank or banner_3_desktop \!= blank or banner_4_desktop \!= blank or banner_5_desktop \!= blank
+  if banner_1_desktop != blank or banner_2_desktop != blank or banner_3_desktop != blank or banner_4_desktop != blank or banner_5_desktop != blank
     assign has_banners = true
   endif
   
   assign banner_count = 0
-  if banner_1_desktop \!= blank
+  if banner_1_desktop != blank
     assign banner_count = banner_count | plus: 1
   endif
-  if banner_2_desktop \!= blank
+  if banner_2_desktop != blank
     assign banner_count = banner_count | plus: 1
   endif
-  if banner_3_desktop \!= blank
+  if banner_3_desktop != blank
     assign banner_count = banner_count | plus: 1
   endif
-  if banner_4_desktop \!= blank
+  if banner_4_desktop != blank
     assign banner_count = banner_count | plus: 1
   endif
-  if banner_5_desktop \!= blank
+  if banner_5_desktop != blank
     assign banner_count = banner_count | plus: 1
   endif
 -%}
