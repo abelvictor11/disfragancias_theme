@@ -1,6 +1,60 @@
 /* Collection Banner Carousel - Uses same structure as slideshow */
 .collection-banner-carousel-wrapper {
   width: 100%;
+  position: relative;
+}
+
+/* Breadcrumb and Title Overlay */
+.banner-carousel-header {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 0 20px;
+  pointer-events: none;
+}
+
+.banner-carousel-header > * {
+  pointer-events: auto;
+}
+
+.banner-carousel-header .breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.banner-carousel-header .breadcrumb a {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.banner-carousel-header .breadcrumb a:hover {
+  color: #000;
+}
+
+.banner-carousel-header .breadcrumb span[aria-hidden] {
+  color: #999;
+}
+
+.banner-carousel-header .breadcrumb span:last-child {
+  color: #333;
+  font-weight: 500;
+}
+
+.banner-carousel-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #000;
+  margin: 0;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .collection-banner-slideshow {
@@ -100,5 +154,23 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 749px) {
+  .banner-carousel-header {
+    top: 15px;
+    padding: 0 15px;
+  }
+  
+  .banner-carousel-header .breadcrumb {
+    font-size: 12px;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  
+  .banner-carousel-title {
+    font-size: 24px;
   }
 }
