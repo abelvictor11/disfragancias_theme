@@ -1762,12 +1762,13 @@ expressOrderGridViewItem: `<div class="product grid-item" :product-selector="pro
 </div>`
 /*inc_end_instantsearch-item*/,
 
-    gridItemBadges: `<div v-if="showSoldOut || showSale || showCustomBadge || showBundleBadge || showNewBadge" class="halo-productBadges" :class="[badgeClass,'badge-' + _usfGlobalSettings.badge_postion,'halo-productBadges--' + _usfGlobalSettings.badge_postion]" :data-new-badge-number="_usfGlobalSettings.new_badge_limit">
+    gridItemBadges: `<div v-if="showSoldOut || showSale || showCustomBadge || showBundleBadge || showNewBadge || customMetafieldBadge" class="halo-productBadges" :class="[badgeClass,'badge-' + _usfGlobalSettings.badge_postion,'halo-productBadges--' + _usfGlobalSettings.badge_postion]" :data-new-badge-number="_usfGlobalSettings.new_badge_limit">
     <span v-if="showNewBadge" class="badge new-badge" aria-hidden="true" v-html="_usfNewText"></span>
     <span v-if="showSale" class="badge sale-badge" aria-hidden="true" v-html="_usfGlobalSettings.sale_badge_type  == 'discount' ? '-' + salePercent + '%' : loc.sale"></span>
     <span v-if="showSoldOut" class="badge sold-out-badge" aria-hidden="true" v-html="loc.soldOut"></span>
     <span v-if="showCustomBadge" class="badge custom-badge" aria-hidden="true" v-html="_usfCustomBadgeTxt"></span>
     <span v-if="showBundleBadge" class="badge bundle-badge" aria-hidden="true" v-html="_usfBundleTxt"></span>
+    <span v-if="customMetafieldBadge" class="badge custom-metafield-badge" aria-hidden="true" v-html="customMetafieldBadge"></span>
 </div>`,
 compareBtn: `<div :class="compareClass" data-product-compare :data-product-compare-handle="product.urlName" :data-product-compare-id="product.id">
     <div :class="window._usf_compare_class">
@@ -2104,12 +2105,17 @@ usf.event.add('init', function () {
                         show_new_badge = hasNewTag;
                     }
                 }
+                
+                // Get custom metafield badge
+                var customMetafieldBadgeValue = usf.utils.getMetafield(this.product, 'custom', 'custom_badge') || usf.utils.getMetafield(this.product, 'custom', 'badge') || '';
+                
                 return {
                     showSoldOut: showSoldOut,
                     showSale: showSale,
                     showCustomBadge: custom_badge,
                     showBundleBadge: show_bundle_badge,
-                    showNewBadge: show_new_badge
+                    showNewBadge: show_new_badge,
+                    customMetafieldBadge: customMetafieldBadgeValue
                 }
             },
         }
