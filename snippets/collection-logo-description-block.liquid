@@ -18,7 +18,7 @@
 <!-- Logo Description Block DEBUG -->
 <!-- collection.handle: {{ collection.handle }} -->
 <!-- brand_logo: {{ brand_logo }} -->
-<!-- has_description: {{ collection_description != blank }} -->
+{%- comment -%}has_description: {{ collection_description != blank }}{%- endcomment -%}
 {{ 'component-collection-logo-description.css' | asset_url | stylesheet_tag }}
 
 {%- if brand_logo != blank or collection_description != blank -%}
