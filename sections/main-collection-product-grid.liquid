@@ -1186,6 +1186,96 @@ USF{% endcomment %}
                     "content": "Muestra el logo de la marca (metafield: brand_logo) y la descripción de la colección. El logo puede ser SVG, PNG, JPG, etc."
                 }
             ]
+        },
+        {
+            "type": "alert_message_block",
+            "name": "Alerta",
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "Mensaje de alerta"
+                },
+                {
+                    "type": "paragraph",
+                    "content": "Muestra el mensaje de alerta del metafield custom.alert_message de la colección."
+                },
+                {
+                    "type": "select",
+                    "id": "alert_style",
+                    "label": "Estilo de alerta",
+                    "default": "info",
+                    "options": [
+                        {
+                            "value": "info",
+                            "label": "Información"
+                        },
+                        {
+                            "value": "warning",
+                            "label": "Advertencia"
+                        },
+                        {
+                            "value": "danger",
+                            "label": "Peligro"
+                        }
+                    ]
+                },
+                {
+                    "type": "range",
+                    "id": "margin_top",
+                    "label": "Margen superior",
+                    "min": 0,
+                    "max": 100,
+                    "step": 5,
+                    "unit": "px",
+                    "default": 0
+                },
+                {
+                    "type": "range",
+                    "id": "margin_bottom",
+                    "label": "Margen inferior",
+                    "min": 0,
+                    "max": 100,
+                    "step": 5,
+                    "unit": "px",
+                    "default": 0
+                },
+                {
+                    "type": "color",
+                    "id": "info_bg_color",
+                    "label": "Fondo info",
+                    "default": "#e5f3ff"
+                },
+                {
+                    "type": "color",
+                    "id": "info_text_color",
+                    "label": "Texto info",
+                    "default": "#1b4b7a"
+                },
+                {
+                    "type": "color",
+                    "id": "warning_bg_color",
+                    "label": "Fondo warning",
+                    "default": "#fff4e5"
+                },
+                {
+                    "type": "color",
+                    "id": "warning_text_color",
+                    "label": "Texto warning",
+                    "default": "#7a4b1b"
+                },
+                {
+                    "type": "color",
+                    "id": "danger_bg_color",
+                    "label": "Fondo danger",
+                    "default": "#ffe5e5"
+                },
+                {
+                    "type": "color",
+                    "id": "danger_text_color",
+                    "label": "Texto danger",
+                    "default": "#7a1b1b"
+                }
+            ]
         }
     ]
 }

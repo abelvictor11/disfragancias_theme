@@ -118,6 +118,8 @@
                         {%- render 'collection-feature-cards-block', collection: collection -%}
                     {%- elsif block.type == 'logo_description_block' -%}
                         {%- render 'collection-logo-description-block', collection: collection -%}
+                    {%- elsif block.type == 'alert_message_block' -%}
+                        {%- render 'collection-alert-message-block', collection: collection, block: block -%}
                     {%- elsif block.type == 'lookbook' and block.settings.banner_pos == 'top' -%}
                         {%- liquid
                             if collection.image
