@@ -1,0 +1,161 @@
+{%- liquid
+  assign alert_message = collection.metafields.custom.alert_message
+  assign alert_style = section.settings.alert_style
+  assign container = section.settings.container
+-%}
+
+{%- if alert_message != blank -%}
+  <section class="collection-alert-message collection-alert-message--{{ alert_style }}">
+    <div class="{% if container == 'fullwidth' %}container-full{% elsif container == '1770' %}container-1770{% elsif container == '1170' %}container-1170{% else %}container{% endif %}">
+      <div class="collection-alert-message__inner">
+        {{ alert_message | escape }}
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .collection-alert-message {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+
+    .collection-alert-message__inner {
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .collection-alert-message--info .collection-alert-message__inner {
+      background-color: {{ section.settings.info_bg_color }};
+      color: {{ section.settings.info_text_color }};
+    }
+
+    .collection-alert-message--warning .collection-alert-message__inner {
+      background-color: {{ section.settings.warning_bg_color }};
+      color: {{ section.settings.warning_text_color }};
+    }
+
+    .collection-alert-message--danger .collection-alert-message__inner {
+      background-color: {{ section.settings.danger_bg_color }};
+      color: {{ section.settings.danger_text_color }};
+    }
+  </style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Mensaje de alerta de colección",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Ancho del contenedor",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Contenedor estándar"
+        },
+        {
+          "value": "1170",
+          "label": "1170px"
+        },
+        {
+          "value": "1770",
+          "label": "1770px"
+        },
+        {
+          "value": "fullwidth",
+          "label": "Ancho completo"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margen superior",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margen inferior",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "alert_style",
+      "label": "Estilo de alerta",
+      "default": "info",
+      "options": [
+        {
+          "value": "info",
+          "label": "Información"
+        },
+        {
+          "value": "warning",
+          "label": "Advertencia"
+        },
+        {
+          "value": "danger",
+          "label": "Peligro / Error"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Colores de alerta"
+    },
+    {
+      "type": "color",
+      "id": "info_bg_color",
+      "label": "Fondo alerta información",
+      "default": "#e5f3ff"
+    },
+    {
+      "type": "color",
+      "id": "info_text_color",
+      "label": "Texto alerta información",
+      "default": "#1b4b7a"
+    },
+    {
+      "type": "color",
+      "id": "warning_bg_color",
+      "label": "Fondo alerta advertencia",
+      "default": "#fff4e5"
+    },
+    {
+      "type": "color",
+      "id": "warning_text_color",
+      "label": "Texto alerta advertencia",
+      "default": "#7a4b1b"
+    },
+    {
+      "type": "color",
+      "id": "danger_bg_color",
+      "label": "Fondo alerta peligro",
+      "default": "#ffe5e5"
+    },
+    {
+      "type": "color",
+      "id": "danger_text_color",
+      "label": "Texto alerta peligro",
+      "default": "#7a1b1b"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mensaje de alerta de colección",
+      "category": "Colección"
+    }
+  ]
+}
+{% endschema %}
