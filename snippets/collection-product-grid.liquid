@@ -116,6 +116,8 @@
                         {%- render 'collection-banner-carousel-block', collection: collection -%}
                     {%- elsif block.type == 'feature_cards_block' -%}
                         {%- render 'collection-feature-cards-block', collection: collection -%}
+                    {%- elsif block.type == 'logo_description_block' -%}
+                        {%- render 'collection-logo-description-block', collection: collection -%}
                     {%- elsif block.type == 'lookbook' and block.settings.banner_pos == 'top' -%}
                         {%- liquid
                             if collection.image

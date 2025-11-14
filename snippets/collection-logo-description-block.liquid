@@ -1,0 +1,115 @@
+{% comment %}
+  Renders the Logo + Description section as a block within Main Collection
+  
+  Usage:
+  {% render 'collection-logo-description-block', collection: collection %}
+{% endcomment %}
+
+{%- liquid
+  assign brand_logo = collection.metafields.custom.brand_logo
+  assign collection_description = collection.description
+  assign show_read_more = false
+  
+  if collection_description != blank and collection_description.size > 300
+    assign show_read_more = true
+  endif
+-%}
+
+<!-- Logo Description Block DEBUG -->
+<!-- collection.handle: {{ collection.handle }} -->
+<!-- brand_logo: {{ brand_logo }} -->
+{%- comment -%}has_description: {{ collection_description != blank }}{%- endcomment -%}
+{{ 'component-collection-logo-description.css' | asset_url | stylesheet_tag }}
+
+{%- if brand_logo != blank or collection_description != blank -%}
+  <div class="collection-logo-description-wrapper">
+    <div class="container-1170">
+      <div class="logo-description-content">
+        
+        {%- if brand_logo != blank -%}
+          <div class="brand-logo-container">
+            {%- if brand_logo.value contains '.svg' -%}
+              {%- comment -%} SVG handling {%- endcomment -%}
+              <div class="brand-logo-svg">
+                {{ brand_logo | metafield_tag }}
+              </div>
+            {%- else -%}
+              {%- comment -%} Image handling (PNG, JPG, etc) {%- endcomment -%}
+              <div class="brand-logo-image">
+                <img 
+                  src="{{ brand_logo | image_url: width: 300 }}"
+                  srcset="{{ brand_logo | image_url: width: 150 }} 150w,
+                          {{ brand_logo | image_url: width: 200 }} 200w,
+                          {{ brand_logo | image_url: width: 300 }} 300w"
+                  sizes="(max-width: 749px) 120px, 200px"
+                  alt="{{ collection.title }} logo"
+                  loading="lazy"
+                  width="200"
+                  height="auto">
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        
+        {%- if collection_description != blank -%}
+          <div class="brand-description-container">
+            <div class="brand-description-text{% if show_read_more %} has-read-more{% endif %}" id="brand-description-{{ collection.id }}">
+              <div class="description-content">
+                {{ collection_description }}
+              </div>
+            </div>
+            
+            {%- if show_read_more -%}
+              <button 
+                class="read-more-toggle" 
+                data-target="brand-description-{{ collection.id }}"
+                aria-expanded="false"
+                type="button">
+                <span class="read-more-text">texto completo</span>
+                <span class="read-less-text" style="display: none;">leer menos</span>
+                <svg class="toggle-icon" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        
+      </div>
+    </div>
+  </div>
+  
+  {%- if show_read_more -%}
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const toggleButtons = document.querySelectorAll('.read-more-toggle');
+        
+        toggleButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            
+            if (targetElement) {
+              targetElement.classList.toggle('expanded');
+              this.classList.toggle('expanded');
+              this.setAttribute('aria-expanded', !isExpanded);
+              
+              // Toggle text visibility
+              const readMoreText = this.querySelector('.read-more-text');
+              const readLessText = this.querySelector('.read-less-text');
+              
+              if (isExpanded) {
+                readMoreText.style.display = '';
+                readLessText.style.display = 'none';
+              } else {
+                readMoreText.style.display = 'none';
+                readLessText.style.display = '';
+              }
+            }
+          });
+        });
+      });
+    </script>
+  {%- endif -%}
+{%- endif -%}
