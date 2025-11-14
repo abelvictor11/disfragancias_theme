@@ -1,0 +1,49 @@
+{% comment %}
+  Renders the Alert Message as a block within Main Collection
+  
+  Usage:
+  {% render 'collection-alert-message-block', collection: collection, block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign alert_message = collection.metafields.custom.alert_message
+  assign alert_style = block.settings.alert_style
+-%}
+
+{%- if alert_message != blank -%}
+  <div class="collection-alert-message collection-alert-message--{{ alert_style }}" {{ block.shopify_attributes }}>
+    <div class="container">
+      <div class="collection-alert-message__inner">
+        {{ alert_message | escape }}
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .collection-alert-message {
+      margin-top: {{ block.settings.margin_top }}px;
+      margin-bottom: {{ block.settings.margin_bottom }}px;
+    }
+
+    .collection-alert-message__inner {
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .collection-alert-message--info .collection-alert-message__inner {
+      background-color: {{ block.settings.info_bg_color }};
+      color: {{ block.settings.info_text_color }};
+    }
+
+    .collection-alert-message--warning .collection-alert-message__inner {
+      background-color: {{ block.settings.warning_bg_color }};
+      color: {{ block.settings.warning_text_color }};
+    }
+
+    .collection-alert-message--danger .collection-alert-message__inner {
+      background-color: {{ block.settings.danger_bg_color }};
+      color: {{ block.settings.danger_text_color }};
+    }
+  </style>
+{%- endif -%}
