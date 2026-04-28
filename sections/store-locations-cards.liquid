@@ -1,0 +1,503 @@
+{{ 'component-store-locations-cards.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign section_title = section.settings.title
+  assign section_subtitle = section.settings.subtitle
+  assign section_description = section.settings.description
+  assign container = section.settings.container
+  assign padding_top = section.settings.padding_top | append: 'px'
+  assign padding_bottom = section.settings.padding_bottom | append: 'px'
+  assign padding_top_mobile = section.settings.padding_top_mobile | append: 'px'
+  assign padding_bottom_mobile = section.settings.padding_bottom_mobile | append: 'px'
+  assign title_alignment = section.settings.title_alignment
+  assign cards_layout = section.settings.cards_layout
+  assign card_background = section.settings.card_background
+  assign enable_map_preview = section.settings.enable_map_preview
+-%}
+
+<div class="store-locations-section color-{{ section.settings.color_scheme }}" 
+     id="store-locations-{{ section.id }}"
+     data-section-id="{{ section.id }}"
+     data-section-type="store-locations-cards">
+  
+  <div class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}">
+    
+    {%- if section_title != blank or section_subtitle != blank or section_description != blank -%}
+      <div class="section-header text-{{ title_alignment }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+        {%- if section_subtitle != blank -%}
+          <p class="section-subtitle">{{ section_subtitle | escape }}</p>
+        {%- endif -%}
+        {%- if section_title != blank -%}
+          <h2 class="section-title">{{ section_title | escape }}</h2>
+        {%- endif -%}
+        {%- if section_description != blank -%}
+          <p class="section-description">{{ section_description | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    
+    {%- if section.blocks.size > 0 -%}
+      <div class="store-locations-grid layout-{{ cards_layout }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"
+           style="--card-bg: {{ card_background }};">
+        
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign store_name = block.settings.store_name
+            assign store_address = block.settings.store_address
+            assign store_city = block.settings.store_city
+            assign store_phone = block.settings.store_phone
+            assign store_hours = block.settings.store_hours
+            assign store_image = block.settings.store_image
+            assign map_link = block.settings.map_link
+            assign directions_link = block.settings.directions_link
+            assign button_text = block.settings.button_text
+          -%}
+          
+          <div class="store-location-card" {{ block.shopify_attributes }}>
+            
+            {%- if store_image != blank -%}
+              <div class="store-image-wrapper">
+                <div class="store-image-container">
+                  <img src="{{ store_image | img_url: '400x300', crop: 'center' }}" 
+                       srcset="{{ store_image | img_url: '400x300', crop: 'center' }} 1x, {{ store_image | img_url: '800x600', crop: 'center' }} 2x"
+                       alt="{{ store_name | escape }} - {{ store_address | escape }}"
+                       width="400"
+                       height="300"
+                       loading="lazy">
+                </div>
+              </div>
+            {%- else -%}
+              <div class="store-image-wrapper store-image-placeholder">
+                <div class="store-image-container">
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              </div>
+            {%- endif -%}
+            
+            <div class="store-info">
+              {%- if store_name != blank -%}
+                <h3 class="store-name">{{ store_name | escape }}</h3>
+              {%- endif -%}
+              
+              <div class="store-details">
+                {%- if store_address != blank -%}
+                  <div class="store-detail-item">
+                    <span class="detail-icon">{% render 'icon-location' %}</span>
+                    <div class="detail-content">
+                      <p class="detail-text">{{ store_address | escape }}</p>
+                      {%- if store_city != blank -%}
+                        <p class="detail-text">{{ store_city | escape }}</p>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+                
+                {%- if store_phone != blank -%}
+                  <div class="store-detail-item">
+                    <span class="detail-icon">{% render 'icon-phone' %}</span>
+                    <div class="detail-content">
+                      <p class="detail-text">{{ store_phone | escape }}</p>
+                    </div>
+                  </div>
+                {%- endif -%}
+                
+                {%- if store_hours != blank -%}
+                  <div class="store-detail-item">
+                    <span class="detail-icon">{% render 'icon-clock' %}</span>
+                    <div class="detail-content">
+                      <p class="detail-text">{{ store_hours | escape }}</p>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+              
+              <div class="store-actions">
+                {%- if directions_link != blank -%}
+                  <a href="{{ directions_link }}" 
+                     class="button button-primary store-directions-btn" 
+                     target="_blank"
+                     rel="noopener noreferrer">
+                    <span class="btn-icon">{% render 'icon-map' %}</span>
+                    <span class="btn-text">{{ button_text | default: 'Cómo llegar' | escape }}</span>
+                  </a>
+                {%- endif -%}
+                
+                {%- if enable_map_preview and map_link != blank -%}
+                  <button type="button" 
+                          class="button button-secondary store-view-map-btn"
+                          data-map-url="{{ map_link | escape }}"
+                          data-store-name="{{ store_name | escape }}"
+                          onclick="openStoreMapModal(this)">
+                    <span class="btn-icon">{% render 'icon-expand' %}</span>
+                    <span class="btn-text">Ver mapa</span>
+                  </button>
+                {%- endif -%}
+              </div>
+            </div>
+            
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="store-locations-empty text-center">
+        <p>{{ 'sections.store_locations.no_locations' | t | default: 'No hay ubicaciones configuradas.' }}</p>
+      </div>
+    {%- endif -%}
+    
+  </div>
+</div>
+
+{%- if enable_map_preview -%}
+<!-- Map Modal -->
+<div id="store-map-modal-{{ section.id }}" class="store-map-modal" style="display: none;">
+  <div class="store-map-modal-overlay" onclick="closeStoreMapModal()"></div>
+  <div class="store-map-modal-content">
+    <div class="store-map-modal-header">
+      <h3 class="store-map-modal-title" id="store-map-modal-title-{{ section.id }}"></h3>
+      <button type="button" class="store-map-modal-close" onclick="closeStoreMapModal()" aria-label="{{ 'accessibility.close' | t }}">
+        {% render 'icon-close' %}
+      </button>
+    </div>
+    <div class="store-map-modal-body">
+      <div class="store-map-iframe-container" id="store-map-iframe-container-{{ section.id }}">
+        <!-- Map iframe will be injected here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openStoreMapModal(button) {
+  const mapUrl = button.getAttribute('data-map-url');
+  const storeName = button.getAttribute('data-store-name');
+  const sectionId = button.closest('[data-section-id]').getAttribute('data-section-id');
+  
+  const modal = document.getElementById('store-map-modal-' + sectionId);
+  const titleEl = document.getElementById('store-map-modal-title-' + sectionId);
+  const iframeContainer = document.getElementById('store-map-iframe-container-' + sectionId);
+  
+  // Update modal content
+  titleEl.textContent = storeName;
+  iframeContainer.innerHTML = '<iframe src="' + mapUrl + '" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+  
+  // Show modal
+  modal.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeStoreMapModal() {
+  const modals = document.querySelectorAll('.store-map-modal');
+  modals.forEach(function(modal) {
+    modal.style.display = 'none';
+    const iframeContainer = modal.querySelector('.store-map-iframe-container');
+    if (iframeContainer) {
+      iframeContainer.innerHTML = '';
+    }
+  });
+  document.body.style.overflow = '';
+}
+
+// Close on escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeStoreMapModal();
+  }
+});
+</script>
+{%- endif -%}
+
+<style>
+  #store-locations-{{ section.id }} {
+    padding-top: {{ padding_top }};
+    padding-bottom: {{ padding_bottom }};
+  }
+  
+  @media (max-width: 767px) {
+    #store-locations-{{ section.id }} {
+      padding-top: {{ padding_top_mobile }};
+      padding-bottom: {{ padding_bottom_mobile }};
+    }
+  }
+  
+  #store-locations-{{ section.id }} .section-title {
+    color: {{ section.settings.title_color | default: 'inherit' }};
+  }
+  
+  #store-locations-{{ section.id }} .store-location-card {
+    background-color: {{ card_background }};
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Store Locations Cards",
+  "tag": "section",
+  "class": "section-store-locations",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Contenido de la sección"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Visítanos"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Nuestras Ubicaciones"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción",
+      "default": "Encuentra tu tienda más cercana y visita nuestras instalaciones."
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Alineación del título",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Izquierda"
+        },
+        {
+          "value": "center",
+          "label": "Centro"
+        },
+        {
+          "value": "right",
+          "label": "Derecha"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Ancho del contenedor",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Contenedor estándar"
+        },
+        {
+          "value": "1170",
+          "label": "Contenedor 1170px"
+        },
+        {
+          "value": "1770",
+          "label": "Contenedor 1770px"
+        },
+        {
+          "value": "fullwidth",
+          "label": "Ancho completo"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "cards_layout",
+      "label": "Diseño de las cards",
+      "default": "3-col",
+      "options": [
+        {
+          "value": "3-col",
+          "label": "3 columnas"
+        },
+        {
+          "value": "2-col",
+          "label": "2 columnas"
+        },
+        {
+          "value": "list",
+          "label": "Lista"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Color de fondo de las cards",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_map_preview",
+      "label": "Habilitar vista previa del mapa",
+      "default": true,
+      "info": "Permite ver el mapa en un modal al hacer clic en 'Ver mapa'"
+    },
+    {
+      "type": "header",
+      "content": "Colores"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de colores",
+      "default": "background-1"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color del título"
+    },
+    {
+      "type": "header",
+      "content": "Espaciado (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espaciado superior",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espaciado inferior",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Espaciado (Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Espaciado superior mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Espaciado inferior mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "location",
+      "name": "Ubicación",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Información de la tienda"
+        },
+        {
+          "type": "text",
+          "id": "store_name",
+          "label": "Nombre de la tienda",
+          "default": "Tienda Principal"
+        },
+        {
+          "type": "image_picker",
+          "id": "store_image",
+          "label": "Foto / Logo de fachada",
+          "info": "Imagen de la fachada o logo de la tienda (400x300px recomendado)"
+        },
+        {
+          "type": "header",
+          "content": "Dirección"
+        },
+        {
+          "type": "text",
+          "id": "store_address",
+          "label": "Dirección",
+          "default": "Av. Principal 123"
+        },
+        {
+          "type": "text",
+          "id": "store_city",
+          "label": "Ciudad / Estado / CP",
+          "default": "Ciudad de México, CDMX 01000"
+        },
+        {
+          "type": "header",
+          "content": "Contacto"
+        },
+        {
+          "type": "text",
+          "id": "store_phone",
+          "label": "Teléfono",
+          "default": "(55) 1234-5678"
+        },
+        {
+          "type": "text",
+          "id": "store_hours",
+          "label": "Horario de atención",
+          "default": "Lun - Vie: 9:00 - 18:00, Sáb: 10:00 - 14:00"
+        },
+        {
+          "type": "header",
+          "content": "Mapa y Direcciones"
+        },
+        {
+          "type": "url",
+          "id": "map_link",
+          "label": "Enlace del mapa (iframe URL)",
+          "info": "URL del iframe de Google Maps. Ve a Google Maps > Compartir > Insertar mapa > Copiar URL del iframe"
+        },
+        {
+          "type": "url",
+          "id": "directions_link",
+          "label": "Enlace para 'Cómo llegar'",
+          "info": "Enlace de Google Maps para direcciones. Ve a Google Maps > Compartir > Enlace corto"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto del botón",
+          "default": "Cómo llegar"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Store Locations Cards",
+      "category": "Store",
+      "blocks": [
+        {
+          "type": "location"
+        },
+        {
+          "type": "location"
+        },
+        {
+          "type": "location"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

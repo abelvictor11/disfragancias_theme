@@ -1,0 +1,458 @@
+/* Store Locations Cards Section */
+
+.store-locations-section {
+  position: relative;
+}
+
+/* Section Header */
+.store-locations-section .section-header {
+  margin-bottom: 40px;
+}
+
+.store-locations-section .section-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  color: var(--color-foreground-70);
+}
+
+.store-locations-section .section-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.store-locations-section .section-description {
+  font-size: 16px;
+  color: var(--color-foreground-70);
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.store-locations-section .section-header.text-center .section-description {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Store Locations Grid */
+.store-locations-grid {
+  display: grid;
+  gap: 30px;
+}
+
+/* Layout: 3 columns (default) */
+.store-locations-grid.layout-3-col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Layout: 2 columns */
+.store-locations-grid.layout-2-col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Layout: List */
+.store-locations-grid.layout-list {
+  grid-template-columns: 1fr;
+}
+
+.store-locations-grid.layout-list .store-location-card {
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+}
+
+.store-locations-grid.layout-list .store-image-wrapper {
+  width: 40%;
+  max-width: 400px;
+  flex-shrink: 0;
+}
+
+.store-locations-grid.layout-list .store-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Store Location Card */
+.store-location-card {
+  background-color: var(--card-bg, #ffffff);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.store-location-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Store Image */
+.store-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-background-1);
+}
+
+.store-image-container {
+  position: relative;
+  padding-bottom: 75%; /* 4:3 aspect ratio */
+  overflow: hidden;
+}
+
+.store-image-container img,
+.store-image-container .placeholder-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.store-location-card:hover .store-image-container img {
+  transform: scale(1.05);
+}
+
+.store-image-placeholder .placeholder-svg {
+  background-color: var(--color-background-2);
+  fill: var(--color-foreground-30);
+}
+
+/* Store Info */
+.store-info {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.store-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--color-foreground);
+  line-height: 1.3;
+}
+
+.store-details {
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.store-detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.store-detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.detail-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-link);
+  margin-top: 2px;
+}
+
+.detail-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.detail-content {
+  flex: 1;
+}
+
+.detail-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-foreground-70);
+  margin: 0;
+}
+
+/* Store Actions */
+.store-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.store-directions-btn,
+.store-view-map-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 120px;
+}
+
+.store-directions-btn {
+  background-color: var(--color-button-background);
+  color: var(--color-button-text);
+  border: none;
+}
+
+.store-directions-btn:hover {
+  background-color: var(--color-button-background-hover);
+  color: var(--color-button-text-hover);
+}
+
+.store-view-map-btn {
+  background-color: transparent;
+  color: var(--color-link);
+  border: 1px solid var(--color-link);
+}
+
+.store-view-map-btn:hover {
+  background-color: var(--color-link);
+  color: var(--color-background-1);
+}
+
+.btn-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* Map Modal */
+.store-map-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.store-map-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.store-map-modal-content {
+  position: relative;
+  background-color: var(--color-background-1);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 900px;
+  max-height: 80vh;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.store-map-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.store-map-modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  padding-right: 40px;
+}
+
+.store-map-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-foreground);
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.store-map-modal-close:hover {
+  background-color: var(--color-background-2);
+}
+
+.store-map-modal-close svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.store-map-modal-body {
+  padding: 0;
+  height: 500px;
+}
+
+.store-map-iframe-container {
+  width: 100%;
+  height: 100%;
+}
+
+.store-map-iframe-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Empty State */
+.store-locations-empty {
+  padding: 60px 20px;
+  color: var(--color-foreground-50);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .store-locations-grid.layout-3-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .store-locations-section .section-title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 767px) {
+  .store-locations-section .section-header {
+    margin-bottom: 30px;
+  }
+  
+  .store-locations-section .section-title {
+    font-size: 24px;
+  }
+  
+  .store-locations-section .section-description {
+    font-size: 14px;
+  }
+  
+  .store-locations-grid,
+  .store-locations-grid.layout-3-col,
+  .store-locations-grid.layout-2-col,
+  .store-locations-grid.layout-list {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .store-locations-grid.layout-list .store-location-card {
+    flex-direction: column;
+  }
+  
+  .store-locations-grid.layout-list .store-image-wrapper {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .store-info {
+    padding: 20px;
+  }
+  
+  .store-name {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  
+  .store-actions {
+    flex-direction: column;
+  }
+  
+  .store-directions-btn,
+  .store-view-map-btn {
+    width: 100%;
+    padding: 14px 20px;
+  }
+  
+  /* Mobile Modal */
+  .store-map-modal {
+    padding: 10px;
+  }
+  
+  .store-map-modal-content {
+    max-height: 90vh;
+    border-radius: 8px;
+  }
+  
+  .store-map-modal-header {
+    padding: 16px 20px;
+  }
+  
+  .store-map-modal-title {
+    font-size: 18px;
+  }
+  
+  .store-map-modal-body {
+    height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .store-locations-section .section-title {
+    font-size: 22px;
+  }
+  
+  .store-info {
+    padding: 16px;
+  }
+  
+  .store-detail-item {
+    gap: 10px;
+  }
+  
+  .detail-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .detail-text {
+    font-size: 13px;
+  }
+}
