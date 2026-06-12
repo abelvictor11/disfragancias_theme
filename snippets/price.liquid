@@ -30,12 +30,25 @@
     if target == product and product.price_varies
         assign money_price = 'products.product.price.from_price_html' | t: price: money_price
     endif
+
+    assign is_on_sale = false
+    if use_variant
+        if compare_at_price > price
+            assign is_on_sale = true
+        endif
+    else
+        assign first_variant = product.selected_or_first_available_variant
+        if first_variant.compare_at_price > first_variant.price
+            assign is_on_sale = true
+            assign compare_at_price = first_variant.compare_at_price
+        endif
+    endif
 -%}
 
 <div class="price
     {%- if price_class %} {{ price_class }}{% endif -%}
     {%- if available == false %} price--sold-out {% endif -%}
-    {%- if compare_at_price > price %} price--on-sale {% endif -%}
+    {%- if is_on_sale %} price--on-sale {% endif -%}
     {%- if product.price_varies == false and product.compare_at_price_varies %} price--no-compare{% endif -%}">
     <dl>
         {%- comment -%}
@@ -54,18 +67,17 @@
         </div>
         <div class="price__sale{% if settings.show_saved_price %} show_saved_price{% endif %}">
             {%- comment -%}
-                <dt class="price__compare">
-                    <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
-                </dt>
-            {%- endcomment -%}
-            
-            <dd class="price__compare" data-compare="{{compare_at_price}}"><s class="price-item price-item--regular">{% if settings.currency_format_enable %}{{ compare_at_price | money_with_currency }}{% else %}{{ compare_at_price | money }}{% endif %}</s></dd>
-            {%- comment -%}
                 <dt>
                     <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
                 </dt>
             {%- endcomment -%}
             <dd class="price__last{% if settings.show_price_percent %} price_percent{% endif %}" data-last="{{price}}"><span class="price-item price-item--sale">{{ money_price }}</span></dd>
+            {%- comment -%}
+                <dt class="price__compare">
+                    <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
+                </dt>
+            {%- endcomment -%}
+            <dd class="price__compare" data-compare="{{compare_at_price}}"><s class="price-item price-item--regular">{% if settings.currency_format_enable %}{{ compare_at_price | money_with_currency }}{% else %}{{ compare_at_price | money }}{% endif %}</s></dd>
             {%- if settings.show_saved_price and price != nil and price != blank and compare_at_price != nil and compare_at_price != blank -%}
                 {%- assign saved_price = compare_at_price | minus: price | money -%}
                 <div class="price__saved"><span class="price-item price-item--saved">{{'products.product.price.saved_price_html' | t: price: saved_price }}</span></div>
