@@ -1741,6 +1741,31 @@ quickshop-update-quantity.disabled {
     opacity: 0.5;
 }
 
+/* Quickshop Price */
+.quickshop-price {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.quickshop-price .price-item {
+    font-family: var(--product-price-font);
+    font-size: calc(var(--product-price-font-size) + 4px);
+    font-weight: var(--product-price-font-weight);
+    letter-spacing: var(--product-price-letter-spacing);
+    line-height: var(--product-price-line-height);
+}
+
+.quickshop-price .price-item--sale {
+    color: var(--product-sale-price-color);
+    margin-right: 8px;
+}
+
+.quickshop-price .price-item--compare {
+    color: var(--product-compare-price-color);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--product-price-font-size);
+}
+
 /* Hover Swap Image */
 .card-product:hover .card-media.media--hover-effect>img:first-child:not(:only-child) {
     opacity: 0;

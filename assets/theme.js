@@ -2558,7 +2558,18 @@
                 productInput.val(selectedVariant.id);
                 var value = $target.val();
                
-
+                // Update quickshop price display
+                var quickshopPrice = product.find('[data-quickshop-price]');
+                if (quickshopPrice.length > 0) {
+                    var priceHtml = '';
+                    if (selectedVariant.compare_at_price && selectedVariant.compare_at_price > selectedVariant.price) {
+                        priceHtml = '<span class="price-item price-item--sale">' + Shopify.formatMoney(selectedVariant.price, window.money_format) + '</span>';
+                        priceHtml += '<s class="price-item price-item--compare">' + Shopify.formatMoney(selectedVariant.compare_at_price, window.money_format) + '</s>';
+                    } else {
+                        priceHtml = '<span class="price-item">' + Shopify.formatMoney(selectedVariant.price, window.money_format) + '</span>';
+                    }
+                    quickshopPrice.find('[data-quickshop-price-current]').html(priceHtml);
+                }
                 
                 $target.parents('.selector-wrapper').find('.form-label span').text(value);
                 if (selectedVariant.available) {
