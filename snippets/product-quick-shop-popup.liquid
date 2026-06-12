@@ -115,6 +115,19 @@
                 {%- endif -%}
             {% endfor %}
         </select>
+        
+        {%- assign current_variant = product.selected_or_first_available_variant -%}
+        <div class="quickshop-price" data-quickshop-price>
+            <span class="quickshop-price__current" data-quickshop-price-current>
+                {%- if current_variant.compare_at_price > current_variant.price -%}
+                    <span class="price-item price-item--sale">{{ current_variant.price | money }}</span>
+                    <s class="price-item price-item--compare">{{ current_variant.compare_at_price | money }}</s>
+                {%- else -%}
+                    <span class="price-item">{{ current_variant.price | money }}</span>
+                {%- endif -%}
+            </span>
+        </div>
+        
         <label class="form-label label-quantity-2">{{ 'products.product.quantity.label_1' | t }}</label>
         <quickshop-update-quantity class="previewCartItem-qty quickshop-quantity">
             <button type="button" name="minus" data-minus-quantity-quickshop class="minus btn-quantity"></button>
