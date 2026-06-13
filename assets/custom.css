@@ -142,11 +142,25 @@ a.btn-aromas{
     height: 40px;
     background: #FEBC6E;
     border-radius: 40px;
- padding: 10px;
+    padding: 10px;
     position: relative;
     float: right;
     bottom: 20px;
-  text-align: center;
+    text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+    a.btn-aromas {
+        width: 30px;
+        height: 30px;
+        padding: 2px;
+        align-items: center;
+        align-content: center;
+    }
+    .spotlight-block .content_absolute .content.align-items--bottom {
+        bottom: 10px !important;
+        overflow: visible;
+    }
 }
 .productView-thumbnail {
     border: 1px solid #e5e5e5;
