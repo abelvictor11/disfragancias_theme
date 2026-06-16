@@ -1766,6 +1766,13 @@ quickshop-update-quantity.disabled {
     font-size: var(--product-price-font-size);
 }
 
+/* Variant buttons with price */
+.single-label--with-price {
+    min-width: auto !important;
+    padding: 0 12px !important;
+    white-space: nowrap;
+}
+
 /* Hover Swap Image */
 .card-product:hover .card-media.media--hover-effect>img:first-child:not(:only-child) {
     opacity: 0;
