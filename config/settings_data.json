@@ -934,6 +934,66 @@
         }
       }
     },
-    "content_for_index": []
+    "content_for_index": [],
+    "blocks": {
+      "2200952712151285029": {
+        "type": "shopify://apps/microsoft-clarity/blocks/brandAgents_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      },
+      "2567389343055140935": {
+        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      },
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      },
+      "8837987693456358955": {
+        "type": "shopify://apps/google-reviews/blocks/sticky-compact-widget-block_embedded/8b378e9e-c56d-47ce-a754-feca5e0caf59",
+        "disabled": false,
+        "settings": {
+          "contentIndex": "1",
+          "variant": "rating",
+          "customContentIndex": 31,
+          "font": "default",
+          "themeId": "light",
+          "ratingType": "stars",
+          "emojiType": "0",
+          "cardColor": "#F3F6F9",
+          "starsColor": "#FBB000",
+          "textColor": "#404040",
+          "transparent": 1,
+          "solidShadow": false,
+          "verticalPositionId": "bottom",
+          "horizontalPositionId": "right",
+          "minimize": false,
+          "delay": 5,
+          "trustText": "Our customers have rated us"
+        }
+      },
+      "5190533890702845989": {
+        "type": "shopify://apps/google-reviews/blocks/sticky-compact-slider-widget-block_embedded/8b378e9e-c56d-47ce-a754-feca5e0caf59",
+        "disabled": false,
+        "settings": {
+          "contentIndex": "1",
+          "customContentIndex": 31,
+          "font": "default",
+          "themeId": "light",
+          "ratingType": "stars",
+          "emojiType": "0",
+          "cardColor": "#F3F6F9",
+          "starsColor": "#FBB000",
+          "textColor": "#404040",
+          "transparent": 1,
+          "solidShadow": false,
+          "verticalPositionId": "bottom",
+          "horizontalPositionId": "right",
+          "delay": 5
+        }
+      }
+    }
   }
 }
