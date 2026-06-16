@@ -953,7 +953,7 @@
       },
       "8837987693456358955": {
         "type": "shopify://apps/google-reviews/blocks/sticky-compact-widget-block_embedded/8b378e9e-c56d-47ce-a754-feca5e0caf59",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "contentIndex": "1",
           "variant": "rating",
@@ -976,7 +976,7 @@
       },
       "5190533890702845989": {
         "type": "shopify://apps/google-reviews/blocks/sticky-compact-slider-widget-block_embedded/8b378e9e-c56d-47ce-a754-feca5e0caf59",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "contentIndex": "1",
           "customContentIndex": 31,
