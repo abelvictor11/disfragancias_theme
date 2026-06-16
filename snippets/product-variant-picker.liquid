@@ -109,9 +109,10 @@
                                                 </span>
                                             {% endif %}
                                         </label>
-                                    {%- else -%}   
-                                        <label class="product-form__label {{ option_stock }}" for="option-{{ product.id }}-{{ option.name }}-{{ forloop.index0 }}-{{ section.id }}" data-variant-id="{{ variant.id }}">
-                                            <span class="text">{{ value }}</span>
+                                    {%- else -%}
+                                        {%- assign variant_price = variant.price | money -%}
+                                        <label class="product-form__label {{ option_stock }}" for="option-{{ product.id }}-{{ option.name }}-{{ forloop.index0 }}-{{ section.id }}" data-variant-id="{{ variant.id }}" data-variant-price="{{ variant.price }}">
+                                            <span class="text">{{ value }} - {{ variant_price }}</span>
                                         </label>
                                     {%- endif -%}
                                 {%- endunless -%}
