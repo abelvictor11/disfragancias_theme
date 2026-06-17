@@ -993,6 +993,11 @@
           "horizontalPositionId": "right",
           "delay": 5
         }
+      },
+      "11175655759228028154": {
+        "type": "shopify://apps/essential-a-b-testing/blocks/ab-testing/0154ac6b-7b9c-4958-8219-ed5b06e6d463",
+        "disabled": false,
+        "settings": {}
       }
     }
   }
