@@ -2498,6 +2498,75 @@
         "include_margins": false
       }
     },
+    "store_locations_cards_Lw3hzD": {
+      "type": "store-locations-cards",
+      "blocks": {
+        "location_pUcdzL": {
+          "type": "location",
+          "settings": {
+            "store_name": "Disfragancias C.C Gran Plaza",
+            "store_image": "shopify://shop_images/plaza.webp",
+            "store_address": "C.C Gran Plaza, Cl. 45 #53 -50 Piso 11 oficina 1101, La Candelaria, Medellín, La Candelaria",
+            "store_city": "Medellín, Antioquia",
+            "store_phone": "+57 324 4285126",
+            "store_hours": "Lun a sáb de 9:30 AM - 6:30 PM | Dom. y fest. CERRADO",
+            "map_link": "",
+            "directions_link": "https://maps.app.goo.gl/5aDqeb6kgcYKHRJy5",
+            "button_text": "Cómo llegar"
+          }
+        },
+        "location_4dbCQU": {
+          "type": "location",
+          "settings": {
+            "store_name": "Disfragancias Oviedo",
+            "store_image": "shopify://shop_images/oviedo.webp",
+            "store_address": "Cra. 43A #6s-15 Local 2300, El Poblado, Medellín, El Poblado",
+            "store_city": "Medellín, Antioquia",
+            "store_phone": "+57 324 4285126",
+            "store_hours": "Lun a sáb. de 10:00 AM - 8:00 PM | Dom. y fest. 11:00 AM - 8:00 PM",
+            "map_link": "",
+            "directions_link": "https://maps.app.goo.gl/xLxEx3GgAUQByWYCA",
+            "button_text": "Cómo llegar"
+          }
+        },
+        "location_MEgNHN": {
+          "type": "location",
+          "settings": {
+            "store_name": "Disfragancias Bogotá",
+            "store_image": "shopify://shop_images/bogota.webp",
+            "store_address": "Gran Estación II Shopping Mall, Local 314",
+            "store_city": "Bogotá",
+            "store_phone": "+57 324 4285126",
+            "store_hours": "Lun. a sáb. de 10:00 AM - 8:00 PM | Dom. y fest. 11:00 AM - 8:00 PM",
+            "map_link": "",
+            "directions_link": "https://maps.app.goo.gl/pfx7TiEddQJy9Tbq6",
+            "button_text": "Cómo llegar"
+          }
+        }
+      },
+      "block_order": [
+        "location_pUcdzL",
+        "location_4dbCQU",
+        "location_MEgNHN"
+      ],
+      "name": "Store Locations Cards",
+      "settings": {
+        "subtitle": "Visítanos",
+        "title": "Nuestras Ubicaciones",
+        "description": "Encuentra tu tienda más cercana y visita nuestras instalaciones.",
+        "title_alignment": "center",
+        "container": "container",
+        "cards_layout": "3-col",
+        "card_background": "#ffffff",
+        "enable_map_preview": true,
+        "color_scheme": "",
+        "title_color": "",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    },
     "featured_blog_PG6jib": {
       "type": "featured-blog",
       "settings": {
@@ -2574,75 +2643,6 @@
         "content_on_image": true,
         "content_bg": "",
         "content_gradient": ""
-      }
-    },
-    "store_locations_cards_Lw3hzD": {
-      "type": "store-locations-cards",
-      "blocks": {
-        "location_pUcdzL": {
-          "type": "location",
-          "settings": {
-            "store_name": "Disfragancias C.C Gran Plaza",
-            "store_image": "shopify://shop_images/plaza.webp",
-            "store_address": "C.C Gran Plaza, Cl. 45 #53 -50 Piso 11 oficina 1101, La Candelaria, Medellín, La Candelaria",
-            "store_city": "Medellín, Antioquia",
-            "store_phone": "+57 324 4285126",
-            "store_hours": "Lun a sáb de 9:30 AM - 6:30 PM | Dom. y fest. CERRADO",
-            "map_link": "",
-            "directions_link": "https://maps.app.goo.gl/5aDqeb6kgcYKHRJy5",
-            "button_text": "Cómo llegar"
-          }
-        },
-        "location_4dbCQU": {
-          "type": "location",
-          "settings": {
-            "store_name": "Disfragancias Oviedo",
-            "store_image": "shopify://shop_images/oviedo.webp",
-            "store_address": "Cra. 43A #6s-15 Local 2300, El Poblado, Medellín, El Poblado",
-            "store_city": "Medellín, Antioquia",
-            "store_phone": "+57 324 4285126",
-            "store_hours": "Lun a sáb. de 10:00 AM - 8:00 PM | Dom. y fest. 11:00 AM - 8:00 PM",
-            "map_link": "",
-            "directions_link": "https://maps.app.goo.gl/xLxEx3GgAUQByWYCA",
-            "button_text": "Cómo llegar"
-          }
-        },
-        "location_MEgNHN": {
-          "type": "location",
-          "settings": {
-            "store_name": "Disfragancias Bogotá",
-            "store_image": "shopify://shop_images/bogota.webp",
-            "store_address": "Gran Estación II Shopping Mall, Local 314",
-            "store_city": "Bogotá",
-            "store_phone": "+57 324 4285126",
-            "store_hours": "Lun. a sáb. de 10:00 AM - 8:00 PM | Dom. y fest. 11:00 AM - 8:00 PM",
-            "map_link": "",
-            "directions_link": "https://maps.app.goo.gl/pfx7TiEddQJy9Tbq6",
-            "button_text": "Cómo llegar"
-          }
-        }
-      },
-      "block_order": [
-        "location_pUcdzL",
-        "location_4dbCQU",
-        "location_MEgNHN"
-      ],
-      "name": "Store Locations Cards",
-      "settings": {
-        "subtitle": "Visítanos",
-        "title": "Nuestras Ubicaciones",
-        "description": "Encuentra tu tienda más cercana y visita nuestras instalaciones.",
-        "title_alignment": "center",
-        "container": "container",
-        "cards_layout": "3-col",
-        "card_background": "#ffffff",
-        "enable_map_preview": true,
-        "color_scheme": "",
-        "title_color": "",
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40
       }
     },
     "custom_service_block_Vmx8rT": {
@@ -2905,6 +2905,55 @@
         "button_2_background_hover_block_bottom": "#232323",
         "button_2_background_gradient_hover_block_bottom": ""
       }
+    },
+    "rich_text_pqfMQr": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_xF3fpj": {
+          "type": "heading",
+          "settings": {
+            "heading": "La perfumería original más completa de Colombia",
+            "heading_size": 30,
+            "heading_size_mb": 30,
+            "heading_line_height": 1,
+            "heading_color": "#000"
+          }
+        },
+        "text_jyEyqT": {
+          "type": "text",
+          "settings": {
+            "text": "<p>En Disfragancias llevamos más de 40 años como la perfumería original más completa de Colombia. Más de 2.900 fragancias de diseñador, nicho y árabe — de Valentino, Armani, Lattafa, Creed, Le Labo y 200 marcas más — en botella completa y en decants originales de 5 y 10 ml. Envíos a todo el país desde Medellín.</p>",
+            "text_size": 16,
+            "text_size_mb": 12,
+            "text_line_height": 1,
+            "margin_top_text": 20,
+            "text_color": "#000",
+            "text_width": "800px"
+          }
+        }
+      },
+      "block_order": [
+        "heading_xF3fpj",
+        "text_jyEyqT"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "container": "container",
+        "padding_full_width": 0,
+        "enable_border_top": false,
+        "enable_border_bottom": false,
+        "color_border_bottom": "#e8e8e8",
+        "mg_top_desktop": 50,
+        "mg_top_tablet": 50,
+        "mg_top_mobile": 50,
+        "mg_bottom_desktop": 50,
+        "mg_bottom_tablet": 50,
+        "mg_bottom_mobile": 50,
+        "rich_text_bg": "#fff",
+        "rich_text_bg_gradient": "",
+        "enable_column": false,
+        "content_align": "center"
+      }
     }
   },
   "order": [
@@ -2922,8 +2971,9 @@
     "custom_press_banner_ykPirE",
     "rich_text_XjCErd",
     "1724702923b83c8e24",
-    "featured_blog_PG6jib",
     "store_locations_cards_Lw3hzD",
-    "custom_service_block_Vmx8rT"
+    "featured_blog_PG6jib",
+    "custom_service_block_Vmx8rT",
+    "rich_text_pqfMQr"
   ]
 }
