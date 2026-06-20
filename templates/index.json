@@ -2576,33 +2576,73 @@
         "content_gradient": ""
       }
     },
-    "google_map_HjXaye": {
-      "type": "google-map",
+    "store_locations_cards_Lw3hzD": {
+      "type": "store-locations-cards",
+      "blocks": {
+        "location_pUcdzL": {
+          "type": "location",
+          "settings": {
+            "store_name": "Disfragancias C.C Gran Plaza",
+            "store_image": "shopify://shop_images/plaza.webp",
+            "store_address": "C.C Gran Plaza, Cl. 45 #53 -50 Piso 11 oficina 1101, La Candelaria, Medellín, La Candelaria",
+            "store_city": "Medellín, Antioquia",
+            "store_phone": "+57 324 4285126",
+            "store_hours": "Lun a sáb de 9:30 AM - 6:30 PM | Dom. y fest. CERRADO",
+            "map_link": "",
+            "directions_link": "https://maps.app.goo.gl/5aDqeb6kgcYKHRJy5",
+            "button_text": "Cómo llegar"
+          }
+        },
+        "location_4dbCQU": {
+          "type": "location",
+          "settings": {
+            "store_name": "Disfragancias Oviedo",
+            "store_image": "shopify://shop_images/oviedo.webp",
+            "store_address": "Cra. 43A #6s-15 Local 2300, El Poblado, Medellín, El Poblado",
+            "store_city": "Medellín, Antioquia",
+            "store_phone": "+57 324 4285126",
+            "store_hours": "Lun a sáb. de 10:00 AM - 8:00 PM | Dom. y fest. 11:00 AM - 8:00 PM",
+            "map_link": "",
+            "directions_link": "https://maps.app.goo.gl/xLxEx3GgAUQByWYCA",
+            "button_text": "Cómo llegar"
+          }
+        },
+        "location_MEgNHN": {
+          "type": "location",
+          "settings": {
+            "store_name": "Disfragancias Bogotá",
+            "store_image": "shopify://shop_images/bogota.webp",
+            "store_address": "Gran Estación II Shopping Mall, Local 314",
+            "store_city": "Bogotá",
+            "store_phone": "+57 324 4285126",
+            "store_hours": "Lun. a sáb. de 10:00 AM - 8:00 PM | Dom. y fest. 11:00 AM - 8:00 PM",
+            "map_link": "",
+            "directions_link": "https://maps.app.goo.gl/pfx7TiEddQJy9Tbq6",
+            "button_text": "Cómo llegar"
+          }
+        }
+      },
+      "block_order": [
+        "location_pUcdzL",
+        "location_4dbCQU",
+        "location_MEgNHN"
+      ],
+      "name": "Store Locations Cards",
       "settings": {
-        "show_custom_map": true,
-        "container": "fullwidth",
-        "mg_top_desktop": 50,
-        "mg_top_tablet": 50,
-        "mg_top_mobile": 50,
-        "mg_bottom_desktop": 50,
-        "mg_bottom_tablet": 50,
-        "mg_bottom_mobile": 50,
-        "block_title": "Ubicación de las tiendas físicas",
-        "block_text": "",
-        "block_align": "center",
-        "block_max_width": 500,
-        "btn_text": "",
-        "btn_text_color": "",
-        "btn_border_color": "",
-        "btn_bg_color": "",
-        "btn_bg_color_gradient": "",
-        "btn_text_color_hover": "",
-        "btn_border_color_hover": "",
-        "btn_bg_color_hover": "",
-        "btn_bg_color_hover_gradient": "",
-        "btn_max_width": 205,
-        "btn_link": "",
-        "block_content": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4002.6409104957806!2d-75.57824358943951!3d6.199162826821501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4683dc357c0011%3A0x7a83c1072de7a6a6!2sDisfragancias%20Oviedo!5e1!3m2!1sen!2sco!4v1760583921275!5m2!1sen!2sco\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
+        "subtitle": "Visítanos",
+        "title": "Nuestras Ubicaciones",
+        "description": "Encuentra tu tienda más cercana y visita nuestras instalaciones.",
+        "title_alignment": "center",
+        "container": "container",
+        "cards_layout": "3-col",
+        "card_background": "#ffffff",
+        "enable_map_preview": true,
+        "color_scheme": "",
+        "title_color": "",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
       }
     },
     "custom_service_block_Vmx8rT": {
@@ -2883,7 +2923,7 @@
     "rich_text_XjCErd",
     "1724702923b83c8e24",
     "featured_blog_PG6jib",
-    "google_map_HjXaye",
+    "store_locations_cards_Lw3hzD",
     "custom_service_block_Vmx8rT"
   ]
 }
