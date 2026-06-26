@@ -1027,6 +1027,11 @@
           "distance_right": 30,
           "distance_bottom": 30
         }
+      },
+      "10717172801598694508": {
+        "type": "shopify://apps/wizybot-chatgpt-chatbot/blocks/chat_extension/342307e8-9005-417d-81a8-9b6fe426c2e2",
+        "disabled": false,
+        "settings": {}
       }
     }
   }
