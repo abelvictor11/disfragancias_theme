@@ -1,10 +1,19 @@
 {%- liquid
     assign position = settings.badge_postion
 
+    # En las cards (class contiene 'card') no hay selección de variante:
+    # el badge debe mostrarse si CUALQUIER variante está en oferta.
+    # En PDP / quick-view (productView-badge) el badge refleja la variante
+    # seleccionada y se actualiza por JS (updateBadgeSale).
+    assign is_card = false
+    if class contains 'card'
+        assign is_card = true
+    endif
+
     if settings.show_sale_badge
         assign sale_badge = false
         assign sale_badge_type = settings.sale_badge_type
-        if badge_detail
+        if badge_detail and is_card == false
             assign current_variant = product.selected_or_first_available_variant
             if current_variant.compare_at_price > current_variant.price
                 assign sale_badge = true
@@ -93,7 +102,7 @@
         {%- if sale_badge -%}
             <span class="badge sale-badge" aria-hidden="true">
                 {%- if sale_badge_type == 'discount' -%}
-                    {%- if badge_detail -%}
+                    {%- if badge_detail and is_card == false -%}
                         -{{ current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round }}%
                     {%- else -%}
                         {% liquid 
@@ -113,7 +122,7 @@
                     {%- endif -%}
                 {%- elsif sale_badge_type == 'text_discount' -%}
                     {{ 'products.product.on_sale' | t }}
-                    {%- if badge_detail -%}
+                    {%- if badge_detail and is_card == false -%}
                         {{ current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round }}%
                     {%- else -%}
                         {% liquid 
