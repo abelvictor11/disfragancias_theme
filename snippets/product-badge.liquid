@@ -10,9 +10,12 @@
                 assign sale_badge = true
             endif
         else
-            if product.compare_at_price_min > product.price_min
-                assign sale_badge = true
-            endif
+            for variant in product.variants
+                if variant.compare_at_price > variant.price
+                    assign sale_badge = true
+                    break
+                endif
+            endfor
         endif
     endif
 
