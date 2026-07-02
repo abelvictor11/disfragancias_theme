@@ -33,7 +33,14 @@
                                 assign variants_option1_arr = product.variants | map: 'option1'
                                 assign variants_option2_arr = product.variants | map: 'option2'
                                 assign variants_option3_arr = product.variants | map: 'option3'
+                                assign use_cards = false
+                                unless is_swatch
+                                    if product.options_with_values.size == 1
+                                        assign use_cards = true
+                                    endif
+                                endunless
                             -%}
+                            {%- if use_cards -%}<div class="product-form__cards-track">{%- endif -%}
                             {%- for variant in product.variants -%}
                                 {%- assign value = variant.options[option_index] -%}
                                 {%- unless values contains value -%}
@@ -151,6 +158,7 @@
                                     {%- endif -%}
                                 {%- endunless -%}
                             {%- endfor -%}
+                            {%- if use_cards -%}</div>{%- endif -%}
                         </fieldset>
                     {%- endfor -%}
                     <script type="application/json">
