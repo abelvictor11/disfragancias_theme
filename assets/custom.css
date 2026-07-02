@@ -1020,9 +1020,23 @@ span.badge.custom-metafield-badge {
   text-transform: none;
 }
 .product-form__card .product-form__card-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
   font-size: calc(var(--font-body-size, 14px) + 1px);
   font-weight: var(--font-weight-bold, 700);
   color: var(--product-price-color, #232323);
+}
+.product-form__card .product-form__card-compare {
+  font-size: calc(var(--font-body-size, 14px) - 1px);
+  font-weight: var(--font-weight-normal, 400);
+  color: var(--product-regular-price-color, #999);
+  text-decoration: line-through;
+}
+.product-form__card-price--sale .product-form__card-final {
+  color: var(--product-sale-price-color, #d02b2b);
 }
 .product-form__card .product-form__card-stock {
   font-size: calc(var(--font-body-size, 14px) - 2px);

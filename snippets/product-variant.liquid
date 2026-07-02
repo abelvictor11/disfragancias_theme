@@ -122,6 +122,11 @@
                                                 else
                                                     assign stock_text = 'products.product.out_of_stock' | t
                                                 endif
+                                                assign variant_on_sale = false
+                                                if variant.compare_at_price > variant.price
+                                                    assign variant_on_sale = true
+                                                    assign variant_compare_price = variant.compare_at_price | money
+                                                endif
                                             -%}
                                             <label class="product-form__label product-form__card {{ option_stock }}" for="option-{{ product.id }}-{{ option.name }}-{{ forloop.index0 }}" data-variant-id="{{ variant.id }}" data-variant-price="{{ variant.price }}">
                                                 <span class="product-form__card-media">
@@ -130,7 +135,12 @@
                                                     {%- endif -%}
                                                 </span>
                                                 <span class="product-form__card-title">{{ value }}</span>
-                                                <span class="product-form__card-price">{{ variant_price }}</span>
+                                                <span class="product-form__card-price{% if variant_on_sale %} product-form__card-price--sale{% endif %}">
+                                                    {%- if variant_on_sale -%}
+                                                        <s class="product-form__card-compare">{{ variant_compare_price }}</s>
+                                                    {%- endif -%}
+                                                    <span class="product-form__card-final">{{ variant_price }}</span>
+                                                </span>
                                                 <span class="product-form__card-stock product-form__card-stock--{{ option_stock }}">{{ stock_text }}</span>
                                             </label>
                                         {%- else -%}
