@@ -20,7 +20,7 @@
                             assign swatch_type = settings.swatch_type
                             assign option_index = forloop.index0
                         -%}
-                        <fieldset class="js product-form__input{% if is_swatch %} product-form__swatch{% endif %} clearfix" data-product-attribute="set-rectangle" data-option-index="{{ forloop.index0 }}">
+                        <fieldset class="js product-form__input{% if is_swatch %} product-form__swatch{% endif %}{% unless is_swatch %}{% if product.options_with_values.size == 1 %} product-form__has-cards{% endif %}{% endunless %} clearfix" data-product-attribute="set-rectangle" data-option-index="{{ forloop.index0 }}">
                             <legend class="form__label">
                                 {{ option.name | append: ':' }}
                                 <span data-header-option>
@@ -114,9 +114,30 @@
                                         </label>
                                     {%- else -%}
                                         {%- assign variant_price = variant.price | money -%}
-                                        <label class="product-form__label {{ option_stock }}" for="option-{{ product.id }}-{{ option.name }}-{{ forloop.index0 }}" data-variant-id="{{ variant.id }}" data-variant-price="{{ variant.price }}">
-                                            <span class="text">{{ value }} - {{ variant_price }}</span>
-                                        </label>
+                                        {%- if product.options_with_values.size == 1 -%}
+                                            {%- liquid
+                                                assign card_img = variant.image | default: product.featured_image
+                                                if option_stock == 'available'
+                                                    assign stock_text = 'products.product.in_stock' | t
+                                                else
+                                                    assign stock_text = 'products.product.out_of_stock' | t
+                                                endif
+                                            -%}
+                                            <label class="product-form__label product-form__card {{ option_stock }}" for="option-{{ product.id }}-{{ option.name }}-{{ forloop.index0 }}" data-variant-id="{{ variant.id }}" data-variant-price="{{ variant.price }}">
+                                                <span class="product-form__card-media">
+                                                    {%- if card_img -%}
+                                                        <img src="{{ card_img | image_url: width: 160 }}" srcset="{{ card_img | image_url: width: 160 }} 1x, {{ card_img | image_url: width: 320 }} 2x" width="80" height="80" loading="lazy" alt="{{ value | escape }}">
+                                                    {%- endif -%}
+                                                </span>
+                                                <span class="product-form__card-title">{{ value }}</span>
+                                                <span class="product-form__card-price">{{ variant_price }}</span>
+                                                <span class="product-form__card-stock product-form__card-stock--{{ option_stock }}">{{ stock_text }}</span>
+                                            </label>
+                                        {%- else -%}
+                                            <label class="product-form__label {{ option_stock }}" for="option-{{ product.id }}-{{ option.name }}-{{ forloop.index0 }}" data-variant-id="{{ variant.id }}" data-variant-price="{{ variant.price }}">
+                                                <span class="text">{{ value }} - {{ variant_price }}</span>
+                                            </label>
+                                        {%- endif -%}
                                     {%- endif -%}
                                 {%- endunless -%}
                             {%- endfor -%}
