@@ -979,6 +979,10 @@ span.badge.custom-metafield-badge {
   grid-column: 1 / -1;
   margin-bottom: 2px;
 }
+/* En desktop el track es transparente: las cards son items del grid */
+.product-form__cards-track {
+  display: contents;
+}
 .product-form__label.product-form__card {
   display: flex;
   flex-direction: column;
@@ -1067,4 +1071,32 @@ span.badge.custom-metafield-badge {
 }
 .product-form__card.unavailable {
   display: none;
+}
+
+/* Mobile: carrusel horizontal con 2.5 cards visibles */
+@media (max-width: 767px) {
+  .product-form__has-cards {
+    display: block;
+  }
+  .product-form__has-cards .form__label {
+    margin-bottom: 8px;
+  }
+  .product-form__cards-track {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .product-form__cards-track::-webkit-scrollbar {
+    display: none;
+  }
+  /* 2.5 cards visibles (descontando los 2 gaps del área visible) */
+  .product-form__cards-track .product-form__label.product-form__card {
+    flex: 0 0 calc((100% - 20px) / 2.5);
+    scroll-snap-align: start;
+  }
 }
