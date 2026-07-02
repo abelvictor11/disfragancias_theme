@@ -974,6 +974,9 @@ span.badge.custom-metafield-badge {
   border: 0;
   padding: 0;
   margin: 0;
+  /* fieldset tiene min-width:min-content por defecto -> desborda el carrusel */
+  min-width: 0;
+  max-width: 100%;
 }
 .product-form__has-cards .form__label {
   grid-column: 1 / -1;
@@ -1084,6 +1087,9 @@ span.badge.custom-metafield-badge {
   .product-form__cards-track {
     display: flex;
     flex-wrap: nowrap;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
