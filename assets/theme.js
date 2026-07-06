@@ -6122,7 +6122,6 @@
                             form.submit();
                         } else {
                             halo.expressAjaxAddToCart(variant_id, quantity, self, form);
-                            form.next('.feedback-text').show();
                         }
                     }
                     else {
@@ -6150,7 +6149,6 @@
                     window.setTimeout(function() {
                         cartBtn.text(window.inventory_text.thank_you);
                         cartBtn.addClass('add_more');
-                        form.next('.feedback-text').text(window.inventory_text.cart_feedback).addClass('is-added');
                     }, 600);
                     window.setTimeout(function() {
                         cartBtn.text(window.inventory_text.add_more + "...");
