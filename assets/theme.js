@@ -15,6 +15,10 @@
 
         halo.ready();
 
+        // Exponer halo globalmente para que otros scripts (global.js) puedan
+        // abrir/actualizar el sidebar cart.
+        window.halo = halo;
+
         // Hook de la app USF (cards de colección/búsqueda): al agregar desde
         // esas cards, abrir el sidebar cart del tema en vez de solo marcar el
         // botón. usf.js invoca window._usfOnAddToCartSuccess si existe.
