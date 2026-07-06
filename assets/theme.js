@@ -3510,9 +3510,14 @@
                     productId = $target.attr('data-cart-remove-id'),
                     text = $('#cart-gift-wrapping').attr('data-add-text'),
                     productLine = $target.data('line'),
-                    index = $target.data('index');
+                    index = $target.data('index'),
+                    $cartItem = $target.closest('li, .cart-item, .previewCartItem');
 
                 $('#cart-gift-wrapping').text(text);
+
+                if ($cartItem.length) {
+                    $cartItem.css('opacity', '0.5').css('pointer-events', 'none');
+                }
 
                 Shopify.removeItem(productLine, index, (cart) => {
                     if($body.hasClass('template-cart')){
@@ -3521,7 +3526,10 @@
                         // halo.updateDropdownCart(cart);
                     } else if($body.hasClass('cart-sidebar-show')) {
                         halo.updateSidebarCart(cart);
+                    } else {
+                        halo.updateSidebarCart(cart);
                     }
+                    $body.find('[data-cart-count]').text(cart.item_count);
                 });
             });
         },
