@@ -397,6 +397,25 @@ Shopify.onError = function(XMLHttpRequest, textStatus, message) {
     }
 }
 
+// Shopify inyecta themes_support/api.jquery.js al final del body, que
+// SOBRESCRIBE estas funciones con versiones legacy: addItem con otra firma
+// (rompe callbacks -> spinner infinito, carrito sin actualizar) y
+// onItemAdded/onCartUpdate con alert() nativos. Se bloquean las versiones
+// del tema para que ese script no pueda reemplazarlas, sin importar el
+// orden de carga.
+(function () {
+    ['getCart', 'onCartUpdate', 'changeItem', 'removeItem', 'addItem', 'onItemAdded', 'onError'].forEach(function (fn) {
+        var impl = Shopify[fn];
+        try {
+            Object.defineProperty(Shopify, fn, {
+                get: function () { return impl; },
+                set: function () { /* ignorar sobrescritura de api.jquery.js */ },
+                configurable: false
+            });
+        } catch (e) { /* noop */ }
+    });
+})();
+
 class MenuDrawer extends HTMLElement {
     constructor() {
         super();
