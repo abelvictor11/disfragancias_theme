@@ -14,9 +14,21 @@
         });
 
         halo.ready();
+
+        // Hook de la app USF (cards de colección/búsqueda): al agregar desde
+        // esas cards, abrir el sidebar cart del tema en vez de solo marcar el
+        // botón. usf.js invoca window._usfOnAddToCartSuccess si existe.
+        window._usfOnAddToCartSuccess = function(item, formElement) {
+            Shopify.getCart(function(cart) {
+                $body.addClass('cart-sidebar-show');
+                halo.updateSidebarCart(cart);
+                $body.find('[data-cart-count]').text(cart.item_count);
+                $('.background-overlay').removeClass('hold');
+            });
+        };
     });
 
-    window.onload = function() { 
+    window.onload = function() {
         halo.init();
     }
 
@@ -3510,9 +3522,14 @@
                     productId = $target.attr('data-cart-remove-id'),
                     text = $('#cart-gift-wrapping').attr('data-add-text'),
                     productLine = $target.data('line'),
-                    index = $target.data('index');
+                    index = $target.data('index'),
+                    $cartItem = $target.closest('li, .cart-item, .previewCartItem');
 
                 $('#cart-gift-wrapping').text(text);
+
+                if ($cartItem.length) {
+                    $cartItem.css('opacity', '0.5').css('pointer-events', 'none');
+                }
 
                 Shopify.removeItem(productLine, index, (cart) => {
                     if($body.hasClass('template-cart')){
@@ -3521,7 +3538,10 @@
                         // halo.updateDropdownCart(cart);
                     } else if($body.hasClass('cart-sidebar-show')) {
                         halo.updateSidebarCart(cart);
+                    } else {
+                        halo.updateSidebarCart(cart);
                     }
+                    $body.find('[data-cart-count]').text(cart.item_count);
                 });
             });
         },
@@ -6114,7 +6134,6 @@
                             form.submit();
                         } else {
                             halo.expressAjaxAddToCart(variant_id, quantity, self, form);
-                            form.next('.feedback-text').show();
                         }
                     }
                     else {
@@ -6142,7 +6161,6 @@
                     window.setTimeout(function() {
                         cartBtn.text(window.inventory_text.thank_you);
                         cartBtn.addClass('add_more');
-                        form.next('.feedback-text').text(window.inventory_text.cart_feedback).addClass('is-added');
                     }, 600);
                     window.setTimeout(function() {
                         cartBtn.text(window.inventory_text.add_more + "...");
