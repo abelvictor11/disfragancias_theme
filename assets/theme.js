@@ -14,9 +14,21 @@
         });
 
         halo.ready();
+
+        // Hook de la app USF (cards de colección/búsqueda): al agregar desde
+        // esas cards, abrir el sidebar cart del tema en vez de solo marcar el
+        // botón. usf.js invoca window._usfOnAddToCartSuccess si existe.
+        window._usfOnAddToCartSuccess = function(item, formElement) {
+            Shopify.getCart(function(cart) {
+                $body.addClass('cart-sidebar-show');
+                halo.updateSidebarCart(cart);
+                $body.find('[data-cart-count]').text(cart.item_count);
+                $('.background-overlay').removeClass('hold');
+            });
+        };
     });
 
-    window.onload = function() { 
+    window.onload = function() {
         halo.init();
     }
 
