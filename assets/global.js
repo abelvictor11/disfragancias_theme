@@ -399,21 +399,33 @@ Shopify.onError = function(XMLHttpRequest, textStatus, message) {
 
 // Shopify inyecta themes_support/api.jquery.js al final del body, que
 // SOBRESCRIBE estas funciones con versiones legacy: addItem con otra firma
-// (rompe callbacks -> spinner infinito, carrito sin actualizar) y
-// onItemAdded/onCartUpdate con alert() nativos. Se bloquean las versiones
-// del tema para que ese script no pueda reemplazarlas, sin importar el
-// orden de carga.
+// (rompe callbacks -> spinner infinito, carrito sin actualizar),
+// removeItem que espera variant_id en vez de line index (rompe el eliminar)
+// y onItemAdded/onCartUpdate con alert() nativos.
+// Un lock con defineProperty no basta: el runtime de Shopify recrea el
+// objeto window.Shopify después de este script (los accessors se pierden),
+// así que se RE-ASIERTAN las implementaciones del tema en DOMContentLoaded
+// y window.load, que ocurren después de api.jquery.js.
 (function () {
-    ['getCart', 'onCartUpdate', 'changeItem', 'removeItem', 'addItem', 'onItemAdded', 'onError'].forEach(function (fn) {
-        var impl = Shopify[fn];
-        try {
-            Object.defineProperty(Shopify, fn, {
-                get: function () { return impl; },
-                set: function () { /* ignorar sobrescritura de api.jquery.js */ },
-                configurable: false
-            });
-        } catch (e) { /* noop */ }
-    });
+    var cartApi = {
+        getCart: Shopify.getCart,
+        onCartUpdate: Shopify.onCartUpdate,
+        changeItem: Shopify.changeItem,
+        removeItem: Shopify.removeItem,
+        addItem: Shopify.addItem,
+        onItemAdded: Shopify.onItemAdded,
+        onError: Shopify.onError
+    };
+
+    function reassertCartApi() {
+        if (!window.Shopify) return;
+        Object.keys(cartApi).forEach(function (fn) {
+            try { window.Shopify[fn] = cartApi[fn]; } catch (e) { /* noop */ }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', reassertCartApi);
+    window.addEventListener('load', reassertCartApi);
 })();
 
 class MenuDrawer extends HTMLElement {
