@@ -1106,3 +1106,9 @@ span.badge.custom-metafield-badge {
     scroll-snap-align: start;
   }
 }
+
+/* Sidebar (carrito, etc.) por encima del botón flotante de WhatsApp,
+   que tapaba botones importantes del drawer. */
+.halo-sidebar {
+    z-index: 9999999999;
+}
