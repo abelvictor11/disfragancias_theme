@@ -280,17 +280,24 @@ Shopify.formatMoney = function(cents, format) {
     return formatString.replace(placeholderRegex, value);
 }
 
-Shopify.getCart = function(callback) {
+// API de carrito del tema en su propio namespace. Shopify inyecta
+// themes_support/api.jquery.js (script legacy) que sobrescribe Shopify.addItem
+// y compañía con firmas distintas y alert() nativos; usar Shopify.* desde el
+// tema es una carrera perdida. ThemeCartAPI es la referencia canónica que
+// ningún script externo toca.
+window.ThemeCartAPI = {};
+
+ThemeCartAPI.getCart = function(callback) {
     $.getJSON('/cart.js', function (cart, textStatus) {
         if ((typeof callback) === 'function') {
             callback(cart);
         } else {
-            Shopify.onCartUpdate(cart);
+            ThemeCartAPI.onCartUpdate(cart);
         }
     });
 }
 
-Shopify.onCartUpdate = function(cart) {
+ThemeCartAPI.onCartUpdate = function(cart) {
     // Sin alerta nativa: actualizar el sidebar cart y el contador en silencio.
     if (window.halo && typeof window.halo.updateSidebarCart === 'function') {
         window.halo.updateSidebarCart(cart);
@@ -300,11 +307,11 @@ Shopify.onCartUpdate = function(cart) {
     });
 }
 
-Shopify.changeItem = function(variant_id, quantity, index, callback) {
+ThemeCartAPI.changeItem = function(variant_id, quantity, index, callback) {
     getCartUpdate(index, quantity, callback)
 }
 
-Shopify.removeItem = function(variant_id, index, callback) {
+ThemeCartAPI.removeItem = function(variant_id, index, callback) {
     getCartUpdate(index, 0, callback)
 }
 
@@ -330,7 +337,7 @@ function getCartUpdate(line, quantity, callback) {
         if ((typeof callback) === 'function') {
             callback(parsedState);
         } else {
-            Shopify.onCartUpdate(parsedState);
+            ThemeCartAPI.onCartUpdate(parsedState);
         }
     })
     .catch((e) => {
@@ -338,7 +345,7 @@ function getCartUpdate(line, quantity, callback) {
     })
 }
 
-Shopify.addItem = function(variant_id, quantity, $target, callback, input = null) {
+ThemeCartAPI.addItem = function(variant_id, quantity, $target, callback, input = null) {
     var quantity = quantity || 1;
     let dataForm = 'quantity=' + quantity + '&id=' + variant_id;
 
@@ -357,7 +364,7 @@ Shopify.addItem = function(variant_id, quantity, $target, callback, input = null
             if ((typeof callback) === 'function') {
                 callback(line_item);
             } else {
-                Shopify.onItemAdded(line_item);
+                ThemeCartAPI.onItemAdded(line_item);
             }
         },
         error: function(XMLHttpRequest, textStatus) {
@@ -368,17 +375,17 @@ Shopify.addItem = function(variant_id, quantity, $target, callback, input = null
                 input.val(maxValue)
             } 
             
-            Shopify.onError(XMLHttpRequest, textStatus, message);
+            ThemeCartAPI.onError(XMLHttpRequest, textStatus, message);
             target?.classList.remove('is-loading');
         }
     };
     $.ajax(params);
 }
 
-Shopify.onItemAdded = function(line_item) {
+ThemeCartAPI.onItemAdded = function(line_item) {
     // Sin alerta nativa: abrir y actualizar el sidebar cart.
     if (window.halo && typeof window.halo.updateSidebarCart === 'function') {
-        Shopify.getCart(function(cart) {
+        ThemeCartAPI.getCart(function(cart) {
             document.body.classList.add('cart-sidebar-show');
             window.halo.updateSidebarCart(cart);
             document.querySelectorAll('[data-cart-count]').forEach(function(el) {
@@ -388,7 +395,7 @@ Shopify.onItemAdded = function(line_item) {
     }
 }
 
-Shopify.onError = function(XMLHttpRequest, textStatus, message) {
+ThemeCartAPI.onError = function(XMLHttpRequest, textStatus, message) {
     var data = eval('(' + XMLHttpRequest.responseText + ')');
     if (!!data.message) {
         !!data.description ? showWarning(data.description) : showWarning(data.message + ': ' + message, warningTime);
@@ -397,33 +404,20 @@ Shopify.onError = function(XMLHttpRequest, textStatus, message) {
     }
 }
 
-// Shopify inyecta themes_support/api.jquery.js al final del body, que
-// SOBRESCRIBE estas funciones con versiones legacy: addItem con otra firma
-// (rompe callbacks -> spinner infinito, carrito sin actualizar),
-// removeItem que espera variant_id en vez de line index (rompe el eliminar)
-// y onItemAdded/onCartUpdate con alert() nativos.
-// Un lock con defineProperty no basta: el runtime de Shopify recrea el
-// objeto window.Shopify después de este script (los accessors se pierden),
-// así que se RE-ASIERTAN las implementaciones del tema en DOMContentLoaded
-// y window.load, que ocurren después de api.jquery.js.
+// Compat: exponer también como Shopify.* para cualquier código externo, y
+// re-asertar en DOMContentLoaded/load por si themes_support/api.jquery.js
+// (u otro script de Shopify) las sobrescribe con las versiones legacy de
+// alert(). El tema ya NO depende de Shopify.* (usa ThemeCartAPI), así que
+// esto es solo defensa para terceros.
 (function () {
-    var cartApi = {
-        getCart: Shopify.getCart,
-        onCartUpdate: Shopify.onCartUpdate,
-        changeItem: Shopify.changeItem,
-        removeItem: Shopify.removeItem,
-        addItem: Shopify.addItem,
-        onItemAdded: Shopify.onItemAdded,
-        onError: Shopify.onError
-    };
-
     function reassertCartApi() {
         if (!window.Shopify) return;
-        Object.keys(cartApi).forEach(function (fn) {
-            try { window.Shopify[fn] = cartApi[fn]; } catch (e) { /* noop */ }
+        Object.keys(ThemeCartAPI).forEach(function (fn) {
+            try { window.Shopify[fn] = ThemeCartAPI[fn]; } catch (e) { /* noop */ }
         });
     }
 
+    reassertCartApi();
     document.addEventListener('DOMContentLoaded', reassertCartApi);
     window.addEventListener('load', reassertCartApi);
 })();

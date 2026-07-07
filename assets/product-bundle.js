@@ -121,7 +121,7 @@ class ProductBundle extends HTMLElement {
         }
 
         if (!previewCartList) {
-            Shopify.getCart((cart) => {
+            ThemeCartAPI.getCart((cart) => {
                 if(!$.isEmptyObject(cart)){
                     const $cartDropdown = $('#halo-cart-sidebar .halo-sidebar-wrapper .previewCart-wrapper');
     
