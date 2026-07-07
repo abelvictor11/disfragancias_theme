@@ -23,7 +23,7 @@
         // esas cards, abrir el sidebar cart del tema en vez de solo marcar el
         // botón. usf.js invoca window._usfOnAddToCartSuccess si existe.
         window._usfOnAddToCartSuccess = function(item, formElement) {
-            Shopify.getCart(function(cart) {
+            ThemeCartAPI.getCart(function(cart) {
                 $body.addClass('cart-sidebar-show');
                 halo.updateSidebarCart(cart);
                 $body.find('[data-cart-count]').text(cart.item_count);
@@ -2971,12 +2971,12 @@
             $target.addClass('is-loading');
 
             if($body.hasClass('quick-view-show')){
-                Shopify.addItem(variantId, qty, $target, () => {
+                ThemeCartAPI.addItem(variantId, qty, $target, () => {
                     // $target.text(successMessage);
                     if (window.after_add_to_cart.type == 'cart') {
                         halo.redirectTo(window.routes.cart);
                     } else {
-                        Shopify.getCart((cartTotal) => {
+                        ThemeCartAPI.getCart((cartTotal) => {
                             $body.addClass('cart-sidebar-show');
                             halo.updateSidebarCart(cartTotal);
                             $body.find('[data-cart-count]').text(cartTotal.item_count);
@@ -2985,12 +2985,12 @@
                     }
                 }, input);
             } else if($body.hasClass('template-cart')) {
-                Shopify.addItem(variantId, qty, $target, () => {
+                ThemeCartAPI.addItem(variantId, qty, $target, () => {
                     // $target.text(successMessage);
                     halo.redirectTo(window.routes.cart);
                 }, input);           
             } else {
-                Shopify.addItem(variantId, qty, $target, () => {
+                ThemeCartAPI.addItem(variantId, qty, $target, () => {
                     // $target.text(successMessage);
                     $target.removeClass('is-loading');
                     if ($body.hasClass('quickshop-popup-show') && $body.hasClass('quick_shop_option_3')) {
@@ -3025,7 +3025,7 @@
                             break;
                         case 'quick_cart':
                             if(window.quick_cart.show){
-                                Shopify.getCart((cart) => {
+                                ThemeCartAPI.getCart((cart) => {
                                     if( window.quick_cart.type == 'popup'){
                                         // $body.addClass('cart-modal-show');
                                         // halo.updateDropdownCart(cart);
@@ -3043,7 +3043,7 @@
 
                             break;
                         case 'popup_cart_1':
-                            Shopify.getCart((cart) => {
+                            ThemeCartAPI.getCart((cart) => {
                                 halo.updatePopupCart(cart, 1, variantId);
                                 halo.updateSidebarCart(cart);
                                 $body.addClass('add-to-cart-show');
@@ -3113,7 +3113,7 @@
                         if (window.after_add_to_cart.type == 'cart') {
                             halo.redirectTo(window.routes.cart);
                         } else {
-                            Shopify.getCart((cartTotal) => {
+                            ThemeCartAPI.getCart((cartTotal) => {
                                 $body.find('[data-cart-count]').text(cartTotal.item_count);
                                 $target.removeClass('is-loading');
                             });
@@ -3126,7 +3126,7 @@
                                 break;
                             case 'quick_cart':
                                 if(window.quick_cart.show){
-                                    Shopify.getCart((cart) => {
+                                    ThemeCartAPI.getCart((cart) => {
                                         if( window.quick_cart.type == 'popup'){
                                             // $body.addClass('cart-modal-show');
                                             // halo.updateDropdownCart(cart);
@@ -3143,7 +3143,7 @@
                                 
                                 break;
                             case 'popup_cart_1':
-                                Shopify.getCart((cart) => {
+                                ThemeCartAPI.getCart((cart) => {
                                     halo.updatePopupCart(cart, 1, variantId);
                                     halo.updateSidebarCart(cart);
                                     $body.addClass('add-to-cart-show');
@@ -3357,7 +3357,7 @@
                 .empty()
                 .append(title);
 
-            Shopify.getCart((cartTotal) => {
+            ThemeCartAPI.getCart((cartTotal) => {
                 $body.find('[data-cart-count]').text(cartTotal.item_count);
             });
         },
@@ -3368,7 +3368,7 @@
             cartIcon.on('click', () => {
                 if (!checkInitSideBarCart) return
                 checkInitSideBarCart = false
-                Shopify.getCart((cart) => {
+                ThemeCartAPI.getCart((cart) => {
                     halo.updateSidebarCart(cart);
                 })
                 if ($('body').hasClass('cursor-fixed__show')){
@@ -3489,8 +3489,8 @@
                 clearTimeout(debounce)
                 debounce = setTimeout(() => {
                     const variantId = event.target.dataset.giftId;
-                    Shopify.addItem(variantId, 1, $target, () => {
-                        Shopify.getCart((cart) => {
+                    ThemeCartAPI.addItem(variantId, 1, $target, () => {
+                        ThemeCartAPI.getCart((cart) => {
                             halo.updateSidebarCart(cart);
                         });
                     }); 
@@ -3508,8 +3508,8 @@
                 clearTimeout(debounce)
                 debounce = setTimeout(() => {
                     const variantId = event.target.dataset.giftId;
-                    Shopify.addItem(variantId, 1, $target, () => {
-                        Shopify.getCart((cart) => {
+                    ThemeCartAPI.addItem(variantId, 1, $target, () => {
+                        ThemeCartAPI.getCart((cart) => {
                             halo.updateCart(cart)
                         });
                     }); 
@@ -3535,7 +3535,7 @@
                     $cartItem.css('opacity', '0.5').css('pointer-events', 'none');
                 }
 
-                Shopify.removeItem(productLine, index, (cart) => {
+                ThemeCartAPI.removeItem(productLine, index, (cart) => {
                     if($body.hasClass('template-cart')){
                         halo.updateCart(cart);
                     } else if($body.hasClass('cart-modal-show')){
@@ -3672,7 +3672,7 @@
                   }
                 }
 
-                Shopify.changeItem(productLine, quantity, index, (cart) => {
+                ThemeCartAPI.changeItem(productLine, quantity, index, (cart) => {
                     if($body.hasClass('template-cart')){
                         halo.updateCart(cart);
                     } else if($body.hasClass('cart-modal-show')){
@@ -3855,7 +3855,7 @@
                 if(product.length > 0){
                     $target.addClass('is-loading');
 
-                    Shopify.removeItem(productLine, index, (cart) => {
+                    ThemeCartAPI.removeItem(productLine, index, (cart) => {
                         if(!$.isEmptyObject(cart)) {
                             var productHandleQueue = [];
 
@@ -3883,7 +3883,7 @@
                                         $target.removeClass('is-loading');
                                     }, 1000);
 
-                                    Shopify.getCart((cart) => {
+                                    ThemeCartAPI.getCart((cart) => {
                                         $body.removeClass('edit-cart-show');
 
                                         if($body.hasClass('template-cart')){
@@ -6177,7 +6177,7 @@
                             break;
                         case 'quick_cart':
                             if(window.quick_cart.show){
-                                Shopify.getCart((cart) => {
+                                ThemeCartAPI.getCart((cart) => {
                                     if( window.quick_cart.type == 'popup'){
                                         // $body.addClass('cart-modal-show');
                                         // halo.updateDropdownCart(cart);
@@ -6192,7 +6192,7 @@
 
                             break;
                         case 'popup_cart_1':
-                            Shopify.getCart((cart) => {
+                            ThemeCartAPI.getCart((cart) => {
                                 halo.updatePopupCart(cart, 1, variant_id);
                                 halo.updateSidebarCart(cart);
                                 $body.addClass('add-to-cart-show');
