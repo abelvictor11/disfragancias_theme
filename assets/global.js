@@ -291,7 +291,13 @@ Shopify.getCart = function(callback) {
 }
 
 Shopify.onCartUpdate = function(cart) {
-    alert('There are now ' + cart.item_count + ' items in the cart.');
+    // Sin alerta nativa: actualizar el sidebar cart y el contador en silencio.
+    if (window.halo && typeof window.halo.updateSidebarCart === 'function') {
+        window.halo.updateSidebarCart(cart);
+    }
+    document.querySelectorAll('[data-cart-count]').forEach(function(el) {
+        el.textContent = cart.item_count;
+    });
 }
 
 Shopify.changeItem = function(variant_id, quantity, index, callback) {
@@ -370,7 +376,16 @@ Shopify.addItem = function(variant_id, quantity, $target, callback, input = null
 }
 
 Shopify.onItemAdded = function(line_item) {
-    alert(line_item.title + ' was added to your shopping cart.');
+    // Sin alerta nativa: abrir y actualizar el sidebar cart.
+    if (window.halo && typeof window.halo.updateSidebarCart === 'function') {
+        Shopify.getCart(function(cart) {
+            document.body.classList.add('cart-sidebar-show');
+            window.halo.updateSidebarCart(cart);
+            document.querySelectorAll('[data-cart-count]').forEach(function(el) {
+                el.textContent = cart.item_count;
+            });
+        });
+    }
 }
 
 Shopify.onError = function(XMLHttpRequest, textStatus, message) {
@@ -381,6 +396,25 @@ Shopify.onError = function(XMLHttpRequest, textStatus, message) {
         showWarning('Error : ' + message, warningTime);
     }
 }
+
+// Shopify inyecta themes_support/api.jquery.js al final del body, que
+// SOBRESCRIBE estas funciones con versiones legacy: addItem con otra firma
+// (rompe callbacks -> spinner infinito, carrito sin actualizar) y
+// onItemAdded/onCartUpdate con alert() nativos. Se bloquean las versiones
+// del tema para que ese script no pueda reemplazarlas, sin importar el
+// orden de carga.
+(function () {
+    ['getCart', 'onCartUpdate', 'changeItem', 'removeItem', 'addItem', 'onItemAdded', 'onError'].forEach(function (fn) {
+        var impl = Shopify[fn];
+        try {
+            Object.defineProperty(Shopify, fn, {
+                get: function () { return impl; },
+                set: function () { /* ignorar sobrescritura de api.jquery.js */ },
+                configurable: false
+            });
+        } catch (e) { /* noop */ }
+    });
+})();
 
 class MenuDrawer extends HTMLElement {
     constructor() {
