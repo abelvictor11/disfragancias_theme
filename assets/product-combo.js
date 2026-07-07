@@ -67,7 +67,7 @@ class ProductCombo extends HTMLElement {
         let hint = ',';
         let attributes = {};
 
-        Shopify.getCart((cart) => {
+        ThemeCartAPI.getCart((cart) => {
             const itemsInCart = cart.items;
 
             itemsInCart.forEach(element => {

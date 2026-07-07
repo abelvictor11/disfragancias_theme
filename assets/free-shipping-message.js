@@ -27,7 +27,7 @@ class FreeShippingMeter extends HTMLElement {
     }
 
     initialize() {
-        Shopify.getCart((cart) => {
+        ThemeCartAPI.getCart((cart) => {
             this.cart = cart;
             this.calculateProgress(cart);
         })
