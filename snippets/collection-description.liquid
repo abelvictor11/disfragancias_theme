@@ -146,6 +146,7 @@
 <script type="text/javascript">
 	window.addEventListener('load', () => {
 		const collectionLinksElement = document.querySelector('[data-collection-links]')
+		if (!collectionLinksElement) return;
 		const collectionLinksList = [...collectionLinksElement.querySelectorAll('ul li.item')]
 		const firstLink = collectionLinksList[0]
 		const lastLink = collectionLinksList.pop()

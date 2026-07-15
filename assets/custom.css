@@ -1153,6 +1153,7 @@ span.badge.custom-metafield-badge {
    Colección B2B: grilla densa con quick-add + order pad (vista pedido)
    ============================================================================= */
 .b2b-coll { margin: 4px 0 8px; }
+.b2b-coll.productListing, .b2b-coll.productGrid, .b2b-coll.productList { display: block !important; grid-template-columns: none !important; }
 .b2b-coll__toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
 .b2b-coll__count { font-size: 14px; color: #555; }
 .b2b-coll__toggle { display: inline-flex; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }

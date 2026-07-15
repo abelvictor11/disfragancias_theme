@@ -4,7 +4,7 @@
   multi-item. Cada producto lleva un <select> de talla (variantes) que
   actualiza SKU / precio / stock. Reemplaza el grid retail en la rama b2b.
 {% endcomment -%}
-<div class="b2b-coll" data-b2b-coll id="main-collection-product-grid" data-id="{{ section.id }}">
+<div class="b2b-coll productListing" data-b2b-coll id="main-collection-product-grid" data-id="{{ section.id }}">
   <div class="b2b-coll__toolbar">
     <div class="b2b-coll__count">{{ collection.products_count }} {{ 'sections.collection_template.results' | t | default: 'productos' }}</div>
     <div class="b2b-coll__toggle" role="group" aria-label="Cambiar vista">
