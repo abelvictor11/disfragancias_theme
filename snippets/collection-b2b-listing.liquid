@@ -62,7 +62,16 @@
         {%- for product in collection.products -%}
           {%- assign v = product.selected_or_first_available_variant -%}
           <tr class="b2b-lrow{% unless product.available %} is-out{% endunless %}" data-b2b-item data-product-url="{{ product.url }}">
-            <td class="b2b-lrow__name"><a href="{{ product.url }}">{{ product.title }}</a></td>
+            <td class="b2b-lrow__name">
+              <a class="b2b-lrow__prod" href="{{ product.url }}">
+                <span class="b2b-lrow__thumb">
+                  {%- if product.featured_image -%}
+                    <img src="{{ product.featured_image | image_url: width: 88 }}" width="44" height="44" loading="lazy" alt="{{ product.title | escape }}">
+                  {%- endif -%}
+                </span>
+                <span>{{ product.title }}</span>
+              </a>
+            </td>
             <td>
               {%- if product.variants.size > 1 -%}
                 <select class="b2b-size" data-b2b-size aria-label="Talla {{ product.title | escape }}">

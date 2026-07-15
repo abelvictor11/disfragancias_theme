@@ -1159,6 +1159,9 @@ span.badge.custom-metafield-badge {
 .b2b-vbtn { display: inline-flex; align-items: center; gap: 5px; border: none; background: transparent; color: #555; padding: 8px 14px; font-size: 13px; cursor: pointer; }
 .b2b-vbtn.is-active { background: #232323; color: #fff; }
 
+/* Ocultar la vista inactiva (el atributo hidden debe ganar a display:grid) */
+[data-b2b-view][hidden] { display: none !important; }
+
 /* Grilla */
 .b2b-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin: 0; padding: 0; }
 .b2b-card { border: 1px solid #eee; border-radius: 12px; padding: 10px; background: #fff; display: flex; flex-direction: column; }
@@ -1188,6 +1191,9 @@ span.badge.custom-metafield-badge {
 .b2b-list__table td { padding: 9px 12px; border-top: 1px solid #eee; vertical-align: middle; }
 .b2b-list__table .ta-r { text-align: right; } .b2b-list__table .ta-c { text-align: center; }
 .b2b-lrow__name a { color: inherit; text-decoration: none; font-weight: 500; }
+.b2b-lrow__prod { display: flex; align-items: center; gap: 10px; }
+.b2b-lrow__thumb { flex: 0 0 44px; width: 44px; height: 44px; border-radius: 6px; background: rgba(230,222,211,.3); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.b2b-lrow__thumb img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
 .b2b-lrow__sku { color: #999; font-family: monospace; }
 .b2b-lrow__price { font-weight: 500; }
 .b2b-lrow.is-out { opacity: .55; }
