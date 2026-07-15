@@ -1,0 +1,97 @@
+{%- comment %}
+  Listado B2B de colección: vista Grilla (cards densas con quick-add) y vista
+  Pedido (order pad tipo tabla), con toggle, barra de totales y añadir-todo
+  multi-item. Cada producto lleva un <select> de talla (variantes) que
+  actualiza SKU / precio / stock. Reemplaza el grid retail en la rama b2b.
+{% endcomment -%}
+<div class="b2b-coll" data-b2b-coll>
+  <div class="b2b-coll__toolbar">
+    <div class="b2b-coll__count">{{ collection.products_count }} {{ 'sections.collection_template.results' | t | default: 'productos' }}</div>
+    <div class="b2b-coll__toggle" role="group" aria-label="Cambiar vista">
+      <button type="button" class="b2b-vbtn is-active" data-view-btn="grid" aria-pressed="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span>Grilla</span></button>
+      <button type="button" class="b2b-vbtn" data-view-btn="list" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg><span>Pedido</span></button>
+    </div>
+  </div>
+
+  {%- comment %} Vista grilla {% endcomment -%}
+  <ul class="b2b-grid list-unstyled" data-b2b-view="grid">
+    {%- for product in collection.products -%}
+      {%- assign v = product.selected_or_first_available_variant -%}
+      <li class="b2b-card{% unless product.available %} is-out{% endunless %}" data-b2b-item data-product-url="{{ product.url }}">
+        <a class="b2b-card__media" href="{{ product.url }}">
+          {%- if product.featured_image -%}
+            <img src="{{ product.featured_image | image_url: width: 240 }}" width="120" height="120" loading="lazy" alt="{{ product.title | escape }}">
+          {%- else -%}<span class="b2b-card__noimg"></span>{%- endif -%}
+        </a>
+        <a class="b2b-card__title" href="{{ product.url }}">{{ product.title }}</a>
+        {%- if product.variants.size > 1 -%}
+          <select class="b2b-size" data-b2b-size aria-label="Talla {{ product.title | escape }}">
+            {%- for variant in product.variants -%}
+              <option value="{{ variant.id }}" data-price="{{ variant.price }}" data-sku="{{ variant.sku | escape }}" data-available="{{ variant.available }}"{% unless variant.available %} disabled{% endunless %}{% if variant == v %} selected{% endif %}>{{ variant.title }}</option>
+            {%- endfor -%}
+          </select>
+        {%- else -%}
+          <input type="hidden" data-b2b-size value="{{ v.id }}" data-price="{{ v.price }}" data-sku="{{ v.sku | escape }}" data-available="{{ v.available }}">
+        {%- endif -%}
+        <div class="b2b-card__meta">
+          <span class="b2b-card__sku" data-b2b-sku>{{ v.sku | default: '—' }}</span>
+          <span class="b2b-card__stock" data-b2b-stock>{% if v.available %}<i class="b2b-dot b2b-dot--ok"></i>{{ 'products.product.in_stock' | t }}{% else %}<i class="b2b-dot b2b-dot--out"></i>{{ 'products.product.out_of_stock' | t }}{% endif %}</span>
+        </div>
+        <div class="b2b-card__foot">
+          <span class="b2b-card__price" data-b2b-price>{{ v.price | money }}</span>
+          <div class="b2b-card__actions" data-b2b-actions{% unless v.available %} hidden{% endunless %}>
+            <input type="number" class="b2b-qty" min="0" step="1" value="0" data-b2b-qty aria-label="Cantidad">
+            <button type="button" class="b2b-plus" data-b2b-plus aria-label="Añadir">+</button>
+          </div>
+        </div>
+      </li>
+    {%- endfor -%}
+  </ul>
+
+  {%- comment %} Vista pedido (order pad) {% endcomment -%}
+  <div class="b2b-list" data-b2b-view="list" hidden>
+    <table class="b2b-list__table">
+      <thead>
+        <tr>
+          <th>Producto</th><th>Talla</th><th>SKU</th>
+          <th class="ta-r">Mayorista</th><th class="ta-c">Stock</th>
+          <th class="ta-c">Cantidad</th><th class="ta-r">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for product in collection.products -%}
+          {%- assign v = product.selected_or_first_available_variant -%}
+          <tr class="b2b-lrow{% unless product.available %} is-out{% endunless %}" data-b2b-item data-product-url="{{ product.url }}">
+            <td class="b2b-lrow__name"><a href="{{ product.url }}">{{ product.title }}</a></td>
+            <td>
+              {%- if product.variants.size > 1 -%}
+                <select class="b2b-size" data-b2b-size aria-label="Talla {{ product.title | escape }}">
+                  {%- for variant in product.variants -%}
+                    <option value="{{ variant.id }}" data-price="{{ variant.price }}" data-sku="{{ variant.sku | escape }}" data-available="{{ variant.available }}"{% unless variant.available %} disabled{% endunless %}{% if variant == v %} selected{% endif %}>{{ variant.title }}</option>
+                  {%- endfor -%}
+                </select>
+              {%- else -%}
+                <input type="hidden" data-b2b-size value="{{ v.id }}" data-price="{{ v.price }}" data-sku="{{ v.sku | escape }}" data-available="{{ v.available }}"><span>{{ v.title }}</span>
+              {%- endif -%}
+            </td>
+            <td class="b2b-lrow__sku" data-b2b-sku>{{ v.sku | default: '—' }}</td>
+            <td class="ta-r b2b-lrow__price" data-b2b-price>{{ v.price | money }}</td>
+            <td class="ta-c" data-b2b-stock>{% if v.available %}<span class="b2b-stock--ok">{{ 'products.product.in_stock' | t }}</span>{% else %}<span class="b2b-stock--out">{{ 'products.product.out_of_stock' | t }}</span>{% endif %}</td>
+            <td class="ta-c" data-b2b-actions{% unless v.available %} hidden{% endunless %}><input type="number" class="b2b-qty" min="0" step="1" value="0" data-b2b-qty aria-label="Cantidad"></td>
+            <td class="ta-r b2b-lrow__sub" data-b2b-sub>{{ 0 | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="b2b-coll__bar" data-b2b-bar>
+    <div class="b2b-coll__totals">
+      <div><span class="b2b-lbl">Referencias</span><span class="b2b-val" data-b2b-refs>0</span></div>
+      <div><span class="b2b-lbl">Unidades</span><span class="b2b-val" data-b2b-units>0</span></div>
+      <div><span class="b2b-lbl">Total mayorista</span><span class="b2b-val" data-b2b-total>{{ 0 | money }}</span></div>
+    </div>
+    <button type="button" class="b2b-addall" data-b2b-addall disabled>{{ 'products.product.add_all_to_cart' | t | default: 'Añadir todo al carrito' }}</button>
+  </div>
+</div>
+{{ 'b2b-collection.js' | asset_url | script_tag }}
