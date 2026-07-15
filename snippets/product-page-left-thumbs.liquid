@@ -47,7 +47,14 @@
         assign show_subtotal_text = true
         assign subtotal = current_variant.price | money
     endif
+    assign b2b_matrix_active = false
+    if product.has_only_default_variant != true and product.options_with_values.size == 1
+        assign b2b_matrix_active = true
+    endif
     assign show_sticky_add_to_cart = section.settings.show_sticky_add_to_cart
+    if b2b_matrix_active
+        assign show_sticky_add_to_cart = false
+    endif
     assign sticky_add_to_cart_always_mb = section.settings.enable_sticky_add_to_cart_always_mobile
     assign sticky_atc_layout = section.settings.sticky_atc_layout
     assign show_sticky_vendor = section.settings.show_sticky_vendor
@@ -966,14 +973,18 @@
                                                     {% render 'combined-products-listing', product: product %}
                                                 {%- endif -%}
                                                 
-                                                {% render 'product-variant',
-                                                    block: block,
-                                                    product: product,
-                                                    variantCount: variantCount,
-                                                    current_variant: current_variant,
-                                                    picker_type: picker_type,
-                                                    show_variant_image_group: show_variant_image_group
-                                                %}
+                                                {%- if b2b_matrix_active -%}
+                                                    {% render 'product-b2b-matrix', product: product %}
+                                                {%- else -%}
+                                                    {% render 'product-variant',
+                                                        block: block,
+                                                        product: product,
+                                                        variantCount: variantCount,
+                                                        current_variant: current_variant,
+                                                        picker_type: picker_type,
+                                                        show_variant_image_group: show_variant_image_group
+                                                    %}
+                                                {%- endif -%}
                                             </div>
                                         {% endunless %}
                                     {%- when 'customization_property' -%}
@@ -1044,7 +1055,7 @@
                                             </div>
                                         {% endunless %}
                                     {%- when 'quantity_selector' -%}
-                                        {% unless has_product_combo %}
+                                        {% unless has_product_combo or b2b_matrix_active %}
                                             {%- if check_show_qty == 'show_qty_1' -%}
                                                 <div class="productView-moreItem{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"
                                                     style="--spacing-top: {{ spacing_top | append: 'px' }};
@@ -1068,7 +1079,7 @@
                                             {%- endif -%}
                                         {% endunless %}
                                     {%- when 'buy_buttons' -%}
-                                        {% unless has_product_combo %}
+                                        {% unless has_product_combo or b2b_matrix_active %}
                                             <div class="productView-moreItem"
                                                 style="--spacing-top: {{ spacing_top | append: 'px' }};
                                                 --spacing-bottom: {{ spacing_bottom | append: 'px' }}"

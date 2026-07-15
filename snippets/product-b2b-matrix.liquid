@@ -1,0 +1,112 @@
+{%- comment %}
+  Matrix de variantes B2B: tabla con SKU, precio ML, mayorista, sugerido
+  (metafield custom.precio_sugerido), stock y cantidad por fila + añadir todo.
+  Reemplaza el selector de variante para productos de una sola opción.
+{% endcomment -%}
+<div class="b2b-matrix" data-product-id="{{ product.id }}">
+  <div class="b2b-matrix__hint">{{ 'products.product.product_variants' | t }} — ingresa cantidades y añade todo al carrito</div>
+  <div class="b2b-matrix__scroll">
+    <table class="b2b-matrix__table">
+      <thead>
+        <tr>
+          <th>{{ product.options.first }}</th>
+          <th>SKU</th>
+          <th class="ta-r">Precio ML</th>
+          <th class="ta-r">Mayorista</th>
+          <th class="ta-r">Sugerido</th>
+          <th class="ta-c">Stock</th>
+          <th class="ta-c">Cantidad</th>
+          <th class="ta-r">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for variant in product.variants -%}
+          {%- liquid
+            assign ml = variant.title | split: ' ' | first | times: 1
+            assign sugerido = variant.metafields.custom.precio_sugerido.value
+            assign avail = variant.available
+          -%}
+          <tr class="b2b-row{% unless avail %} is-soldout{% endunless %}" data-variant-id="{{ variant.id }}" data-price="{{ variant.price }}">
+            <td class="b2b-row__size">{{ variant.title }}</td>
+            <td class="b2b-row__sku">{{ variant.sku | default: '—' }}</td>
+            <td class="ta-r b2b-row__unit">{% if ml > 0 %}{{ variant.price | divided_by: ml | money }}{% else %}—{% endif %}</td>
+            <td class="ta-r b2b-row__price">{{ variant.price | money }}</td>
+            <td class="ta-r b2b-row__rrp">{% if sugerido %}{{ sugerido | money }}{% else %}—{% endif %}</td>
+            <td class="ta-c b2b-row__stock">
+              {%- if avail -%}<span class="b2b-stock b2b-stock--ok">{{ 'products.product.in_stock' | t }}</span>
+              {%- else -%}<span class="b2b-stock b2b-stock--out">{{ 'products.product.out_of_stock' | t }}</span>{%- endif -%}
+            </td>
+            <td class="ta-c">
+              {%- if avail -%}
+                <input type="number" class="b2b-qty" min="0" step="1" value="0" inputmode="numeric" aria-label="Cantidad {{ variant.title }}">
+              {%- else -%}<span class="b2b-dash">—</span>{%- endif -%}
+            </td>
+            <td class="ta-r b2b-row__sub" data-sub>{{ 0 | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="b2b-matrix__bar">
+    <div class="b2b-matrix__totals">
+      <div><span class="b2b-lbl">Unidades</span><span class="b2b-val" data-units>0</span></div>
+      <div><span class="b2b-lbl">Total mayorista</span><span class="b2b-val" data-total>{{ 0 | money }}</span></div>
+    </div>
+    <button type="button" class="b2b-addall" data-addall disabled>
+      {{ 'products.product.add_to_cart' | t }}
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root = document.currentScript.previousElementSibling;
+  if(!root || !root.classList.contains('b2b-matrix')) { root = document.querySelector('.b2b-matrix[data-product-id="{{ product.id }}"]'); }
+  var fmt = function(cents){
+    try { return new Intl.NumberFormat('es-CO',{style:'currency',currency:'{{ cart.currency.iso_code | default: shop.currency }}',maximumFractionDigits:0}).format(cents/100); }
+    catch(e){ return '$' + Math.round(cents/100).toLocaleString('es-CO'); }
+  };
+  var rows = root.querySelectorAll('.b2b-row');
+  var addBtn = root.querySelector('[data-addall]');
+  function recalc(){
+    var units=0, total=0;
+    rows.forEach(function(r){
+      var inp = r.querySelector('.b2b-qty');
+      var q = inp ? Math.max(0, parseInt(inp.value)||0) : 0;
+      var price = parseInt(r.getAttribute('data-price'))||0;
+      r.querySelector('[data-sub]').textContent = fmt(q*price);
+      units += q; total += q*price;
+    });
+    root.querySelector('[data-units]').textContent = units;
+    root.querySelector('[data-total]').textContent = fmt(total);
+    addBtn.disabled = units === 0;
+  }
+  root.addEventListener('input', function(e){ if(e.target.classList.contains('b2b-qty')) recalc(); });
+  addBtn.addEventListener('click', function(){
+    var items = [];
+    rows.forEach(function(r){
+      var inp = r.querySelector('.b2b-qty');
+      var q = inp ? Math.max(0, parseInt(inp.value)||0) : 0;
+      if(q>0) items.push({ id: parseInt(r.getAttribute('data-variant-id')), quantity: q });
+    });
+    if(!items.length) return;
+    addBtn.disabled = true; addBtn.classList.add('is-loading');
+    fetch('/cart/add.js', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({items: items})
+    }).then(function(r){ if(!r.ok) return r.json().then(function(e){ throw e; }); return r.json(); })
+      .then(function(){ return fetch('/cart.js').then(function(r){return r.json();}); })
+      .then(function(cart){
+        rows.forEach(function(r){ var i=r.querySelector('.b2b-qty'); if(i) i.value=0; });
+        recalc();
+        document.body.classList.add('cart-sidebar-show');
+        if(window.halo && typeof window.halo.updateSidebarCart==='function'){ window.halo.updateSidebarCart(cart); }
+        document.querySelectorAll('[data-cart-count]').forEach(function(el){ el.textContent = cart.item_count; });
+      })
+      .catch(function(e){ alert((e && e.description) || 'No se pudo añadir al carrito'); })
+      .then(function(){ addBtn.classList.remove('is-loading'); recalc(); });
+  });
+  recalc();
+})();
+</script>
