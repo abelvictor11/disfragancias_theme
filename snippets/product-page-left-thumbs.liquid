@@ -876,7 +876,8 @@
                                             %}
                                         </div>
                                     {%- when 'info' -%}
-                                        {%- liquid 
+                                        {%- if b2b_matrix_active -%}{%- continue -%}{%- endif -%}
+                                        {%- liquid
                                             assign show_vendor = block.settings.show_vendor
                                             assign show_availability = block.settings.show_availability
                                             assign show_sku = block.settings.show_sku
@@ -908,6 +909,7 @@
                                             </div>
                                         {%- endif -%}
                                     {%- when 'price' -%}
+                                        {%- if b2b_matrix_active -%}{%- continue -%}{%- endif -%}
                                         {% assign fontsize_text = block.settings.fontsize_text %}
                                         <div class="productView-moreItem{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"
                                             style="--spacing-top: {{ spacing_top | append: 'px' }};
@@ -973,9 +975,7 @@
                                                     {% render 'combined-products-listing', product: product %}
                                                 {%- endif -%}
                                                 
-                                                {%- if b2b_matrix_active -%}
-                                                    {% render 'product-b2b-matrix', product: product %}
-                                                {%- else -%}
+                                                {%- unless b2b_matrix_active -%}
                                                     {% render 'product-variant',
                                                         block: block,
                                                         product: product,
@@ -984,7 +984,7 @@
                                                         picker_type: picker_type,
                                                         show_variant_image_group: show_variant_image_group
                                                     %}
-                                                {%- endif -%}
+                                                {%- endunless -%}
                                             </div>
                                         {% endunless %}
                                     {%- when 'customization_property' -%}
@@ -1324,6 +1324,11 @@
             {%- if has_sidebar -%}
                 </div>
             {% endif %}
+            {%- if b2b_matrix_active -%}
+                <div class="productView-b2b-full">
+                    {% render 'product-b2b-matrix', product: product %}
+                </div>
+            {%- endif -%}
             {%- unless has_product_combo -%}
                 {%- if show_sticky_add_to_cart -%}
                     {{ 'component-sticky-add-to-cart.css' | asset_url | stylesheet_tag }}

@@ -1144,3 +1144,7 @@ span.badge.custom-metafield-badge {
 .b2b-addall:disabled { opacity: .4; cursor: not-allowed; }
 .b2b-addall.is-loading { opacity: .6; pointer-events: none; }
 @media (max-width: 767px) { .b2b-matrix__bar { flex-direction: column; align-items: stretch; } .b2b-addall { width: 100%; } }
+
+/* Matrix B2B a lo ancho, debajo de imagen + info */
+.productView-b2b-full { clear: both; width: 100%; margin-top: 8px; }
+.productView-b2b-full .b2b-matrix__table { min-width: 720px; }
