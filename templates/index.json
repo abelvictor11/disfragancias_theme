@@ -931,6 +931,19 @@
         "spacing_bottom": 40
       }
     },
+    "b2b_quick_order_WMwi6P": {
+      "type": "b2b-quick-order",
+      "name": "B2B pedido rápido",
+      "settings": {
+        "title": "Pedido rápido por SKU",
+        "subtitle": "Escribe el SKU y la cantidad. Añade varias referencias de una vez.",
+        "rows": 5,
+        "width": "container",
+        "bg_soft": true,
+        "spacing_top": 40,
+        "spacing_bottom": 40
+      }
+    },
     "163221535239da03ba": {
       "type": "spotlight-block",
       "blocks": {
@@ -2847,6 +2860,7 @@
   "order": [
     "16321237356a896dad",
     "b2b_featured_products_qkMxM6",
+    "b2b_quick_order_WMwi6P",
     "163221535239da03ba",
     "1632304586ad9b5b3b",
     "product_tab_block_xVkXJx",
