@@ -1,0 +1,67 @@
+<div class="b2b-section{% if section.settings.bg_soft %} b2b-section--soft{% endif %}"
+  style="--b2b-sec-top: {{ section.settings.spacing_top }}px; --b2b-sec-bottom: {{ section.settings.spacing_bottom }}px;">
+  <div class="{{ section.settings.width }}">
+    {%- if section.settings.title != blank -%}
+      <div class="b2b-section__head">
+        <h2 class="b2b-section__title">{{ section.settings.title | escape }}</h2>
+      </div>
+    {%- endif -%}
+    {%- if section.settings.subtitle != blank -%}
+      <p class="b2b-qo__hint">{{ section.settings.subtitle | escape }}</p>
+    {%- endif -%}
+
+    <div class="b2b-qo" data-b2b-qo data-rows="{{ section.settings.rows }}">
+      <div class="b2b-qo__scroll">
+        <table class="b2b-qo__table">
+          <thead>
+            <tr>
+              <th style="width:150px">SKU</th>
+              <th>Producto</th>
+              <th class="ta-r" style="width:120px">Precio</th>
+              <th class="ta-c" style="width:110px">Cantidad</th>
+              <th class="ta-r" style="width:120px">Subtotal</th>
+              <th style="width:40px"></th>
+            </tr>
+          </thead>
+          <tbody data-b2b-qo-body></tbody>
+        </table>
+      </div>
+      <div class="b2b-qo__actions">
+        <button type="button" class="b2b-qo__addrow" data-b2b-qo-addrow>+ Añadir fila</button>
+      </div>
+      <div class="b2b-coll__bar">
+        <div class="b2b-coll__totals">
+          <div><span class="b2b-lbl">Referencias</span><span class="b2b-val" data-b2b-qo-refs>0</span></div>
+          <div><span class="b2b-lbl">Unidades</span><span class="b2b-val" data-b2b-qo-units>0</span></div>
+          <div><span class="b2b-lbl">Total mayorista</span><span class="b2b-val" data-b2b-qo-total>{{ 0 | money }}</span></div>
+        </div>
+        <button type="button" class="b2b-addall" data-b2b-qo-addall disabled>{{ 'products.product.add_all_to_cart' | t | default: 'Añadir todo al carrito' }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{ 'b2b-quick-order.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "B2B pedido rápido",
+  "tag": "section",
+  "class": "b2b-quick-order-section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Pedido rápido por SKU" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Escribe el SKU y la cantidad. Añade varias referencias de una vez." },
+    { "type": "range", "id": "rows", "label": "Filas iniciales", "min": 3, "max": 15, "step": 1, "default": 5 },
+    { "type": "select", "id": "width", "label": "Ancho", "options": [
+      { "value": "container", "label": "Contenedor" },
+      { "value": "container-1170", "label": "1170px" },
+      { "value": "container-1770", "label": "1770px" },
+      { "value": "container-full", "label": "Ancho completo" }
+    ], "default": "container" },
+    { "type": "checkbox", "id": "bg_soft", "label": "Fondo suave", "default": true },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "spacing_top", "label": "Superior", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 },
+    { "type": "range", "id": "spacing_bottom", "label": "Inferior", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 }
+  ],
+  "presets": [{ "name": "B2B pedido rápido" }]
+}
+{% endschema %}

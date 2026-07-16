@@ -1,0 +1,76 @@
+<div class="b2b-section{% if section.settings.bg_soft %} b2b-section--soft{% endif %}"
+  style="--b2b-sec-top: {{ section.settings.spacing_top }}px; --b2b-sec-bottom: {{ section.settings.spacing_bottom }}px;">
+  <div class="{{ section.settings.width }}">
+    {%- if section.settings.title != blank -%}
+      <div class="b2b-section__head">
+        <h2 class="b2b-section__title">{{ section.settings.title | escape }}</h2>
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="b2b-brands list-unstyled" style="--b2b-brand-min: {{ section.settings.min_width }}px;">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign c = block.settings.collection
+            assign label = block.settings.label | default: c.title
+            assign img = block.settings.image | default: c.image
+          -%}
+          {%- if c != blank or block.settings.label != blank -%}
+            <li class="b2b-brand" {{ block.shopify_attributes }}>
+              <a class="b2b-brand__link" href="{{ c.url | default: block.settings.link }}">
+                {%- if img -%}
+                  <span class="b2b-brand__media">
+                    <img src="{{ img | image_url: width: 200 }}" width="100" height="60" loading="lazy" alt="{{ label | escape }}">
+                  </span>
+                {%- endif -%}
+                <span class="b2b-brand__name">{{ label }}</span>
+                {%- if section.settings.show_count and c != blank -%}
+                  <span class="b2b-brand__count">{{ c.all_products_count }}</span>
+                {%- endif -%}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="b2b-section__empty">Agrega marcas desde el personalizador.</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "B2B catálogo por marca",
+  "tag": "section",
+  "class": "b2b-brand-grid-section",
+  "max_blocks": 50,
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Comprar por marca" },
+    { "type": "range", "id": "min_width", "label": "Ancho mínimo por marca", "min": 100, "max": 240, "step": 10, "unit": "px", "default": 150 },
+    { "type": "checkbox", "id": "show_count", "label": "Mostrar nº de productos", "default": true },
+    { "type": "select", "id": "width", "label": "Ancho", "options": [
+      { "value": "container", "label": "Contenedor" },
+      { "value": "container-1170", "label": "1170px" },
+      { "value": "container-1770", "label": "1770px" },
+      { "value": "container-full", "label": "Ancho completo" }
+    ], "default": "container" },
+    { "type": "checkbox", "id": "bg_soft", "label": "Fondo suave", "default": false },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "spacing_top", "label": "Superior", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 },
+    { "type": "range", "id": "spacing_bottom", "label": "Inferior", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Marca",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Colección de la marca" },
+        { "type": "text", "id": "label", "label": "Nombre", "info": "Por defecto usa el título de la colección" },
+        { "type": "image_picker", "id": "image", "label": "Logo", "info": "Por defecto usa la imagen de la colección" },
+        { "type": "url", "id": "link", "label": "Enlace alternativo" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "B2B catálogo por marca", "blocks": [{ "type": "brand" }, { "type": "brand" }, { "type": "brand" }, { "type": "brand" }] }]
+}
+{% endschema %}

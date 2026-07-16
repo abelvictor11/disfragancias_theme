@@ -1211,3 +1211,49 @@ span.badge.custom-metafield-badge {
 .b2b-addall:disabled { opacity: .4; cursor: not-allowed; }
 .b2b-addall.is-loading { opacity: .6; pointer-events: none; }
 @media (max-width: 767px) { .b2b-coll__bar { flex-direction: column; align-items: stretch; } .b2b-addall { width: 100%; } }
+
+/* =============================================================================
+   Secciones B2B del homepage (destacados, pedido rápido, marcas)
+   ============================================================================= */
+.b2b-section { padding-top: var(--b2b-sec-top, 40px); padding-bottom: var(--b2b-sec-bottom, 40px); }
+.b2b-section--soft { background: rgba(230,222,211,.22); }
+.b2b-section__head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.b2b-section__title { margin: 0; font-size: 24px; font-weight: 500; }
+.b2b-section__link { font-size: 13px; color: #555; text-decoration: none; }
+.b2b-section__link:hover { text-decoration: underline; }
+.b2b-section__empty { color: #888; font-size: 14px; }
+/* En secciones el listado no lleva barra sticky */
+.b2b-section .b2b-coll__bar { position: static; }
+
+/* Pedido rápido */
+.b2b-qo__hint { font-size: 13px; color: #777; margin: -6px 0 12px; }
+.b2b-qo__scroll { border: 1px solid #e2e2e2; border-radius: 12px; overflow-x: auto; background: #fff; }
+.b2b-qo__table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 620px; }
+.b2b-qo__table th { text-align: left; font-weight: 500; color: #777; padding: 11px 12px; background: rgba(230,222,211,.28); white-space: nowrap; }
+.b2b-qo__table td { padding: 8px 12px; border-top: 1px solid #eee; vertical-align: middle; }
+.b2b-qo__table .ta-r { text-align: right; } .b2b-qo__table .ta-c { text-align: center; }
+.b2b-qo__sku { width: 100%; height: 34px; border: 1px solid #dcdcdc; border-radius: 6px; padding: 0 8px; font-family: monospace; font-size: 13px; }
+.b2b-qo__row.is-found .b2b-qo__sku { border-color: #1a8a3a; }
+.b2b-qo__row.is-error .b2b-qo__sku { border-color: #d02b2b; }
+.b2b-qo__row.is-loading .b2b-qo__sku { opacity: .6; }
+.b2b-qo__prod { display: flex; align-items: center; gap: 8px; }
+.b2b-qo__prod a { color: inherit; text-decoration: none; font-weight: 500; }
+.b2b-qo__thumb { flex: 0 0 34px; width: 34px; height: 34px; border-radius: 5px; background: rgba(230,222,211,.3); overflow: hidden; }
+.b2b-qo__thumb img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+.b2b-qo__variant { color: #888; font-size: 12px; }
+.b2b-qo__placeholder { color: #ccc; }
+.b2b-qo__notfound { color: #d02b2b; font-size: 12px; }
+.b2b-qo__del { border: none; background: transparent; color: #bbb; font-size: 18px; line-height: 1; cursor: pointer; padding: 4px 6px; }
+.b2b-qo__del:hover { color: #d02b2b; }
+.b2b-qo__actions { margin: 10px 0 0; }
+.b2b-qo__addrow { border: 1px dashed #ccc; background: transparent; color: #555; padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; }
+.b2b-qo__addrow:hover { border-color: #232323; color: #232323; }
+
+/* Catálogo por marca */
+.b2b-brands { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--b2b-brand-min, 150px), 1fr)); gap: 10px; margin: 0; padding: 0; }
+.b2b-brand__link { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 10px; border: 1px solid #eee; border-radius: 10px; background: #fff; text-decoration: none; color: inherit; transition: border-color .2s; }
+.b2b-brand__link:hover { border-color: #232323; }
+.b2b-brand__media { height: 46px; display: flex; align-items: center; }
+.b2b-brand__media img { max-height: 46px; width: auto; object-fit: contain; mix-blend-mode: multiply; }
+.b2b-brand__name { font-size: 13px; font-weight: 500; text-align: center; }
+.b2b-brand__count { font-size: 11px; color: #999; }

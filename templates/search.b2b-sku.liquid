@@ -1,0 +1,18 @@
+{%- comment -%}
+  Endpoint JSON para el pedido rápido por SKU.
+  Uso: /search?q=<sku>&type=product&view=b2b-sku
+  Devuelve las variantes de los productos que matchean, para que el JS
+  seleccione la coincidencia exacta de SKU.
+{%- endcomment -%}
+{%- layout none -%}
+{%- assign first = true -%}
+[
+{%- for item in search.results -%}
+  {%- if item.object_type == 'product' -%}
+    {%- for v in item.variants -%}
+      {%- unless first %},{% endunless %}{%- assign first = false -%}
+      {"sku":{{ v.sku | default: '' | json }},"id":{{ v.id }},"product":{{ item.title | json }},"variant":{{ v.title | json }},"price":{{ v.price }},"available":{{ v.available }},"url":{{ item.url | json }},"img":{% if item.featured_image %}{{ item.featured_image | image_url: width: 88 | json }}{% else %}null{% endif %}}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}
+]

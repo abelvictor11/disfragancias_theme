@@ -1,0 +1,54 @@
+{%- liquid
+  assign coll = section.settings.collection
+  assign limit = section.settings.products_limit
+  assign prods = coll.products | slice: 0, limit
+-%}
+<div class="b2b-section{% if section.settings.bg_soft %} b2b-section--soft{% endif %}"
+  style="--b2b-sec-top: {{ section.settings.spacing_top }}px; --b2b-sec-bottom: {{ section.settings.spacing_bottom }}px;">
+  <div class="{{ section.settings.width }}">
+    {%- if section.settings.title != blank -%}
+      <div class="b2b-section__head">
+        <h2 class="b2b-section__title">{{ section.settings.title | escape }}</h2>
+        {%- if section.settings.show_view_all and coll != blank -%}
+          <a class="b2b-section__link" href="{{ coll.url }}">{{ 'sections.featured_collection.view_all' | t }} →</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if coll == blank or coll.products.size == 0 -%}
+      <p class="b2b-section__empty">{{ 'sections.collection_template.empty' | t }}</p>
+    {%- else -%}
+      {% render 'collection-b2b-listing',
+        products: prods,
+        is_section: true,
+        heading: section.settings.subheading
+      %}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "B2B destacados",
+  "tag": "section",
+  "class": "b2b-featured-section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Más pedidos" },
+    { "type": "text", "id": "subheading", "label": "Texto del toolbar", "info": "Reemplaza el contador de productos" },
+    { "type": "collection", "id": "collection", "label": "Colección" },
+    { "type": "range", "id": "products_limit", "label": "Productos a mostrar", "min": 4, "max": 24, "step": 2, "default": 12 },
+    { "type": "checkbox", "id": "show_view_all", "label": "Mostrar enlace 'Ver todo'", "default": true },
+    { "type": "select", "id": "width", "label": "Ancho", "options": [
+      { "value": "container", "label": "Contenedor" },
+      { "value": "container-1170", "label": "1170px" },
+      { "value": "container-1770", "label": "1770px" },
+      { "value": "container-full", "label": "Ancho completo" }
+    ], "default": "container" },
+    { "type": "checkbox", "id": "bg_soft", "label": "Fondo suave", "default": false },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "spacing_top", "label": "Superior", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 },
+    { "type": "range", "id": "spacing_bottom", "label": "Inferior", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 }
+  ],
+  "presets": [{ "name": "B2B destacados" }]
+}
+{% endschema %}
