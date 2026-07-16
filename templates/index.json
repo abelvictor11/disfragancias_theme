@@ -922,7 +922,7 @@
       "settings": {
         "title": "Más pedidos",
         "subheading": "",
-        "collection": "lo-nuevo",
+        "collection": "todos-los-productos",
         "products_limit": 12,
         "show_view_all": true,
         "width": "container",
