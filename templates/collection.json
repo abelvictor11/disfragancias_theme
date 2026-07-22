@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "banner": {
@@ -194,7 +203,7 @@
         "show_view_as": true,
         "products_per_page": "30",
         "layout": "4",
-        "show_infinite_scrolling": "show_more",
+        "show_infinite_scrolling": "pagination",
         "show_banner": false,
         "show_banner_1": false,
         "banner_position_1": "4",
