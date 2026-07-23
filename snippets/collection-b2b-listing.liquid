@@ -12,7 +12,11 @@
 {% endcomment -%}
 {%- liquid
   assign b2b_products = products | default: collection.products
+  assign b2b_limit = limit | default: 9999
   assign b2b_count = b2b_products.size
+  if b2b_count > b2b_limit
+    assign b2b_count = b2b_limit
+  endif
 -%}
 <div class="b2b-coll{% unless is_section %} productListing{% endunless %}" data-b2b-coll{% unless is_section %} id="main-collection-product-grid" data-id="{{ section.id }}"{% endunless %}>
   <div class="b2b-coll__toolbar">
@@ -25,7 +29,7 @@
 
   {%- comment %} Vista grilla {% endcomment -%}
   <ul class="b2b-grid list-unstyled" data-b2b-view="grid">
-    {%- for product in b2b_products -%}
+    {%- for product in b2b_products limit: b2b_limit -%}
       {%- assign v = product.selected_or_first_available_variant -%}
       <li class="b2b-card{% unless product.available %} is-out{% endunless %}" data-b2b-item data-product-url="{{ product.url }}">
         <a class="b2b-card__media" href="{{ product.url }}">
@@ -69,7 +73,7 @@
         </tr>
       </thead>
       <tbody>
-        {%- for product in b2b_products -%}
+        {%- for product in b2b_products limit: b2b_limit -%}
           {%- assign v = product.selected_or_first_available_variant -%}
           <tr class="b2b-lrow{% unless product.available %} is-out{% endunless %}" data-b2b-item data-product-url="{{ product.url }}">
             <td class="b2b-lrow__name">

@@ -1,7 +1,6 @@
 {%- liquid
   assign coll = section.settings.collection
   assign limit = section.settings.products_limit
-  assign prods = coll.products | slice: 0, limit
 -%}
 <div class="b2b-section{% if section.settings.bg_soft %} b2b-section--soft{% endif %}"
   style="--b2b-sec-top: {{ section.settings.spacing_top }}px; --b2b-sec-bottom: {{ section.settings.spacing_bottom }}px;">
@@ -19,7 +18,8 @@
       <p class="b2b-section__empty">{{ 'sections.collection_template.empty' | t }}</p>
     {%- else -%}
       {% render 'collection-b2b-listing',
-        products: prods,
+        products: coll.products,
+        limit: limit,
         is_section: true,
         heading: section.settings.subheading
       %}
