@@ -843,7 +843,7 @@
                                                 --color-text-sold-in: {{ color_text_sold_in }}"
                                             >
                                                 <div class="productView-meta{% if show_sold_in == false %} productView-meta-2{% endif %} clearfix">
-                                                    {%- if show_sold_in -%}
+                                                    {%- if show_sold_in and b2b_matrix_active != true -%}
                                                         {% render 'product-sold-in-last',
                                                             sold_in_number: sold_in_number,
                                                             sold_in_hours: sold_in_hours
@@ -1003,7 +1003,7 @@
                                             </div>
                                         {% endif %}
                                     {%- when 'hot_stock' -%}
-                                        {% unless has_product_combo %}
+                                        {% unless has_product_combo or b2b_matrix_active %}
                                             {% render 'product-hot-stock',
                                                 block: block,
                                                 product: product,
@@ -1039,7 +1039,7 @@
                                             %}
                                         </div>
                                     {%- when 'perks' -%}
-                                        {% unless has_product_combo %}
+                                        {% unless has_product_combo or b2b_matrix_active %}
                                             <div class="productView-moreItem{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"
                                                 style="--spacing-top: {{ spacing_top | append: 'px' }};
                                                 --spacing-bottom: {{ spacing_bottom | append: 'px' }}"
@@ -1100,6 +1100,7 @@
                                             </div>
                                         {% endunless %}
                                     {%- when 'customer_viewing' -%}
+                                        {%- unless b2b_matrix_active -%}
                                         <div class="productView-moreItem{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"
                                             style="--spacing-top: {{ spacing_top | append: 'px' }};
                                             --spacing-bottom: {{ spacing_bottom | append: 'px' }}"
@@ -1108,6 +1109,7 @@
                                                 block: block
                                             %}
                                         </div>
+                                        {%- endunless -%}
                                     {%- when 'pickup_availability' -%}
                                         <div class="productView-moreItem{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"
                                             style="--spacing-top: {{ spacing_top | append: 'px' }};
@@ -1326,6 +1328,7 @@
             {% endif %}
             {%- if b2b_matrix_active -%}
                 <div class="productView-b2b-full">
+                    {% render 'product-b2b-conditions' %}
                     {% render 'product-b2b-matrix', product: product %}
                 </div>
             {%- endif -%}

@@ -5881,15 +5881,15 @@
         "default": "You May Also Like"
       },
       {
-      "type": "collection",
-      "id": "quick_cart_popular_product_collection_1",
-      "label": "t:settings_schema.quick_cart.settings.product.label__4 Collection 1"
-    },
-    {
-      "type": "collection",
-      "id": "quick_cart_popular_product_collection_2",
-      "label": "t:settings_schema.quick_cart.settings.product.label__4 Collection 2"
-    },
+        "type": "collection",
+        "id": "quick_cart_popular_product_collection_1",
+        "label": "t:settings_schema.quick_cart.settings.product.label__4 Collection 1"
+      },
+      {
+        "type": "collection",
+        "id": "quick_cart_popular_product_collection_2",
+        "label": "t:settings_schema.quick_cart.settings.product.label__4 Collection 2"
+      },
       {
         "type": "range",
         "id": "quick_cart_popular_product_show",
@@ -9020,6 +9020,44 @@
         "id": "preloading_screen_bg",
         "label": "t:settings_schema.colors.settings.colors_name.background_color",
         "default": "#fff"
+      }
+    ]
+  },
+  {
+    "name": "B2B",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Condiciones mostradas en el PDP"
+      },
+      {
+        "type": "text",
+        "id": "b2b_min_order",
+        "label": "Pedido mínimo",
+        "default": "$150.000"
+      },
+      {
+        "type": "text",
+        "id": "b2b_lead_time",
+        "label": "Despacho / lead time",
+        "default": "24–48 h"
+      },
+      {
+        "type": "text",
+        "id": "b2b_payment",
+        "label": "Formas de pago",
+        "default": "Transferencia · crédito"
+      },
+      {
+        "type": "text",
+        "id": "b2b_pricelist_label",
+        "label": "Texto lista de precios",
+        "default": "Descargar"
+      },
+      {
+        "type": "url",
+        "id": "b2b_pricelist_url",
+        "label": "Enlace lista de precios"
       }
     ]
   }

@@ -1,0 +1,36 @@
+{%- comment %}
+  Bloque de condiciones B2B en el PDP: reemplaza los perks retail.
+  Valores globales desde Theme settings (grupo "B2B"). Cada tile se muestra
+  solo si tiene valor.
+{% endcomment -%}
+{%- liquid
+  assign c_min = settings.b2b_min_order
+  assign c_lead = settings.b2b_lead_time
+  assign c_pay = settings.b2b_payment
+  assign c_price_label = settings.b2b_pricelist_label
+  assign c_price_url = settings.b2b_pricelist_url
+  assign has_any = false
+  if c_min != blank or c_lead != blank or c_pay != blank or c_price_url != blank
+    assign has_any = true
+  endif
+-%}
+{%- if has_any -%}
+  {%- capture ic_box %}<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3h2l2 12h11l2-8H6"/><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg>{% endcapture -%}
+  {%- capture ic_truck %}<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/></svg>{% endcapture -%}
+  {%- capture ic_card %}<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>{% endcapture -%}
+  {%- capture ic_file %}<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/><path d="M9 13h6M9 17h6"/></svg>{% endcapture -%}
+  <div class="b2b-conditions">
+    {%- if c_min != blank -%}
+      <div class="b2b-cond"><span class="b2b-cond__ic">{{ ic_box }}</span><span><span class="b2b-cond__lbl">Pedido mínimo</span><span class="b2b-cond__val">{{ c_min }}</span></span></div>
+    {%- endif -%}
+    {%- if c_lead != blank -%}
+      <div class="b2b-cond"><span class="b2b-cond__ic">{{ ic_truck }}</span><span><span class="b2b-cond__lbl">Despacho</span><span class="b2b-cond__val">{{ c_lead }}</span></span></div>
+    {%- endif -%}
+    {%- if c_pay != blank -%}
+      <div class="b2b-cond"><span class="b2b-cond__ic">{{ ic_card }}</span><span><span class="b2b-cond__lbl">Pago</span><span class="b2b-cond__val">{{ c_pay }}</span></span></div>
+    {%- endif -%}
+    {%- if c_price_url != blank -%}
+      <a class="b2b-cond b2b-cond--link" href="{{ c_price_url }}"{% if c_price_url contains 'http' %} target="_blank" rel="noopener"{% endif %}><span class="b2b-cond__ic">{{ ic_file }}</span><span><span class="b2b-cond__lbl">Lista de precios</span><span class="b2b-cond__val b2b-cond__val--link">{{ c_price_label | default: 'Descargar' }}</span></span></a>
+    {%- endif -%}
+  </div>
+{%- endif -%}
