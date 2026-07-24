@@ -278,6 +278,16 @@
                         const $block = $(entry.target);
                         if ($block.hasClass('ajax-loaded')) return;
 
+                        // B2B: si el bloque ya viene renderizado desde el
+                        // servidor con cards b2b, esta petición AJAX sólo
+                        // reemplazaría el HTML por el mismo contenido, y eso
+                        // es lo que produce el "refresh" visible al cargar.
+                        if ($block.find('.b2b-card').length > 0) {
+                            $block.addClass('ajax-loaded');
+                            observer.unobserve(entry.target);
+                            return;
+                        }
+
                         var url = $block.data('collection'),
                             layout = $block.data('layout'),
                             limit = $block.data('limit'),

@@ -317,76 +317,40 @@ class Toolbar extends HTMLElement {
             viewModeMobile = this.mediaViewMobile?.querySelector('.icon-mode.active'),
             column = parseInt(viewMode?.dataset.col),
             windowWidth = window.innerWidth;
-        
-        if(column != 1){
-            if(document.querySelector('.sidebar--layout_vertical')){
-                if (windowWidth < 768) {
-                    if (column == 3 || column == 4 || column == 5) {
-                        column = 2;
-                        viewMode.classList.remove('active');
-                        viewModeMobile.classList.remove('active');
-                        this.mediaView.querySelector('.grid-2').classList.add('active');
-                        this.mediaViewMobile.querySelector('.grid-2').classList.add('active');
-                    }
-                } else if (windowWidth <= 1100 && windowWidth >= 768) {
-                    if (column == 5 || column == 4 || column == 3) {
-                        column = 2;
-                        viewMode.classList.remove('active');
-                        viewModeMobile.classList.remove('active');
-                        this.mediaView.querySelector('.grid-2').classList.add('active');
-                        this.mediaViewMobile.querySelector('.grid-2').classList.add('active');
-                    }
-                } else if (windowWidth < 1299 && windowWidth > 1100) {
-                    if (column == 5 || column == 4) {
-                        column = 3;
-                        viewMode.classList.remove('active');
-                        viewModeMobile.classList.remove('active');
-                        this.mediaView.querySelector('.grid-3').classList.add('active');
-                        this.mediaViewMobile.querySelector('.grid-3').classList.add('active');
-                    }
-                } else if (windowWidth < 1700 && windowWidth >= 1299) {
-                    if (column == 5) {
-                        column = 4;
-                        viewMode.classList.remove('active');
-                        viewModeMobile.classList.remove('active');
-                        this.mediaView.querySelector('.grid-4').classList.add('active');
-                        this.mediaViewMobile.querySelector('.grid-4').classList.add('active');
-                    }
-                }
-            } else{
-                if (windowWidth < 768) {
-                    if (column == 3 || column == 4 || column == 5) {
-                        column = 2;
-                        viewMode.classList.remove('active');
-                        viewModeMobile.classList.remove('active');
-                        this.mediaView.querySelector('.grid-2').classList.add('active');
-                        this.mediaViewMobile.querySelector('.grid-2').classList.add('active');
-                    }
-                } else if (windowWidth < 992 && windowWidth >= 768) {
-                    if (column == 4 || column == 5) {
-                        column = 3;
-                        viewMode.classList.remove('active');
-                        viewModeMobile.classList.remove('active');
-                        this.mediaView.querySelector('.grid-3').classList.add('active');
-                        this.mediaViewMobile.querySelector('.grid-3').classList.add('active');
-                    }
-                } else if (windowWidth < 1600 && windowWidth >= 992) {
-                    if (column == 5) {
-                        column = 4;
-                        viewMode.classList.remove('active');
-                        viewModeMobile.classList.remove('active');
-                        this.mediaView.querySelector('.grid-4').classList.add('active');
-                        this.mediaViewMobile.querySelector('.grid-4').classList.add('active');
-                    }
-                }
+
+        if (isNaN(column)) {
+            if (ajaxLoading) this.initViewModeLayout(column);
+            return;
+        }
+
+        // Máximo de columnas por breakpoint. Genérico: soporta cualquier nº
+        // (antes estaba hardcodeado a 3/4/5, por eso una grilla de 6 ó 7
+        // siempre terminaba cayendo a 4 y se veía el salto al cargar).
+        // El mínimo en B2B es 2 columnas.
+        var breakpoints = document.querySelector('.sidebar--layout_vertical')
+            ? [[768, 2], [1100, 2], [1299, 3], [1700, 5], [Infinity, 7]]
+            : [[768, 2], [992, 3], [1300, 4], [1600, 5], [Infinity, 7]];
+
+        var maxColumn = 7;
+        for (var i = 0; i < breakpoints.length; i++) {
+            if (windowWidth < breakpoints[i][0]) { maxColumn = breakpoints[i][1]; break; }
+        }
+
+        if (column > maxColumn) {
+            column = maxColumn;
+            var target = this.mediaView?.querySelector('.grid-' + column),
+                targetMobile = this.mediaViewMobile?.querySelector('.grid-' + column);
+            if (target) {
+                viewMode?.classList.remove('active');
+                target.classList.add('active');
             }
-            
-            this.initViewModeLayout(column);
-        } else{
-            if(ajaxLoading){
-                this.initViewModeLayout(column);
+            if (targetMobile) {
+                viewModeMobile?.classList.remove('active');
+                targetMobile.classList.add('active');
             }
         }
+
+        this.initViewModeLayout(column);
     }
     
     changeBannerPositions(column) {

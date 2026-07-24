@@ -207,7 +207,7 @@
                         </div>
                     {%- else -%}
                         <div class="collection{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
-                            {% render 'collection-b2b-listing', collection: collection %}
+                            {% render 'collection-b2b-listing', collection: collection, col: layout %}
                             {%- if paginate.pages > 1 -%}
                                 {% render 'pagination-listing',
                                     paginate: paginate,

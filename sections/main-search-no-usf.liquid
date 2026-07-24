@@ -185,7 +185,8 @@
                                 {%- assign search_heading = search.results_count | append: ' resultados' -%}
                                 {% render 'collection-b2b-listing',
                                     products: search.results,
-                                    heading: search_heading
+                                    heading: search_heading,
+                                    col: layout
                                 %}
                                 {% render 'pagination-listing',
                                     paginate: paginate,

@@ -18,7 +18,13 @@
     assign b2b_count = b2b_limit
   endif
 -%}
-<div class="b2b-coll{% unless is_section %} productListing{% endunless %}" data-b2b-coll{% unless is_section %} id="main-collection-product-grid" data-id="{{ section.id }}"{% endunless %}>
+{%- comment -%}
+  col: nº de columnas con el que el servidor debe pintar la grilla. Debe
+  coincidir con el que aplica toolbar.js al cargar, o se ve un salto
+  (auto-fill ~6 -> column-N).
+{%- endcomment -%}
+{%- assign b2b_col = col | default: 4 -%}
+<div class="b2b-coll{% unless is_section %} productListing productGrid column-{{ b2b_col }}{% endunless %}" data-b2b-coll{% unless is_section %} id="main-collection-product-grid" data-id="{{ section.id }}"{% endunless %}>
   <div class="b2b-coll__toolbar">
     <div class="b2b-coll__count">{% if heading %}{{ heading }}{% else %}{{ b2b_count }} {{ 'sections.collection_template.results' | t | default: 'productos' }}{% endif %}</div>
     <div class="b2b-coll__toggle" role="group" aria-label="Cambiar vista">
