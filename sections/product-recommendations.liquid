@@ -375,15 +375,10 @@
                     {%- endif -%}
                         {%- for product in recommendations.products limit: limit -%}
                             <div class="product{% if swipe %} slider__slide grid__item{% endif %}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"{% if settings.banner_animation == 'effect_fade_up' %} style="--animation-order: {{ forloop.index }};"{% endif %}>
-                                {% render 'product-grid-layout',
-                                    product_card_product: product,
-                                    media_size: image_ratio,
-                                    portrait_aspect_ratio: '125',
-                                    serial: forloop.index,
-                                    sectionId: sectionId
-                                %}
+                                {% render 'product-b2b-card', product_card_product: product %}
                             </div>
                         {%- endfor -%}
+                        {{ 'b2b-collection.js' | asset_url | script_tag }}
                     </div>
                     {%- if swipe -%}
                         <div class="slider-buttons no-js-hidden{% if products_to_display < 4 %} medium-hide{% endif %}{% if products_to_display < 3 %} small-hide{% endif %}">

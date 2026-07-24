@@ -1171,7 +1171,8 @@ span.badge.custom-metafield-badge {
 .b2b-coll.column-3 .b2b-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .b2b-coll.column-4 .b2b-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .b2b-coll.column-5 .b2b-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-.b2b-coll.productList .b2b-grid { grid-template-columns: 1fr; }
+.b2b-coll.column-6 .b2b-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.b2b-coll.column-7 .b2b-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
 .b2b-card { border: 1px solid #eee; border-radius: 12px; padding: 10px; background: #fff; display: flex; flex-direction: column; }
 .b2b-card.is-out { opacity: .55; }
 .b2b-card__media { display: block; aspect-ratio: 1; background: rgba(230,222,211,.3); border-radius: 8px; overflow: hidden; margin-bottom: 8px; }
@@ -1299,3 +1300,21 @@ span.badge.custom-metafield-badge {
   .template-product .productView-thumbnail-wrapper { top: 0 !important; }
   .template-product .productView-thumbnail-wrapper .productView-for { max-height: 380px !important; }
 }
+
+
+/* "Visto como" B2B: mostrar 2 a 7 columnas (sin la vista de 1 columna) */
+.toolbar .toolbar-item .toolbar-icon.grid-3,
+.toolbar .toolbar-item .toolbar-icon.grid-4,
+.toolbar .toolbar-item .toolbar-icon.grid-5,
+.toolbar .toolbar-item .toolbar-icon.grid-6,
+.toolbar .toolbar-item .toolbar-icon.grid-7 { display: inline-block !important; }
+.toolbar .toolbar-item .toolbar-icon.grid-6 { width: 47px; }
+.toolbar .toolbar-item .toolbar-icon.grid-7 { width: 54px; }
+.toolbar .toolbar-item .toolbar-icon.grid-6:before {
+  box-shadow: 7px 0 0 var(--bg-grey), 14px 0 0 var(--bg-grey), 21px 0 0 var(--bg-grey), 28px 0 0 var(--bg-grey), 35px 0 0 var(--bg-grey); }
+.toolbar .toolbar-item .toolbar-icon.grid-6.active:before {
+  box-shadow: 7px 0 0 var(--icon), 14px 0 0 var(--icon), 21px 0 0 var(--icon), 28px 0 0 var(--icon), 35px 0 0 var(--icon); }
+.toolbar .toolbar-item .toolbar-icon.grid-7:before {
+  box-shadow: 7px 0 0 var(--bg-grey), 14px 0 0 var(--bg-grey), 21px 0 0 var(--bg-grey), 28px 0 0 var(--bg-grey), 35px 0 0 var(--bg-grey), 42px 0 0 var(--bg-grey); }
+.toolbar .toolbar-item .toolbar-icon.grid-7.active:before {
+  box-shadow: 7px 0 0 var(--icon), 14px 0 0 var(--icon), 21px 0 0 var(--icon), 28px 0 0 var(--icon), 35px 0 0 var(--icon), 42px 0 0 var(--icon); }

@@ -13,11 +13,12 @@
             <div class="toolbar-col toolbar-colLeft">
                 <label class="toolbar-label">{{ 'sections.collection_template.view_as' | t }}</label>
                 <div class="toolbar-item toolbar-viewAs clearfix" data-view-as>
-                    <span class="toolbar-icon icon-mode icon-mode-list{% if layout == '1' %} active{% endif %}" data-col="1" role="button" aria-label="List" tabindex="0"></span>
-                    <span class="toolbar-icon icon-mode icon-mode-grid grid-2{% if layout == '2' %} active{% endif %}" data-col="2" role="button" aria-label="Grid 2" tabindex="0"></span>
+                    <span class="toolbar-icon icon-mode icon-mode-grid grid-2{% if layout == '1' or layout == '2' %} active{% endif %}" data-col="2" role="button" aria-label="Grid 2" tabindex="0"></span>
                     <span class="toolbar-icon icon-mode icon-mode-grid grid-3{% if layout == '3' %} active{% endif %}" data-col="3" role="button" aria-label="Grid 3" tabindex="0"></span>
                     <span class="toolbar-icon icon-mode icon-mode-grid grid-4{% if layout == '4' %} active{% endif %}" data-col="4" role="button" aria-label="Grid 4" tabindex="0"></span>
                     <span class="toolbar-icon icon-mode icon-mode-grid grid-5{% if layout == '5' %} active{% endif %}" data-col="5" role="button" aria-label="Grid 5" tabindex="0"></span>
+                    <span class="toolbar-icon icon-mode icon-mode-grid grid-6{% if layout == '6' %} active{% endif %}" data-col="6" role="button" aria-label="Grid 6" tabindex="0"></span>
+                    <span class="toolbar-icon icon-mode icon-mode-grid grid-7{% if layout == '7' %} active{% endif %}" data-col="7" role="button" aria-label="Grid 7" tabindex="0"></span>
                 </div>
             </div>
         {%- endif -%}
@@ -82,11 +83,12 @@
     <div class="toolbar-wrapper toolbar-mobile{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
         {%- if show_view_as -%}
             <div class="toolbar-item toolbar-viewAs clearfix" data-view-as-mobile>
-                <span class="toolbar-icon icon-mode icon-mode-list{% if layout == '1' %} active{% endif %}" data-col="1" role="button" aria-label="List" tabindex="0"></span>
-                <span class="toolbar-icon icon-mode icon-mode-grid grid-2{% if layout == '2' %} active{% endif %}" data-col="2" role="button" aria-label="Grid 2" tabindex="0"></span>
+                <span class="toolbar-icon icon-mode icon-mode-grid grid-2{% if layout == '1' or layout == '2' %} active{% endif %}" data-col="2" role="button" aria-label="Grid 2" tabindex="0"></span>
                 <span class="toolbar-icon icon-mode icon-mode-grid grid-3{% if layout == '3' %} active{% endif %}" data-col="3" role="button" aria-label="Grid 3" tabindex="0"></span>
                 <span class="toolbar-icon icon-mode icon-mode-grid grid-4{% if layout == '4' %} active{% endif %}" data-col="4" role="button" aria-label="Grid 4" tabindex="0"></span>
                 <span class="toolbar-icon icon-mode icon-mode-grid grid-5{% if layout == '5' %} active{% endif %}" data-col="5" role="button" aria-label="Grid 5" tabindex="0"></span>
+                <span class="toolbar-icon icon-mode icon-mode-grid grid-6{% if layout == '6' %} active{% endif %}" data-col="6" role="button" aria-label="Grid 6" tabindex="0"></span>
+                <span class="toolbar-icon icon-mode icon-mode-grid grid-7{% if layout == '7' %} active{% endif %}" data-col="7" role="button" aria-label="Grid 7" tabindex="0"></span>
             </div>
         {%- endif -%}
     </div>

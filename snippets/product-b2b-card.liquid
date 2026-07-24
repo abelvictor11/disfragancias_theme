@@ -1,0 +1,36 @@
+{%- comment %}
+  Card B2B individual para sliders (recomendados / recientemente vistos).
+  A diferencia de la card del listado, el "+" añade la variante al carrito
+  DIRECTAMENTE (no acumula en una barra de totales). Requiere b2b-collection.js.
+  Param: product_card_product
+{% endcomment -%}
+{%- assign p = product_card_product -%}
+{%- assign v = p.selected_or_first_available_variant -%}
+<div class="b2b-card b2b-card--single{% unless p.available %} is-out{% endunless %}" data-b2b-single data-product-url="{{ p.url }}">
+  <a class="b2b-card__media" href="{{ p.url }}">
+    {%- if p.featured_image -%}
+      <img src="{{ p.featured_image | image_url: width: 240 }}" width="120" height="120" loading="lazy" alt="{{ p.title | escape }}">
+    {%- else -%}<span class="b2b-card__noimg"></span>{%- endif -%}
+  </a>
+  <a class="b2b-card__title" href="{{ p.url }}" title="{{ p.title | escape }}">{{ p.title }}</a>
+  {%- if p.variants.size > 1 -%}
+    <select class="b2b-size" data-b2b-size aria-label="Talla {{ p.title | escape }}">
+      {%- for variant in p.variants -%}
+        <option value="{{ variant.id }}" data-price="{{ variant.price }}" data-sku="{{ variant.sku | escape }}" data-available="{{ variant.available }}"{% unless variant.available %} disabled{% endunless %}{% if variant == v %} selected{% endif %}>{{ variant.title }}</option>
+      {%- endfor -%}
+    </select>
+  {%- else -%}
+    <input type="hidden" data-b2b-size value="{{ v.id }}" data-price="{{ v.price }}" data-sku="{{ v.sku | escape }}" data-available="{{ v.available }}">
+  {%- endif -%}
+  <div class="b2b-card__meta">
+    <span class="b2b-card__sku" data-b2b-sku title="{{ v.sku | escape }}">{{ v.sku | default: '—' }}</span>
+    <span class="b2b-card__stock" data-b2b-stock>{% if v.available %}<i class="b2b-dot b2b-dot--ok"></i>{{ 'products.product.in_stock' | t }}{% else %}<i class="b2b-dot b2b-dot--out"></i>{{ 'products.product.out_of_stock' | t }}{% endif %}</span>
+  </div>
+  <div class="b2b-card__foot">
+    <span class="b2b-card__price" data-b2b-price>{{ v.price | money }}</span>
+    <div class="b2b-card__actions" data-b2b-actions{% unless v.available %} hidden{% endunless %}>
+      <input type="number" class="b2b-qty" min="1" step="1" value="1" data-b2b-qty aria-label="Cantidad">
+      <button type="button" class="b2b-plus" data-b2b-single-add aria-label="Añadir al carrito">+</button>
+    </div>
+  </div>
+</div>

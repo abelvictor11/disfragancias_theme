@@ -121,8 +121,49 @@
     recalc();
   }
 
+  // Cards B2B sueltas en sliders (recomendados / recientemente vistos):
+  // el "+" añade la variante seleccionada directamente al carrito.
+  function initSingles(scope) {
+    (scope || document).querySelectorAll('[data-b2b-single]').forEach(function (card) {
+      if (card.__b2bSingle) return;
+      card.__b2bSingle = true;
+      var sel = card.querySelector('[data-b2b-size]');
+      function cur() {
+        if (sel && sel.tagName === 'SELECT') {
+          var o = sel.options[sel.selectedIndex];
+          return { id: sel.value, price: parseInt(o.getAttribute('data-price')) || 0, sku: o.getAttribute('data-sku') || '—', available: o.getAttribute('data-available') === 'true' };
+        }
+        return { id: sel.value, price: parseInt(sel.getAttribute('data-price')) || 0, sku: sel.getAttribute('data-sku') || '—', available: sel.getAttribute('data-available') === 'true' };
+      }
+      if (sel && sel.tagName === 'SELECT') sel.addEventListener('change', function () {
+        var c = cur();
+        var sk = card.querySelector('[data-b2b-sku]'); if (sk) { sk.textContent = c.sku || '—'; sk.title = c.sku || ''; }
+        var pr = card.querySelector('[data-b2b-price]'); if (pr) pr.textContent = money(c.price);
+        var act = card.querySelector('[data-b2b-actions]'); if (act) act.hidden = !c.available;
+      });
+      var addBtn = card.querySelector('[data-b2b-single-add]');
+      if (addBtn) addBtn.addEventListener('click', function () {
+        var c = cur(); if (!c.available) return;
+        var qtyEl = card.querySelector('[data-b2b-qty]');
+        var qty = Math.max(1, parseInt(qtyEl && qtyEl.value) || 1);
+        addBtn.disabled = true; addBtn.classList.add('is-loading');
+        fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: [{ id: parseInt(c.id), quantity: qty }] }) })
+          .then(function (r) { if (!r.ok) return r.json().then(function (e) { throw e; }); return r.json(); })
+          .then(function () { return fetch('/cart.js').then(function (r) { return r.json(); }); })
+          .then(function (cart) {
+            document.body.classList.add('cart-sidebar-show');
+            if (window.halo && typeof window.halo.updateSidebarCart === 'function') window.halo.updateSidebarCart(cart);
+            document.querySelectorAll('[data-cart-count]').forEach(function (el) { el.textContent = cart.item_count; });
+          })
+          .catch(function (e) { alert((e && e.description) || 'No se pudo añadir al carrito'); })
+          .then(function () { addBtn.disabled = false; addBtn.classList.remove('is-loading'); });
+      });
+    });
+  }
+
   function scan() {
     document.querySelectorAll('[data-b2b-coll]').forEach(initColl);
+    initSingles(document);
   }
 
   function start() {

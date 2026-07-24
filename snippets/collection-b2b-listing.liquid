@@ -30,6 +30,7 @@
   {%- comment %} Vista grilla {% endcomment -%}
   <ul class="b2b-grid list-unstyled" data-b2b-view="grid">
     {%- for product in b2b_products limit: b2b_limit -%}
+      {%- unless product.variants -%}{%- continue -%}{%- endunless -%}
       {%- assign v = product.selected_or_first_available_variant -%}
       <li class="b2b-card{% unless product.available %} is-out{% endunless %}" data-b2b-item data-product-url="{{ product.url }}">
         <a class="b2b-card__media" href="{{ product.url }}">
@@ -74,6 +75,7 @@
       </thead>
       <tbody>
         {%- for product in b2b_products limit: b2b_limit -%}
+          {%- unless product.variants -%}{%- continue -%}{%- endunless -%}
           {%- assign v = product.selected_or_first_available_variant -%}
           <tr class="b2b-lrow{% unless product.available %} is-out{% endunless %}" data-b2b-item data-product-url="{{ product.url }}">
             <td class="b2b-lrow__name">

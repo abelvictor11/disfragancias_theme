@@ -483,48 +483,11 @@ class Toolbar extends HTMLElement {
 
         if (!productListing) return;
 
-        switch (column) {
-            case 1:
-                productListing.classList.remove('productGrid', 'column-5', 'column-4', 'column-3', 'column-2');
-                productListing.classList.add('productList');
-
-                
-                // if(document.body.classList.contains('product-card-layout-01') || document.body.classList.contains('product-card-layout-05')){
-                //     if(productListing.classList.contains('productList')){
-                //         const cards = productListing.querySelectorAll('.card');
-                //         cards.forEach(card => {
-                //             const compareInput = card.querySelector('input.compare-checkbox');
-                //             compareInput.disabled = true;
-                //         })
-                //     }
-                // }
-
-                break;
-
-            default:
-                switch (column) {
-                    case 2:
-                        productListing.classList.remove('productList', 'column-5', 'column-4', 'column-3');
-                        productListing.classList.add('productGrid', 'column-2');
-
-                        break;
-                    case 3:
-                        productListing.classList.remove('productList', 'column-5', 'column-4', 'column-2');
-                        productListing.classList.add('productGrid', 'column-3');
-
-                        break;
-                    case 4:
-                        productListing.classList.remove('productList', 'column-5', 'column-3', 'column-2');
-                        productListing.classList.add('productGrid', 'column-4');
-
-                        break;
-                    case 5:
-                        productListing.classList.remove('productList', 'column-4', 'column-3', 'column-2');
-                        productListing.classList.add('productGrid', 'column-5');
-
-                        break;
-                }
-        };
+        // Genérico: soporta cualquier nº de columnas (mínimo 2 en B2B).
+        if (column < 2) column = 2;
+        productListing.classList.remove('productList',
+            'column-1', 'column-2', 'column-3', 'column-4', 'column-5', 'column-6', 'column-7');
+        productListing.classList.add('productGrid', 'column-' + column);
         
         if (document.querySelector('.collection-masonry')) {
             resizeAllGridItems();
