@@ -1273,8 +1273,12 @@ span.badge.custom-metafield-badge {
    para que el título no quede a 350px de distancia. */
 .template-product .b2b-matrix { max-width: 100%; }
 @media (min-width: 768px) {
-  .template-product .halo-productView-left { width: 420px !important; flex: 0 0 420px !important; max-width: 420px !important; }
+  /* 540px acomoda imagen principal (~380px) + tira vertical de miniaturas (100px)
+     en el layout de right-thumbs, sin dejar hueco antes del título. */
+  .template-product .halo-productView-left { width: 540px !important; flex: 0 0 540px !important; max-width: 540px !important; }
   .template-product .halo-productView-right { width: auto !important; flex: 1 1 auto !important; max-width: none !important; }
   .template-product .productView-images-wrapper { max-width: 100%; }
   .template-product .productView-image img { object-fit: contain; }
+  /* el texto de la columna de info no debe estirarse a todo lo ancho */
+  .template-product .productView-desc, .template-product .productView-short-description { max-width: 680px; }
 }
