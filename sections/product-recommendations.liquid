@@ -378,7 +378,6 @@
                                 {% render 'product-b2b-card', product_card_product: product %}
                             </div>
                         {%- endfor -%}
-                        {{ 'b2b-collection.js' | asset_url | script_tag }}
                     </div>
                     {%- if swipe -%}
                         <div class="slider-buttons no-js-hidden{% if products_to_display < 4 %} medium-hide{% endif %}{% if products_to_display < 3 %} small-hide{% endif %}">
