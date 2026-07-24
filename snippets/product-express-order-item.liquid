@@ -97,7 +97,7 @@
             <span class="options-title">{{ variant.title }}</span>
         </div>
         <div class="column col-price text-center">
-            <div class="card-price">{{ variant.price | money }}</div>
+            <div class="card-price">{% capture bss_lock_check %} {% render 'bss-lock-condition', scope: 'subject', subject: product, subject_parent: product, variable: 'price', bss_lock_action: 'bss_hide_price' %} {% endcapture %} {% if bss_lock_check contains 'bss-lock-element' %} {{ bss_lock_check }}  {% else %}{{ variant.price | money }}{% endif %}</div>
         </div>
         <div class="column col-qtt text-center">
             <div class="qty-group">

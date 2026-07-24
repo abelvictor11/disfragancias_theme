@@ -30,7 +30,7 @@
                         </div>
                         <div class="menu-dropdown__column menu-dropdown__column-{{ column }} w-auto{% unless show_banner_1 or show_product %} column-full{% endunless %} {% unless show_product %}no_show_product{% endunless %}{% unless show_banner_1 %} no_show_banner{% endunless %}" data-masonry='{ "itemSelector": "[data-gridItem]", "columnWidth": ".grid-sizer" }'>
                             <div class="grid-sizer"></div>
-                            {%- for childlink in link.links -%}
+                            {%- for childlink in link.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: childlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                 {% assign childtitle = childlink.title | escape | downcase | handle %}
                                 <div class="site-nav dropdown{% if show_label_blink %} menu-lv-blink{% endif %}" data-gridItem>
                                     <div class="site-nav-list">
@@ -52,7 +52,7 @@
                                                 <div class="nav-title-mobile text-center"><span class="icon-dropdown">{% render 'icon-arrow-nav' %}</span> {{ childlink.title | escape }}</div>
                                                 <ul class="list-unstyled">
                                                     <li class="site-nav-item menu-lv-3 text-left navigation_all_mobile d-none"><a href="{{ childlink.url }}" class="site-nav-link m-zero link link-underline link--text focus-inset link-effect caption-large"><span class="text p-relative">{{ 'general.navigation.go_to' | t }} {{ childlink.title | escape }}</span></a></li>
-                                                    {%- for grandchildlink in childlink.links -%}
+                                                    {%- for grandchildlink in childlink.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: grandchildlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                                         {% assign grandchildtitle = grandchildlink.title | escape | downcase | handle %}
                                                         <li class="site-nav-item menu-lv-3 text-left{% if sale_item_lv3 contains grandchildtitle %} active-sale{% endif %}"><a href="{{ grandchildlink.url }}" class="site-nav-link m-zero link link--text focus-inset caption-large link-effect"{% if grandchildlink.current %} aria-current="page"{% endif %}><span class="text{% if grandchildlink.current %} site-nav-active{% endif %} p-relative">{{ grandchildlink.title | escape }}</span>
                                                                 {%- if new_label_3 contains grandchildtitle -%}
@@ -108,7 +108,7 @@
                         </div>
                         <div class="menu-dropdown__column menu-dropdown__column-{{ column }} w-auto{% unless show_banner_1 or show_banner_2 or show_banner_3 %} column-full{% endunless %}" data-masonry='{ "itemSelector": "[data-gridItem]", "columnWidth": ".grid-sizer" }'>
                             <div class="grid-sizer"></div>
-                            {%- for childlink in link.links -%}
+                            {%- for childlink in link.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: childlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                 {% assign childtitle = childlink.title | escape | downcase | handle %}
                                 <div class="site-nav dropdown{% if show_label_blink %} menu-lv-blink{% endif %}" data-gridItem>
                                     <div class="site-nav-list">
@@ -130,7 +130,7 @@
                                                 <div class="nav-title-mobile text-center"><span class="icon-dropdown">{% render 'icon-arrow-nav' %}</span> {{ childlink.title | escape }}</div>
                                                 <ul class="list-unstyled">
                                                     <li class="site-nav-item menu-lv-3 text-left navigation_all_mobile d-none"><a href="{{ childlink.url }}" class="site-nav-link m-zero link link-underline link--text focus-inset link-effect caption-large"><span class="text  p-relative">{{ 'general.navigation.go_to' | t }} {{ childlink.title | escape }}</span></a></li>
-                                                    {%- for grandchildlink in childlink.links -%}
+                                                    {%- for grandchildlink in childlink.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: grandchildlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                                         {% assign grandchildtitle = grandchildlink.title | escape | downcase | handle %}
                                                         <li class="site-nav-item text-left{% if sale_item_lv3 contains grandchildtitle %} active-sale{% endif %}"><a href="{{ grandchildlink.url }}" class="site-nav-link m-zero link link--text focus-inset link-effect caption-large"{% if grandchildlink.current %} aria-current="page"{% endif %}><span class="text{% if grandchildlink.current %} site-nav-active{% endif %}  p-relative">{{ grandchildlink.title | escape }}</span>
                                                                 {%- if new_label_3 contains grandchildtitle -%}
@@ -213,7 +213,7 @@
                         </div>
                         {% if mega_tyle == 'style1' %}<div class="menu-dropdown__column menu-dropdown__column-{{ column }} w-auto" data-masonry='{ "itemSelector": "[data-gridItem]", "columnWidth": ".grid-sizer" }'>
                             <div class="grid-sizer"></div>
-                            {%- for childlink in link.links -%}
+                            {%- for childlink in link.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: childlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                 {% assign childtitle = childlink.title | escape | downcase | handle %}
                                 <div class="site-nav dropdown d-inline-block ver-alg-top w-100{% if show_label_blink %} menu-lv-blink{% endif %}" data-gridItem>
                                     <div class="site-nav-list">
@@ -286,7 +286,7 @@
                                                 <div class="nav-title-mobile text-center"><span class="icon-dropdown">{% render 'icon-arrow-nav' %}</span> {{ childlink.title | escape }}</div>
                                                 <ul class="list-unstyled">
                                                     <li class="site-nav-item menu-lv-3 text-left navigation_all_mobile d-none"><a href="{{ childlink.url }}" class="site-nav-link m-zero link link-underline link--text focus-inset link-effect caption-large"><span class="text p-relative">{{ 'general.navigation.go_to' | t }} {{ childlink.title | escape }}</span></a></li>
-                                                    {%- for grandchildlink in childlink.links -%}
+                                                    {%- for grandchildlink in childlink.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: grandchildlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                                         {% assign grandchildtitle = grandchildlink.title | escape | downcase | handle %}
                                                         <li class="site-nav-item text-left{% if sale_item_lv3 contains grandchildtitle %} active-sale{% endif %}"><a href="{{ grandchildlink.url }}" class="site-nav-link m-zero link link--text focus-inset link-effect caption-large"{% if grandchildlink.current %} aria-current="page"{% endif %}><span class="text{% if grandchildlink.current %} site-nav-active{% endif %} p-relative">{{ grandchildlink.title | escape }}</span>
                                                                 {%- if new_label_3 contains grandchildtitle -%}
@@ -306,7 +306,7 @@
                         </div>
                         {% else %}
                         <div class="menu-dropdown__column menu-dropdown__column-{{ column }} w-auto">
-                            {%- for childlink in link.links -%}
+                            {%- for childlink in link.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: childlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                 {% assign childtitle = childlink.title | escape | downcase | handle %}
                                 <div class="dropdown site-nav{% if show_label_blink %} menu-lv-blink{% endif %}">
                                     {% case forloop.index  %}
@@ -384,7 +384,7 @@
                                             <div class="site-nav-sub">
                                                 <div class="nav-title-mobile text-center"><span class="icon-dropdown">{% render 'icon-arrow-nav' %}</span> {{ childlink.title | escape }}</div>
                                                 <ul class="list-unstyled">
-                                                    {%- for grandchildlink in childlink.links -%}
+                                                    {%- for grandchildlink in childlink.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: grandchildlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                                         {% assign grandchildtitle = grandchildlink.title | escape | downcase | handle %}
                                                         <li class="site-nav-item text-left{% if sale_item_lv3 contains grandchildtitle %} active-sale{% endif %}"><a href="{{ grandchildlink.url }}" class="site-nav-link m-zero link link--text focus-inset link-effect caption-large"{% if grandchildlink.current %} aria-current="page"{% endif %}><span class="text{% if grandchildlink.current %} site-nav-active{% endif %} p-relative">{{ grandchildlink.title | escape }}</span>
                                                                 {%- if new_label_3 contains grandchildtitle -%}
@@ -429,7 +429,7 @@
                             {%- endif -%}
                                 <div class="menu-dropdown__column menu-dropdown__column-{{ column }} w-auto{% unless show_banner_1 or show_banner_2 or show_banner_3 %} column-full{% endunless %}" data-masonry='{ "itemSelector": "[data-gridItem]", "columnWidth": ".grid-sizer" }'>
                                     <div class="grid-sizer"></div>
-                                    {%- for childlink in link.links -%}
+                                    {%- for childlink in link.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: childlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                         {% assign childtitle = childlink.title | escape | downcase | handle %}
                                         <div class="site-nav dropdown{% if show_label_blink %} menu-lv-blink{% endif %}" data-gridItem>
                                             <div class="site-nav-list"><a href="{{ childlink.url }}" class="site-nav-title{% if childlink.links != blank %} menu_mobile_link_2{% endif %}{% if sale_item_lv2 contains childtitle %} active-sale{% endif %}"{% if childlink.current %} aria-current="page"{% endif %}><span class="text{% if childlink.current %} site-nav-active{% endif %}">{{ childlink.title | escape }}</span>
@@ -451,7 +451,7 @@
                                                             <li class="site-nav-item menu-lv-3 text-left navigation_all_mobile d-none">
                                                                 <a href="{{ childlink.url }}" class="site-nav-link m-zero link link-underline link--text focus-inset link-effect caption-large"><span class="text p-relative">{{ 'general.navigation.go_to' | t }} {{ childlink.title | escape }}</span></a>
                                                             </li>
-                                                            {%- for grandchildlink in childlink.links -%}
+                                                            {%- for grandchildlink in childlink.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: grandchildlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                                                 {% assign grandchildtitle = grandchildlink.title | escape | downcase | handle %}
                                                                 <li class="site-nav-item text-left{% if sale_item_lv3 contains grandchildtitle %} active-sale{% endif %}"><a href="{{ grandchildlink.url }}" class="site-nav-link m-zero link link--text focus-inset link-effect caption-large"{% if grandchildlink.current %} aria-current="page"{% endif %}><span class="text{% if grandchildlink.current %} site-nav-active{% endif %} p-relative">{{ grandchildlink.title | escape }}</span>
                                                                         {%- if new_label_3 contains grandchildtitle -%}
@@ -564,7 +564,7 @@
                             {%- endif -%}
                             <div class="menu-dropdown__column menu-dropdown__column-{{ column }} w-auto{% unless show_banner_1 or show_product %} column-full{% endunless %} {% unless show_product %}no_show_product{% endunless %}{% unless show_banner_1 %} no_show_banner{% endunless %}" data-masonry='{ "itemSelector": "[data-gridItem]", "columnWidth": ".grid-sizer" }'>
                                 <div class="grid-sizer"></div>
-                                {%- for childlink in link.links -%}
+                                {%- for childlink in link.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: childlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                     {%- assign childtitle = childlink.title | escape | downcase | handle -%}
                                     <div class="site-nav dropdown{% if show_label_blink %} menu-lv-blink{% endif %}" data-gridItem>
                                         <div class="site-nav-list">
@@ -585,7 +585,7 @@
                                                     <div class="nav-title-mobile text-center"><span class="icon-dropdown">{% render 'icon-arrow-nav' %}</span>{{ childlink.title | escape }}</div>
                                                     <ul class="list-unstyled">
                                                         <li class="site-nav-item menu-lv-3 text-left navigation_all_mobile d-none"><a href="{{ childlink.url }}" class="site-nav-link m-zero link link-underline link--text focus-inset link-effect caption-large"><span class="text p-relative">{{ 'general.navigation.go_to' | t }} {{ childlink.title | escape }}</span></a></li>
-                                                        {%- for grandchildlink in childlink.links -%}
+                                                        {%- for grandchildlink in childlink.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: grandchildlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                                             {% assign grandchildtitle = grandchildlink.title | escape | downcase | handle %}
                                                             <li class="site-nav-item text-left{% if sale_item_lv3 contains grandchildtitle %} active-sale{% endif %}"><a href="{{ grandchildlink.url }}" class="site-nav-link m-zero link link--text focus-inset link-effect caption-large"{% if grandchildlink.current %} aria-current="page"{% endif %}><span class="text{% if grandchildlink.current %} site-nav-active{% endif %} p-relative">{{ grandchildlink.title | escape }}</span>
                                                                     {%- if new_label_3 contains grandchildtitle -%}

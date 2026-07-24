@@ -1,5 +1,5 @@
 <ul class="{{ listClass }}" role="list">
-    {%- for link in block.settings.vertical_menu.links -%}
+    {%- for link in block.settings.vertical_menu.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: link.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
         {%- liquid
             assign sale_item_lv1 = block.settings.sale_item_1 | split: "," | strip | downcase | handle
             assign sale_item_lv2 = block.settings.sale_item_2 | split: "," | strip | downcase | handle

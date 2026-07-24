@@ -9,7 +9,7 @@
         assign fa_count = 0
     -%}
     <script type="application/ld+json">
-    {
+    {% comment %}Start Bsscommerce HPOGS{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, subject_parent: product, variable: 'hpogg' %}{% endcapture %}{% capture product_schema %}{
         "@context": "http://schema.org/",
         "@type": "Product",
         "name": "{{ product.title | strip_html | escape }}",
@@ -41,9 +41,9 @@
             {
                 "@type": "Offer",
                 "priceCurrency": "{{ shop.currency }}",
-                "price": "{{ fa_current_variant.price | divided_by: 100.00 | json }}",
+                "price": "{% comment %}Start Bsscommerce HPOGS{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, subject_parent: product, variable: 'hpogg' %}{% endcapture %}{% unless bss_lock_check contains "Liquid error" %}{% if bss_lock_check contains "true" %}Hide Price By BSS{% else %}{{ fa_current_variant.price | divided_by: 100.00 | json }}{% endif %}{% endunless %}{% comment %}End Bsscommerce HPOGS{% endcomment %}",
                 "itemCondition": "http://schema.org/NewCondition",
-                "availability": "http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+                "availability": "http://schema.org/{% if product.available %}{% comment %}Start Bsscommerce HPOGS{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, subject_parent: product, variable: 'hpogg' %}{% endcapture %}{% unless bss_lock_check contains "Liquid error" %}{% if bss_lock_check contains "true" %}OutOfStock{% else %}InStock{% endif %}{% else %}InStock{% endunless %}{% comment %}End Bsscommerce HPOGS{% endcomment %}{% else %}OutOfStock{% endif %}",
                 "url": "{{ url }}{{ fa_current_variant.url }}",
                 {%- if fa_current_variant.image -%}
                     {% assign variant_image_size = fa_current_variant.image.width | append: 'x' %}
@@ -81,9 +81,9 @@
                     {
                         "@type": "Offer",
                         "priceCurrency": "{{ shop.currency }}",
-                        "price": "{{ variant.price | divided_by: 100.00 | json }}",
+                        "price": "{% comment %}Start Bsscommerce HPOGS{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, subject_parent: product, variable: 'hpogg' %}{% endcapture %}{% unless bss_lock_check contains "Liquid error" %}{% if bss_lock_check contains "true" %}Hide Price By BSS{% else %}{{ variant.price | divided_by: 100.00 | json }}{% endif %}{% endunless %}{% comment %}End Bsscommerce HPOGS{% endcomment %}",
                         "itemCondition": "http://schema.org/NewCondition",
-                        "availability": "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+                        "availability": "http://schema.org/{% if variant.available %}{% comment %}Start Bsscommerce HPOGS{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, subject_parent: product, variable: 'hpogg' %}{% endcapture %}{% unless bss_lock_check contains "Liquid error" %}{% if bss_lock_check contains "true" %}OutOfStock{% else %}InStock{% endif %}{% else %}InStock{% endunless %}{% comment %}End Bsscommerce HPOGS{% endcomment %}{% else %}OutOfStock{% endif %}",
                         "url": "{{ url }}{{ variant.url }}",
                         {%- if variant.image -%}
                             {%- assign variant_image_size = variant.image.width | append: 'x' -%}
@@ -122,7 +122,7 @@
             {%- endfor -%}
             {% if product.variants.size > 1 %}]{% endif %}
         {%- endif -%}
-    }
+    }{% endcapture %}{% render 'bss-lock-hpogs', product: product, product_schema: product_schema, bss_lock_check: bss_lock_check %}{% comment %}End Bsscommerce HPOGS{% endcomment %}
     </script>
     <script type="application/ld+json">
     {

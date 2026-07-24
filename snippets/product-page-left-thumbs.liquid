@@ -1074,7 +1074,7 @@
                                                     {%- if show_subtotal and subtotal_style == '1' -%}
                                                         <div class="productView-subtotal">
                                                             <span class="text">{{ 'sections.cart.subtotal' | t | append: ': ' }}</span>
-                                                            <span class="money-subtotal">{{ subtotal }}</span>
+                                                            <span class="money-subtotal">{% capture bss_lock_check %} {% render 'bss-lock-condition', scope: 'subject', subject: product, subject_parent: product, variable: 'price', bss_lock_action: 'bss_hide_price' %} {% endcapture %} {% if bss_lock_check contains 'bss-lock-element' %} {{ bss_lock_check }}  {% else %}{{ subtotal }}{% endif %}</span>
                                                         </div>
                                                     {%- endif -%}
                                                 </div>
@@ -1424,4 +1424,4 @@
 
 {% render 'schema',
     product: product
-%}
+%}{%- comment %}BSS Login{% endcomment -%}{% if bss_lock_check contains 'bss-unlocked-element' %} {{ bss_lock_check }} {% endif %}{%- comment %}BSS-Login{% endcomment -%}

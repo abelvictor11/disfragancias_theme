@@ -21,7 +21,7 @@
     endif
 -%}
 
-<form action="{{ routes.cart_url }}/add" method="post" class="variants" id="{{ id }}-{{ product.id }}-{{ sectionId }}{% if check %}-list{% endif %}" data-product-id="{{ product.id }}" enctype="multipart/form-data">
+{% comment %} BSS Lock Begin Hide Add To Cart {% endcomment %} {% capture bss_lock_check %} {% render 'bss-lock-condition', scope: 'subject', subject: product, subject_parent: product, variable: 'price', get_content: true, bss_lock_action: 'bss_hide_atc' %} {% endcapture %} {% if bss_lock_check contains 'bss-hide-atc' %} {{ bss_lock_check }} {% endif %} {% comment %} BSS Lock End Hide Add To Cart {% endcomment %}<form action="{{ routes.cart_url }}/add" method="post" class="variants" id="{{ id }}-{{ product.id }}-{{ sectionId }}{% if check %}-list{% endif %}" data-product-id="{{ product.id }}" enctype="multipart/form-data">
     {%- if sold_out -%}
         {%- if settings.show_notify_form -%}
             <a class="button button-ATC is-notify-me" href="{{ product.url }}" data-btn-addToCart {% if settings.product_card_layout == '08' %}title="{{ 'products.product.out_of_stock' | t }}"{% endif %}>

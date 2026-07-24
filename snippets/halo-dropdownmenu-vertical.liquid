@@ -42,7 +42,7 @@
                         </span>
                     </a>
                 </li>
-                {%- for childlink in link.links -%}
+                {%- for childlink in link.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: childlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                     {% assign childtitle = childlink.title | escape | downcase | handle %}
                     <li class="menu-lv-item menu-lv-2 text-left {% if childlink.links != blank %} dropdown{% endif %} {% if sale_item_lv2 contains childtitle %} menu-sale{% endif %}">
                         {%- if childlink.links == blank -%}
@@ -76,7 +76,7 @@
                                                     </span>
                                                 </a>
                                             </li>
-                                        {%- for grandchildlink in childlink.links -%}
+                                        {%- for grandchildlink in childlink.links -%}{% comment %}start BSS Commerce Hide Content Navbar{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: grandchildlink.object, variable: 'navbar' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Content Navbar {% endcomment %}
                                             {% assign grandchildtitle = grandchildlink.title | escape | downcase | handle %}
                                             <li class="menu-lv-item menu-lv-3 text-left{% if sale_item_lv3 contains grandchildtitle %} menu-sale{% endif %}">
                                                 <a {% if grandchildlink.url == blank %} role="link" aria-disabled="true"{% else %} href="{{ grandchildlink.url }}"{% endif %} class="menu-lv-3__action header__menu-item list-menu__item link link--text focus-inset caption-large"{% if grandchildlink.current %} aria-current="page"{% endif %}>
