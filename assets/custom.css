@@ -1281,4 +1281,9 @@ span.badge.custom-metafield-badge {
   .template-product .productView-image img { object-fit: contain; }
   /* el texto de la columna de info no debe estirarse a todo lo ancho */
   .template-product .productView-desc, .template-product .productView-short-description { max-width: 680px; }
+  /* right-thumbs: el tema aplica por JS un top negativo calculado para la
+     imagen original (grande); con la galería compacta desalineaba la tira
+     vertical. Se alinea al tope de la imagen y se iguala su altura. */
+  .template-product .productView-thumbnail-wrapper { top: 0 !important; }
+  .template-product .productView-thumbnail-wrapper .productView-for { max-height: 380px !important; }
 }
