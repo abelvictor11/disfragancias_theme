@@ -1165,6 +1165,13 @@ span.badge.custom-metafield-badge {
 
 /* Grilla */
 .b2b-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin: 0; padding: 0; }
+/* "Visto como": el toolbar del tema pone column-N / productList en .b2b-coll
+   (= .productListing). Se traduce a las columnas del grid B2B. */
+.b2b-coll.column-2 .b2b-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.b2b-coll.column-3 .b2b-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.b2b-coll.column-4 .b2b-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.b2b-coll.column-5 .b2b-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.b2b-coll.productList .b2b-grid { grid-template-columns: 1fr; }
 .b2b-card { border: 1px solid #eee; border-radius: 12px; padding: 10px; background: #fff; display: flex; flex-direction: column; }
 .b2b-card.is-out { opacity: .55; }
 .b2b-card__media { display: block; aspect-ratio: 1; background: rgba(230,222,211,.3); border-radius: 8px; overflow: hidden; margin-bottom: 8px; }
