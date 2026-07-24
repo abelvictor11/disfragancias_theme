@@ -20,7 +20,9 @@
       {%- endfor -%}
     </select>
   {%- else -%}
-    <input type="hidden" data-b2b-size value="{{ v.id }}" data-price="{{ v.price }}" data-sku="{{ v.sku | escape }}" data-available="{{ v.available }}">
+    <select class="b2b-size" data-b2b-size aria-label="Talla {{ p.title | escape }}" disabled>
+      <option value="{{ v.id }}" data-price="{{ v.price }}" data-sku="{{ v.sku | escape }}" data-available="{{ v.available }}" selected>{{ v.title }}</option>
+    </select>
   {%- endif -%}
   <div class="b2b-card__meta">
     <span class="b2b-card__sku" data-b2b-sku title="{{ v.sku | escape }}">{{ v.sku | default: '—' }}</span>

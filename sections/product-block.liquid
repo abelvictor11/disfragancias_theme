@@ -779,7 +779,7 @@
                             {%- if collection.products[0] != nil -%}
                                 {%- for product in collection.products limit: limit -%}
                                     <div class="product{% if swipe == 'true' %} slider__slide grid__item{% endif %}">
-                                        {% render 'product-card-loading', product_card_product: product, media_size: image_ratio, portrait_aspect_ratio: '133' %}
+                                        {% render 'product-b2b-card', product_card_product: product %}
                                     </div>
                                 {%- endfor -%}
                             {%- else -%}
