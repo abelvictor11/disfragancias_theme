@@ -6,7 +6,15 @@
 {% endcomment -%}
 {%- assign p = product_card_product -%}
 {%- assign v = p.selected_or_first_available_variant -%}
-<div class="b2b-card b2b-card--single{% unless p.available %} is-out{% endunless %}" data-b2b-single data-product-url="{{ p.url }}">
+{%- comment -%}
+  product-item + data-json-product: el JS del tema (theme.js) los exige tras el
+  re-render AJAX; sin ellos aborta antes de inicializar el slider y el carrusel
+  queda sin maquetar (espaciado roto).
+{%- endcomment -%}
+<div class="b2b-card b2b-card--single product-item{% unless p.available %} is-out{% endunless %}"
+  data-b2b-single data-product-url="{{ p.url }}"
+  data-product-id="{{ p.id }}"
+  data-json-product='{"id":{{ p.id }},"handle":{{ p.handle | json }},"title":{{ p.title | json }}}'>
   <a class="b2b-card__media" href="{{ p.url }}">
     {%- if p.featured_image -%}
       <img src="{{ p.featured_image | image_url: width: 240 }}" width="120" height="120" loading="lazy" alt="{{ p.title | escape }}">
