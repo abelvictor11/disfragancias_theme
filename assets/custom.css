@@ -1345,7 +1345,7 @@ span.badge.custom-metafield-badge {
    ============================================================================= */
 .pagination-page-total { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 14px; color: #555; }
 .pagination-page-total > span { display: inline; }
-.pagination-page-total > span + span { margin-left: 4px; }
+.pagination-total-text { display: inline; }
 .pagination-total-progress { width: 100%; max-width: 420px; height: 4px; background: #ececec; border-radius: 99px; overflow: hidden; margin-top: 2px; }
 .pagination-total-progress .pagination-total-item { display: block; height: 100%; background: #232323; border-radius: 99px; }
 

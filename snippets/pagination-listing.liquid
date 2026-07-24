@@ -18,15 +18,14 @@
     <div class="{{ class | default: 'pagination-wrapper' }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
         <nav class="pagination style--{{ settings.pagination_style }} text-{{ settings.pagination_align }}{% if show_infinite_scrolling == 'infinite' %} pagination-infinite style-{{ settings.infinite_scroll_style }}{% endif %}" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
             <div class="pagination-page-item pagination-page-total">
-                <span>{{ 'sections.collection_template.start_count' | t }}</span>
-                <span data-total-start>{{ paginate.current_offset | plus: 1 }}</span>
-                <span>-</span>
-                {%- if paginate.next -%}
-                    <span data-total-end>{{ paginate.current_offset | plus: paginate.page_size }}</span>
-                {%- else -%}
-                    <span data-total-end>{{ paginate.items }}</span>
-                {%- endif -%}
-                <span>{{ 'sections.collection_template.end_count' | t : count : paginate.items }}</span>
+                {%- comment -%}
+                  Los tags {%- -%} eliminan los espacios entre spans, por eso el
+                  contador salía como "1 -50de 220". Se agrupan en una línea con
+                  separadores explícitos.
+                {%- endcomment -%}
+                <span class="pagination-total-text">
+                    <span>{{ 'sections.collection_template.start_count' | t }}</span>&nbsp;<span data-total-start>{{ paginate.current_offset | plus: 1 }}</span>&nbsp;&ndash;&nbsp;{% if paginate.next %}<span data-total-end>{{ paginate.current_offset | plus: paginate.page_size }}</span>{% else %}<span data-total-end>{{ paginate.items }}</span>{% endif %}&nbsp;<span>{{ 'sections.collection_template.end_count' | t : count : paginate.items }}</span>
+                </span>
                 {%- if paginate.next -%}
                     {% liquid
                         assign pg_current = paginate.current_offset | plus: paginate.page_size
