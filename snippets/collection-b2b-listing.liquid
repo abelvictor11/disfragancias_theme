@@ -37,7 +37,7 @@
             <img src="{{ product.featured_image | image_url: width: 240 }}" width="120" height="120" loading="lazy" alt="{{ product.title | escape }}">
           {%- else -%}<span class="b2b-card__noimg"></span>{%- endif -%}
         </a>
-        <a class="b2b-card__title" href="{{ product.url }}">{{ product.title }}</a>
+        <a class="b2b-card__title" href="{{ product.url }}" title="{{ product.title | escape }}">{{ product.title }}</a>
         {%- if product.variants.size > 1 -%}
           <select class="b2b-size" data-b2b-size aria-label="Talla {{ product.title | escape }}">
             {%- for variant in product.variants -%}
@@ -48,7 +48,7 @@
           <input type="hidden" data-b2b-size value="{{ v.id }}" data-price="{{ v.price }}" data-sku="{{ v.sku | escape }}" data-available="{{ v.available }}">
         {%- endif -%}
         <div class="b2b-card__meta">
-          <span class="b2b-card__sku" data-b2b-sku>{{ v.sku | default: '—' }}</span>
+          <span class="b2b-card__sku" data-b2b-sku title="{{ v.sku | escape }}">{{ v.sku | default: '—' }}</span>
           <span class="b2b-card__stock" data-b2b-stock>{% if v.available %}<i class="b2b-dot b2b-dot--ok"></i>{{ 'products.product.in_stock' | t }}{% else %}<i class="b2b-dot b2b-dot--out"></i>{{ 'products.product.out_of_stock' | t }}{% endif %}</span>
         </div>
         <div class="b2b-card__foot">
@@ -97,7 +97,7 @@
                 <input type="hidden" data-b2b-size value="{{ v.id }}" data-price="{{ v.price }}" data-sku="{{ v.sku | escape }}" data-available="{{ v.available }}"><span>{{ v.title }}</span>
               {%- endif -%}
             </td>
-            <td class="b2b-lrow__sku" data-b2b-sku>{{ v.sku | default: '—' }}</td>
+            <td class="b2b-lrow__sku" data-b2b-sku title="{{ v.sku | escape }}">{{ v.sku | default: '—' }}</td>
             <td class="ta-r b2b-lrow__price" data-b2b-price>{{ v.price | money }}</td>
             <td class="ta-c" data-b2b-stock>{% if v.available %}<span class="b2b-stock--ok">{{ 'products.product.in_stock' | t }}</span>{% else %}<span class="b2b-stock--out">{{ 'products.product.out_of_stock' | t }}</span>{% endif %}</td>
             <td class="ta-c" data-b2b-actions{% unless v.available %} hidden{% endunless %}><input type="number" class="b2b-qty" min="0" step="1" value="0" data-b2b-qty aria-label="Cantidad"></td>

@@ -37,7 +37,8 @@
     function applyToItem(item, st) {
       var sel = item.querySelector('[data-b2b-size]');
       if (sel && sel.tagName === 'SELECT' && sel.value !== st.id) sel.value = st.id;
-      var skuEl = item.querySelector('[data-b2b-sku]'); if (skuEl) skuEl.textContent = st.sku || '—';
+      var skuEl = item.querySelector('[data-b2b-sku]');
+      if (skuEl) { skuEl.textContent = st.sku || '—'; skuEl.title = st.sku || ''; }
       var priceEl = item.querySelector('[data-b2b-price]'); if (priceEl) priceEl.textContent = money(st.price);
       var qtyEl = item.querySelector('[data-b2b-qty]'); if (qtyEl && (parseInt(qtyEl.value) || 0) !== st.qty) qtyEl.value = st.qty;
       var subEl = item.querySelector('[data-b2b-sub]'); if (subEl) subEl.textContent = money(st.qty * st.price);
