@@ -1269,11 +1269,12 @@ span.badge.custom-metafield-badge {
 .b2b-cond__val--link { color: #1a5fa5; }
 .b2b-cond--link:hover .b2b-cond__val--link { text-decoration: underline; }
 
-/* Galería compacta en el PDP B2B (todo el catálogo usa la matrix) */
-.template-product .productView-b2b-full ~ * { }
+/* Galería compacta en el PDP B2B: se estrecha la COLUMNA (no solo la imagen)
+   para que el título no quede a 350px de distancia. */
 .template-product .b2b-matrix { max-width: 100%; }
 @media (min-width: 768px) {
-  .template-product .productView-images-wrapper { max-width: 380px; }
-  .template-product .productView-image-wrapper { max-height: 420px; }
+  .template-product .halo-productView-left { width: 420px !important; flex: 0 0 420px !important; max-width: 420px !important; }
+  .template-product .halo-productView-right { width: auto !important; flex: 1 1 auto !important; max-width: none !important; }
+  .template-product .productView-images-wrapper { max-width: 100%; }
   .template-product .productView-image img { object-fit: contain; }
 }
