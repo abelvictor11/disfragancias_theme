@@ -22,15 +22,7 @@
 {%- for product in collections[collection.handle].products limit: end -%}
     {%- if forloop.index >= start -%}
         <div class="product{% if swipe == 'true' %} slider__slide grid__item{% endif %}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
-            {% render 'product-grid-layout',
-            product_card_product: product,
-            portrait_aspect_ratio: '125',
-            serial: forloop.index,
-            sectionId: sectionId,
-            media_size: image_ratio,
-            hasCountdown: hasCountdown,
-            loading: true
-        %}
+            {% render 'product-b2b-card', product_card_product: product %}
         </div>
     {%- endif -%}
 {%- endfor -%}

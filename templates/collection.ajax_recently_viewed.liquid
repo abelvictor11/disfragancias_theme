@@ -20,14 +20,7 @@
         {% assign product = all_products[handle] %}
         {%- if product != blank -%}
             <div class="product{% if swipe == 'true' %} slider__slide grid__item{% endif %}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
-                {% render 'product-grid-layout',
-                    product_card_product: product,
-                    media_size: image_ratio,
-                    portrait_aspect_ratio: '125',
-                    serial: forloop.index,
-                    sectionId: sectionId,
-                    loading: true
-                %}
+                {% render 'product-b2b-card', product_card_product: product %}
             </div>
         {%- endif -%}
     {%- endfor -%}
