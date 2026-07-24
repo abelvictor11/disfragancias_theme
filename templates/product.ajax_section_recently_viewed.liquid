@@ -1,13 +1,6 @@
 {% layout none %}
 
 <div class="product">
-    {% render 'product-grid-layout',
-        product_card_product: product,
-        portrait_aspect_ratio: '125',
-        serial: 1,
-        sectionId: sectionId,
-        media_size: image_ratio,
-        hasCountdown: hasCountdown,
-        loading: true
-    %}
+    {% render 'product-b2b-card', product_card_product: product %}
 </div>
+{{ 'b2b-collection.js' | asset_url | script_tag }}

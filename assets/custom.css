@@ -1318,3 +1318,6 @@ span.badge.custom-metafield-badge {
   box-shadow: 7px 0 0 var(--bg-grey), 14px 0 0 var(--bg-grey), 21px 0 0 var(--bg-grey), 28px 0 0 var(--bg-grey), 35px 0 0 var(--bg-grey), 42px 0 0 var(--bg-grey); }
 .toolbar .toolbar-item .toolbar-icon.grid-7.active:before {
   box-shadow: 7px 0 0 var(--icon), 14px 0 0 var(--icon), 21px 0 0 var(--icon), 28px 0 0 var(--icon), 35px 0 0 var(--icon), 42px 0 0 var(--icon); }
+
+/* Redondeo del dropdown del toolbar (Productos por página / Ordenar por) */
+.toolbar .toolbar-dropdown .label-tab { border-radius: 8px; }
