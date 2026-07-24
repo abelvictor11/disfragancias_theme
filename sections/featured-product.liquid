@@ -1,4 +1,4 @@
-{{ 'component-product.css' | asset_url | stylesheet_tag }}
+{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: section.settings.product, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'sections/featured-product.liquid', subject: section.settings.product %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}{{ 'component-product.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-badge.css' | asset_url | stylesheet_tag }}
 {{ 'component-rte.css' | asset_url | stylesheet_tag }}

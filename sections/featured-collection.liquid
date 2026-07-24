@@ -1,4 +1,4 @@
-{% if section.blocks.size > 0 %}
+{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: section.settings.collection, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'sections/featured-collection.liquid', subject: section.settings.collection %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}{% if section.blocks.size > 0 %}
 {%- assign swipe = section.settings.featured_collection_block_swipe_on_mobile -%}
 <link rel="stylesheet" href="{{ 'component-featured-collection.css' | asset_url }}" media="all" onload="this.media='all'">
 <noscript>{{ 'component-featured-collection.css' | asset_url | stylesheet_tag }}</noscript>

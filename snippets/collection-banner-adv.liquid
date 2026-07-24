@@ -656,7 +656,7 @@
                                     assign banner_position_2 = section.settings.banner_position_2 | round | default: 5
                                     assign banner_position_3 = section.settings.banner_position_3 | round | default: 12
                                 -%}
-                                {%- for product in collection.products -%}
+                                {%- for product in collection.products -%}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'snippets/collection-banner-adv.liquid', subject: product %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
                                     {%- if paginate.current_page == 1 and section.settings.show_banner -%}
                                         {%- if forloop.index == banner_position_1 and section.settings.show_banner_1 -%}
                                           <li class="product banner" data-product-banner="1" data-first-position="{{ banner_position_1 }}">

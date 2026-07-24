@@ -10,7 +10,7 @@
             <div id="predictive-search-results-list" class="predictive-search__results-list list-unstyled" role="listbox" aria-labelledby="predictive-search-products">
                 {%- if predictive_search.resources.products.size > 0 -%} 
                     <div class="products-grid column-{{ settings.search_product_per_row }} disable-srollbar text-left">
-                    {%- for product in predictive_search.resources.products -%}
+                    {%- for product in predictive_search.resources.products -%}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'sections/predictive-search.liquid', subject: product %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
                         <div class="product{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"{% if settings.banner_animation == 'effect_fade_up' %} style="--animation-order: {{ forloop.index }};"{% endif %}>
                             {% render 'product-b2b-card', product_card_product: product %}
                         </div>

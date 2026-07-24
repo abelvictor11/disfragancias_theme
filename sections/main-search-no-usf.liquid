@@ -207,7 +207,7 @@
                                                     </div>
                                                     <div class="halo-block-content">
                                                         <ul class="resultTable list-unstyled">
-                                                            {%- for item in search.results %}
+                                                            {%- for item in search.results %}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: item, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'sections/main-search-no-usf.liquid', subject: item %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
                                                                 <li class="item" data-listed-article-or-page>
                                                                     <div class="item-wrapper">
                                                                         <h6 class="title card-title">

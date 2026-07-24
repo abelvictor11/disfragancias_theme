@@ -719,7 +719,7 @@
                                     --space-between-horiz-mb: {{product_space_between_horiz_mb}}px;
                                     "
                                 >
-                                    {%- for item in search.results -%}
+                                    {%- for item in search.results -%}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: item, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'sections/main-search.liquid', subject: item %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
                                         {%- if item.object_type == 'product'-%}
                                             <li class="product{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"{% if settings.banner_animation == 'effect_fade_up' %} style="--animation-order: {{ forloop.index }};"{% endif %}>    
                                                 {% render 'product-grid-layout',
@@ -754,7 +754,7 @@
                                                     </div>
                                                     <div class="halo-block-content">
                                                         <ul class="resultTable list-unstyled">
-                                                            {%- for item in search.results %}
+                                                            {%- for item in search.results %}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: item, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'sections/main-search.liquid', subject: item %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
                                                                 <li class="item" data-listed-article-or-page>
                                                                     <div class="item-wrapper">
                                                                         <h6 class="title card-title">

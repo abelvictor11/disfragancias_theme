@@ -639,7 +639,7 @@
                                     <h3 class="column col-options col-title text-center">{{ 'sections.collection_template.options' | t }}</h3>
                                 </div>                                
                                 <div class="productListing express-order-content t-body product-collection">
-                                    {%- for product in collection.products -%}
+                                    {%- for product in collection.products -%}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'snippets/collection-express-order.liquid', subject: product %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
                                     <div class="product grid-item{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"{% if settings.banner_animation == 'effect_fade_up' %} style="--animation-order: {{ forloop.index }};"{% endif %}>{% render 'product-express-order-item', product: product %}</div>
                                     {%- endfor -%}
                                 </div>

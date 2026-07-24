@@ -194,7 +194,7 @@
                 {%- endfor -%}
                     
                 {%- if collection.products[0] != nil -%}
-                    {%- for product in collection.products limit: limit -%}
+                    {%- for product in collection.products limit: limit -%}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'sections/featured-product-unsymmetrical.liquid', subject: product %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
                         <div class="product">
                             {% render 'product-card-loading', product_card_product: product, media_size: image_ratio, portrait_aspect_ratio: '133' %}
                         </div>

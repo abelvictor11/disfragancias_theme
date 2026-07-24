@@ -13,7 +13,7 @@
                     assign collections = collections | reverse
                 endif
             -%}
-            {%- for collection in collections -%}
+            {%- for collection in collections -%}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: collection, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'snippets/list-collections-04-template.liquid', subject: collection %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
                 {%- if collection.url != routes.all_products_collection_url -%}
                     <div class="collection-list-item halo-item{% if forloop.index > limit and infinite_scroll %} d-none{% endif %}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"{% if settings.banner_animation == 'effect_fade_up' %} data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
                         {% render 'list-collection-item',

@@ -644,7 +644,7 @@
                                     --space-between-horiz-mb: {{product_space_between_horiz_mb}}px;
                                 "
                             >
-                                {%- for product in collection.products -%}
+                                {%- for product in collection.products -%}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'snippets/collection-right-sidebar.liquid', subject: product %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
                                     <li class="product{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"{% if settings.banner_animation == 'effect_fade_up' %} style="--animation-order: {{ forloop.index }};"{% endif %}>
                                         {% render 'product-grid-layout',
                                             product_card_product: product,

@@ -7,7 +7,7 @@
 {%- layout none -%}
 {%- assign first = true -%}
 [
-{%- for item in search.results -%}
+{%- for item in search.results -%}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: item, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}{% render 'bss-hide-product-design', section: 'templates/search.b2b-sku.liquid', subject: item %}{% continue %}{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
   {%- if item.object_type == 'product' -%}
     {%- for v in item.variants -%}
       {%- unless first %},{% endunless %}{%- assign first = false -%}
