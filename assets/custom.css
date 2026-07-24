@@ -1335,3 +1335,50 @@ span.badge.custom-metafield-badge {
 .products-carousel .slick-slide { height: auto !important; }
 /* el select deshabilitado (variante única) no debe verse inactivo */
 .b2b-card .b2b-size:disabled { opacity: 1; color: inherit; background: #fff; cursor: default; }
+
+/* =============================================================================
+   Paginador B2B (colecciones y búsqueda)
+   - El texto del contador venía pegado porque los tags {%- -%} de Liquid
+     eliminan los espacios entre spans -> se separa con flex/gap.
+   - Las flechas tenían width fijo + font-size:0 + position:absolute, así que
+     el texto "SIGUIENTE" se cortaba -> pasan a flujo normal y ancho automático.
+   ============================================================================= */
+.pagination-page-total { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 14px; color: #555; }
+.pagination-page-total > span { display: inline; }
+.pagination-page-total > span + span { margin-left: 4px; }
+.pagination-total-progress { width: 100%; max-width: 420px; height: 4px; background: #ececec; border-radius: 99px; overflow: hidden; margin-top: 2px; }
+.pagination-total-progress .pagination-total-item { display: block; height: 100%; background: #232323; border-radius: 99px; }
+
+.pagination__list { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.pagination__list .pagination-arrow,
+.pagination__list .pagination-num { margin: 0; }
+
+/* Flechas: en flujo, ancho automático, texto legible */
+.pagination .pagination__item-arrow {
+  position: static !important;
+  transform: none !important;
+  width: auto !important;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 14px;
+  font-size: 13px !important;
+  letter-spacing: .02em;
+  border-radius: 8px;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+.pagination .pagination__item-arrow .arrow-text { font-size: 13px; line-height: 1; }
+.pagination .pagination__item-arrow .icon { width: 12px; height: 12px; flex: 0 0 auto; }
+
+/* Números: cuadrados redondeados en vez de círculos, tamaño uniforme */
+.pagination .pagination__item:not(.pagination__item-arrow) {
+  width: 40px; height: 40px; padding: 0; border-radius: 8px;
+  font-size: 14px; line-height: 1;
+}
+.pagination .pagination__item--current { font-weight: 500; }
+@media (max-width: 767px) {
+  .pagination .pagination__item-arrow { padding: 0 10px; }
+  .pagination .pagination__item-arrow .arrow-text { display: none; }
+}
