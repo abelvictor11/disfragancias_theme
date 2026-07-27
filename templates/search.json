@@ -70,7 +70,7 @@
         "max_item_per_filter": 10,
         "filter_hidden_tag_list": "",
         "products_per_page": "30",
-        "layout": "4",
+        "layout": "6",
         "article_page_per_load": "10",
         "product_space_between_vert_desk": 30,
         "product_space_between_vert_mb": 16,
