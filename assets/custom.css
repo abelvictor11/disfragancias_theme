@@ -1280,6 +1280,12 @@ span.badge.custom-metafield-badge {
 .b2b-cond__lbl { display: block; font-size: 12px; color: #777; }
 .b2b-cond__val { display: block; font-size: 14px; font-weight: 500; }
 .b2b-cond__val--link { color: #1a5fa5; }
+/* Mobile: condiciones como carrusel de 2 ítems (evita que el 3º baje solo). */
+@media (max-width: 550px) {
+    .b2b-conditions { display: flex; grid-template-columns: none; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .b2b-conditions::-webkit-scrollbar { display: none; }
+    .b2b-conditions > .b2b-cond { flex: 0 0 calc(50% - 5px); scroll-snap-align: start; }
+}
 
 .product__vendor a { font-size: 10px; }
 
@@ -1297,7 +1303,7 @@ span.badge.custom-metafield-badge {
 /* Variantes de color */
 .b2b-banner--info    { background: #eef4fb; border-color: #cfe0f3; color: #1a4a7a; }
 .b2b-banner--success { background: #eef7f0; border-color: #cfe8d6; color: #1f6b3b; }
-.b2b-banner--accent  { background: rgba(230,222,211,.25); border-color: #ffe69c; color: #664d03; }
+.b2b-banner--accent  { background: rgba(230,222,211,.25); border-color: #ffe69c; color: #232323; }
 .b2b-banner--neutral { background: #f4f4f5; border-color: #e2e2e5; color: #45454a; }
 /* Caja del ícono: fondo claro del color del banner; ícono en el color del texto. */
 .b2b-banner__icon { color: inherit; }
