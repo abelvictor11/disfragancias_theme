@@ -15,7 +15,7 @@
         "image_WYHbMU": {
           "type": "image",
           "settings": {
-            "image_slide": "shopify://shop_images/b2b-banner.webp",
+            "image_slide": "shopify://shop_images/b2b-banner_1.webp",
             "alignment": "left",
             "enable_custom_position": false,
             "custom_horizontal": "80",
@@ -24,7 +24,7 @@
             "text_alignment": "left",
             "enable_border_line": false,
             "padding_vertical": 100,
-            "content_width": 550,
+            "content_width": 480,
             "enable_content_fullwidth": false,
             "bg_color_content": "",
             "border_color_content": "",
