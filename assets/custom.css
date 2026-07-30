@@ -1283,8 +1283,9 @@ span.badge.custom-metafield-badge {
 
 /* Banners informativos de la PDP B2B (bloque 'b2b_banner' del personalizador). */
 .b2b-banner { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 12px; border: 0; margin: 0 0 10px; }
-.b2b-banner__icon { flex: 0 0 40px; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; color: #fff; }
-.b2b-banner__icon svg { display: block; width: 22px; height: 22px; }
+.b2b-banner__icon { flex: 0 0 40px; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; }
+.b2b-banner__icon svg { display: block; width: 22px; height: 22px; fill: none !important; stroke: currentColor; }
+.b2b-banner__icon svg path { fill: none !important; stroke: currentColor; }
 .b2b-banner__body { flex: 1 1 auto; min-width: 0; }
 .b2b-banner__heading { display: block; font-size: 15px; font-weight: 600; line-height: 1.25; margin-bottom: 2px; }
 .b2b-banner__text { font-size: 13px; line-height: 1.4; }
@@ -1296,11 +1297,12 @@ span.badge.custom-metafield-badge {
 .b2b-banner--success { background: #eef7f0; color: #1f6b3b; }
 .b2b-banner--accent  { background: #faf6ee; color: #7a5a1e; }
 .b2b-banner--neutral { background: #f4f4f5; color: #45454a; }
-/* Caja del ícono: tono más oscuro del color de cada banner. */
-.b2b-banner--info    .b2b-banner__icon { background: #1a5fa5; }
-.b2b-banner--success .b2b-banner__icon { background: #1f7a44; }
-.b2b-banner--accent  .b2b-banner__icon { background: #9a7326; }
-.b2b-banner--neutral .b2b-banner__icon { background: #55555b; }
+/* Caja del ícono: fondo claro del color del banner; ícono en el color del texto. */
+.b2b-banner__icon { color: inherit; }
+.b2b-banner--info    .b2b-banner__icon { background: #cbddf2; }
+.b2b-banner--success .b2b-banner__icon { background: #cbe7d2; }
+.b2b-banner--accent  .b2b-banner__icon { background: #ecdfc7; }
+.b2b-banner--neutral .b2b-banner__icon { background: #e2e2e5; }
 .b2b-banner__cta { background: rgba(0,0,0,.06); color: inherit; }
 .b2b-banner__cta:hover { background: rgba(0,0,0,.12); }
 @media (max-width: 550px) {
