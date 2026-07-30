@@ -52,9 +52,14 @@
             {%- endfor -%}
           </select>
         {%- else -%}
-          <select class="b2b-size" data-b2b-size aria-label="Talla {{ product.title | escape }}" disabled>
-            <option value="{{ v.id }}" data-price="{{ v.price }}" data-sku="{{ v.sku | escape }}" data-available="{{ v.available }}" selected>{{ v.title }}</option>
-          </select>
+          {%- comment -%}
+            Talla única: no usamos un <select> deshabilitado (no reacciona al
+            clic y parece roto). Mostramos la talla como campo estático y
+            guardamos los datos de la variante en un input oculto que el JS
+            lee igual que la rama else de readSize().
+          {%- endcomment -%}
+          <input type="hidden" data-b2b-size value="{{ v.id }}" data-price="{{ v.price }}" data-sku="{{ v.sku | escape }}" data-available="{{ v.available }}">
+          <span class="b2b-size b2b-size--single" aria-label="Talla {{ product.title | escape }}">{{ v.title }}</span>
         {%- endif -%}
         <div class="b2b-card__meta">
           <span class="b2b-card__sku" data-b2b-sku title="{{ v.sku | escape }}">{{ v.sku | default: '—' }}</span>
