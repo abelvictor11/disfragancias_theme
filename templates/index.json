@@ -259,6 +259,15 @@
             "image": "shopify://shop_images/Armaf.svg",
             "link": "shopify://collections/armaf"
           }
+        },
+        "brand_rfWREM": {
+          "type": "brand",
+          "settings": {
+            "collection": "arabiyat-prestige",
+            "label": "",
+            "image": "shopify://shop_images/Arabiyat_Prestige.svg",
+            "link": "shopify://collections/arabiyat"
+          }
         }
       },
       "block_order": [
@@ -267,7 +276,8 @@
         "brand_gPKRz3",
         "brand_8TgGkq",
         "brand_pVVXAc",
-        "brand_P9TPQx"
+        "brand_P9TPQx",
+        "brand_rfWREM"
       ],
       "name": "B2B catálogo por marca",
       "settings": {
