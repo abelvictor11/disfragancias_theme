@@ -285,7 +285,7 @@
         "min_width": 150,
         "show_count": true,
         "width": "container",
-        "bg_soft": false,
+        "bg_soft": true,
         "spacing_top": 40,
         "spacing_bottom": 40
       }
