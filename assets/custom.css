@@ -1284,7 +1284,7 @@ span.badge.custom-metafield-badge {
 .product__vendor a { font-size: 10px; }
 
 /* Banners informativos de la PDP B2B (bloque 'b2b_banner' del personalizador). */
-.b2b-banner { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 12px; border: 1px solid transparent; margin: 0 0 10px; }
+.b2b-banner { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 12px; border: 0; margin: 0 0 10px; }
 .b2b-banner__icon { flex: 0 0 40px; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; }
 .b2b-banner__icon svg { display: block; width: 22px; height: 22px; fill: none !important; stroke: currentColor; }
 .b2b-banner__icon svg path { fill: none !important; stroke: currentColor; }
@@ -1303,7 +1303,8 @@ span.badge.custom-metafield-badge {
 .b2b-banner__icon { color: inherit; }
 .b2b-banner--info    .b2b-banner__icon { background: #cbddf2; }
 .b2b-banner--success .b2b-banner__icon { background: #cbe7d2; }
-.b2b-banner--accent  .b2b-banner__icon { background: #ffe69c; }
+.b2b-banner--accent  .b2b-banner__icon { background: #f0ebe4; }
+.b2b-banner--accent  .b2b-banner__heading { color: #232323; }
 .b2b-banner--neutral .b2b-banner__icon { background: #e2e2e5; }
 .b2b-banner__cta { background: rgba(0,0,0,.06); color: inherit; }
 .b2b-banner__cta:hover { background: rgba(0,0,0,.12); }
