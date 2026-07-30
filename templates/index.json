@@ -209,33 +209,55 @@
         "brand_rTA3za": {
           "type": "brand",
           "settings": {
-            "collection": "",
+            "collection": "lattafa",
             "label": "Lattafa",
-            "link": ""
+            "image": "shopify://shop_images/lattafa.svg",
+            "link": "shopify://collections/lattafa"
           }
         },
         "brand_pWaaaz": {
           "type": "brand",
           "settings": {
-            "collection": "",
-            "label": "Calvi Klein",
-            "link": ""
+            "collection": "calvin-klein",
+            "label": "",
+            "image": "shopify://shop_images/Calvin_Klein.svg",
+            "link": "shopify://collections/calvin-klein"
           }
         },
         "brand_gPKRz3": {
           "type": "brand",
           "settings": {
-            "collection": "",
+            "collection": "carolina-herrera",
             "label": "",
-            "link": ""
+            "image": "shopify://shop_images/Carolina_Herrera.svg",
+            "link": "shopify://collections/carolina-herrera"
           }
         },
         "brand_8TgGkq": {
           "type": "brand",
           "settings": {
-            "collection": "",
+            "collection": "jean-paul",
             "label": "",
-            "link": ""
+            "image": "shopify://shop_images/Jean_paul_gaultier.svg",
+            "link": "shopify://collections/jean-paul"
+          }
+        },
+        "brand_pVVXAc": {
+          "type": "brand",
+          "settings": {
+            "collection": "paco-rabanne",
+            "label": "",
+            "image": "shopify://shop_images/Paco_Rabanne.svg",
+            "link": "shopify://collections/paco-rabanne"
+          }
+        },
+        "brand_P9TPQx": {
+          "type": "brand",
+          "settings": {
+            "collection": "armaf",
+            "label": "",
+            "image": "shopify://shop_images/Armaf.svg",
+            "link": "shopify://collections/armaf"
           }
         }
       },
@@ -243,7 +265,9 @@
         "brand_rTA3za",
         "brand_pWaaaz",
         "brand_gPKRz3",
-        "brand_8TgGkq"
+        "brand_8TgGkq",
+        "brand_pVVXAc",
+        "brand_P9TPQx"
       ],
       "name": "B2B catálogo por marca",
       "settings": {
@@ -926,6 +950,7 @@
     },
     "custom_liquid_PBBpVM": {
       "type": "custom-liquid",
+      "disabled": true,
       "settings": {
         "custom_liquid": "<div class=\"carousel\"\n  data-flickity='{ \"freeScroll\": true, \"contain\": true, \"prevNextButtons\": false, \"pageDots\": false, \"freeScroll\": true, \"wrapAround\": true, \"autoPlay\": true }'>\n  \n  {%- assign slides = \n    'jeanslide,https://cdn.shopify.com/s/files/1/0847/7553/4899/files/jean-paul-white.svg?v=1723822783,20px,Desata tu lado más audaz con las fragancias Jean Paul Gaultier. Una provocación olfativa que refleja la moda vanguardista y la sensualidad que te define.,/collections/jean-paul|' | \n    append: 'lattafaslide,https://cdn.shopify.com/s/files/1/0847/7553/4899/files/lattafa-white.svg?v=1723823256,50px,Un mundo de aromas te espera. Lattafa te invita a explorar una amplia gama de fragancias que te transportarán a diferentes lugares y momentos.,/collections/lattafa?usf_sort=bestselling|' |\n    append: 'versaceslide,https://cdn.shopify.com/s/files/1/0847/7553/4899/files/versace-white.svg?v=1701728571,20px,Encuentra tu firma olfativa distintiva y haz una declaración de sofisticación con Versace.,/collections/versace|' |\n    append: 'armafslide,https://cdn.shopify.com/s/files/1/0847/7553/4899/files/armaf-white.svg?v=1723823421,50px,La tradición se reinventa. Armaf fusiona ingredientes nobles con las últimas tendencias en perfumería, creando aromas atemporales y cautivadores.,/collections/armaf?usf_sort=bestselling|' |\n    append: 'carolinaslide,https://cdn.shopify.com/s/files/1/0847/7553/4899/files/carolina-herrera-white.svg?v=1723823583,20px,Un legado de elegancia. Carolina Herrera fusiona la tradición de la alta perfumería con las tendencias más actuales, creando aromas icónicos y sofisticados.,/collections/carolina-herrera?usf_sort=bestselling|' |\n    append: 'armanislide,https://cdn.shopify.com/s/files/1/0847/7553/4899/files/giorgio-armani-white.svg?v=1701728571,30px,Experimenta la fusión perfecta entre la elegancia italiana y la modernidad refinada.,/collections/giorgio-armani|' |\n    append: 'bvlgarislide,https://cdn.shopify.com/s/files/1/0847/7553/4899/files/bvlgari-white.svg?v=1701728571,20px,Descubre fragancias cautivadoras que expresan la esencia del glamour atemporal.,/collections/bvlgari|' |\n    append: 'chanelslide,https://cdn.shopify.com/s/files/1/0847/7553/4899/files/chanel-white.svg?v=1701728571,20px,Sumérgete en un mundo de lujo y sofisticación.,/collections/chanel' | split: '|'\n  -%}\n\n  {%- for slide in slides -%}\n    {%- assign slide_details = slide | split: ',' -%}\n    {%- assign slide_id = slide_details[0] -%}\n    {%- assign slide_img = slide_details[1] -%}\n    {%- assign slide_height = slide_details[2] -%}\n    {%- assign slide_text = slide_details[3] -%}\n    {%- assign slide_link = slide_details[4] -%}\n\n    {%- if forloop.index > 2 -%}\n      {%- assign loading = \"lazy\" -%}\n    {%- else -%}\n      {%- assign loading = \"eager\" -%}\n    {%- endif -%}\n    \n    <div class=\"carousel-cell\" id=\"{{ slide_id }}\">\n      <div class=\"overlayslide\"></div>\n      <div class=\"contenido-slide\">\n        <img src=\"{{ slide_img }}\" height=\"{{ slide_height }}\" loading=\"{{ loading }}\">\n        <p>{{ slide_text }}</p>\n        <a href=\"{{ slide_link }}\">Ver productos</a>\n      </div>\n    </div>\n  {%- endfor -%}\n\n</div>"
       }
