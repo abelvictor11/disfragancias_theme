@@ -248,6 +248,8 @@
         "550fbd21-75fb-4051-9dee-77d91b5239f0": {
           "type": "logo",
           "settings": {
+            "logo_mobile": "shopify://shop_images/logo-disfragancias-b2b.svg",
+            "logo_transparent": "shopify://shop_images/logo-disfragancias-b2b-white.svg",
             "logo_width_mobile": 100,
             "logo_text": "",
             "logo_font_size": 20,
