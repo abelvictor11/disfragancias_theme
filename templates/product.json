@@ -71,7 +71,7 @@
         "b2bbanner-volumen-0001": {
           "type": "b2b_banner",
           "settings": {
-            "style": "info",
+            "style": "accent",
             "icon": "volume",
             "heading": "Precios por volumen",
             "text": "<p>Mientras m\u00e1s compras, mejor precio: 10+ und 5% \u00b7 50+ und 10% \u00b7 100+ und 15% de descuento adicional.</p>",
@@ -82,7 +82,7 @@
         "b2bbanner-autentic-0002": {
           "type": "b2b_banner",
           "settings": {
-            "style": "success",
+            "style": "accent",
             "icon": "shield",
             "heading": "100% originales y garantizados",
             "text": "<p>Producto sellado, importado y con garant\u00eda de devoluci\u00f3n. Compra con la tranquilidad que tu negocio necesita.</p>",
