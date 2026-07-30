@@ -175,34 +175,6 @@
         "lookbook_truncate": "1"
       }
     },
-    "b2b_featured_products_qkMxM6": {
-      "type": "b2b-featured-products",
-      "name": "B2B destacados",
-      "settings": {
-        "title": "Más pedidos",
-        "subheading": "",
-        "collection": "todos-los-productos",
-        "products_limit": 12,
-        "show_view_all": true,
-        "width": "container",
-        "bg_soft": false,
-        "spacing_top": 40,
-        "spacing_bottom": 40
-      }
-    },
-    "b2b_quick_order_WMwi6P": {
-      "type": "b2b-quick-order",
-      "name": "B2B pedido rápido",
-      "settings": {
-        "title": "Pedido rápido por SKU",
-        "subtitle": "Escribe el SKU y la cantidad. Añade varias referencias de una vez.",
-        "rows": 5,
-        "width": "container",
-        "bg_soft": true,
-        "spacing_top": 40,
-        "spacing_bottom": 40
-      }
-    },
     "b2b_brand_grid_yBawrQ": {
       "type": "b2b-brand-grid",
       "blocks": {
@@ -284,6 +256,34 @@
         "title": "Comprar por marca",
         "min_width": 150,
         "show_count": true,
+        "width": "container",
+        "bg_soft": true,
+        "spacing_top": 40,
+        "spacing_bottom": 40
+      }
+    },
+    "b2b_featured_products_qkMxM6": {
+      "type": "b2b-featured-products",
+      "name": "B2B destacados",
+      "settings": {
+        "title": "Más pedidos",
+        "subheading": "",
+        "collection": "todos-los-productos",
+        "products_limit": 12,
+        "show_view_all": true,
+        "width": "container",
+        "bg_soft": false,
+        "spacing_top": 40,
+        "spacing_bottom": 40
+      }
+    },
+    "b2b_quick_order_WMwi6P": {
+      "type": "b2b-quick-order",
+      "name": "B2B pedido rápido",
+      "settings": {
+        "title": "Pedido rápido por SKU",
+        "subtitle": "Escribe el SKU y la cantidad. Añade varias referencias de una vez.",
+        "rows": 5,
         "width": "container",
         "bg_soft": true,
         "spacing_top": 40,
@@ -1434,9 +1434,9 @@
   },
   "order": [
     "16321237356a896dad",
+    "b2b_brand_grid_yBawrQ",
     "b2b_featured_products_qkMxM6",
     "b2b_quick_order_WMwi6P",
-    "b2b_brand_grid_yBawrQ",
     "163221535239da03ba",
     "163247026462da6862",
     "custom_liquid_PBBpVM",
