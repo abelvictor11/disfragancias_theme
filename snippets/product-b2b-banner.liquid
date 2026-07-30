@@ -1,0 +1,40 @@
+{%- comment -%}
+  Banner informativo/ayuda para la PDP B2B. Editable desde el personalizador
+  como bloque de la sección de producto (tipo 'b2b_banner'). Se pueden agregar,
+  quitar y reordenar varios.
+
+  Acepta:
+  - block: {Object} bloque de la sección con sus settings.
+{%- endcomment -%}
+{%- liquid
+  assign b_style = block.settings.style | default: 'info'
+  assign b_icon = block.settings.icon
+  assign b_heading = block.settings.heading
+  assign b_text = block.settings.text
+  assign b_link = block.settings.link
+  assign b_link_label = block.settings.link_label
+-%}
+{%- if b_heading != blank or b_text != blank -%}
+  <div class="b2b-banner b2b-banner--{{ b_style }}"{{ block.shopify_attributes }}>
+    {%- if b_icon != blank and b_icon != 'none' -%}
+      <span class="b2b-banner__icon" aria-hidden="true">
+        {%- case b_icon -%}
+          {%- when 'volume' -%}<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 20h18M6 20V10M11 20V4M16 20v-8M21 20v-5"/></svg>
+          {%- when 'shield' -%}<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          {%- when 'chat' -%}<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/></svg>
+          {%- when 'truck' -%}<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/></svg>
+          {%- when 'card' -%}<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          {%- when 'tag' -%}<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          {%- else -%}<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+        {%- endcase -%}
+      </span>
+    {%- endif -%}
+    <div class="b2b-banner__body">
+      {%- if b_heading != blank -%}<span class="b2b-banner__heading">{{ b_heading }}</span>{%- endif -%}
+      {%- if b_text != blank -%}<div class="b2b-banner__text">{{ b_text }}</div>{%- endif -%}
+    </div>
+    {%- if b_link != blank and b_link_label != blank -%}
+      <a class="b2b-banner__cta" href="{{ b_link }}"{% if b_link contains 'http' %} target="_blank" rel="noopener"{% endif %}>{{ b_link_label }}</a>
+    {%- endif -%}
+  </div>
+{%- endif -%}

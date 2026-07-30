@@ -58,6 +58,28 @@
             "spacing_bottom": 12
           }
         },
+        "b2bbanner-volumen-0001": {
+          "type": "b2b_banner",
+          "settings": {
+            "style": "info",
+            "icon": "volume",
+            "heading": "Precios por volumen",
+            "text": "<p>Mientras m\u00e1s compras, mejor precio: 10+ und 5% \u00b7 50+ und 10% \u00b7 100+ und 15% de descuento adicional.</p>",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "b2bbanner-autentic-0002": {
+          "type": "b2b_banner",
+          "settings": {
+            "style": "success",
+            "icon": "shield",
+            "heading": "100% originales y garantizados",
+            "text": "<p>Producto sellado, importado y con garant\u00eda de devoluci\u00f3n. Compra con la tranquilidad que tu negocio necesita.</p>",
+            "link": "",
+            "link_label": ""
+          }
+        },
         "4e59f24a-8859-4579-a80a-d70e6f1bf66b": {
           "type": "info",
           "settings": {
@@ -226,6 +248,8 @@
         "b0ea69b7-8a54-4a3c-9abd-0fcceeabaaa0",
         "0e4ea696-4820-4c98-aaa6-806d41782a3d",
         "4036f89b-c2c5-49a4-9d6b-2fd29ce7c46c",
+        "b2bbanner-volumen-0001",
+        "b2bbanner-autentic-0002",
         "4e59f24a-8859-4579-a80a-d70e6f1bf66b",
         "4f95b592-8369-4ab0-b30d-24e463fb6890",
         "d98e243b-3682-495a-965a-1c7f7d460880",

@@ -864,6 +864,8 @@
                                                 color_text: color_text
                                             %}
                                         </div>
+                                    {%- when 'b2b_banner' -%}
+                                        {% render 'product-b2b-banner', block: block %}
                                     {%- when 'variant_description' -%}
                                         <div class="productView-moreItem{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"
                                             style="--spacing-top: {{ spacing_top | append: 'px' }};

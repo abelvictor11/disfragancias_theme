@@ -1280,6 +1280,27 @@ span.badge.custom-metafield-badge {
 .b2b-cond__lbl { display: block; font-size: 12px; color: #777; }
 .b2b-cond__val { display: block; font-size: 14px; font-weight: 500; }
 .b2b-cond__val--link { color: #1a5fa5; }
+
+/* Banners informativos de la PDP B2B (bloque 'b2b_banner' del personalizador). */
+.b2b-banner { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 12px; border: 1px solid; margin: 0 0 10px; }
+.b2b-banner__icon { flex: 0 0 auto; display: inline-flex; margin-top: 1px; }
+.b2b-banner__body { flex: 1 1 auto; min-width: 0; }
+.b2b-banner__heading { display: block; font-size: 15px; font-weight: 600; line-height: 1.25; margin-bottom: 2px; }
+.b2b-banner__text { font-size: 13px; line-height: 1.4; }
+.b2b-banner__text p { margin: 0; }
+.b2b-banner__text p + p { margin-top: 4px; }
+.b2b-banner__cta { flex: 0 0 auto; align-self: center; font-size: 13px; font-weight: 600; text-decoration: none; padding: 8px 14px; border-radius: 8px; white-space: nowrap; }
+/* Variantes de color */
+.b2b-banner--info    { background: #eef4fb; border-color: #cfe0f3; color: #1a4a7a; }
+.b2b-banner--success { background: #eef7f0; border-color: #cfe8d6; color: #1f6b3b; }
+.b2b-banner--accent  { background: #faf6ee; border-color: #ecdfc7; color: #7a5a1e; }
+.b2b-banner--neutral { background: #f4f4f5; border-color: #e2e2e5; color: #45454a; }
+.b2b-banner__cta { background: rgba(0,0,0,.06); color: inherit; }
+.b2b-banner__cta:hover { background: rgba(0,0,0,.12); }
+@media (max-width: 550px) {
+    .b2b-banner { flex-wrap: wrap; }
+    .b2b-banner__cta { width: 100%; text-align: center; margin-top: 4px; }
+}
 .b2b-cond--link:hover .b2b-cond__val--link { text-decoration: underline; }
 
 /* Galería compacta en el PDP B2B: se estrecha la COLUMNA (no solo la imagen)
