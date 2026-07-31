@@ -15,7 +15,7 @@
         "image_WYHbMU": {
           "type": "image",
           "settings": {
-            "image_slide": "shopify://shop_images/b2b-banner_1.webp",
+            "image_slide": "shopify://shop_images/b2b-banner-1.webp",
             "alignment": "left",
             "enable_custom_position": false,
             "custom_horizontal": "80",
