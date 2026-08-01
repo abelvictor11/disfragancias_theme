@@ -827,18 +827,18 @@
   "shopify": {
     "checkout": {
       "contact": {
-        "company_label": "Cédula",
-        "optional_company_label": "Cédula (opcional)"
+        "company_label": "Cédula/Nit",
+        "optional_company_label": "Cédula/Nit (opcional)"
       }
     }
   },
   "customer_accounts": {
     "order_details": {
-      "company": "Cédula"
+      "company": "Cédula/Nit"
     },
     "B2B": {
       "account_information": {
-        "company_card_section_accessibility_label": "Cédula"
+        "company_card_section_accessibility_label": "Cédula/Nit"
       }
     }
   }
