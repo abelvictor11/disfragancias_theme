@@ -1,0 +1,178 @@
+.bss-lock-page-container:has([bss-lock-rule-id="13621"]) {background:none;width:100%;max-width:560px;min-height:unset!important;border-radius:none;padding:0!important;box-shadow:none;margin:80px auto 0;}
+                .bss-lock-page-container:has([bss-lock-rule-id="13621"]) .bss-fl-message{font-size:13px;font-weight:450;line-height:20px;}
+                .bss-lock-page-container:has([bss-lock-rule-id="13621"]) .bss-commerce-custom-newsletter{text-align:center;margin:20px;}
+                .bss-lock-page-container:has([bss-lock-rule-id="13621"]) .bss-newsletter-form__field-wrapper{width:100%;max-width:36rem;}
+                .bss-lock-page-container:has([bss-lock-rule-id="13621"]) .bss-newsletter-form__field-wrapper .bss-newsletter__field{position:relative;z-index:0;margin:0;display:flex;border-radius:2px;overflow:hidden;max-height:50px;justify-content:center;}
+                .bss-lock-page-container:has([bss-lock-rule-id="13621"]) .bss-newsletter-form__field-wrapper .bss-newsletter__field-input{width:unset;border-radius:0;border:1px solid #000;border-right:none;margin:0;outline:none;background:#fff;flex:1;padding:10px;font-size:14px;max-width:250px;}
+                .bss-lock-page-container:has([bss-lock-rule-id="13621"]) .bss-newsletter-form__field-wrapper .bss-newsletter__field-input::placeholder{color:#6b7280;opacity:1;}
+                .bss-lock-page-container:has([bss-lock-rule-id="13621"]) .bss-newsletter-form__field-wrapper .bss-newsletter__field__label{display:none;}
+                .bss-lock-page-container:has([bss-lock-rule-id="13621"]) .bss-newsletter-form__field-wrapper .bss-newsletter-form__button{display:block;border:1px solid #000;border-left:none;width:50px;margin:0;padding:10px 15px;color:#000;border-radius:0;font-weight:500;cursor:pointer;background:none;font-size:18px;}
+                .bss-lock-page-container:has([bss-lock-rule-id="13621"]) .bss-newsletter-form__field-wrapper .bss-newsletter-form__button .icon-arrow{display:block;}
+                .bss-lock-page-container:has([bss-lock-rule-id="13621"]) .bss-newsletter-form__field-wrapper .bss-newsletter-form__button::after{display:none;}
+                .bss-lock-page-container:has([bss-lock-rule-id="13621"]) .success-message{margin:14px;font-size:13px; color:black;}
+        .bss-lock-passcode-container-13621.page-width.bsscommerce-passcode-container .bss-commerce-passcode-container-2 {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .bss-lock-passcode-container-13621 .bss-commerce-passcode-input-label {
+            margin-bottom: 4px;
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 1);
+            font-weight: normal;
+            font-style: normal;
+            text-decoration: none;
+        }
+
+        .bss-lock-passcode-container-13621.page-width #bsscommerce-ltap-password {
+            display: flex;
+            flex-direction: inherit;
+            row-gap: 6px;
+            column-gap: 6px;
+            max-width: 100%;
+            max-height: 200px;
+            align-items: center;
+            height: 42px;
+        }
+        .bss-lock-passcode-container-13621 .bss-password-form-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid;
+            border-color: rgba(0, 0, 0, 1);
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: #fff;
+            margin-right: 6px;
+            flex: 1;
+            justify-content: space-between;
+        }
+        .bss-lock-passcode-container-13621.page-width.bsscommerce-passcode-container .bss-password-form-wrapper {
+            width: 335px;
+            max-width: 100%;
+            max-height: 200px;
+            height: 100%;
+        }
+        .bss-lock-passcode-container-13621 #bsscommerce-password {
+            padding: 8px 0 8px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            border: none;
+            margin-right: 5px;
+            box-shadow: none;
+            outline: none;
+        }
+        .bss-lock-passcode-container-13621.page-width.bsscommerce-passcode-container #bsscommerce-password {
+            width: 335px;
+        }    
+        .bss-lock-passcode-container-13621 .toggle-passcode-input {
+            background-color: 
+            transparent; 
+            border: none; 
+            line-height: 0; 
+            padding: 8px; 
+            cursor: pointer; 
+            fill: #BABEC3;
+        }
+        .bss-lock-passcode-container-13621 #bsscommerce-password-submit {
+            color: rgba(255, 255, 255, 1) !important;
+            background-color: rgba(0, 0, 0, 1) !important;
+            border: 1px solid #ccc;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            height: 42px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .bss-lock-passcode-container-13621.page-width.bsscommerce-passcode-container #bsscommerce-password-submit {
+            max-height: 200px;
+            max-width: 100%;
+            width: 79px;
+        }                
+    
+        .bss-lock-message-element-13621 {
+            font-size: 14px !important;
+            font-weight: normal !important;
+            font-style: normal !important;
+            text-decoration: none !important;
+            text-align: center !important;
+            color: rgba(0, 0, 0, 1) !important;
+            display: inline-block !important;
+            font-family: inherit !important;
+        }
+
+        
+        
+    .bss-popup-age__container[lock-id="13621"] .bss-popup-dialog__modal {background-color: #FFFFFFFF;}
+            .bss-popup-age__container[lock-id="13621"] .bss_popup__title {color: #000000FF;}
+            .bss-popup-age__container[lock-id="13621"] .bss_popup__body {color: #000000FF;}  
+            .bss-popup-age__container[lock-id="13621"] .bss_popup__btn-yes {
+            background-color: #000000FF;
+            color: #FFFFFFFF;}
+            .bss-popup-age__container[lock-id="13621"] .bss_popup__btn-cancel {background-color: #000000FF;
+            color: #FFFFFFFF;}
+    .bss-countdown-wrapper-page:has([data-countdown-rule-id="13621"]) {
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        width: 50%;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        color: rgba(0, 0, 0, 1);
+        font-family: inherit;
+        background-color: inherit;
+    }
+    .bss-timer-page[data-countdown-rule-id="13621"] {
+        color: rgba(0, 0, 0, 1);
+        font-family: inherit;
+    }
+    @media (max-width: 640px) {
+        .bss-countdown-wrapper-page:has([data-countdown-rule-id="13621"]) {
+            width: 100%;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        
+    }
+
+    .bss-countdown-wrapper-price:has([data-countdown-rule-id="13621"]) {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 6px;
+        justify-content: center;
+        color: rgba(0, 0, 0, 1);
+        font-family: inherit;
+        background-color: rgba(255, 255, 255, 1);
+    }
+    .bss-timer-price[data-countdown-rule-id="13621"] {
+        font-family: inherit;
+        color: rgba(0, 0, 0, 1)
+    }
+    
+    .bss-lock-passcode-container-13621 {}.bss-ca-card{background:#ffffff;border:0.5px solid #e0ddd8;border-radius:14px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin:0px auto 60px;}.bss-ca-card__icon{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}.bss-ca-card__icon svg{width:24px;height:24px;}.bss-ca-card__title{font-size:17px;font-weight:500;color:#1a1a1a;margin:0 0 8px;}.bss-ca-card__subtitle{font-size:14px;line-height:1.55;margin:0 0 20px;}.bss-ca-card__btn{max-width:300px;margin:0 auto;font-family:inherit;display:block;width:100%;padding:11px;background:#1a1a1a;color:#fff;border:none;border-radius:99px;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;text-align:center;}.bss-ca-card__status{display:inline-flex;align-items:center;gap:6px;font-size:13px;}.bss-ca-card__dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}.bss-ca-price-box{display:inline-flex;align-items:center;gap:6px;border-radius:6px;padding:6px 8px;position:relative;text-decoration:none;}.bss-ca-price-box svg{width:14px;height:14px;flex-shrink:0;}.bss-ca-price-box__title{font-size:13px;font-weight:500;margin:0;line-height:1.3;}.bss-ca-price-box__subtitle{font-size:11px;margin:0;}.bss-ca-price-box--clickable{cursor:pointer;transition:opacity 0.15s;}.bss-ca-price-box--clickable:hover{opacity:0.75;}.bss-ca-price-box--clickable::after{content:'→';margin-left:4px;font-size:13px;opacity:0.6;}.bss-lock-price-login-prompt-13621,.bss-lock-page-login-prompt-13621{color:#3D4FB5ff;}.bss-lock-price-pending-access-13621,.bss-lock-page-pending-access-13621{color:#854F0Bff;}.bss-lock-price-rejected-access-13621,.bss-lock-page-rejected-access-13621{color:#A32D2Dff;}.bss-lock-price-revoked-access-13621,.bss-lock-page-revoked-access-13621{color:#5F5E5Aff;}.bss-lock-price-request-access-13621,.bss-ca-card__subtitle.bss-lock-page-request-access-13621{color:#555555ff;}
+        header [class*="bss-product-lock"] { display: none !important; } 
+    
+        [data-modal-rule-id="13621"] .bss-lock-passcode-collection-modal {
+            background-color: rgba(255, 255, 255, 1);
+            color: rgba(0, 0, 0, 1);
+        }
+        [data-modal-rule-id="13621"] .modal-submit-button {
+            color: rgba(255, 255, 255, 1);
+            background-color: rgba(0, 0, 0, 1);
+        }
+    [id*='MainProduct']:has(.bss-lock-element) [id*='Quantity-Form']{ cursor: not-allowed !important; opacity: .5 !important; pointer-events: none !important; }[id*='MainProduct']:has(.bss-lock-element) [id*='ProductSubmitButton']{ cursor: not-allowed !important; opacity: .5 !important; pointer-events: none !important; }[id*='MainProduct']:has(.bss-lock-element) .shopify-payment-button{ cursor: not-allowed !important; opacity: .5 !important; pointer-events: none !important; }.variant-item:has(.bss-lock-element) .variant-item__quantity{ cursor: not-allowed !important; opacity: .5 !important; pointer-events: none !important; }.variant-item__price:has(.bss-lock-element) .variant-item__old-price { display: none; }.product-item:has(.bss-lock-element) .product-form__submit { cursor: not-allowed !important; opacity: .5 !important; pointer-events: none !important; }.quickView:has(.bss-lock-element) .quantity__container{ display: none }.quickView:has(.bss-lock-element) .product-form__submit { cursor: not-allowed !important; opacity: .5 !important; pointer-events: none !important; }.quickView:has(.bss-lock-element) .shopify-payment-button { cursor: not-allowed !important; opacity: .5 !important; pointer-events: none !important; }.quickView:has(.bss-lock-element) .productView-subtotal { display: none }.productView-container:has(.bss-lock-element) .productView-subtotal{ display: none }.productView-container:has(.bss-lock-element) .quantity_selector{ display: none }.productView-container:has(.bss-lock-element) .productView-buttons{ cursor: not-allowed !important; opacity: .5 !important; pointer-events: none !important; }
+    .bss-hide-atc + * {
+        display: none !important;
+    }
+			.bss-lock-hidden { display: none; }
+			script#bss-behavior-script { display: none !important }
+		
+
+ 
