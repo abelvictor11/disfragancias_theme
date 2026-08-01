@@ -976,8 +976,8 @@
     },
     "content_for_index": [],
     "blocks": {
-      "14043481873128526568": {
-        "type": "shopify://apps/bss-b2b-lock/blocks/config-header/2f6e9bdf-2dd6-42c6-8d67-58be57506f80",
+      "5163884144194077907": {
+        "type": "shopify://apps/sami-b2b-lock/blocks/app-embed/8d86a3b4-97b3-44ab-adc1-ec01c5a89da9",
         "disabled": false,
         "settings": {}
       }
