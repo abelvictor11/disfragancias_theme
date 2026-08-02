@@ -966,6 +966,9 @@ var _usfProductCard6 = `
                             <span v-html="product.title"></span>
                     </a>
                 </h3>
+                <ul v-if="acordes && acordes.length" class="card-acordes list-unstyled" aria-label="Acordes principales">
+                    <li v-for="acorde in acordes" class="card-acorde" v-html="acorde"></li>
+                </ul>
                 <!--reviews-->
                 <div v-if="_usfGlobalSettings.show_review" class="card-review clearfix halo-productReview">
                     <usf-plugin name="searchResultsProductReview" :data="pluginData"></usf-plugin>
@@ -1910,6 +1913,16 @@ usf.event.add('init', function () {
                 }else{
                     short_description = _usfTruncateWords(this.product.description,44)
                 }
+                // Acordes principales (metafield lista custom.acordes_principales).
+                // USF entrega el valor como string; puede venir como JSON array o
+                // separado por comas. Se normaliza y se limita a 3.
+                var acordesRaw = usf.utils.getMetafield(this.product,'custom','acordes_principales');
+                var acordes = [];
+                if(acordesRaw){
+                    try { acordes = JSON.parse(acordesRaw); } catch(e) { acordes = String(acordesRaw).split(/[,;|]/); }
+                    if(!Array.isArray(acordes)){ acordes = [acordes]; }
+                    acordes = acordes.map(function(x){ return String(x).trim(); }).filter(Boolean).slice(0,3);
+                }
                 for(let i = 0; i < this.product.options.length;i++){
                     var option = this.product.options[i];
                     var downcased_option = option.name.toLowerCase();
@@ -1931,6 +1944,7 @@ usf.event.add('init', function () {
                     gridAddToCartForm: '',
                     listAddToCartForm: '',
                     shortDescription: short_description,
+                    acordes: acordes,
                     dataJson : {}
                 }
             },
