@@ -170,6 +170,17 @@
 
                 {% render 'product-card-summary', product: product_card_product, class: 'card-list__hidden' %}
 
+                {%- liquid
+                    assign acordes = product_card_product.metafields.custom.acordes_principales.value
+                -%}
+                {%- if acordes and acordes.size > 0 -%}
+                    <ul class="card-acordes list-unstyled" aria-label="Acordes principales">
+                        {%- for acorde in acordes limit: 3 -%}
+                            <li class="card-acorde">{{ acorde }}</li>
+                        {%- endfor -%}
+                    </ul>
+                {%- endif -%}
+
                 {%- if show_price -%}
                     <div class="card-price">
                         {% render 'price', product: product_card_product, price_class: '', hasCountdown: hasCountdown %}
