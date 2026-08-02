@@ -1913,16 +1913,6 @@ usf.event.add('init', function () {
                 }else{
                     short_description = _usfTruncateWords(this.product.description,44)
                 }
-                // Acordes principales (metafield lista custom.acordes_principales).
-                // USF entrega el valor como string; puede venir como JSON array o
-                // separado por comas. Se normaliza y se limita a 3.
-                var acordesRaw = usf.utils.getMetafield(this.product,'custom','acordes_principales');
-                var acordes = [];
-                if(acordesRaw){
-                    try { acordes = JSON.parse(acordesRaw); } catch(e) { acordes = String(acordesRaw).split(/[,;|]/); }
-                    if(!Array.isArray(acordes)){ acordes = [acordes]; }
-                    acordes = acordes.map(function(x){ return String(x).trim(); }).filter(Boolean).slice(0,3);
-                }
                 for(let i = 0; i < this.product.options.length;i++){
                     var option = this.product.options[i];
                     var downcased_option = option.name.toLowerCase();
@@ -1944,7 +1934,7 @@ usf.event.add('init', function () {
                     gridAddToCartForm: '',
                     listAddToCartForm: '',
                     shortDescription: short_description,
-                    acordes: acordes,
+                    acordes: [],
                     dataJson : {}
                 }
             },
@@ -1955,10 +1945,21 @@ usf.event.add('init', function () {
                     method: 'GET'
                 }).then(function (response) {
                     return response.text()  
-                }).then(rs => { 
+                }).then(rs => {
                     t.dataJson = rs;
-                    
-                });  
+                    // Acordes principales: vienen del template usf-data-json del
+                    // tema (metafield lista custom.acordes_principales leído por
+                    // Liquid, sin depender del índice de USF). Se normaliza a un
+                    // arreglo y se limita a 3.
+                    try {
+                        var parsed = JSON.parse(rs);
+                        var ac = parsed && parsed.acordes;
+                        if (ac) {
+                            if (!Array.isArray(ac)) { ac = String(ac).split(/[,;|]/); }
+                            t.acordes = ac.map(function(x){ return String(x).trim(); }).filter(Boolean).slice(0,3);
+                        }
+                    } catch(e) {}
+                });
 
                 if(_usfGlobalSettings.show_action){
                     fetch(`/products/` + t.product.urlName + '?view=usf-grid-form', {
