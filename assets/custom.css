@@ -25,6 +25,26 @@
 .ajax-loaded .media--loading-effect {
     background: rgba(233,222,211,.2) !important;
 }
+/* Badges de "Acordes principales" (metafield custom.acordes_principales) en cards. */
+.card-acordes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 6px 0 2px;
+    padding: 0;
+    font-size: 0;
+}
+.card-acorde {
+    display: inline-block;
+    font-size: 11px;
+    line-height: 1;
+    color: #664d03;
+    background: rgba(230,222,211,.55);
+    border-radius: 40px;
+    padding: 6px 10px;
+    letter-spacing: 0;
+    white-space: nowrap;
+}
 .slick-slide img, .card-media>img, .card-media>video {
     mix-blend-mode: darken;
 }
