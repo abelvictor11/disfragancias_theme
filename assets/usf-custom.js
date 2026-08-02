@@ -966,9 +966,6 @@ var _usfProductCard6 = `
                             <span v-html="product.title"></span>
                     </a>
                 </h3>
-                <ul v-if="acordes && acordes.length" class="card-acordes list-unstyled" aria-label="Acordes principales">
-                    <li v-for="acorde in acordes" class="card-acorde" v-html="acorde"></li>
-                </ul>
                 <!--reviews-->
                 <div v-if="_usfGlobalSettings.show_review" class="card-review clearfix halo-productReview">
                     <usf-plugin name="searchResultsProductReview" :data="pluginData"></usf-plugin>
@@ -1934,7 +1931,6 @@ usf.event.add('init', function () {
                     gridAddToCartForm: '',
                     listAddToCartForm: '',
                     shortDescription: short_description,
-                    acordes: [],
                     dataJson : {}
                 }
             },
@@ -1945,21 +1941,10 @@ usf.event.add('init', function () {
                     method: 'GET'
                 }).then(function (response) {
                     return response.text()  
-                }).then(rs => {
+                }).then(rs => { 
                     t.dataJson = rs;
-                    // Acordes principales: vienen del template usf-data-json del
-                    // tema (metafield lista custom.acordes_principales leído por
-                    // Liquid, sin depender del índice de USF). Se normaliza a un
-                    // arreglo y se limita a 3.
-                    try {
-                        var parsed = JSON.parse(rs);
-                        var ac = parsed && parsed.acordes;
-                        if (ac) {
-                            if (!Array.isArray(ac)) { ac = String(ac).split(/[,;|]/); }
-                            t.acordes = ac.map(function(x){ return String(x).trim(); }).filter(Boolean).slice(0,3);
-                        }
-                    } catch(e) {}
-                });
+                    
+                });  
 
                 if(_usfGlobalSettings.show_action){
                     fetch(`/products/` + t.product.urlName + '?view=usf-grid-form', {

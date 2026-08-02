@@ -140,6 +140,8 @@
         {%- if settings.use_custom_js -%}
             {{ 'custom.js' | asset_url | script_tag }}
         {%- endif -%}
+
+        <script src="{{ 'acordes-badges.js' | asset_url }}" defer="defer"></script>
         
         <div class="background-overlay">
             {%- if settings.show_effect_close -%}
