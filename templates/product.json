@@ -74,7 +74,7 @@
             "style": "accent",
             "icon": "volume",
             "heading": "Precios por volumen",
-            "text": "<p>Mientras m\u00e1s compras, mejor precio: 10+ und 5% \u00b7 50+ und 10% \u00b7 100+ und 15% de descuento adicional.</p>",
+            "text": "<p>Mientras más compras, mejor precio: 10+ und 5% · 50+ und 10% · 100+ und 15% de descuento adicional.</p>",
             "link": "",
             "link_label": ""
           }
@@ -85,7 +85,7 @@
             "style": "accent",
             "icon": "shield",
             "heading": "100% originales y garantizados",
-            "text": "<p>Producto sellado, importado y con garant\u00eda de devoluci\u00f3n. Compra con la tranquilidad que tu negocio necesita.</p>",
+            "text": "<p>Producto sellado, importado y con garantía de devolución. Compra con la tranquilidad que tu negocio necesita.</p>",
             "link": "",
             "link_label": ""
           }
@@ -251,6 +251,15 @@
             "spacing_top": 30,
             "spacing_bottom": 0
           }
+        },
+        "seedgrow_whatsapp_chat_app_block_cyhU9G": {
+          "type": "shopify://apps/seedgrow-whatsapp-chat/blocks/app-block/b85b5e45-9cea-417a-9b9e-0aa961ccf3ef",
+          "settings": {
+            "button_label": "Need help? Chat with us",
+            "button_style": "round",
+            "background_color": "#2DB742",
+            "text_color": "#ffffff"
+          }
         }
       },
       "block_order": [
@@ -274,7 +283,8 @@
         "bd066b80-c8e3-4f3e-8280-b27fbf6e9423",
         "b9d6eb19-10f4-41f8-bfdc-ea10e8b3182a",
         "19ab1d9f-74b2-4c76-bf2e-1bc749e5c2a3",
-        "1180d91b-75f9-49d9-a9db-2b9f5a49408d"
+        "1180d91b-75f9-49d9-a9db-2b9f5a49408d",
+        "seedgrow_whatsapp_chat_app_block_cyhU9G"
       ],
       "settings": {
         "container": "default",
