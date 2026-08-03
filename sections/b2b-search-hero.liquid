@@ -46,13 +46,25 @@
         <p class="b2b-hero__subtitle">{{ section.settings.subtitle }}</p>
       {%- endif -%}
 
-      <form class="b2b-hero__form" action="{{ routes.search_url }}" method="get" role="search">
-        <input type="hidden" name="type" value="product">
-        <input class="b2b-hero__input" type="search" name="q"
-               placeholder="{{ section.settings.placeholder | escape }}"
-               aria-label="{{ section.settings.placeholder | escape }}" autocomplete="off">
-        <button class="b2b-hero__btn" type="submit">{{ section.settings.button_label }}</button>
-      </form>
+      {%- if settings.show_quick_search -%}
+      <predictive-search class="b2b-hero__predictive" data-loading-text="{{ 'accessibility.loading' | t }}" data-product-to-show="{{ settings.quick_search_to_show }}">
+      {%- endif -%}
+        <form class="search b2b-hero__form" action="{{ routes.search_url }}" method="get" role="search">
+          <input type="hidden" name="type" value="product">
+          <input type="hidden" name="options[prefix]" value="last">
+          <input class="b2b-hero__input search__input" type="search" name="q"
+                 placeholder="{{ section.settings.placeholder | escape }}"
+                 aria-label="{{ section.settings.placeholder | escape }}"
+                 {%- if settings.show_quick_search %} role="combobox" aria-expanded="false" aria-owns="predictive-search-results-list" aria-controls="predictive-search-results-list" aria-haspopup="listbox" aria-autocomplete="list" autocorrect="off" autocapitalize="off" spellcheck="false"{% endif %}
+                 autocomplete="off">
+          <button class="b2b-hero__btn" type="submit">{{ section.settings.button_label }}</button>
+          {%- if settings.show_quick_search -%}
+            {%- render 'predictive-search-results' -%}
+          {%- endif -%}
+        </form>
+      {%- if settings.show_quick_search -%}
+      </predictive-search>
+      {%- endif -%}
 
       {%- if section.blocks.size > 0 -%}
         <div class="b2b-hero__tags">
