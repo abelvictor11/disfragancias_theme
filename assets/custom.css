@@ -1347,6 +1347,19 @@ span.badge.custom-metafield-badge {
 .toolbar .toolbar-item .toolbar-icon.grid-5,
 .toolbar .toolbar-item .toolbar-icon.grid-6,
 .toolbar .toolbar-item .toolbar-icon.grid-7 { display: inline-block !important; }
+/* grid-4 y grid-5: el tema solo define sus barras (:before) dentro de un
+   media query >=1600px; al forzarlos visibles en todo ancho quedaban sin
+   barras. Se definen aquí sin condición. */
+.toolbar .toolbar-item .toolbar-icon.grid-4 { width: 33px; }
+.toolbar .toolbar-item .toolbar-icon.grid-4:before {
+  box-shadow: 7px 0 0 var(--bg-grey), 14px 0 0 var(--bg-grey), 21px 0 0 var(--bg-grey); }
+.toolbar .toolbar-item .toolbar-icon.grid-4.active:before {
+  box-shadow: 7px 0 0 var(--icon), 14px 0 0 var(--icon), 21px 0 0 var(--icon); }
+.toolbar .toolbar-item .toolbar-icon.grid-5 { width: 40px; }
+.toolbar .toolbar-item .toolbar-icon.grid-5:before {
+  box-shadow: 7px 0 0 var(--bg-grey), 14px 0 0 var(--bg-grey), 21px 0 0 var(--bg-grey), 28px 0 0 var(--bg-grey); }
+.toolbar .toolbar-item .toolbar-icon.grid-5.active:before {
+  box-shadow: 7px 0 0 var(--icon), 14px 0 0 var(--icon), 21px 0 0 var(--icon), 28px 0 0 var(--icon); }
 .toolbar .toolbar-item .toolbar-icon.grid-6 { width: 47px; }
 .toolbar .toolbar-item .toolbar-icon.grid-7 { width: 54px; }
 .toolbar .toolbar-item .toolbar-icon.grid-6:before {
@@ -1427,10 +1440,17 @@ span.badge.custom-metafield-badge {
 /* Header: usuario logueado (nombre + avatar con inicial) */
 .header-account { display: inline-flex; align-items: center; gap: 8px; line-height: 1; }
 .header-account__avatar {
-  width: 28px; height: 28px; border-radius: 50%;
+  box-sizing: border-box !important;
+  width: 28px !important; height: 28px !important;
+  min-width: 28px !important; max-width: 28px !important;
+  flex: 0 0 28px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  aspect-ratio: 1 / 1;
   background: #664d03; color: #fff;
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 600; overflow: hidden; flex: 0 0 auto;
+  font-size: 13px; font-weight: 600; line-height: 1; letter-spacing: 0;
+  overflow: hidden;
 }
 .header-account__avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 .header-account__name { font-size: 14px; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
