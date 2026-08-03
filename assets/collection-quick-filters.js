@@ -94,6 +94,10 @@
   }
 
   function openSidebar() {
+    // El tema tiene un handler global que cierra el drawer al hacer clic
+    // fuera de [data-sidebar]/#halo-sidebar. Añadimos la clase y confiamos en
+    // que el clic no llegue a ese handler (stopPropagation en el listener) y
+    // en que el pill lleve data-sidebar (queda excluido del cierre).
     document.body.classList.add('open-mobile-sidebar');
   }
 
@@ -114,7 +118,7 @@
     var pill = e.target.closest('.qf-pill');
     if (!pill) return;
     var action = pill.getAttribute('data-qf-action');
-    if (action === 'sidebar') return openSidebar();
+    if (action === 'sidebar') { e.stopPropagation(); return openSidebar(); }
     if (action === 'sort') return applySort(pill.getAttribute('data-qf-sort'));
     if (action === 'clear') return clearAll();
     if (action === 'filter') applyFilter(pill.getAttribute('data-qf-value'));

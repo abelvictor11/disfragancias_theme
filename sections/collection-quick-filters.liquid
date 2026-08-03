@@ -20,6 +20,7 @@
             data-qf-action="{{ block.settings.action }}"
             data-qf-value="{{ block.settings.value | escape }}"
             data-qf-sort="{{ block.settings.sort_value | default: 'bestselling' | escape }}"
+            {%- if block.settings.action == 'sidebar' %} data-sidebar{% endif -%}
             {{ block.shopify_attributes }}>{{ block.settings.label }}</button>
         {%- endfor -%}
       </div>
