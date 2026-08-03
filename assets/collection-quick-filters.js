@@ -6,10 +6,13 @@
  * el filtro se aplica sobre la colección actual (vía AJAX, sin cambiar de
  * página) y no dependemos del formato interno de URL del plugin.
  *
- *  - filter: activa/desactiva la faceta cuyo valor coincide (ignora los
- *            valores tipo "link a colección" = usf-facet-value-single).
- *  - sort:   fija usf_sort (recarga; es un orden, no un filtro).
- *  - clear:  quita todos los filtros uff_ de la URL.
+ *  - filter:  activa/desactiva la faceta cuyo valor coincide (ignora los
+ *             valores tipo "link a colección" = usf-facet-value-single).
+ *             Se pueden combinar varios (USF suma los filtros).
+ *  - sort:    fija usf_sort (recarga; es un orden, no un filtro; conserva
+ *             los filtros activos).
+ *  - clear:   quita todos los filtros uff_ de la URL.
+ *  - sidebar: abre el panel lateral con todos los filtros de USF.
  */
 (function () {
   var bar = document.querySelector('[data-quick-filters]');
@@ -32,19 +35,37 @@
     }) || null;
   }
 
-  // ¿Está el valor aplicado actualmente? (se refleja en la URL de USF)
+  // Valores de filtro actualmente aplicados, leídos de la URL de USF.
+  // USF codifica cada faceta como uff_<id>_...=Valor (o Valor1,Valor2).
+  function activeFilterValues() {
+    var out = [];
+    var qs = location.search.replace(/^\?/, '');
+    if (!qs) return out;
+    qs.split('&').forEach(function (pair) {
+      var eq = pair.indexOf('=');
+      if (eq < 0) return;
+      var key = pair.slice(0, eq);
+      if (key.indexOf('uff_') !== 0) return;
+      var val = decodeURIComponent(pair.slice(eq + 1).replace(/\+/g, ' '));
+      val.split(',').forEach(function (v) { out.push(norm(v)); });
+    });
+    return out;
+  }
+
   function isValueActive(value) {
-    var s = decodeURIComponent(location.search);
-    // los filtros de USF quedan como ...=Valor (posible lista separada por coma)
-    var re = new RegExp('=[^&]*(^|,|=)' + value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(,|&|$)', 'i');
-    return re.test(s) || new RegExp('=' + value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(,|&|$)', 'i').test(s);
+    return activeFilterValues().indexOf(norm(value)) >= 0;
+  }
+
+  function currentSort() {
+    var m = location.search.match(/[?&]usf_sort=([^&]+)/);
+    return m ? decodeURIComponent(m[1]) : '';
   }
 
   function hasAnyFilter() {
     return /(^|[?&])uff_/.test(location.search);
   }
 
-  function applyFilter(value, pill) {
+  function applyFilter(value) {
     var btn = findFilterBtn(value);
     if (btn) { btn.click(); return true; }
     // USF aún no renderiza la faceta: reintentar un momento.
@@ -53,13 +74,13 @@
       tries++;
       var b = findFilterBtn(value);
       if (b) { clearInterval(iv); b.click(); }
-      else if (tries > 10) { clearInterval(iv); }
+      else if (tries > 12) { clearInterval(iv); }
     }, 300);
     return false;
   }
 
   function applySort(sortValue) {
-    var u = new URL(location.href);
+    var u = new URL(location.href); // conserva los filtros uff_ activos
     u.searchParams.set('usf_sort', sortValue || 'bestselling');
     location.href = u.toString();
   }
@@ -72,14 +93,18 @@
     location.href = u.toString();
   }
 
+  function openSidebar() {
+    document.body.classList.add('open-mobile-sidebar');
+  }
+
   function refreshActive() {
-    var pills = bar.querySelectorAll('.qf-pill');
     var anyFilter = hasAnyFilter();
-    pills.forEach(function (p) {
+    var sort = currentSort();
+    bar.querySelectorAll('.qf-pill').forEach(function (p) {
       var action = p.getAttribute('data-qf-action');
-      var val = p.getAttribute('data-qf-value');
       var active = false;
-      if (action === 'filter') active = isValueActive(val);
+      if (action === 'filter') active = isValueActive(p.getAttribute('data-qf-value'));
+      else if (action === 'sort') active = sort === (p.getAttribute('data-qf-sort') || 'bestselling');
       else if (action === 'clear') active = !anyFilter; // "Todos" activo si no hay filtros
       p.classList.toggle('is-active', active);
     });
@@ -89,19 +114,18 @@
     var pill = e.target.closest('.qf-pill');
     if (!pill) return;
     var action = pill.getAttribute('data-qf-action');
+    if (action === 'sidebar') return openSidebar();
     if (action === 'sort') return applySort(pill.getAttribute('data-qf-sort'));
     if (action === 'clear') return clearAll();
-    if (action === 'filter') {
-      applyFilter(pill.getAttribute('data-qf-value'), pill);
-      // el estado se refresca al detectar el cambio de URL (abajo)
-    }
+    if (action === 'filter') applyFilter(pill.getAttribute('data-qf-value'));
+    // el estado activo se refresca al detectar el cambio de URL (abajo)
   });
 
   // Refrescar estado activo cuando USF cambia la URL (usa pushState).
   var lastUrl = location.href;
   setInterval(function () {
     if (location.href !== lastUrl) { lastUrl = location.href; refreshActive(); }
-  }, 500);
+  }, 400);
 
   // Oculta los pills de filtro cuyo valor no existe en esta colección
   // (una vez USF cargó sus facetas), para no dejar pills muertos.
@@ -117,8 +141,12 @@
   var pruneTries = 0;
   var pruneIv = setInterval(function () {
     pruneTries++;
-    if (pruneDeadPills() || pruneTries > 20) clearInterval(pruneIv);
+    if (pruneDeadPills() || pruneTries > 25) clearInterval(pruneIv);
   }, 400);
 
+  // Estado activo al cargar (refleja los filtros que ya vienen en la URL).
   refreshActive();
+  // y de nuevo un momento después, por si USF ajusta la URL al inicializar.
+  setTimeout(refreshActive, 800);
+  setTimeout(refreshActive, 2000);
 })();

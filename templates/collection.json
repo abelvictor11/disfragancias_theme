@@ -511,9 +511,19 @@
             "value": "Gym",
             "sort_value": "bestselling"
           }
+        },
+        "qf_filtros": {
+          "type": "pill",
+          "settings": {
+            "label": "Filtros",
+            "action": "sidebar",
+            "value": "",
+            "sort_value": "bestselling"
+          }
         }
       },
       "block_order": [
+        "qf_filtros",
         "qf_todos",
         "qf_topventas",
         "qf_arabe",
