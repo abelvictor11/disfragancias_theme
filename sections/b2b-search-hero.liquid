@@ -1,0 +1,129 @@
+{%- comment -%}
+  Hero de búsqueda B2B para el homepage. Acción primaria = buscar.
+  Input grande + botón + tags de sugerencia (bloques). Cada tag puede apuntar
+  a una búsqueda (query) o a una URL/colección.
+{%- endcomment -%}
+{%- liquid
+  assign container = section.settings.container | default: 'container-1770'
+  assign bg = section.settings.bg | default: '#f0ebe4'
+  assign text_color = section.settings.text_color | default: '#232323'
+  assign accent = section.settings.accent | default: '#664d03'
+  assign pt = section.settings.padding_top
+  assign pb = section.settings.padding_bottom
+-%}
+<style>
+  #b2bHero-{{ section.id }} {
+    background: {{ bg }};
+    color: {{ text_color }};
+    padding-top: {{ pt }}px;
+    padding-bottom: {{ pb }}px;
+  }
+  #b2bHero-{{ section.id }} .b2b-hero__inner { max-width: 820px; margin: 0 auto; text-align: {{ section.settings.alignment }}; }
+  #b2bHero-{{ section.id }} .b2b-hero__title { font-size: {{ section.settings.title_size }}px; line-height: 1.15; margin: 0 0 10px; color: {{ text_color }}; }
+  #b2bHero-{{ section.id }} .b2b-hero__subtitle { font-size: 15px; opacity: .8; margin: 0 0 22px; }
+  #b2bHero-{{ section.id }} .b2b-hero__form { display: flex; gap: 10px; background: #fff; border-radius: 14px; padding: 8px; box-shadow: 0 6px 24px rgba(0,0,0,.06); }
+  #b2bHero-{{ section.id }} .b2b-hero__input { flex: 1 1 auto; border: 0; outline: none; font-size: 17px; padding: 16px 18px; border-radius: 10px; background: transparent; color: #232323; min-width: 0; }
+  #b2bHero-{{ section.id }} .b2b-hero__btn { flex: 0 0 auto; border: 0; cursor: pointer; font-size: 15px; font-weight: 600; padding: 0 32px; border-radius: 10px; background: {{ accent }}; color: #fff; }
+  #b2bHero-{{ section.id }} .b2b-hero__btn:hover { filter: brightness(1.08); }
+  #b2bHero-{{ section.id }} .b2b-hero__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; justify-content: {% if section.settings.alignment == 'center' %}center{% else %}flex-start{% endif %}; }
+  #b2bHero-{{ section.id }} .b2b-hero__tag { display: inline-block; font-size: 13px; text-decoration: none; color: {{ text_color }}; background: rgba(255,255,255,.6); border: 1px solid rgba(0,0,0,.08); border-radius: 40px; padding: 8px 16px; transition: background .15s ease, border-color .15s ease; }
+  #b2bHero-{{ section.id }} .b2b-hero__tag:hover { background: #fff; border-color: {{ accent }}; }
+  @media (max-width: 550px) {
+    #b2bHero-{{ section.id }} .b2b-hero__form { flex-wrap: wrap; }
+    #b2bHero-{{ section.id }} .b2b-hero__btn { width: 100%; padding: 14px; }
+    #b2bHero-{{ section.id }} .b2b-hero__tags { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    #b2bHero-{{ section.id }} .b2b-hero__tag { flex: 0 0 auto; }
+  }
+</style>
+
+<div id="b2bHero-{{ section.id }}" class="b2b-hero">
+  <div class="{{ container }}">
+    <div class="b2b-hero__inner">
+      {%- if section.settings.title != blank -%}
+        <h2 class="b2b-hero__title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <p class="b2b-hero__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+      <form class="b2b-hero__form" action="{{ routes.search_url }}" method="get" role="search">
+        <input type="hidden" name="type" value="product">
+        <input class="b2b-hero__input" type="search" name="q"
+               placeholder="{{ section.settings.placeholder | escape }}"
+               aria-label="{{ section.settings.placeholder | escape }}" autocomplete="off">
+        <button class="b2b-hero__btn" type="submit">{{ section.settings.button_label }}</button>
+      </form>
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="b2b-hero__tags">
+          {%- for block in section.blocks -%}
+            {%- assign q = block.settings.query | default: block.settings.label -%}
+            {%- if block.settings.link != blank -%}
+              <a class="b2b-hero__tag" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+            {%- else -%}
+              <a class="b2b-hero__tag" href="{{ routes.search_url }}?q={{ q | url_encode }}&type=product" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero de búsqueda B2B",
+  "tag": "section",
+  "class": "section-b2b-search-hero",
+  "settings": [
+    {
+      "type": "select", "id": "container", "label": "Ancho",
+      "options": [
+        { "value": "container-1170", "label": "1170px" },
+        { "value": "container-1770", "label": "1770px" },
+        { "value": "container-full", "label": "Ancho completo" }
+      ], "default": "container-1770"
+    },
+    { "type": "select", "id": "alignment", "label": "Alineación",
+      "options": [
+        { "value": "center", "label": "Centro" },
+        { "value": "left", "label": "Izquierda" }
+      ], "default": "center" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Encuentra tu producto" },
+    { "type": "range", "id": "title_size", "label": "Tamaño del título", "min": 20, "max": 60, "step": 1, "unit": "px", "default": 34 },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Busca por marca, referencia o SKU y añade al carrito por cantidad." },
+    { "type": "text", "id": "placeholder", "label": "Placeholder del buscador", "default": "Busca por marca, producto o SKU…" },
+    { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "Buscar" },
+    { "type": "header", "content": "Estilo" },
+    { "type": "color", "id": "bg", "label": "Fondo", "default": "#f0ebe4" },
+    { "type": "color", "id": "text_color", "label": "Texto", "default": "#232323" },
+    { "type": "color", "id": "accent", "label": "Acento (botón)", "default": "#664d03" },
+    { "type": "range", "id": "padding_top", "label": "Padding arriba", "min": 20, "max": 160, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding abajo", "min": 20, "max": 160, "step": 4, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    {
+      "type": "tag",
+      "name": "Tag de sugerencia",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Texto", "default": "Lattafa" },
+        { "type": "text", "id": "query", "label": "Búsqueda (opcional)", "info": "Si se deja vacío, busca el texto del tag." },
+        { "type": "url", "id": "link", "label": "Enlace directo (opcional)", "info": "Si se define, el tag va a esta URL (ej. una colección) en vez de a la búsqueda." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero de búsqueda B2B",
+      "blocks": [
+        { "type": "tag", "settings": { "label": "Lattafa" } },
+        { "type": "tag", "settings": { "label": "Armaf" } },
+        { "type": "tag", "settings": { "label": "Versace" } },
+        { "type": "tag", "settings": { "label": "Árabes" } },
+        { "type": "tag", "settings": { "label": "Nicho" } },
+        { "type": "tag", "settings": { "label": "Ofertas" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
