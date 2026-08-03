@@ -361,7 +361,7 @@
             "show_wishlist": false,
             "show_cart": true,
             "text_font_size": 14,
-            "show_language_currency_sticky": true,
+            "show_language_currency_sticky": false,
             "show_search_sticky": true,
             "show_customer_sticky": true,
             "show_wishlist_sticky": true,
