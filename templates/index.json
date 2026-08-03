@@ -9,6 +9,81 @@
  */
 {
   "sections": {
+    "b2b_search_hero": {
+      "type": "b2b-search-hero",
+      "blocks": {
+        "tag_lattafa": {
+          "type": "tag",
+          "settings": {
+            "label": "Lattafa",
+            "query": "",
+            "link": ""
+          }
+        },
+        "tag_armaf": {
+          "type": "tag",
+          "settings": {
+            "label": "Armaf",
+            "query": "",
+            "link": ""
+          }
+        },
+        "tag_versace": {
+          "type": "tag",
+          "settings": {
+            "label": "Versace",
+            "query": "",
+            "link": ""
+          }
+        },
+        "tag_arabes": {
+          "type": "tag",
+          "settings": {
+            "label": "Árabes",
+            "query": "",
+            "link": ""
+          }
+        },
+        "tag_nicho": {
+          "type": "tag",
+          "settings": {
+            "label": "Nicho",
+            "query": "",
+            "link": ""
+          }
+        },
+        "tag_ofertas": {
+          "type": "tag",
+          "settings": {
+            "label": "Ofertas",
+            "query": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "tag_lattafa",
+        "tag_armaf",
+        "tag_versace",
+        "tag_arabes",
+        "tag_nicho",
+        "tag_ofertas"
+      ],
+      "settings": {
+        "container": "container-1770",
+        "alignment": "center",
+        "title": "Encuentra tu producto",
+        "title_size": 34,
+        "subtitle": "Busca por marca, referencia o SKU y añade al carrito por cantidad.",
+        "placeholder": "Busca por marca, producto o SKU…",
+        "button_label": "Buscar",
+        "bg": "#f0ebe4",
+        "text_color": "#232323",
+        "accent": "#664d03",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
     "16321237356a896dad": {
       "type": "slide-show",
       "blocks": {
@@ -112,6 +187,7 @@
       "block_order": [
         "image_WYHbMU"
       ],
+      "disabled": true,
       "settings": {
         "container": "fullwidth",
         "padding_full_width": 0,
@@ -1430,81 +1506,6 @@
         "button_2_border_hover_block_bottom": "#232323",
         "button_2_background_hover_block_bottom": "#232323",
         "button_2_background_gradient_hover_block_bottom": ""
-      }
-    },
-    "b2b_search_hero": {
-      "type": "b2b-search-hero",
-      "blocks": {
-        "tag_lattafa": {
-          "type": "tag",
-          "settings": {
-            "label": "Lattafa",
-            "query": "",
-            "link": ""
-          }
-        },
-        "tag_armaf": {
-          "type": "tag",
-          "settings": {
-            "label": "Armaf",
-            "query": "",
-            "link": ""
-          }
-        },
-        "tag_versace": {
-          "type": "tag",
-          "settings": {
-            "label": "Versace",
-            "query": "",
-            "link": ""
-          }
-        },
-        "tag_arabes": {
-          "type": "tag",
-          "settings": {
-            "label": "Árabes",
-            "query": "",
-            "link": ""
-          }
-        },
-        "tag_nicho": {
-          "type": "tag",
-          "settings": {
-            "label": "Nicho",
-            "query": "",
-            "link": ""
-          }
-        },
-        "tag_ofertas": {
-          "type": "tag",
-          "settings": {
-            "label": "Ofertas",
-            "query": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "tag_lattafa",
-        "tag_armaf",
-        "tag_versace",
-        "tag_arabes",
-        "tag_nicho",
-        "tag_ofertas"
-      ],
-      "settings": {
-        "container": "container-1770",
-        "alignment": "center",
-        "title": "Encuentra tu producto",
-        "title_size": 34,
-        "subtitle": "Busca por marca, referencia o SKU y añade al carrito por cantidad.",
-        "placeholder": "Busca por marca, producto o SKU…",
-        "button_label": "Buscar",
-        "bg": "#f0ebe4",
-        "text_color": "#232323",
-        "accent": "#664d03",
-        "padding_top": 72,
-        "padding_bottom": 72
       }
     }
   },
