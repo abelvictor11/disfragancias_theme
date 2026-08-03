@@ -88,23 +88,31 @@
                         {% else %}
                             {% assign is_contained = false %}
                         {% endif %}
-                        <a href="{{ routes.account_login_url }}" class="header__icon header__icon--account link link--text link-effect{% if block.settings.show_customer_sticky%}{% if block.settings.show_customer %}{% else %} hide-main-menu{% endif %}{% else %}{% if block.settings.show_customer %} show-main-menu{% endif %}{% endif %} text-center"{% if is_contained %} data-open-auth-sidebar{% endif %}>
+                        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="header__icon header__icon--account link link--text link-effect{% if block.settings.show_customer_sticky%}{% if block.settings.show_customer %}{% else %} hide-main-menu{% endif %}{% else %}{% if block.settings.show_customer %} show-main-menu{% endif %}{% endif %} text-center"{% if is_contained %}{% unless customer %} data-open-auth-sidebar{% endunless %}{% endif %}>
                             <span class="customer-links d-flex flex-align-center flex-jc-center ml-0">
-                                {%- if customer and customer.has_avatar? -%}
-                                    <account-icon>
-                                        {{ customer | avatar }}
-                                    </account-icon>
-                                {%- else -%}
+                                {%- if customer -%}
                                     {%- liquid
-                                        if customer
-                                            echo 'customer.account_fallback' | t
-                                        else
-                                            echo 'customer.sign_in' | t
+                                        assign acc_name = customer.first_name
+                                        if acc_name == blank
+                                            assign acc_name = customer.name
                                         endif
+                                        if acc_name == blank and customer.email != blank
+                                            assign acc_name = customer.email | split: '@' | first
+                                        endif
+                                        if acc_name == blank
+                                            assign acc_name = 'Mi cuenta'
+                                        endif
+                                        assign acc_initial = acc_name | slice: 0 | upcase
                                     -%}
+                                    <span class="header-account is-logged">
+                                        <span class="header-account__avatar" aria-hidden="true">{%- if customer.has_avatar? -%}{{ customer | avatar }}{%- else -%}{{ acc_initial }}{%- endif -%}</span>
+                                        <span class="header-account__name text">{{ acc_name }}</span>
+                                    </span>
+                                {%- else -%}
+                                    {{ 'customer.sign_in' | t }}
                                 {%- endif -%}
                             </span>
-                        </a> 
+                        </a>
                     {%- endif -%}                              
                 {%- endif -%}
                 {%- if block.settings.show_search or block.settings.show_search_sticky -%}
