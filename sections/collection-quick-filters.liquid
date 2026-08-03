@@ -62,7 +62,8 @@
           "options": [
             { "value": "filter", "label": "Filtrar (dentro de la colección)" },
             { "value": "sort", "label": "Ordenar" },
-            { "value": "clear", "label": "Limpiar filtros (Todos)" }
+            { "value": "clear", "label": "Limpiar filtros (Todos)" },
+            { "value": "sidebar", "label": "Abrir panel de filtros" }
           ], "default": "filter"
         },
         { "type": "text", "id": "value", "label": "Valor del filtro (exacto en USF)", "info": "Solo para acción Filtrar. Ej: Gym, Arabe, Oficina, Nicho, Diseñador, Citas" },
@@ -74,6 +75,7 @@
     {
       "name": "Filtros rápidos",
       "blocks": [
+        { "type": "pill", "settings": { "label": "Filtros", "action": "sidebar" } },
         { "type": "pill", "settings": { "label": "Todos", "action": "clear" } },
         { "type": "pill", "settings": { "label": "Top ventas", "action": "sort", "sort_value": "bestselling" } },
         { "type": "pill", "settings": { "label": "Árabe", "action": "filter", "value": "Arabe" } },
