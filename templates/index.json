@@ -279,6 +279,7 @@
     },
     "b2b_quick_order_WMwi6P": {
       "type": "b2b-quick-order",
+      "disabled": true,
       "name": "B2B pedido rápido",
       "settings": {
         "title": "Pedido rápido por SKU",
