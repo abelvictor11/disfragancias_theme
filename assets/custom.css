@@ -1132,3 +1132,64 @@ span.badge.custom-metafield-badge {
 .halo-sidebar {
     z-index: 9999999999;
 }
+
+/* =============================================================
+   Colección: sidebar como panel deslizable (off-canvas) en desktop
+   El tema, en @media (min-width:1025px), fuerza el sidebar inline
+   (position: static/sticky). Aquí lo devolvemos a off-canvas SOLO en
+   páginas de colección, dejando el grid a ancho completo. El drawer y el
+   toggle [data-sidebar] (botón "Filtros") ya existen en el tema; solo se
+   revelan en desktop. Reversible: borrar este bloque.
+   ============================================================= */
+@media (min-width: 1025px) {
+    /* sidebar off-canvas (como en mobile): fijo, fuera de pantalla, desliza al abrir */
+    .template-collection .page-sidebar,
+    .template-collection .page-sidebar.has-sticky {
+        position: fixed !important;
+        top: 0 !important;
+        left: -360px !important; /* off-canvas: usamos left (transform lo resetea el tema con !important) */
+        height: 100vh !important;
+        width: 340px !important;
+        max-width: 90vw !important;
+        float: none !important;
+        display: block !important;
+        background: #fff !important;
+        z-index: 9999999 !important;
+        transform: none !important;
+        transition: left .3s ease !important;
+        overflow-y: auto !important;
+        padding: 16px !important;
+        box-shadow: 2px 0 16px rgba(0,0,0,.12);
+    }
+    /* estado abierto (lo activa el toggle [data-sidebar] del tema) */
+    .template-collection.open-mobile-sidebar .page-sidebar,
+    .template-collection.open-mobile-sidebar .page-sidebar.has-sticky {
+        left: 0 !important;
+    }
+    /* contenido a ancho completo (ya no reserva la columna de 210px) */
+    .template-collection .halo-collection-content .page-content,
+    .template-collection .page-sidebar + .page-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        float: none !important;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+    }
+    /* mostrar el botón "Filtros" (vive en la toolbar mobile) en desktop */
+    .template-collection .toolbar .toolbar-wrapper.toolbar-mobile {
+        display: inline-flex !important;
+        margin: 0 12px 0 0;
+    }
+    .template-collection .toolbar .toolbar-item.toolbar-sidebar {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid #dcd7cf;
+        border-radius: 40px;
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+    .template-collection .toolbar .toolbar-item.toolbar-sidebar:hover {
+        border-color: #232323;
+    }
+}
