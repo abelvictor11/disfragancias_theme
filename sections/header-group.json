@@ -40,7 +40,7 @@
         "announcement_h7xHGR"
       ],
       "settings": {
-        "enable_announcement": true,
+        "enable_announcement": false,
         "layout": "slider",
         "enable_close": true,
         "color_text": "#ffffff",
