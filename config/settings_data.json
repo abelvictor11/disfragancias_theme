@@ -980,6 +980,35 @@
         "type": "shopify://apps/sami-b2b-lock/blocks/app-embed/8d86a3b4-97b3-44ab-adc1-ec01c5a89da9",
         "disabled": false,
         "settings": {}
+      },
+      "11813581335429059158": {
+        "type": "shopify://apps/seedgrow-whatsapp-chat/blocks/app-embed/b85b5e45-9cea-417a-9b9e-0aa961ccf3ef",
+        "disabled": false,
+        "settings": {
+          "show_on_desktop": true,
+          "show_on_mobile": true,
+          "show_label_on_desktop": true,
+          "show_dismiss_button_desktop": false,
+          "show_label_on_mobile": true,
+          "show_dismiss_button_mobile": false,
+          "show_scroll_bar": false,
+          "show_gdpr_notice": false,
+          "use_click_to_chat": false,
+          "widget_label_text": "¡Hola! Te ayuda el soporte B2B de Disfragancias. 💬",
+          "widget_text": "Inicia una conversación",
+          "description": "Estamos aquí para ayudarte con tu negocio. Por favor déjanos tu nombre, el nombre de tu tienda/empresa y tu consulta.",
+          "response_text": "El equipo suele responder en pocos minutos.",
+          "gdpr_text": "Para iniciar una conversación, primero debe aceptar nuestra política de privacidad.",
+          "background_color": "#2DB742",
+          "text_color": "#ffffff",
+          "position": "right",
+          "label_width": 155,
+          "scroll_bar_height": 500,
+          "icon_size": 56,
+          "distance_left": 30,
+          "distance_right": 30,
+          "distance_bottom": 150
+        }
       }
     }
   }
