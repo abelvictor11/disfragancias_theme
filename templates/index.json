@@ -77,7 +77,7 @@
         "subtitle": "Busca por marca, referencia o SKU y añade al carrito por cantidad.",
         "placeholder": "Busca por marca, producto o SKU…",
         "button_label": "Buscar",
-        "bg": "#f0ebe4",
+        "bg": "#F9F8F6",
         "text_color": "#232323",
         "accent": "#664d03",
         "padding_top": 72,
