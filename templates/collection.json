@@ -436,12 +436,104 @@
         "color_des": "#3c3c3c",
         "fontsize_des": 16
       }
+    },
+    "quick-filters": {
+      "type": "collection-quick-filters",
+      "blocks": {
+        "qf_todos": {
+          "type": "pill",
+          "settings": {
+            "label": "Todos",
+            "action": "clear",
+            "value": "",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_topventas": {
+          "type": "pill",
+          "settings": {
+            "label": "Top ventas",
+            "action": "sort",
+            "value": "",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_arabe": {
+          "type": "pill",
+          "settings": {
+            "label": "Árabe",
+            "action": "filter",
+            "value": "Arabe",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_nicho": {
+          "type": "pill",
+          "settings": {
+            "label": "Nicho",
+            "action": "filter",
+            "value": "Nicho",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_disenador": {
+          "type": "pill",
+          "settings": {
+            "label": "Diseñador",
+            "action": "filter",
+            "value": "Diseñador",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_citas": {
+          "type": "pill",
+          "settings": {
+            "label": "Citas",
+            "action": "filter",
+            "value": "Citas",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_oficina": {
+          "type": "pill",
+          "settings": {
+            "label": "Oficina",
+            "action": "filter",
+            "value": "Oficina",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_gym": {
+          "type": "pill",
+          "settings": {
+            "label": "Gym",
+            "action": "filter",
+            "value": "Gym",
+            "sort_value": "bestselling"
+          }
+        }
+      },
+      "block_order": [
+        "qf_todos",
+        "qf_topventas",
+        "qf_arabe",
+        "qf_nicho",
+        "qf_disenador",
+        "qf_citas",
+        "qf_oficina",
+        "qf_gym"
+      ],
+      "settings": {
+        "container": "1770",
+        "alignment": "left"
+      }
     }
   },
   "order": [
     "banner",
     "collection_banner_carousel_mj6XyL",
     "collection_feature_cards_qcYN9V",
+    "quick-filters",
     "product-grid",
     "product-recently-viewed",
     "custom_liquid_JmGBNU",
