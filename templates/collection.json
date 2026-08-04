@@ -81,7 +81,6 @@
     },
     "collection_banner_carousel_mj6XyL": {
       "type": "collection-banner-carousel",
-      "disabled": true,
       "name": "Banner Carousel Colección",
       "settings": {
         "enable_banner_carousel": true,
@@ -104,7 +103,6 @@
     },
     "collection_feature_cards_qcYN9V": {
       "type": "collection-feature-cards",
-      "disabled": true,
       "name": "Cards de Colección",
       "settings": {
         "enable_feature_cards": true,
@@ -540,10 +538,10 @@
     }
   },
   "order": [
-    "banner",
     "collection_banner_carousel_mj6XyL",
-    "collection_feature_cards_qcYN9V",
+    "banner",
     "quick-filters",
+    "collection_feature_cards_qcYN9V",
     "product-grid",
     "product-recently-viewed",
     "custom_liquid_JmGBNU",
