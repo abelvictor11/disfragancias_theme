@@ -1241,5 +1241,15 @@ span.badge.custom-metafield-badge {
   }
 }
 
-/* Ícono de WhatsApp en la barra: verde para reconocerse */
-.list-item--whatsapp .icon svg { fill: #25D366 !important; }
+/* WhatsApp en la barra mobile: círculo verde con ícono blanco, sin label */
+.list-item--whatsapp > a { justify-content: center; }
+.list-item--whatsapp .text { display: none !important; }
+.list-item--whatsapp .icon {
+  display: inline-flex !important; align-items: center; justify-content: center;
+  width: 46px !important; height: 46px !important;
+  border-radius: 50%; background: #25D366;
+}
+.list-item--whatsapp .icon svg {
+  width: 26px !important; height: 26px !important; fill: #fff !important;
+}
+.list-item--whatsapp .icon svg path { fill: #fff !important; }
