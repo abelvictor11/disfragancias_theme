@@ -1175,10 +1175,15 @@ span.badge.custom-metafield-badge {
         padding-left: 0 !important;
         margin-left: 0 !important;
     }
-    /* mostrar el botón "Filtros" (vive en la toolbar mobile) en desktop */
-    .template-collection .toolbar .toolbar-wrapper.toolbar-mobile {
+    /* mostrar SOLO la toolbar mobile que contiene el botón "Filtros" en
+       desktop. Hay otra toolbar-mobile con un view-as duplicado (data-view-
+       as-mobile) que debe seguir oculta. */
+    .template-collection .toolbar .toolbar-wrapper.toolbar-mobile:has(.toolbar-sidebar) {
         display: inline-flex !important;
         margin: 0 12px 0 0;
+    }
+    .template-collection .toolbar .toolbar-wrapper.toolbar-mobile:has([data-view-as-mobile]) {
+        display: none !important;
     }
     .template-collection .toolbar .toolbar-item.toolbar-sidebar {
         display: inline-flex !important;
@@ -1192,4 +1197,12 @@ span.badge.custom-metafield-badge {
     .template-collection .toolbar .toolbar-item.toolbar-sidebar:hover {
         border-color: #232323;
     }
+}
+
+/* Fix "Visto como" 5 columnas: el tema solo define width:20% para column-5
+   a partir de 1600px; debajo hereda 25% (agrupado con column-4) y mostraba
+   4 cards + un hueco. Se habilita 20% desde 1200px. */
+@media (min-width: 1200px) {
+    .productGrid.column-5 .product { width: 20% !important; }
+    .productGrid.column-5 .product:nth-child(-n+5) { margin-top: 0; }
 }
