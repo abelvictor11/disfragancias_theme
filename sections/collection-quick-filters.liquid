@@ -16,7 +16,7 @@
       <div class="quick-filters quick-filters--{{ align }}" data-quick-filters>
         {%- for block in section.blocks -%}
           <button type="button"
-            class="qf-pill qf-pill--{{ block.settings.action }}"
+            class="qf-pill qf-pill--{{ block.settings.action }}{% if block.settings.action == 'filter' %} qf-pill--pending{% endif %}"
             data-qf-action="{{ block.settings.action }}"
             data-qf-value="{{ block.settings.value | escape }}"
             data-qf-sort="{{ block.settings.sort_value | default: 'bestselling' | escape }}"
