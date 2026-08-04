@@ -131,21 +131,34 @@
     if (location.href !== lastUrl) { lastUrl = location.href; refreshActive(); }
   }, 400);
 
-  // Oculta los pills de filtro cuyo valor no existe en esta colección
-  // (una vez USF cargó sus facetas), para no dejar pills muertos.
-  function pruneDeadPills() {
+  // Los pills de filtro arrancan ocultos (.qf-pill--pending). Aquí se REVELAN
+  // solo los que tienen faceta en esta colección; los "muertos" quedan
+  // ocultos. Así se evita el flash de pills que aparecen y luego desaparecen.
+  function revealValidPills() {
     if (multiButtons().length === 0) return false; // USF aún no cargó
     bar.querySelectorAll('.qf-pill--filter').forEach(function (p) {
       var val = p.getAttribute('data-qf-value');
-      if (!findFilterBtn(val) && !isValueActive(val)) p.classList.add('qf-pill--hidden');
-      else p.classList.remove('qf-pill--hidden');
+      if (findFilterBtn(val) || isValueActive(val)) {
+        p.classList.remove('qf-pill--pending');
+        p.classList.remove('qf-pill--hidden');
+      }
     });
     return true;
   }
+  // Revelar de inmediato los que ya vienen activos en la URL (sin esperar USF).
+  bar.querySelectorAll('.qf-pill--filter').forEach(function (p) {
+    if (isValueActive(p.getAttribute('data-qf-value'))) p.classList.remove('qf-pill--pending');
+  });
   var pruneTries = 0;
   var pruneIv = setInterval(function () {
     pruneTries++;
-    if (pruneDeadPills() || pruneTries > 25) clearInterval(pruneIv);
+    if (revealValidPills()) {
+      clearInterval(pruneIv);
+    } else if (pruneTries > 25) {
+      // USF no cargó: como fallback, revelar todos (mejor mostrar que ocultar).
+      clearInterval(pruneIv);
+      bar.querySelectorAll('.qf-pill--filter').forEach(function (p) { p.classList.remove('qf-pill--pending'); });
+    }
   }, 400);
 
   // Estado activo al cargar (refleja los filtros que ya vienen en la URL).
