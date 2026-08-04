@@ -1112,3 +1112,62 @@ span.badge.custom-metafield-badge {
 .halo-sidebar {
     z-index: 9999999999;
 }
+/* =============================================================
+   Chats: un solo sistema ordenado
+   - SeedGrow (WhatsApp nativo) oculto -> usamos botón propio.
+   - WhatsApp: FAB en desktop / ítem de la barra en mobile.
+   - Wizybot (IA): burbuja nativa reposicionada, sin chocar.
+   ============================================================= */
+/* Ocultar widget flotante de SeedGrow */
+#wa, .wa__widget_container, .wa__btn_popup, .wa__popup_chat_box { display: none !important; }
+
+/* FAB de WhatsApp (solo desktop; en mobile va en la barra inferior) */
+.wa-fab {
+  position: fixed; right: 22px; bottom: 22px; z-index: 999999997;
+  width: 54px; height: 54px; border-radius: 50%;
+  background: #25D366; box-shadow: 0 6px 18px rgba(0,0,0,.22);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .15s ease;
+}
+.wa-fab:hover { transform: scale(1.06); }
+.wa-fab svg { width: 30px; height: 30px; fill: #fff; stroke: none !important; }
+.wa-fab svg path { stroke: none !important; }
+@media (max-width: 767px) { .wa-fab { display: none !important; } }
+
+/* Reposicionar la burbuja de Wizybot (iframe cross-origin) */
+#WizybotShopifyWidget__iframe__outter__id {
+  left: auto !important;
+  right: 20px !important;
+  bottom: 86px !important; /* desktop: apilada encima del FAB de WhatsApp */
+}
+@media (max-width: 767px) {
+  #WizybotShopifyWidget__iframe__outter__id {
+    right: 12px !important;
+    bottom: 74px !important; /* por encima de la barra inferior mobile */
+  }
+}
+
+/* WhatsApp en la barra mobile: círculo verde con ícono blanco, sin label */
+.list-item--whatsapp > a { justify-content: center; }
+.list-item--whatsapp .text { display: none !important; }
+.list-item--whatsapp .icon {
+  display: inline-flex !important; align-items: center; justify-content: center;
+  width: 46px !important; height: 46px !important;
+  border-radius: 50%; background: #25D366;
+}
+.list-item--whatsapp .icon svg {
+  width: 26px !important; height: 26px !important; fill: #fff !important; stroke: none !important;
+}
+.list-item--whatsapp .icon svg path { fill: #fff !important; stroke: none !important; }
+
+/* PDP: cuando aparece la barra sticky "Añadir al carrito", elevar los chats
+   para que no la tapen (usa :has sobre la barra visible). */
+@media (min-width: 768px) {
+  body:has(.productView-stickyCart.show-sticky) .wa-fab { bottom: 96px !important; }
+  body:has(.productView-stickyCart.show-sticky) #WizybotShopifyWidget__iframe__outter__id { bottom: 160px !important; }
+}
+@media (max-width: 767px) {
+  /* En mobile la burbuja de IA también sube si aparece la sticky ATC */
+  body:has(.productView-stickyCart.show-sticky) #WizybotShopifyWidget__iframe__outter__id { bottom: 140px !important; }
+}
+
