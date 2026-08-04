@@ -298,6 +298,35 @@
       padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
     }
   }
+
+  /* Estilo tipo "Comprar por marca" (B2B brand grid): cards con logo centrado */
+  .collection-feature-cards-section .feature-card {
+    border: 1px solid #eee !important;
+    border-radius: 10px !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    overflow: hidden;
+    transition: border-color .2s ease;
+  }
+  .collection-feature-cards-section .feature-card:hover { border-color: #232323 !important; }
+  .collection-feature-cards-section .feature-card-link {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; padding: 18px 12px; height: 100%; box-sizing: border-box;
+    text-decoration: none; color: inherit;
+  }
+  .collection-feature-cards-section .feature-card-image-wrapper {
+    height: 56px; width: 100%; display: flex; align-items: center; justify-content: center;
+    margin: 0; overflow: visible; background: transparent;
+  }
+  .collection-feature-cards-section .feature-card-image {
+    max-height: 56px; width: auto; height: auto; object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+  .collection-feature-cards-section .feature-card-content { text-align: center; padding: 0; }
+  .collection-feature-cards-section .feature-card-title {
+    font-size: 13px !important; font-weight: 500 !important; margin: 0 !important; line-height: 1.2;
+  }
+  .collection-feature-cards-section .feature-card-link-text { font-size: 11px; color: #999; }
 </style>
 {%- endif -%}
 
