@@ -142,7 +142,9 @@
         {%- endif -%}
 
         <script src="{{ 'acordes-badges.js' | asset_url }}" defer="defer"></script>
-        
+
+        {% render 'whatsapp-fab' %}
+
         <div class="background-overlay">
             {%- if settings.show_effect_close -%}
             <div class="background-cursor-wrapper">

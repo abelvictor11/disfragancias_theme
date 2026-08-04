@@ -50,6 +50,16 @@
 
                 {%- endif -%}
             {%- endfor -%}
+
+            {%- comment -%} WhatsApp como ítem de la barra (reemplaza el widget flotante en mobile) {%- endcomment -%}
+            {%- if section.settings.show_whatsapp and section.settings.whatsapp_link != blank -%}
+                <li class="list-item list-item--whatsapp" style="--font-size: {{ font_size }}; --font-weight: {{ font_weight }}; --icon-size: {{ icon_size }}">
+                    <a href="{{ section.settings.whatsapp_link }}" target="_blank" rel="noopener" aria-label="WhatsApp">
+                        <span class="icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.6 6.3A7.9 7.9 0 0 0 12 4a8 8 0 0 0-6.9 12l-1 3.9 4-1a8 8 0 0 0 3.9 1h.1a8 8 0 0 0 5.6-13.6zM12 18.5a6.6 6.6 0 0 1-3.4-.9l-.2-.1-2.5.6.6-2.4-.2-.3A6.6 6.6 0 1 1 12 18.5zm3.6-4.9c-.2-.1-1.2-.6-1.3-.6-.2-.1-.3-.1-.4.1l-.6.7c-.1.1-.2.2-.4.1a5.4 5.4 0 0 1-1.6-1 6 6 0 0 1-1.1-1.4c-.1-.2 0-.3.1-.4l.3-.3.2-.3v-.3l-.6-1.4c-.1-.4-.3-.3-.4-.3h-.3a.7.7 0 0 0-.5.2 2 2 0 0 0-.6 1.5 3.5 3.5 0 0 0 .7 1.9 8 8 0 0 0 3.1 2.7c1.1.5 1.5.5 2 .4.3 0 1.2-.5 1.3-.9.2-.5.2-.9.1-1l-.3-.1z"/></svg></span>
+                        <span class="text">{{ section.settings.whatsapp_text | default: 'WhatsApp' }}</span>
+                    </a>
+                </li>
+            {%- endif -%}
         </ul>
     </div>
 </div>
@@ -100,6 +110,28 @@
         "id": "display_section",
         "label": "t:sections.layout.display_block",
         "default": true
+    },
+    {
+        "type": "header",
+        "content": "WhatsApp (ítem de la barra)"
+    },
+    {
+        "type": "checkbox",
+        "id": "show_whatsapp",
+        "label": "Mostrar WhatsApp en la barra",
+        "default": true
+    },
+    {
+        "type": "text",
+        "id": "whatsapp_link",
+        "label": "Enlace de WhatsApp",
+        "default": "https://wa.me/message/OEMXSRLFZHQXD1"
+    },
+    {
+        "type": "text",
+        "id": "whatsapp_text",
+        "label": "Texto",
+        "default": "WhatsApp"
     },
     {
         "type": "paragraph",
