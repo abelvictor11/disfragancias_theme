@@ -821,6 +821,16 @@
                                                 check_show_share: check_show_share,
                                                 share_layout: check_show_share
                                             %}
+                                            {%- liquid
+                                                assign pdp_acordes = product.metafields.custom.acordes_principales.value
+                                            -%}
+                                            {%- if pdp_acordes and pdp_acordes.size > 0 -%}
+                                                <ul class="card-acordes list-unstyled" aria-label="Acordes principales">
+                                                    {%- for acorde in pdp_acordes -%}
+                                                        <li class="card-acorde">{{ acorde }}</li>
+                                                    {%- endfor -%}
+                                                </ul>
+                                            {%- endif -%}
                                         </div>
                                     {%- when 'meta' -%}
                                         {%- liquid 
