@@ -379,6 +379,7 @@
         "large_img_L8Exr9",
         "large_img_eRj36x"
       ],
+      "disabled": true,
       "settings": {
         "container": "fullwidth",
         "padding_full_width": 0,
