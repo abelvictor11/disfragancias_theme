@@ -1225,7 +1225,8 @@ span.badge.custom-metafield-badge {
   transition: transform .15s ease;
 }
 .wa-fab:hover { transform: scale(1.06); }
-.wa-fab svg { width: 30px; height: 30px; fill: #fff; }
+.wa-fab svg { width: 30px; height: 30px; fill: #fff; stroke: none !important; }
+.wa-fab svg path { stroke: none !important; }
 @media (max-width: 767px) { .wa-fab { display: none !important; } }
 
 /* Reposicionar la burbuja de Wizybot (iframe cross-origin) */
@@ -1250,6 +1251,6 @@ span.badge.custom-metafield-badge {
   border-radius: 50%; background: #25D366;
 }
 .list-item--whatsapp .icon svg {
-  width: 26px !important; height: 26px !important; fill: #fff !important;
+  width: 26px !important; height: 26px !important; fill: #fff !important; stroke: none !important;
 }
-.list-item--whatsapp .icon svg path { fill: #fff !important; }
+.list-item--whatsapp .icon svg path { fill: #fff !important; stroke: none !important; }
