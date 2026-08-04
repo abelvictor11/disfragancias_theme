@@ -1254,3 +1254,14 @@ span.badge.custom-metafield-badge {
   width: 26px !important; height: 26px !important; fill: #fff !important; stroke: none !important;
 }
 .list-item--whatsapp .icon svg path { fill: #fff !important; stroke: none !important; }
+
+/* PDP: cuando aparece la barra sticky "Añadir al carrito", elevar los chats
+   para que no la tapen (usa :has sobre la barra visible). */
+@media (min-width: 768px) {
+  body:has(.productView-stickyCart.show-sticky) .wa-fab { bottom: 96px !important; }
+  body:has(.productView-stickyCart.show-sticky) #WizybotShopifyWidget__iframe__outter__id { bottom: 160px !important; }
+}
+@media (max-width: 767px) {
+  /* En mobile la burbuja de IA también sube si aparece la sticky ATC */
+  body:has(.productView-stickyCart.show-sticky) #WizybotShopifyWidget__iframe__outter__id { bottom: 140px !important; }
+}
