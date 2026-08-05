@@ -518,32 +518,12 @@
             "value": "",
             "sort_value": "bestselling"
           }
-        },
-        "qf_masculino": {
-          "type": "pill",
-          "settings": {
-            "label": "Masculino",
-            "action": "filter",
-            "value": "Masculino",
-            "sort_value": "bestselling"
-          }
-        },
-        "qf_femenino": {
-          "type": "pill",
-          "settings": {
-            "label": "Femenino",
-            "action": "filter",
-            "value": "Femenino",
-            "sort_value": "bestselling"
-          }
         }
       },
       "block_order": [
         "qf_filtros",
         "qf_todos",
         "qf_topventas",
-        "qf_masculino",
-        "qf_femenino",
         "qf_arabe",
         "qf_nicho",
         "qf_disenador",
