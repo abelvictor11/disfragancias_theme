@@ -125,42 +125,29 @@
     // el estado activo se refresca al detectar el cambio de URL (abajo)
   });
 
-  // Refrescar estado activo cuando USF cambia la URL (usa pushState). También
-  // se intenta revelar pills, por si USF renderizó las facetas recién tras una
-  // interacción (útil cuando USF carga tarde).
+  // Refrescar estado activo cuando USF cambia la URL (usa pushState).
   var lastUrl = location.href;
   setInterval(function () {
-    if (location.href !== lastUrl) { lastUrl = location.href; refreshActive(); revealValidPills(); }
+    if (location.href !== lastUrl) { lastUrl = location.href; refreshActive(); pruneDeadPills(); }
   }, 400);
 
-  // Los pills de filtro arrancan ocultos (.qf-pill--pending). Aquí se REVELAN
-  // solo los que tienen faceta en esta colección; los "muertos" quedan
-  // ocultos. Así se evita el flash de pills que aparecen y luego desaparecen.
-  function revealValidPills() {
+  // Los pills se MUESTRAN por defecto. Solo cuando USF ya renderizó sus
+  // facetas se OCULTAN los de filtro cuyo valor no existe en esta colección.
+  // Si USF no cargó (o carga tarde), no se oculta nada: es preferible mostrar
+  // de más que dejar los pills invisibles.
+  function pruneDeadPills() {
     if (multiButtons().length === 0) return false; // USF aún no cargó
     bar.querySelectorAll('.qf-pill--filter').forEach(function (p) {
       var val = p.getAttribute('data-qf-value');
-      if (findFilterBtn(val) || isValueActive(val)) {
-        p.classList.remove('qf-pill--pending');
-        p.classList.remove('qf-pill--hidden');
-      }
+      if (findFilterBtn(val) || isValueActive(val)) p.classList.remove('qf-pill--hidden');
+      else p.classList.add('qf-pill--hidden');
     });
     return true;
   }
-  // Revelar de inmediato los que ya vienen activos en la URL (sin esperar USF).
-  bar.querySelectorAll('.qf-pill--filter').forEach(function (p) {
-    if (isValueActive(p.getAttribute('data-qf-value'))) p.classList.remove('qf-pill--pending');
-  });
   var pruneTries = 0;
   var pruneIv = setInterval(function () {
     pruneTries++;
-    if (revealValidPills()) {
-      clearInterval(pruneIv);
-    } else if (pruneTries > 25) {
-      // USF no cargó: como fallback, revelar todos (mejor mostrar que ocultar).
-      clearInterval(pruneIv);
-      bar.querySelectorAll('.qf-pill--filter').forEach(function (p) { p.classList.remove('qf-pill--pending'); });
-    }
+    if (pruneDeadPills() || pruneTries > 25) clearInterval(pruneIv);
   }, 400);
 
   // Estado activo al cargar (refleja los filtros que ya vienen en la URL).
