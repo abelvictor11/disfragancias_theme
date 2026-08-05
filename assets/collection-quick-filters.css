@@ -29,10 +29,6 @@
   color: #fff;
 }
 .qf-pill--hidden { display: none !important; }
-/* Los pills de filtro arrancan ocultos y se revelan solo cuando USF confirma
-   que la faceta existe en la colección; evita el flash de pills que aparecen
-   y luego desaparecen. */
-.qf-pill--pending { display: none !important; }
 
 /* Pill "Filtros" (abre el panel lateral): estilo distintivo con ícono. */
 .qf-pill--sidebar {
