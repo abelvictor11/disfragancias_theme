@@ -125,10 +125,12 @@
     // el estado activo se refresca al detectar el cambio de URL (abajo)
   });
 
-  // Refrescar estado activo cuando USF cambia la URL (usa pushState).
+  // Refrescar estado activo cuando USF cambia la URL (usa pushState). También
+  // se intenta revelar pills, por si USF renderizó las facetas recién tras una
+  // interacción (útil cuando USF carga tarde).
   var lastUrl = location.href;
   setInterval(function () {
-    if (location.href !== lastUrl) { lastUrl = location.href; refreshActive(); }
+    if (location.href !== lastUrl) { lastUrl = location.href; refreshActive(); revealValidPills(); }
   }, 400);
 
   // Los pills de filtro arrancan ocultos (.qf-pill--pending). Aquí se REVELAN
