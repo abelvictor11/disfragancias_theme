@@ -61,8 +61,24 @@
     });
   }
 
+  // Solo se procesan (fetch + inyección) las cards que entran al viewport,
+  // no todas de golpe: en colecciones grandes (1000+ productos) hacer un fetch
+  // por cada card colapsaba la página. Con IntersectionObserver el trabajo se
+  // limita a lo visible.
+  var io = ('IntersectionObserver' in window)
+    ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { io.unobserve(e.target); process(e.target); }
+        });
+      }, { rootMargin: '250px' })
+    : null;
+
   function scan(root) {
-    (root || document).querySelectorAll('.card-information__wrapper').forEach(process);
+    (root || document).querySelectorAll('.card-information__wrapper').forEach(function (w) {
+      if (w.__acordesObserved) return;
+      w.__acordesObserved = true;
+      if (io) io.observe(w); else process(w);
+    });
   }
 
   var raf;
@@ -73,13 +89,17 @@
 
   function init() {
     scan(document);
-    // USF re-renderiza el grid al filtrar/ordenar/paginar (AJAX).
+    // USF re-renderiza el grid al filtrar/ordenar/paginar (AJAX). Se observa
+    // el grid si existe (más liviano que todo el body).
+    var target = document.getElementById('CollectionProductGrid') ||
+      document.querySelector('.halo-collection-content, .halo-search-content') ||
+      document.body;
     var obs = new MutationObserver(function (muts) {
       for (var i = 0; i < muts.length; i++) {
         if (muts[i].addedNodes && muts[i].addedNodes.length) { scheduleScan(); break; }
       }
     });
-    obs.observe(document.body, { childList: true, subtree: true });
+    obs.observe(target, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') {
