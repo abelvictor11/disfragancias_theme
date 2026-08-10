@@ -1,0 +1,92 @@
+{%- comment -%}
+  Filtros rápidos (pills) para colecciones. Cada pill dispara un filtro de USF
+  SOBRE la colección actual (no navega a otra), o cambia el orden, o limpia.
+  La lógica vive en collection-quick-filters.js, que activa la faceta real de
+  USF (button.usf-facet-value-multiple) por su etiqueta — así respeta el scope
+  de la colección y no depende de la estructura interna del plugin.
+{%- endcomment -%}
+{{ 'collection-quick-filters.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign align = section.settings.alignment | default: 'left'
+  assign container = section.settings.container | default: '1770'
+-%}
+{%- if section.blocks.size > 0 -%}
+  <div class="quick-filters-section">
+    <div class="{% if container == '1170' %}container-1170{% elsif container == 'fullwidth' %}container-full{% else %}container-1770{% endif %}">
+      <div class="quick-filters quick-filters--{{ align }}" data-quick-filters>
+        {%- for block in section.blocks -%}
+          <button type="button"
+            class="qf-pill qf-pill--{{ block.settings.action }}"
+            data-qf-action="{{ block.settings.action }}"
+            data-qf-value="{{ block.settings.value | escape }}"
+            data-qf-sort="{{ block.settings.sort_value | default: 'bestselling' | escape }}"
+            {%- if block.settings.action == 'sidebar' %} data-sidebar{% endif -%}
+            {{ block.shopify_attributes }}>{{ block.settings.label }}</button>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  <script src="{{ 'collection-quick-filters.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Filtros rápidos",
+  "tag": "section",
+  "class": "section-quick-filters",
+  "settings": [
+    { "type": "paragraph", "content": "Pills que filtran DENTRO de la colección actual usando los filtros de USF (no navegan a otra colección). En cada pill, 'Valor' debe coincidir exactamente con la etiqueta del valor en el filtro de USF (ej. Gym, Arabe, Oficina)." },
+    {
+      "type": "select", "id": "container", "label": "Ancho",
+      "options": [
+        { "value": "1170", "label": "1170" },
+        { "value": "1770", "label": "1770" },
+        { "value": "fullwidth", "label": "Ancho completo" }
+      ], "default": "1770"
+    },
+    {
+      "type": "select", "id": "alignment", "label": "Alineación",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" }
+      ], "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Pill",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Texto visible", "default": "Gym" },
+        {
+          "type": "select", "id": "action", "label": "Acción",
+          "options": [
+            { "value": "filter", "label": "Filtrar (dentro de la colección)" },
+            { "value": "sort", "label": "Ordenar" },
+            { "value": "clear", "label": "Limpiar filtros (Todos)" },
+            { "value": "sidebar", "label": "Abrir panel de filtros" }
+          ], "default": "filter"
+        },
+        { "type": "text", "id": "value", "label": "Valor del filtro (exacto en USF)", "info": "Solo para acción Filtrar. Ej: Gym, Arabe, Oficina, Nicho, Diseñador, Citas" },
+        { "type": "text", "id": "sort_value", "label": "Valor de orden", "info": "Solo para acción Ordenar. Ej: bestselling", "default": "bestselling" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Filtros rápidos",
+      "blocks": [
+        { "type": "pill", "settings": { "label": "Filtros", "action": "sidebar" } },
+        { "type": "pill", "settings": { "label": "Todos", "action": "clear" } },
+        { "type": "pill", "settings": { "label": "Top ventas", "action": "sort", "sort_value": "bestselling" } },
+        { "type": "pill", "settings": { "label": "Árabe", "action": "filter", "value": "Arabe" } },
+        { "type": "pill", "settings": { "label": "Nicho", "action": "filter", "value": "Nicho" } },
+        { "type": "pill", "settings": { "label": "Diseñador", "action": "filter", "value": "Diseñador" } },
+        { "type": "pill", "settings": { "label": "Citas", "action": "filter", "value": "Citas" } },
+        { "type": "pill", "settings": { "label": "Oficina", "action": "filter", "value": "Oficina" } },
+        { "type": "pill", "settings": { "label": "Gym", "action": "filter", "value": "Gym" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

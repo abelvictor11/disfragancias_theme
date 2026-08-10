@@ -396,9 +396,17 @@ ThemeCartAPI.onItemAdded = function(line_item) {
 }
 
 ThemeCartAPI.onError = function(XMLHttpRequest, textStatus, message) {
-    var data = eval('(' + XMLHttpRequest.responseText + ')');
-    if (!!data.message) {
-        !!data.description ? showWarning(data.description) : showWarning(data.message + ': ' + message, warningTime);
+    // Blindaje: la respuesta puede venir vacía o no-JSON (p. ej. errores de
+    // red o de terceros), en cuyo caso data queda undefined y accederle
+    // .message lanzaba TypeError. Se parsea de forma segura.
+    var data = {};
+    try {
+        if (XMLHttpRequest && XMLHttpRequest.responseText) {
+            data = JSON.parse(XMLHttpRequest.responseText) || {};
+        }
+    } catch (e) { data = {}; }
+    if (data && data.message) {
+        data.description ? showWarning(data.description) : showWarning(data.message + ': ' + message, warningTime);
     } else {
         showWarning('Error : ' + message, warningTime);
     }
