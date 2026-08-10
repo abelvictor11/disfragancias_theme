@@ -81,7 +81,6 @@
     },
     "collection_banner_carousel_mj6XyL": {
       "type": "collection-banner-carousel",
-      "disabled": true,
       "name": "Banner Carousel Colección",
       "settings": {
         "enable_banner_carousel": true,
@@ -104,7 +103,6 @@
     },
     "collection_feature_cards_qcYN9V": {
       "type": "collection-feature-cards",
-      "disabled": true,
       "name": "Cards de Colección",
       "settings": {
         "enable_feature_cards": true,
@@ -321,6 +319,7 @@
             "item_width": "50%",
             "item_border_radirus": 0,
             "item_spacing": 0,
+            "image": "shopify://shop_images/hombres.webp",
             "title_align": "center",
             "align_items": "center",
             "align_items_spacing": 30,
@@ -366,6 +365,7 @@
             "item_width": "50%",
             "item_border_radirus": 0,
             "item_spacing": 0,
+            "image": "shopify://shop_images/mujeres.webp",
             "title_align": "center",
             "align_items": "center",
             "align_items_spacing": 30,
@@ -434,11 +434,113 @@
         "color_des": "#3c3c3c",
         "fontsize_des": 16
       }
+    },
+    "quick-filters": {
+      "type": "collection-quick-filters",
+      "blocks": {
+        "qf_todos": {
+          "type": "pill",
+          "settings": {
+            "label": "Todos",
+            "action": "clear",
+            "value": "",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_topventas": {
+          "type": "pill",
+          "settings": {
+            "label": "Top ventas",
+            "action": "sort",
+            "value": "",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_arabe": {
+          "type": "pill",
+          "settings": {
+            "label": "Árabes",
+            "action": "filter",
+            "value": "Arabe",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_nicho": {
+          "type": "pill",
+          "settings": {
+            "label": "Nicho",
+            "action": "filter",
+            "value": "Nicho",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_disenador": {
+          "type": "pill",
+          "settings": {
+            "label": "Diseñador",
+            "action": "filter",
+            "value": "Diseñador",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_citas": {
+          "type": "pill",
+          "settings": {
+            "label": "Citas",
+            "action": "filter",
+            "value": "Citas",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_oficina": {
+          "type": "pill",
+          "settings": {
+            "label": "Oficina",
+            "action": "filter",
+            "value": "Oficina",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_gym": {
+          "type": "pill",
+          "settings": {
+            "label": "Gym",
+            "action": "filter",
+            "value": "Gym",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_filtros": {
+          "type": "pill",
+          "settings": {
+            "label": "Filtros",
+            "action": "sidebar",
+            "value": "",
+            "sort_value": "bestselling"
+          }
+        }
+      },
+      "block_order": [
+        "qf_filtros",
+        "qf_todos",
+        "qf_topventas",
+        "qf_arabe",
+        "qf_nicho",
+        "qf_disenador",
+        "qf_citas",
+        "qf_oficina",
+        "qf_gym"
+      ],
+      "settings": {
+        "container": "1770",
+        "alignment": "left"
+      }
     }
   },
   "order": [
-    "banner",
     "collection_banner_carousel_mj6XyL",
+    "banner",
+    "quick-filters",
     "collection_feature_cards_qcYN9V",
     "product-grid",
     "product-recently-viewed",
