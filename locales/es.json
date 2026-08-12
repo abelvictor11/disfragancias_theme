@@ -610,14 +610,14 @@
       "subtotal": "Subtotal"
     },
     "orders": {
-      "title": "Order history",
-      "order_number": "Order",
-      "order_number_link": "Order number {{ number }}",
-      "date": "Date",
-      "payment_status": "Payment status",
-      "fulfillment_status": "Fulfillment status",
+      "title": "Historial de ordenes",
+      "order_number": "Pedido",
+      "order_number_link": "Número de pedido  {{ number }}",
+      "date": "Fecha",
+      "payment_status": "Estado del pago",
+      "fulfillment_status": "Estado de cumplimiento",
       "total": "Total",
-      "none": "You haven't placed any orders yet."
+      "none": "Aún no has realizado ningún pedido."
     },
     "recover_password": {
       "title": "Restablecer su contraseña",
