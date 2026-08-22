@@ -119,6 +119,7 @@
     if (!pill) return;
     var action = pill.getAttribute('data-qf-action');
     if (action === 'sidebar') { e.stopPropagation(); return openSidebar(); }
+    if (action === 'link') { var u = pill.getAttribute('data-qf-link'); if (u) window.location.href = u; return; }
     if (action === 'sort') return applySort(pill.getAttribute('data-qf-sort'));
     if (action === 'clear') return clearAll();
     if (action === 'filter') applyFilter(pill.getAttribute('data-qf-value'));
