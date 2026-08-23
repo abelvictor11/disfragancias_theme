@@ -4,7 +4,10 @@ class NewsletterPopup extends HTMLElement {
 
         this.popup = this;
         this.timeToShow = parseInt(this.popup.getAttribute('data-delay'));
-        this.expiresDate = this.popup.getAttribute('data-expire');
+        // Días que la cookie recuerda un CIERRE (configurable en el tema).
+        this.expiresDate = parseInt(this.popup.getAttribute('data-expire')) || 7;
+        // Una SUSCRIPCIÓN se recuerda "para siempre" (10 años) → no vuelve a mostrarse.
+        this.subscribeExpire = 3650;
         if (this.getCookie('newsletter-popup') === ''){
             var popup = this.popup;
 
@@ -23,12 +26,13 @@ class NewsletterPopup extends HTMLElement {
 
         this.querySelector('[data-close-newsletter-popup]').addEventListener(
             'click',
-            this.setClosePopup.bind(this)
+            this.setClosePopup.bind(this, false)
         );
 
+        // Al enviar el formulario, marcar como suscrito (no volver a mostrar).
         this.querySelector('#ContactPopup').addEventListener(
             'submit',
-            this.setClosePopup.bind(this)
+            this.setClosePopup.bind(this, true)
         );
     }
 
@@ -60,8 +64,13 @@ class NewsletterPopup extends HTMLElement {
         document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
 
-    setClosePopup() {
-        this.setCookie('newsletter-popup', 'closed', this.expiresDate);
+    setClosePopup(subscribed) {
+        // subscribed === true → recordar "para siempre"; si solo cerró → expiresDate días.
+        if (subscribed === true) {
+            this.setCookie('newsletter-popup', 'subscribed', this.subscribeExpire);
+        } else {
+            this.setCookie('newsletter-popup', 'closed', this.expiresDate);
+        }
         document.body.classList.remove('newsletter-show');
         setTimeout(() => {
             document.body.classList.remove('show-newsletter-image');
@@ -70,7 +79,7 @@ class NewsletterPopup extends HTMLElement {
 
     onBodyClickEvent(event){
         if ((!this.contains(event.target)) && ($(event.target).closest('[data-open-newsletter-popup]').length === 0) && document.querySelector('body').classList.contains('newsletter-show')){
-            this.setClosePopup();
+            this.setClosePopup(false);
         }
     }
 }

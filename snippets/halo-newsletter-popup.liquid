@@ -49,7 +49,8 @@
                                                 <p class="alertBox-message">'+ messageText +'</p>\
                                             </div>';
 
-                                            setCookie('newsletter-popup', 'closed', {{ settings.newsletter_popup_expire }});
+                                            // Suscripción exitosa → recordar "para siempre" (10 años): no vuelve a mostrarse.
+                                            setCookie('newsletter-popup', 'subscribed', 3650);
                                         })();
                                     };
 
