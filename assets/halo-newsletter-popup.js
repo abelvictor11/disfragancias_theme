@@ -8,6 +8,10 @@ class NewsletterPopup extends HTMLElement {
         this.expiresDate = parseInt(this.popup.getAttribute('data-expire')) || 7;
         // Una SUSCRIPCIÓN se recuerda "para siempre" (10 años) → no vuelve a mostrarse.
         this.subscribeExpire = 3650;
+        this.form = this.querySelector('#ContactPopup');
+        this.phoneLocal = this.querySelector('[data-newsletter-phone-local]');
+        this.phone = this.querySelector('[data-newsletter-phone]');
+        this.phoneNote = this.querySelector('[data-newsletter-phone-note]');
         if (this.getCookie('newsletter-popup') === ''){
             var popup = this.popup;
 
@@ -30,10 +34,12 @@ class NewsletterPopup extends HTMLElement {
         );
 
         // Al enviar el formulario, marcar como suscrito (no volver a mostrar).
-        this.querySelector('#ContactPopup').addEventListener(
-            'submit',
-            this.setClosePopup.bind(this, true)
-        );
+        if (this.form) {
+            this.form.addEventListener('submit', this.onSubmit.bind(this));
+        }
+        if (this.phoneLocal) {
+            this.phoneLocal.addEventListener('input', this.onPhoneInput.bind(this));
+        }
     }
 
     setCookie(cname, cvalue, exdays) {
@@ -64,6 +70,46 @@ class NewsletterPopup extends HTMLElement {
         document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
 
+    normalizePhone() {
+        if (!this.phoneLocal) return '';
+
+        var digits = this.phoneLocal.value.replace(/\D/g, '');
+        if (digits.indexOf('57') === 0 && digits.length === 12) {
+            digits = digits.substring(2);
+        }
+
+        this.phoneLocal.value = digits.substring(0, 10);
+        return digits.length === 10 ? '+57' + digits : '';
+    }
+
+    onPhoneInput() {
+        this.phoneLocal.setCustomValidity('');
+        this.phoneLocal.value = this.phoneLocal.value.replace(/\D/g, '').substring(0, 10);
+    }
+
+    onSubmit(event) {
+        var normalizedPhone = this.normalizePhone();
+
+        if (!normalizedPhone) {
+            event.preventDefault();
+            this.phoneLocal.setCustomValidity('Ingresa un número celular colombiano de 10 dígitos.');
+            this.phoneLocal.reportValidity();
+            return;
+        }
+
+        this.phoneLocal.setCustomValidity('');
+        this.phone.value = normalizedPhone;
+        this.phoneNote.value = normalizedPhone;
+        this.hidePopup();
+    }
+
+    hidePopup() {
+        document.body.classList.remove('newsletter-show');
+        setTimeout(() => {
+            document.body.classList.remove('show-newsletter-image');
+        }, 700);
+    }
+
     setClosePopup(subscribed) {
         // subscribed === true → recordar "para siempre"; si solo cerró → expiresDate días.
         if (subscribed === true) {
@@ -71,10 +117,7 @@ class NewsletterPopup extends HTMLElement {
         } else {
             this.setCookie('newsletter-popup', 'closed', this.expiresDate);
         }
-        document.body.classList.remove('newsletter-show');
-        setTimeout(() => {
-            document.body.classList.remove('show-newsletter-image');
-        }, 700)
+        this.hidePopup();
     }
 
     onBodyClickEvent(event){
