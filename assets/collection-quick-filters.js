@@ -56,6 +56,13 @@
     return activeFilterValues().indexOf(norm(value)) >= 0;
   }
 
+  // Los filtros Collection de USF guardan IDs numéricos en la URL, no sus
+  // etiquetas. En esos casos la fuente fiable es el botón real de la faceta.
+  function isFacetSelected(value) {
+    var btn = findFilterBtn(value);
+    return !!(btn && btn.classList.contains('usf-selected'));
+  }
+
   function currentSort() {
     var m = location.search.match(/[?&]usf_sort=([^&]+)/);
     return m ? decodeURIComponent(m[1]) : '';
@@ -118,7 +125,10 @@
     bar.querySelectorAll('.qf-pill').forEach(function (p) {
       var action = p.getAttribute('data-qf-action');
       var active = false;
-      if (action === 'filter') active = isValueActive(p.getAttribute('data-qf-value'));
+      if (action === 'filter') {
+        var value = p.getAttribute('data-qf-value');
+        active = isFacetSelected(value) || isValueActive(value);
+      }
       else if (action === 'sort') active = sort === (p.getAttribute('data-qf-sort') || 'bestselling');
       else if (action === 'link') { var lk = linkPath(p); active = lk && curPath() === lk; }
       else if (action === 'clear') active = !anyFilter && !onLinkColl; // "Todos" solo si no hay filtro ni colección-link
