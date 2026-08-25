@@ -31,10 +31,33 @@
                     {%- form 'customer', id: 'ContactPopup', class: 'newsletter-form' -%}
                         <input type="hidden" name="contact[tags]" value="newsletter">
                         <div class="newsletter-form__field-wrapper">
-                            <div class="form-field field"> 
-                                <input id="NewsletterForm--Popup" type="email" name="contact[email]" class="field__input form-input-placeholder" value="{{ form.email }}" aria-required="true" autocorrect="off" autocapitalize="off" autocomplete="email"{% if form.errors %} autofocus aria-invalid="true" aria-describedby="ContactFooter-error"{% elsif form.posted_successfully? %} aria-describedby="ContactFooter-success"{% endif %} placeholder="{% if settings.select_button_submit == 'default' %}{{ 'newsletter.placeholder' | t }}{% else %}{{ 'newsletter.dont_miss_out_this_sale' | t }}{% endif %}">
+                            <div class="form-field field">
+                                <input id="NewsletterForm--Popup" type="email" name="contact[email]" class="field__input form-input-placeholder" value="{{ form.email }}" required aria-required="true" autocorrect="off" autocapitalize="off" autocomplete="email"{% if form.errors %} autofocus aria-invalid="true" aria-describedby="ContactFooter-error"{% elsif form.posted_successfully? %} aria-describedby="ContactFooter-success"{% endif %} placeholder="{% if settings.select_button_submit == 'default' %}{{ 'newsletter.placeholder' | t }}{% else %}{{ 'newsletter.dont_miss_out_this_sale' | t }}{% endif %}">
                                 <label class="field__label hiddenLabels" for="NewsletterForm--Popup">{{ 'newsletter.label' | t }}</label>
                             </div>
+                            <div class="newsletter-phone-field">
+                                <span class="newsletter-phone-field__prefix" aria-hidden="true">+57</span>
+                                <div class="form-field field">
+                                    <input
+                                        id="NewsletterPhone--Popup"
+                                        type="tel"
+                                        class="field__input form-input-placeholder"
+                                        inputmode="numeric"
+                                        autocomplete="tel-national"
+                                        aria-required="true"
+                                        required
+                                        minlength="10"
+                                        maxlength="10"
+                                        pattern="[0-9]{10}"
+                                        placeholder="Celular (ej. 3001234567)"
+                                        data-newsletter-phone-local
+                                    >
+                                    <label class="field__label hiddenLabels" for="NewsletterPhone--Popup">Número de celular</label>
+                                </div>
+                            </div>
+                            <input type="hidden" name="contact[phone]" data-newsletter-phone>
+                            <input type="hidden" name="contact[note][Celular]" data-newsletter-phone-note>
+                            <p class="newsletter-phone-help">Usaremos tu celular para identificar tu registro y enviarte información relacionada con esta suscripción.</p>
                             {%- if form.posted_successfully? -%}
                                 <script>
                                     window.onload = (event) => {
