@@ -460,30 +460,27 @@
           "type": "pill",
           "settings": {
             "label": "Árabes",
-            "action": "link",
-            "value": "",
-            "sort_value": "bestselling",
-            "link_url": "/collections/arabe"
+            "action": "filter",
+            "value": "Arabe",
+            "sort_value": "bestselling"
           }
         },
         "qf_nicho": {
           "type": "pill",
           "settings": {
             "label": "Nicho",
-            "action": "link",
-            "value": "",
-            "sort_value": "bestselling",
-            "link_url": "/collections/nicho"
+            "action": "filter",
+            "value": "Nicho",
+            "sort_value": "bestselling"
           }
         },
         "qf_disenador": {
           "type": "pill",
           "settings": {
             "label": "Diseñador",
-            "action": "link",
-            "value": "",
-            "sort_value": "bestselling",
-            "link_url": "/collections/disenador"
+            "action": "filter",
+            "value": "Diseñador",
+            "sort_value": "bestselling"
           }
         },
         "qf_filtros": {
