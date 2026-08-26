@@ -3,6 +3,24 @@
     assign enable_border_top = block.settings.enable_border_top
     assign enable_border_bottom = block.settings.enable_border_bottom
     assign color_border = block.settings.color_border
+
+    assign best_unit_variant_id = blank
+    assign best_unit_price = blank
+    for pum_variant in product.variants
+        assign pum_title = pum_variant.title | upcase
+        if pum_variant.available and pum_title contains 'ML'
+            assign pum_volume_prefix = pum_title | split: 'ML' | first | strip
+            assign pum_volume_parts = pum_volume_prefix | split: ' '
+            assign pum_volume_ml = pum_volume_parts | last | replace: ',', '.' | times: 1.0
+            if pum_volume_ml > 0
+                assign pum_unit_price = pum_variant.price | divided_by: pum_volume_ml
+                if best_unit_price == blank or pum_unit_price < best_unit_price
+                    assign best_unit_price = pum_unit_price
+                    assign best_unit_variant_id = pum_variant.id
+                endif
+            endif
+        endif
+    endfor
 -%}
 <div class="productView-options{% if enable_border_top %} has-border-top{% endif %}{% if enable_border_bottom %} has-border-bottom{% endif %}" style="--color-border: {{ color_border }}" data-lang="{{ request.locale.iso_code | downcase }}" data-default-lang="{{ localization.country.iso_code | downcase }}">
     {%- if variantCount > 0  and product.has_only_default_variant != true -%}
@@ -134,6 +152,16 @@
                                                     assign variant_on_sale = true
                                                     assign variant_compare_price = variant.compare_at_price | money
                                                 endif
+                                                assign variant_unit_price = blank
+                                                assign variant_title_upcase = variant.title | upcase
+                                                if variant_title_upcase contains 'ML'
+                                                    assign variant_volume_prefix = variant_title_upcase | split: 'ML' | first | strip
+                                                    assign variant_volume_parts = variant_volume_prefix | split: ' '
+                                                    assign variant_volume_ml = variant_volume_parts | last | replace: ',', '.' | times: 1.0
+                                                    if variant_volume_ml > 0
+                                                        assign variant_unit_price = variant.price | divided_by: variant_volume_ml | round
+                                                    endif
+                                                endif
                                             -%}
                                             <label class="product-form__label product-form__card {{ option_stock }}" for="option-{{ product.id }}-{{ option.name }}-{{ forloop.index0 }}" data-variant-id="{{ variant.id }}" data-variant-price="{{ variant.price }}">
                                                 <span class="product-form__card-media">
@@ -148,6 +176,12 @@
                                                     {%- endif -%}
                                                     <span class="product-form__card-final">{{ variant_price }}</span>
                                                 </span>
+                                                {%- if variant_unit_price != blank -%}
+                                                    <span class="product-form__card-unit-price">{{ variant_unit_price | money }} / ML</span>
+                                                    {%- if variant.id == best_unit_variant_id -%}
+                                                        <span class="product-form__card-best-unit">Mejor precio por /ML</span>
+                                                    {%- endif -%}
+                                                {%- endif -%}
                                                 <span class="product-form__card-stock product-form__card-stock--{{ option_stock }}">{{ stock_text }}</span>
                                             </label>
                                         {%- else -%}
