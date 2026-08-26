@@ -1010,6 +1010,7 @@ span.badge.custom-metafield-badge {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
   text-align: center;
   gap: 4px;
   width: 100%;
@@ -1074,8 +1075,14 @@ span.badge.custom-metafield-badge {
 .product-form__card .product-form__card-best-unit {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  width: max-content;
+  max-width: calc(100% - 12px);
   min-height: 22px;
-  margin-top: 2px;
   padding: 3px 8px;
   border-radius: 4px;
   background: #276749;
@@ -1084,7 +1091,9 @@ span.badge.custom-metafield-badge {
   font-weight: var(--font-weight-bold, 700);
   letter-spacing: .08em;
   line-height: 1.2;
+  white-space: nowrap;
   text-transform: uppercase;
+  transform: translate(-50%, 50%);
 }
 .product-form__card .product-form__card-stock {
   font-size: calc(var(--font-body-size, 14px) - 2px);
@@ -1135,7 +1144,8 @@ span.badge.custom-metafield-badge {
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
     gap: 10px;
-    padding-bottom: 6px;
+    /* Reserva el espacio que ocupa la mitad exterior del badge. */
+    padding-bottom: 18px;
     scrollbar-width: none;
   }
   .product-form__cards-track::-webkit-scrollbar {
@@ -1145,6 +1155,13 @@ span.badge.custom-metafield-badge {
   .product-form__cards-track .product-form__label.product-form__card {
     flex: 0 0 calc((100% - 20px) / 2.5);
     scroll-snap-align: start;
+  }
+  .product-form__card .product-form__card-best-unit {
+    max-width: calc(100% - 8px);
+    min-height: 18px;
+    padding: 3px 5px;
+    font-size: 7px;
+    letter-spacing: .04em;
   }
 }
 
