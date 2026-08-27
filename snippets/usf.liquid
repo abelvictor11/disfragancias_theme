@@ -1,3 +1,23 @@
+<script data-usf-default-search-sort>
+(function () {
+    var locationObject = window.location;
+    var path = locationObject.pathname.replace(/\/+$/, '');
+
+    if (path !== '/search') return;
+
+    var params = new URLSearchParams(locationObject.search);
+    var query = params.get('q');
+
+    if (!query || !query.trim() || params.has('usf_sort')) return;
+
+    params.set('usf_sort', 'bestselling');
+    window.history.replaceState(
+        window.history.state,
+        '',
+        locationObject.pathname + '?' + params.toString() + locationObject.hash
+    );
+})();
+</script>
 <script>window._usfTheme={
     id:171419173171,
     name:"Ella",
