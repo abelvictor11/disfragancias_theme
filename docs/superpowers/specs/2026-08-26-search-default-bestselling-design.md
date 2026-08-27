@@ -33,4 +33,3 @@ Una prueba automatizada comprobará que la inicialización:
 - no actúa en colecciones;
 - no actúa en búsquedas vacías;
 - se ejecuta antes del script de arranque de USF.
-
