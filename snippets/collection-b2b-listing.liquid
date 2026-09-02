@@ -24,7 +24,9 @@
   (auto-fill ~6 -> column-N).
 {%- endcomment -%}
 {%- assign b2b_col = col | default: 4 -%}
-<div class="b2b-coll{% unless is_section %} productListing productGrid column-{{ b2b_col }}{% endunless %}" data-b2b-coll{% unless is_section %} id="main-collection-product-grid" data-id="{{ section.id }}"{% endunless %}>
+{%- comment -%} col_mobile: columnas en móvil (1 o 2). Default 2. {%- endcomment -%}
+{%- assign b2b_col_mb = col_mobile | default: 2 -%}
+<div class="b2b-coll{% unless is_section %} productListing productGrid column-{{ b2b_col }}{% endunless %} column-mb-{{ b2b_col_mb }}" data-b2b-coll{% unless is_section %} id="main-collection-product-grid" data-id="{{ section.id }}"{% endunless %}>
   <div class="b2b-coll__toolbar">
     <div class="b2b-coll__count">{% if heading %}{{ heading }}{% else %}{{ b2b_count }} {{ 'sections.collection_template.results' | t | default: 'productos' }}{% endif %}</div>
     <div class="b2b-coll__toggle" role="group" aria-label="Cambiar vista">

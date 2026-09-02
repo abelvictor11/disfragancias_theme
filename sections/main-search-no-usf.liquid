@@ -47,6 +47,7 @@
     assign sort_by = collection.sort_by | default: collection.default_sort_by
     assign sort_options = collection.sort_options
     assign layout = section.settings.layout
+    assign layout_mobile = section.settings.layout_mobile | default: '2'
     assign products_per_page =  section.settings.products_per_page
     assign show_toolbar = false
     if show_toolbar
@@ -186,7 +187,8 @@
                                 {% render 'collection-b2b-listing',
                                     products: search.results,
                                     heading: search_heading,
-                                    col: layout
+                                    col: layout,
+                                    col_mobile: layout_mobile
                                 %}
                                 {% render 'pagination-listing',
                                     paginate: paginate,
@@ -841,6 +843,17 @@
                     "value": "7",
                     "label": "7"
                 }
+            ]
+        },
+        {
+            "type": "select",
+            "id": "layout_mobile",
+            "label": "Columnas en móvil",
+            "info": "Nº de columnas de la grilla de resultados en teléfonos.",
+            "default": "2",
+            "options": [
+                { "value": "1", "label": "1" },
+                { "value": "2", "label": "2" }
             ]
         },
         {
