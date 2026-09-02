@@ -1337,6 +1337,35 @@
                     {% render 'product-b2b-conditions' %}
                     {% render 'product-b2b-matrix', product: product %}
                 </div>
+                <script>
+                  (function () {
+                    // En móvil, mover la matriz de variantes justo debajo de la
+                    // columna de imágenes/miniaturas (dentro de .productView-top,
+                    // que en móvil es block). En desktop se deja en su sitio.
+                    // No se toca la galería (slick), solo se reubica un nodo.
+                    var mq = window.matchMedia('(max-width: 767px)');
+                    var section = document.getElementById('ProductSection-{{ section.id }}');
+                    if (!section) return;
+                    var pv = section.querySelector('.productView');
+                    if (!pv) return;
+                    var top = pv.querySelector(':scope > .productView-top');
+                    var matrix = pv.querySelector(':scope > .productView-b2b-full');
+                    if (!top || !matrix) return;
+                    var left = top.querySelector(':scope > .halo-productView-left');
+                    if (!left) return;
+                    var home = matrix.nextElementSibling; // ancla para volver en desktop
+                    function apply() {
+                      if (mq.matches) {
+                        if (matrix.parentNode !== top) left.insertAdjacentElement('afterend', matrix);
+                      } else if (matrix.parentNode !== pv) {
+                        if (home && home.parentNode === pv) pv.insertBefore(matrix, home);
+                        else top.insertAdjacentElement('afterend', matrix);
+                      }
+                    }
+                    apply();
+                    mq.addEventListener ? mq.addEventListener('change', apply) : mq.addListener(apply);
+                  })();
+                </script>
             {%- endif -%}
             {%- unless has_product_combo -%}
                 {%- if show_sticky_add_to_cart -%}
