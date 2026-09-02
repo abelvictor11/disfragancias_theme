@@ -1149,6 +1149,19 @@ span.badge.custom-metafield-badge {
 .productView-b2b-full { clear: both; width: 100%; margin-top: 8px; }
 .productView-b2b-full .b2b-matrix__table { min-width: 720px; }
 
+/* Móvil: subir la matriz de variantes + "añadir al carrito" para que quede
+   justo DEBAJO de las miniaturas (antes de título/descripción), en vez de
+   hasta el fondo de la página. Se "desenvuelve" .productView-top con
+   display:contents para poder intercalar la matriz entre media e info.
+   Scopeado con :has(.productView-b2b-full) → solo afecta al PDP B2B. */
+@media (max-width: 767px) {
+  .productView:has(.productView-b2b-full) { display: flex; flex-direction: column; }
+  .productView:has(.productView-b2b-full) .productView-top { display: contents; }
+  .productView:has(.productView-b2b-full) .halo-productView-left { order: 1; }
+  .productView:has(.productView-b2b-full) .productView-b2b-full { order: 2; }
+  .productView:has(.productView-b2b-full) .halo-productView-right { order: 3; }
+}
+
 /* =============================================================================
    Colección B2B: grilla densa con quick-add + order pad (vista pedido)
    ============================================================================= */
