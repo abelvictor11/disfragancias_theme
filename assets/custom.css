@@ -1173,6 +1173,14 @@ span.badge.custom-metafield-badge {
 .b2b-coll.column-5 .b2b-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .b2b-coll.column-6 .b2b-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 .b2b-coll.column-7 .b2b-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+/* Móvil: nº de columnas configurable (1 o 2). Sobrescribe el column-N de
+   escritorio para que las cards no queden diminutas en el teléfono.
+   Default = 2 columnas aunque no se haya elegido nada. */
+@media (max-width: 767px) {
+  .b2b-coll .b2b-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .b2b-coll.column-mb-1 .b2b-grid { grid-template-columns: 1fr !important; }
+  .b2b-coll.column-mb-2 .b2b-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
 .b2b-card { border: 1px solid #eee; border-radius: 12px; padding: 10px; background: #fff; display: flex; flex-direction: column; }
 .b2b-card.is-out { opacity: .55; }
 .b2b-card__media { display: block; aspect-ratio: 1; background: rgba(230,222,211,.3); border-radius: 8px; overflow: hidden; margin-bottom: 8px; }
