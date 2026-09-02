@@ -70,8 +70,8 @@
         <div class="b2b-card__foot">
           <span class="b2b-card__price" data-b2b-price>{{ v.price | money }}</span>
           <div class="b2b-card__actions" data-b2b-actions{% unless v.available %} hidden{% endunless %}>
-            <input type="number" class="b2b-qty" min="0" step="1" value="0" data-b2b-qty aria-label="Cantidad">
-            <button type="button" class="b2b-plus" data-b2b-plus aria-label="Añadir">+</button>
+            <input type="number" class="b2b-qty" min="1" step="1" value="1" data-b2b-qty aria-label="Cantidad">
+            <button type="button" class="b2b-plus" data-b2b-plus aria-label="Añadir al carrito" title="Añadir al carrito">+</button>
           </div>
         </div>
       </li>
@@ -117,7 +117,7 @@
             <td class="b2b-lrow__sku" data-b2b-sku title="{{ v.sku | escape }}">{{ v.sku | default: '—' }}</td>
             <td class="ta-r b2b-lrow__price" data-b2b-price>{{ v.price | money }}</td>
             <td class="ta-c" data-b2b-stock>{% if v.available %}<span class="b2b-stock--ok">{{ 'products.product.in_stock' | t }}</span>{% else %}<span class="b2b-stock--out">{{ 'products.product.out_of_stock' | t }}</span>{% endif %}</td>
-            <td class="ta-c" data-b2b-actions{% unless v.available %} hidden{% endunless %}><input type="number" class="b2b-qty" min="0" step="1" value="0" data-b2b-qty aria-label="Cantidad"></td>
+            <td class="ta-c" data-b2b-actions{% unless v.available %} hidden{% endunless %}><input type="number" class="b2b-qty" min="1" step="1" value="1" data-b2b-qty aria-label="Cantidad"></td>
             <td class="ta-r b2b-lrow__sub" data-b2b-sub>{{ 0 | money }}</td>
           </tr>
         {%- endfor -%}
