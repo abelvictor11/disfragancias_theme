@@ -41,7 +41,9 @@
       if (skuEl) { skuEl.textContent = st.sku || '—'; skuEl.title = st.sku || ''; }
       var priceEl = item.querySelector('[data-b2b-price]'); if (priceEl) priceEl.textContent = money(st.price);
       var qtyEl = item.querySelector('[data-b2b-qty]'); if (qtyEl && (parseInt(qtyEl.value) || 0) !== st.qty) qtyEl.value = st.qty;
-      var subEl = item.querySelector('[data-b2b-sub]'); if (subEl) subEl.textContent = money(st.qty * st.price);
+      // El subtotal (vista Pedido) y los totales solo cuentan si el usuario
+      // fijó la cantidad (touched). La cantidad 1 por defecto NO se suma.
+      var subEl = item.querySelector('[data-b2b-sub]'); if (subEl) subEl.textContent = money((st.touched ? st.qty : 0) * st.price);
     }
 
     function syncProduct(k) { itemsFor(k).forEach(function (it) { applyToItem(it, state[k]); }); }
@@ -50,7 +52,7 @@
       var refs = 0, units = 0, total = 0;
       Object.keys(state).forEach(function (k) {
         var st = state[k];
-        if (st.qty > 0) { refs++; units += st.qty; total += st.qty * st.price; }
+        if (st.touched && st.qty > 0) { refs++; units += st.qty; total += st.qty * st.price; }
       });
       var r = root.querySelector('[data-b2b-refs]'); if (r) r.textContent = refs;
       var u = root.querySelector('[data-b2b-units]'); if (u) u.textContent = units;
@@ -60,7 +62,7 @@
 
     root.querySelectorAll('[data-b2b-view="grid"] [data-b2b-item]').forEach(function (item) {
       var sz = readSize(item);
-      if (sz) state[key(item)] = { id: sz.id, price: sz.price, sku: sz.sku, available: sz.available, qty: 0 };
+      if (sz) state[key(item)] = { id: sz.id, price: sz.price, sku: sz.sku, available: sz.available, qty: 1, touched: false };
     });
 
     root.addEventListener('change', function (e) {
@@ -74,16 +76,34 @@
     root.addEventListener('input', function (e) {
       if (!e.target.matches || !e.target.matches('[data-b2b-qty]')) return;
       var item = e.target.closest('[data-b2b-item]'); var k = key(item);
-      state[k].qty = Math.max(0, parseInt(e.target.value) || 0);
+      // Modificar la cantidad marca el producto como "touched" → entra en la
+      // barra "Añadir todo". Mínimo 1 (el botón + añade, no baja a 0).
+      state[k].qty = Math.max(1, parseInt(e.target.value) || 1);
+      state[k].touched = true;
       syncProduct(k); recalc();
     });
 
+    // El botón "+" de cada card AÑADE ese producto al carrito directamente,
+    // con la cantidad mostrada (1 por defecto). No hace falta tocar la cantidad.
     root.addEventListener('click', function (e) {
       var plus = e.target.closest && e.target.closest('[data-b2b-plus]');
       if (!plus) return;
       var item = e.target.closest('[data-b2b-item]'); var k = key(item);
-      state[k].qty = Math.max(1, state[k].qty + 1);
-      syncProduct(k); recalc();
+      var st = state[k];
+      if (!st || !st.available) return;
+      var qty = Math.max(1, st.qty || 1);
+      plus.disabled = true; plus.classList.add('is-loading');
+      fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: [{ id: parseInt(st.id), quantity: qty }] }) })
+        .then(function (r) { if (!r.ok) return r.json().then(function (er) { throw er; }); return r.json(); })
+        .then(function () { return fetch('/cart.js').then(function (r) { return r.json(); }); })
+        .then(function (cart) {
+          st.qty = 1; st.touched = false; syncProduct(k); recalc();
+          document.body.classList.add('cart-sidebar-show');
+          if (window.halo && typeof window.halo.updateSidebarCart === 'function') window.halo.updateSidebarCart(cart);
+          document.querySelectorAll('[data-cart-count]').forEach(function (el) { el.textContent = cart.item_count; });
+        })
+        .catch(function (er) { alert((er && er.description) || 'No se pudo añadir al carrito'); })
+        .then(function () { plus.disabled = false; plus.classList.remove('is-loading'); });
     });
 
     root.querySelectorAll('[data-view-btn]').forEach(function (btn) {
@@ -101,14 +121,14 @@
     var addBtn = root.querySelector('[data-b2b-addall]');
     if (addBtn) addBtn.addEventListener('click', function () {
       var items = [];
-      Object.keys(state).forEach(function (k) { var st = state[k]; if (st.qty > 0) items.push({ id: parseInt(st.id), quantity: st.qty }); });
+      Object.keys(state).forEach(function (k) { var st = state[k]; if (st.touched && st.qty > 0) items.push({ id: parseInt(st.id), quantity: st.qty }); });
       if (!items.length) return;
       addBtn.disabled = true; addBtn.classList.add('is-loading');
       fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: items }) })
         .then(function (r) { if (!r.ok) return r.json().then(function (e) { throw e; }); return r.json(); })
         .then(function () { return fetch('/cart.js').then(function (r) { return r.json(); }); })
         .then(function (cart) {
-          Object.keys(state).forEach(function (k) { state[k].qty = 0; syncProduct(k); });
+          Object.keys(state).forEach(function (k) { state[k].qty = 1; state[k].touched = false; syncProduct(k); });
           recalc();
           document.body.classList.add('cart-sidebar-show');
           if (window.halo && typeof window.halo.updateSidebarCart === 'function') window.halo.updateSidebarCart(cart);
