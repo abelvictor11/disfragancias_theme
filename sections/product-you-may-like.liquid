@@ -46,30 +46,47 @@
         <h3 class="title"><span class="text">{{ title | escape }}</span></h3>
       </div>
       <div class="pyml__track" id="pyml-track-{{ section.id }}" data-pyml-track>
-        {%- comment -%} Fallback SSR: relacionados por colección (excluye el actual, sin duplicados). {%- endcomment -%}
-        {%- assign added = 0 -%}
-        {%- assign seen = '' -%}
-        {%- for coll in product.collections -%}
-          {%- if coll.handle == 'all' or coll.all_products_count == 0 -%}{%- continue -%}{%- endif -%}
-          {%- for p in coll.products -%}
-            {%- if added >= limit -%}{%- break -%}{%- endif -%}
-            {%- assign idstr = p.id | append: ',' -%}
-            {%- unless p.id == product.id or seen contains idstr -%}
-              {%- assign seen = seen | append: idstr -%}
-              {%- assign added = added | plus: 1 -%}
-              <div class="product">
-                {% render 'product-grid-layout',
-                  product_card_product: p,
-                  media_size: image_ratio,
-                  portrait_aspect_ratio: '125',
-                  serial: added,
-                  sectionId: section.id
-                %}
-              </div>
-            {%- endunless -%}
+        {%- if recommendations.performed and recommendations.products_count > 0 -%}
+          {%- comment -%} Recomendaciones de Shopify (relacionados) — se renderiza
+            cuando la sección se pide vía product_recommendations_url (fallback JS). {%- endcomment -%}
+          {%- for p in recommendations.products limit: limit -%}
+            <div class="product">
+              {% render 'product-grid-layout',
+                product_card_product: p,
+                media_size: image_ratio,
+                portrait_aspect_ratio: '125',
+                serial: forloop.index,
+                sectionId: section.id
+              %}
+            </div>
           {%- endfor -%}
-          {%- if added >= limit -%}{%- break -%}{%- endif -%}
-        {%- endfor -%}
+        {%- else -%}
+          {%- comment -%} Fallback SSR inmediato: relacionados por colección (excluye el actual, sin duplicados).
+            Se ve al instante y sirve de respaldo si la API de recomendaciones no devuelve nada. {%- endcomment -%}
+          {%- assign added = 0 -%}
+          {%- assign seen = '' -%}
+          {%- for coll in product.collections -%}
+            {%- if coll.handle == 'all' or coll.all_products_count == 0 -%}{%- continue -%}{%- endif -%}
+            {%- for p in coll.products -%}
+              {%- if added >= limit -%}{%- break -%}{%- endif -%}
+              {%- assign idstr = p.id | append: ',' -%}
+              {%- unless p.id == product.id or seen contains idstr -%}
+                {%- assign seen = seen | append: idstr -%}
+                {%- assign added = added | plus: 1 -%}
+                <div class="product">
+                  {% render 'product-grid-layout',
+                    product_card_product: p,
+                    media_size: image_ratio,
+                    portrait_aspect_ratio: '125',
+                    serial: added,
+                    sectionId: section.id
+                  %}
+                </div>
+              {%- endunless -%}
+            {%- endfor -%}
+            {%- if added >= limit -%}{%- break -%}{%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
       </div>
     </div>
   </div>
@@ -78,6 +95,8 @@
     (function () {
       var sectionId = {{ section.id | json }};
       var currentHandle = {{ product.handle | json }};
+      var productId = {{ product.id | json }};
+      var recoUrl = {{ routes.product_recommendations_url | json }};
       var limit = {{ limit }};
       var expire = {{ expire }};
       var root = {{ routes.root_url | json }};
@@ -108,10 +127,24 @@
       rec.unshift(currentHandle);
       writeCookie('shopify_recently_viewed', rec.slice(0, 20).join(','), expire);
 
-      // Sin historial → se queda el fallback SSR (relacionados). Si tampoco hay
-      // fallback, ocultar toda la sección.
+      // Sin historial → intentar recomendaciones de Shopify (relacionados).
+      // Si no devuelve nada, se queda el fallback SSR por colecciones ya pintado.
       if (!handles.length) {
-        if (!track.querySelector('.product')) block.style.display = 'none';
+        if (recoUrl && productId) {
+          var url = recoUrl + '?section_id=' + encodeURIComponent(sectionId) + '&product_id=' + encodeURIComponent(productId) + '&limit=' + limit + '&intent=related';
+          fetch(url, { credentials: 'same-origin' })
+            .then(function (r) { return r.ok ? r.text() : ''; })
+            .then(function (html) {
+              if (!html) return;
+              var doc = new DOMParser().parseFromString(html, 'text/html');
+              var newTrack = doc.getElementById('pyml-track-' + sectionId);
+              if (newTrack && newTrack.querySelector('.product')) { track.innerHTML = newTrack.innerHTML; }
+            })
+            .catch(function () {})
+            .then(function () { if (!track.querySelector('.product')) block.style.display = 'none'; });
+        } else if (!track.querySelector('.product')) {
+          block.style.display = 'none';
+        }
         return;
       }
 
