@@ -1,0 +1,185 @@
+{%- comment -%}
+  "Te podría interesar" — carrusel PDP personalizado por usuario.
+
+  - Muestra los productos que ESTE visitante vio recientemente (cookie
+    shopify_recently_viewed), excluyendo el producto actual.
+  - Si el visitante no tiene historial (usuario nuevo), cae a un FALLBACK
+    server-side de productos relacionados (mismas colecciones), así nunca
+    queda vacío.
+  - Carrusel con scroll horizontal (sin slick) para poder intercambiar el
+    contenido por JS sin romper ningún slider.
+{%- endcomment -%}
+{%- if section.settings.enable and product -%}
+  {%- liquid
+    assign title = section.settings.title | default: 'Te podría interesar'
+    assign title_align = section.settings.title_align | default: 'left'
+    assign limit = section.settings.limit | default: 12
+    assign image_ratio = settings.product_block_image_ratio | default: 'contain'
+    assign container = section.settings.container | default: 'container'
+    assign expire = settings.recently_viewed_expire | default: 30
+  -%}
+  <style>
+    .pyml-section { margin: 40px 0; }
+    .pyml-section .halo-block-header { margin-bottom: 16px; }
+    .pyml-section .halo-block-header .title { margin: 0; }
+    .pyml__track {
+      display: flex; gap: var(--pyml-gap, 16px);
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch; padding-bottom: 10px;
+    }
+    .pyml__track > .product {
+      flex: 0 0 auto; min-width: 0; scroll-snap-align: start;
+      width: calc((100% - (var(--pyml-gap, 16px) * 3)) / 4);
+    }
+    @media (max-width: 1024px) { .pyml__track > .product { width: calc((100% - (var(--pyml-gap, 16px) * 2)) / 3); } }
+    @media (max-width: 767px)  { .pyml__track > .product { width: calc((100% - var(--pyml-gap, 16px)) / 2); } }
+    .pyml__track::-webkit-scrollbar { height: 6px; }
+    .pyml__track::-webkit-scrollbar-track { background: rgba(0,0,0,.05); border-radius: 3px; }
+    .pyml__track::-webkit-scrollbar-thumb { background: rgba(0,0,0,.2); border-radius: 3px; }
+    .pyml__track::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,.35); }
+    .pyml-section.is-loading .pyml__track { opacity: .5; }
+  </style>
+
+  <div class="pyml-section section-block-{{ section.id }}" data-pyml id="pyml-{{ section.id }}">
+    <div class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth' %}container-full{% else %}container{% endif %}">
+      <div class="halo-block-header text-{{ title_align }}">
+        <h3 class="title"><span class="text">{{ title | escape }}</span></h3>
+      </div>
+      <div class="pyml__track" id="pyml-track-{{ section.id }}" data-pyml-track>
+        {%- comment -%} Fallback SSR: relacionados por colección (excluye el actual, sin duplicados). {%- endcomment -%}
+        {%- assign added = 0 -%}
+        {%- assign seen = '' -%}
+        {%- for coll in product.collections -%}
+          {%- if coll.handle == 'all' or coll.all_products_count == 0 -%}{%- continue -%}{%- endif -%}
+          {%- for p in coll.products -%}
+            {%- if added >= limit -%}{%- break -%}{%- endif -%}
+            {%- assign idstr = p.id | append: ',' -%}
+            {%- unless p.id == product.id or seen contains idstr -%}
+              {%- assign seen = seen | append: idstr -%}
+              {%- assign added = added | plus: 1 -%}
+              <div class="product">
+                {% render 'product-grid-layout',
+                  product_card_product: p,
+                  media_size: image_ratio,
+                  portrait_aspect_ratio: '125',
+                  serial: added,
+                  sectionId: section.id
+                %}
+              </div>
+            {%- endunless -%}
+          {%- endfor -%}
+          {%- if added >= limit -%}{%- break -%}{%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var sectionId = {{ section.id | json }};
+      var currentHandle = {{ product.handle | json }};
+      var limit = {{ limit }};
+      var expire = {{ expire }};
+      var root = {{ routes.root_url | json }};
+      if (root === '/') root = '';
+
+      var block = document.getElementById('pyml-' + sectionId);
+      var track = document.getElementById('pyml-track-' + sectionId);
+      if (!block || !track) return;
+
+      function readCookie(name) {
+        var m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
+        return m ? decodeURIComponent(m[1]) : '';
+      }
+      function writeCookie(name, value, days) {
+        var d = new Date(); d.setTime(d.getTime() + days * 864e5);
+        document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/';
+      }
+
+      var cv = readCookie('shopify_recently_viewed');
+      if (window.Shopify && Shopify.designMode && !cv) { try { cv = localStorage.getItem('shopify_recently_viewed') || ''; } catch (e) {} }
+
+      // Productos a mostrar = vistos recientemente, sin el actual.
+      var handles = cv ? cv.split(',').map(function (s) { return s.trim(); }).filter(function (h) { return h && h !== currentHandle; }) : [];
+
+      // Registrar la vista actual para próximas visitas (dedupe, tope 20).
+      var rec = cv ? cv.split(',').map(function (s) { return s.trim(); }).filter(Boolean) : [];
+      rec = rec.filter(function (h) { return h !== currentHandle; });
+      rec.unshift(currentHandle);
+      writeCookie('shopify_recently_viewed', rec.slice(0, 20).join(','), expire);
+
+      // Sin historial → se queda el fallback SSR (relacionados). Si tampoco hay
+      // fallback, ocultar toda la sección.
+      if (!handles.length) {
+        if (!track.querySelector('.product')) block.style.display = 'none';
+        return;
+      }
+
+      // Con historial → reemplazar el fallback por los vistos recientemente,
+      // manteniendo el orden (más reciente primero).
+      function load() {
+        if (block.__pymlLoaded) return; block.__pymlLoaded = true;
+        block.classList.add('is-loading');
+        var toShow = handles.slice(0, limit);
+        var frag = new Array(toShow.length);
+        var pending = toShow.length;
+        var cleared = false;
+        function place() {
+          if (!cleared) { track.innerHTML = ''; cleared = true; }
+          frag.forEach(function (html) { if (html) track.insertAdjacentHTML('beforeend', html); });
+          block.classList.remove('is-loading');
+          if (!track.querySelector('.product')) block.style.display = 'none';
+        }
+        toShow.forEach(function (h, i) {
+          fetch(root + '/products/' + encodeURIComponent(h) + '?view=ajax_section_recently_viewed', { credentials: 'same-origin' })
+            .then(function (r) { return r.ok ? r.text() : ''; })
+            .then(function (html) { frag[i] = html; })
+            .catch(function () { frag[i] = ''; })
+            .then(function () { if (--pending === 0) place(); });
+        });
+      }
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries, obs) {
+          if (entries[0].isIntersecting) { load(); obs.disconnect(); }
+        }, { threshold: 0.1 }).observe(block);
+      } else {
+        load();
+      }
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Te podría interesar",
+  "class": "section-you-may-like",
+  "settings": [
+    { "type": "checkbox", "id": "enable", "label": "Mostrar sección", "default": true },
+    { "type": "text", "id": "title", "label": "Título", "default": "Te podría interesar" },
+    {
+      "type": "select", "id": "title_align", "label": "Alineación del título", "default": "left",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+      ]
+    },
+    { "type": "range", "id": "limit", "label": "Máx. de productos", "min": 4, "max": 20, "step": 1, "default": 12 },
+    {
+      "type": "select", "id": "container", "label": "Ancho", "default": "container",
+      "options": [
+        { "value": "container", "label": "Por defecto" },
+        { "value": "1170", "label": "1170" },
+        { "value": "1770", "label": "1770" },
+        { "value": "fullwidth", "label": "Ancho completo" }
+      ]
+    },
+    { "type": "paragraph", "content": "Muestra los productos que el visitante vio recientemente. Si es un usuario nuevo sin historial, muestra productos relacionados (de las mismas colecciones) como respaldo." }
+  ],
+  "presets": [
+    { "name": "Te podría interesar" }
+  ],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}
