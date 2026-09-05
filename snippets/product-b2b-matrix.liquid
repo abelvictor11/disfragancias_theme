@@ -38,7 +38,7 @@
             </td>
             <td class="ta-c">
               {%- if avail -%}
-                <input type="number" class="b2b-qty" min="0" step="1" value="0" inputmode="numeric" aria-label="Cantidad {{ variant.title }}">
+                <input type="number" class="b2b-qty" min="0" step="1" value="1" inputmode="numeric" aria-label="Cantidad {{ variant.title }}">
               {%- else -%}<span class="b2b-dash">—</span>{%- endif -%}
             </td>
             <td class="ta-r b2b-row__sub" data-sub>{{ 0 | money }}</td>
@@ -98,7 +98,7 @@
     }).then(function(r){ if(!r.ok) return r.json().then(function(e){ throw e; }); return r.json(); })
       .then(function(){ return fetch('/cart.js').then(function(r){return r.json();}); })
       .then(function(cart){
-        rows.forEach(function(r){ var i=r.querySelector('.b2b-qty'); if(i) i.value=0; });
+        rows.forEach(function(r){ var i=r.querySelector('.b2b-qty'); if(i) i.value=1; });
         recalc();
         document.body.classList.add('cart-sidebar-show');
         if(window.halo && typeof window.halo.updateSidebarCart==='function'){ window.halo.updateSidebarCart(cart); }
