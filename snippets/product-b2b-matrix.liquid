@@ -9,7 +9,8 @@
 {%- endcomment -%}
 {%- if product.variants.size == 1 %}{% assign b2b_default_qty = 1 %}{% else %}{% assign b2b_default_qty = 0 %}{% endif -%}
 <div class="b2b-matrix" data-product-id="{{ product.id }}" data-default-qty="{{ b2b_default_qty }}">
-  <div class="b2b-matrix__hint">{{ 'products.product.product_variants' | t }} — ingresa cantidades y añade todo al carrito</div>
+  {%- assign b2b_hint = settings.b2b_matrix_hint | default: 'Variantes de producto — ingresa cantidades y añade todo al carrito' -%}
+  {%- if b2b_hint != blank -%}<div class="b2b-matrix__hint">{{ b2b_hint }}</div>{%- endif -%}
   <div class="b2b-matrix__scroll">
     <table class="b2b-matrix__table">
       <thead>

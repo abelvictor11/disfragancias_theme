@@ -9058,6 +9058,69 @@
         "type": "url",
         "id": "b2b_pricelist_url",
         "label": "Enlace lista de precios"
+      },
+      {
+        "type": "header",
+        "content": "Títulos de cada bloque"
+      },
+      {
+        "type": "text",
+        "id": "b2b_min_title",
+        "label": "Título — Pedido mínimo",
+        "default": "Pedido mínimo"
+      },
+      {
+        "type": "text",
+        "id": "b2b_lead_title",
+        "label": "Título — Despacho",
+        "default": "Despacho"
+      },
+      {
+        "type": "text",
+        "id": "b2b_pay_title",
+        "label": "Título — Pago",
+        "default": "Pago"
+      },
+      {
+        "type": "text",
+        "id": "b2b_pricelist_title",
+        "label": "Título — Lista de precios",
+        "default": "Lista de precios"
+      },
+      {
+        "type": "header",
+        "content": "Iconos (opcional — si subes imagen, reemplaza el icono por defecto)"
+      },
+      {
+        "type": "image_picker",
+        "id": "b2b_min_icon",
+        "label": "Icono — Pedido mínimo"
+      },
+      {
+        "type": "image_picker",
+        "id": "b2b_lead_icon",
+        "label": "Icono — Despacho"
+      },
+      {
+        "type": "image_picker",
+        "id": "b2b_pay_icon",
+        "label": "Icono — Pago"
+      },
+      {
+        "type": "image_picker",
+        "id": "b2b_pricelist_icon",
+        "label": "Icono — Lista de precios"
+      },
+      {
+        "type": "header",
+        "content": "Matriz de variantes"
+      },
+      {
+        "type": "text",
+        "id": "b2b_matrix_hint",
+        "label": "Texto sobre la tabla de variantes",
+        "info": "Déjalo vacío para usar el texto por defecto.",
+        "default": "Variantes de producto — ingresa cantidades y añade todo al carrito"
       }
     ]
   }
