@@ -3,7 +3,12 @@
   (metafield custom.precio_sugerido), stock y cantidad por fila + añadir todo.
   Reemplaza el selector de variante para productos de una sola opción.
 {% endcomment -%}
-<div class="b2b-matrix" data-product-id="{{ product.id }}">
+{%- comment -%}
+  Cantidad por defecto: 1 SOLO si hay una única variante (así basta "Añadir").
+  Con varias variantes se deja en 0 para no agregar todas las tallas de golpe.
+{%- endcomment -%}
+{%- if product.variants.size == 1 %}{% assign b2b_default_qty = 1 %}{% else %}{% assign b2b_default_qty = 0 %}{% endif -%}
+<div class="b2b-matrix" data-product-id="{{ product.id }}" data-default-qty="{{ b2b_default_qty }}">
   <div class="b2b-matrix__hint">{{ 'products.product.product_variants' | t }} — ingresa cantidades y añade todo al carrito</div>
   <div class="b2b-matrix__scroll">
     <table class="b2b-matrix__table">
@@ -38,7 +43,7 @@
             </td>
             <td class="ta-c">
               {%- if avail -%}
-                <input type="number" class="b2b-qty" min="0" step="1" value="1" inputmode="numeric" aria-label="Cantidad {{ variant.title }}">
+                <input type="number" class="b2b-qty" min="0" step="1" value="{{ b2b_default_qty }}" inputmode="numeric" aria-label="Cantidad {{ variant.title }}">
               {%- else -%}<span class="b2b-dash">—</span>{%- endif -%}
             </td>
             <td class="ta-r b2b-row__sub" data-sub>{{ 0 | money }}</td>
@@ -69,6 +74,7 @@
   };
   var rows = root.querySelectorAll('.b2b-row');
   var addBtn = root.querySelector('[data-addall]');
+  var defQty = parseInt(root.getAttribute('data-default-qty')) || 0;
   function recalc(){
     var units=0, total=0;
     rows.forEach(function(r){
@@ -98,7 +104,7 @@
     }).then(function(r){ if(!r.ok) return r.json().then(function(e){ throw e; }); return r.json(); })
       .then(function(){ return fetch('/cart.js').then(function(r){return r.json();}); })
       .then(function(cart){
-        rows.forEach(function(r){ var i=r.querySelector('.b2b-qty'); if(i) i.value=1; });
+        rows.forEach(function(r){ var i=r.querySelector('.b2b-qty'); if(i) i.value=defQty; });
         recalc();
         document.body.classList.add('cart-sidebar-show');
         if(window.halo && typeof window.halo.updateSidebarCart==='function'){ window.halo.updateSidebarCart(cart); }
