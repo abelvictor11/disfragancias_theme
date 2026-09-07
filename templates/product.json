@@ -254,10 +254,11 @@
         },
         "seedgrow_whatsapp_chat_app_block_cyhU9G": {
           "type": "shopify://apps/seedgrow-whatsapp-chat/blocks/app-block/b85b5e45-9cea-417a-9b9e-0aa961ccf3ef",
+          "disabled": true,
           "settings": {
             "button_label": "Need help? Chat with us",
             "button_style": "round",
-            "background_color": "#2DB742",
+            "background_color": "#2db742",
             "text_color": "#ffffff"
           }
         }
