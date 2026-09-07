@@ -73,8 +73,8 @@
           "settings": {
             "style": "accent",
             "icon": "volume",
-            "heading": "Precios por volumen",
-            "text": "<p>Mientras más compras, mejor precio: 10+ und 5% · 50+ und 10% · 100+ und 15% de descuento adicional.</p>",
+            "heading": "Despachos por cantidad",
+            "text": "<p><br/>Por seguridad, los pedidos de más de 5 unidades se envían en varios paquetes. Cada caja contiene máximo 5 unidades, por lo que recibirás una guía de envío por cada paquete. Ejemplo: un pedido de 10 unidades se despacha en 2 guías independientes.<br/><br/></p>",
             "link": "",
             "link_label": ""
           }
@@ -85,7 +85,7 @@
             "style": "accent",
             "icon": "shield",
             "heading": "100% originales y garantizados",
-            "text": "<p>Producto sellado, importado y con garantía de devolución. Compra con la tranquilidad que tu negocio necesita.</p>",
+            "text": "<p>Producto sellado, importado. Compra con la tranquilidad que tu negocio necesita.</p>",
             "link": "",
             "link_label": ""
           }
