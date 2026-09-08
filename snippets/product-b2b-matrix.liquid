@@ -54,10 +54,25 @@
     </table>
   </div>
 
-  <div class="b2b-matrix__bar">
+  <div class="b2b-matrix__bar" data-multi="{% if product.variants.size > 1 %}1{% else %}0{% endif %}">
+    {%- comment -%} Escritorio: totales del pedido por filas. {%- endcomment -%}
     <div class="b2b-matrix__totals">
       <div><span class="b2b-lbl">Unidades</span><span class="b2b-val" data-units>0</span></div>
       <div><span class="b2b-lbl">Total mayorista</span><span class="b2b-val" data-total>{{ 0 | money }}</span></div>
+    </div>
+    {%- comment -%} Móvil: quick-add (selector de variante si hay varias + cantidad). {%- endcomment -%}
+    <div class="b2b-qa">
+      {%- if product.variants.size > 1 -%}
+        <select class="b2b-qa__variant" data-qa-variant aria-label="Presentación">
+          {%- for v in product.variants -%}
+            <option value="{{ v.id }}" data-price="{{ v.price }}"{% unless v.available %} disabled{% endunless %}>{{ v.title }} · {{ v.price | money }}{% unless v.available %} — agotado{% endunless %}</option>
+          {%- endfor -%}
+        </select>
+      {%- else -%}
+        {%- assign only = product.variants.first -%}
+        <input type="hidden" data-qa-variant value="{{ only.id }}" data-price="{{ only.price }}" data-available="{{ only.available }}">
+      {%- endif -%}
+      <input type="number" class="b2b-qa__qty" data-qa-qty min="1" step="1" value="1" inputmode="numeric" aria-label="Cantidad">
     </div>
     <button type="button" class="b2b-addall" data-addall disabled>
       {{ 'products.product.add_to_cart' | t }}
@@ -74,29 +89,46 @@
     catch(e){ return '$' + Math.round(cents/100).toLocaleString('es-CO'); }
   };
   var rows = root.querySelectorAll('.b2b-row');
+  var bar = root.querySelector('.b2b-matrix__bar');
   var addBtn = root.querySelector('[data-addall]');
   var defQty = parseInt(root.getAttribute('data-default-qty')) || 0;
+  var qaVariant = root.querySelector('[data-qa-variant]');
+  var qaQty = root.querySelector('[data-qa-qty]');
+  var mq = window.matchMedia('(max-width: 767px)');
+  function isMobile(){ return mq.matches; }
+
+  // Variante seleccionada en el quick-add (select o input oculto si es única).
+  function qaCurrent(){
+    if(!qaVariant) return null;
+    if(qaVariant.tagName === 'SELECT'){
+      var opt = qaVariant.options[qaVariant.selectedIndex];
+      if(!opt) return null;
+      return { id: parseInt(opt.value), price: parseInt(opt.getAttribute('data-price'))||0, available: !opt.disabled };
+    }
+    return { id: parseInt(qaVariant.value), price: parseInt(qaVariant.getAttribute('data-price'))||0, available: qaVariant.getAttribute('data-available') !== 'false' };
+  }
+
   function recalc(){
     var units=0, total=0;
     rows.forEach(function(r){
       var inp = r.querySelector('.b2b-qty');
       var q = inp ? Math.max(0, parseInt(inp.value)||0) : 0;
       var price = parseInt(r.getAttribute('data-price'))||0;
-      r.querySelector('[data-sub]').textContent = fmt(q*price);
+      var sub = r.querySelector('[data-sub]'); if(sub) sub.textContent = fmt(q*price);
       units += q; total += q*price;
     });
-    root.querySelector('[data-units]').textContent = units;
-    root.querySelector('[data-total]').textContent = fmt(total);
-    addBtn.disabled = units === 0;
+    var u = root.querySelector('[data-units]'); if(u) u.textContent = units;
+    var t = root.querySelector('[data-total]'); if(t) t.textContent = fmt(total);
+    if(isMobile()){
+      // Quick-add: habilitado si la variante elegida está disponible.
+      var v = qaCurrent();
+      addBtn.disabled = !(v && v.available);
+    } else {
+      addBtn.disabled = units === 0;
+    }
   }
-  root.addEventListener('input', function(e){ if(e.target.classList.contains('b2b-qty')) recalc(); });
-  addBtn.addEventListener('click', function(){
-    var items = [];
-    rows.forEach(function(r){
-      var inp = r.querySelector('.b2b-qty');
-      var q = inp ? Math.max(0, parseInt(inp.value)||0) : 0;
-      if(q>0) items.push({ id: parseInt(r.getAttribute('data-variant-id')), quantity: q });
-    });
+
+  function doAdd(items, onReset){
     if(!items.length) return;
     addBtn.disabled = true; addBtn.classList.add('is-loading');
     fetch('/cart/add.js', {
@@ -105,7 +137,7 @@
     }).then(function(r){ if(!r.ok) return r.json().then(function(e){ throw e; }); return r.json(); })
       .then(function(){ return fetch('/cart.js').then(function(r){return r.json();}); })
       .then(function(cart){
-        rows.forEach(function(r){ var i=r.querySelector('.b2b-qty'); if(i) i.value=defQty; });
+        if(onReset) onReset();
         recalc();
         document.body.classList.add('cart-sidebar-show');
         if(window.halo && typeof window.halo.updateSidebarCart==='function'){ window.halo.updateSidebarCart(cart); }
@@ -113,7 +145,53 @@
       })
       .catch(function(e){ alert((e && e.description) || 'No se pudo añadir al carrito'); })
       .then(function(){ addBtn.classList.remove('is-loading'); recalc(); });
+  }
+
+  root.addEventListener('input', function(e){
+    if(e.target.classList.contains('b2b-qty')) recalc();
+    if(e.target === qaQty) recalc();
   });
+  if(qaVariant && qaVariant.tagName === 'SELECT'){ qaVariant.addEventListener('change', recalc); }
+
+  addBtn.addEventListener('click', function(){
+    if(isMobile()){
+      var v = qaCurrent();
+      if(!v || !v.available) return;
+      var q = Math.max(1, parseInt(qaQty && qaQty.value)||1);
+      doAdd([{ id: v.id, quantity: q }], function(){ if(qaQty) qaQty.value = 1; });
+    } else {
+      var items = [];
+      rows.forEach(function(r){
+        var inp = r.querySelector('.b2b-qty');
+        var q = inp ? Math.max(0, parseInt(inp.value)||0) : 0;
+        if(q>0) items.push({ id: parseInt(r.getAttribute('data-variant-id')), quantity: q });
+      });
+      doAdd(items, function(){ rows.forEach(function(r){ var i=r.querySelector('.b2b-qty'); if(i) i.value=defQty; }); });
+    }
+  });
+
+  // La barra se fija al viewport en móvil (visible durante todo el scroll).
+  // Se reubica al <body> para que position:fixed no dependa de ancestros.
+  var anchor = document.createComment('b2b-bar');
+  function placeBar(){
+    if(!bar) return;
+    if(isMobile()){
+      if(bar.parentNode !== document.body){
+        bar.parentNode.insertBefore(anchor, bar);
+        document.body.appendChild(bar);
+        bar.classList.add('b2b-matrix__bar--fixed');
+        document.body.classList.add('has-b2b-fixed-bar');
+      }
+    } else if(anchor.parentNode){
+      anchor.parentNode.insertBefore(bar, anchor);
+      anchor.parentNode.removeChild(anchor);
+      bar.classList.remove('b2b-matrix__bar--fixed');
+      document.body.classList.remove('has-b2b-fixed-bar');
+    }
+    recalc();
+  }
+  placeBar();
+  if(mq.addEventListener){ mq.addEventListener('change', placeBar); } else { window.addEventListener('resize', placeBar); }
   recalc();
 })();
 </script>
