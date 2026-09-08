@@ -34,20 +34,20 @@
           -%}
           <tr class="b2b-row{% unless avail %} is-soldout{% endunless %}" data-variant-id="{{ variant.id }}" data-price="{{ variant.price }}">
             <td class="b2b-row__size">{{ variant.title }}</td>
-            <td class="b2b-row__sku">{{ variant.sku | default: '—' }}</td>
-            <td class="ta-r b2b-row__unit">{% if ml > 0 %}{{ variant.price | divided_by: ml | money }}{% else %}—{% endif %}</td>
-            <td class="ta-r b2b-row__price">{{ variant.price | money }}</td>
-            <td class="ta-r b2b-row__rrp">{% if sugerido %}{{ sugerido | money }}{% else %}—{% endif %}</td>
-            <td class="ta-c b2b-row__stock">
+            <td class="b2b-row__sku" data-label="SKU">{{ variant.sku | default: '—' }}</td>
+            <td class="ta-r b2b-row__unit" data-label="Precio ML">{% if ml > 0 %}{{ variant.price | divided_by: ml | money }}{% else %}—{% endif %}</td>
+            <td class="ta-r b2b-row__price" data-label="Mayorista">{{ variant.price | money }}</td>
+            <td class="ta-r b2b-row__rrp" data-label="Sugerido">{% if sugerido %}{{ sugerido | money }}{% else %}—{% endif %}</td>
+            <td class="ta-c b2b-row__stock" data-label="Stock">
               {%- if avail -%}<span class="b2b-stock b2b-stock--ok">{{ 'products.product.in_stock' | t }}</span>
               {%- else -%}<span class="b2b-stock b2b-stock--out">{{ 'products.product.out_of_stock' | t }}</span>{%- endif -%}
             </td>
-            <td class="ta-c">
+            <td class="ta-c b2b-row__qtycell" data-label="Cantidad">
               {%- if avail -%}
                 <input type="number" class="b2b-qty" min="0" step="1" value="{{ b2b_default_qty }}" inputmode="numeric" aria-label="Cantidad {{ variant.title }}">
               {%- else -%}<span class="b2b-dash">—</span>{%- endif -%}
             </td>
-            <td class="ta-r b2b-row__sub" data-sub>{{ 0 | money }}</td>
+            <td class="ta-r b2b-row__sub" data-sub data-label="Subtotal">{{ 0 | money }}</td>
           </tr>
         {%- endfor -%}
       </tbody>
