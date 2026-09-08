@@ -1143,7 +1143,33 @@ span.badge.custom-metafield-badge {
 .b2b-addall { border: none; background: #232323; color: #fff; padding: 12px 22px; border-radius: 8px; font-size: 14px; cursor: pointer; transition: opacity .2s; }
 .b2b-addall:disabled { opacity: .4; cursor: not-allowed; }
 .b2b-addall.is-loading { opacity: .6; pointer-events: none; }
-@media (max-width: 767px) { .b2b-matrix__bar { flex-direction: column; align-items: stretch; } .b2b-addall { width: 100%; } }
+@media (max-width: 767px) {
+  .b2b-addall { width: 100%; }
+
+  /* Móvil: la tabla de variantes se vuelve TARJETAS apiladas (sin scroll
+     lateral) para que el qty quede siempre visible y usable. */
+  .b2b-matrix__scroll { overflow: visible; border: 0; border-radius: 0; }
+  .b2b-matrix .b2b-matrix__table,
+  .productView-b2b-full .b2b-matrix__table { min-width: 0 !important; display: block; font-size: 14px; }
+  .b2b-matrix__table thead { display: none; }
+  .b2b-matrix__table tbody { display: block; }
+  .b2b-matrix__table tr.b2b-row { display: block; border: 1px solid #e2e2e2; border-radius: 12px; padding: 6px 14px 10px; margin-bottom: 10px; }
+  .b2b-matrix__table tr.b2b-row > td { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 5px 0; border: 0; text-align: right; white-space: normal; }
+  .b2b-matrix__table tr.b2b-row > td::before { content: attr(data-label); color: #888; font-size: 12px; font-weight: 400; text-align: left; }
+  .b2b-matrix__table tr.b2b-row > td.b2b-row__size { display: block; font-size: 15px; font-weight: 600; padding: 6px 0 8px; margin-bottom: 4px; border-bottom: 1px solid #f0f0f0; }
+  .b2b-matrix__table tr.b2b-row > td.b2b-row__size::before { content: none; }
+  .b2b-matrix__table tr.b2b-row > td.b2b-row__sub { border-top: 1px solid #f0f0f0; margin-top: 4px; padding-top: 8px; font-weight: 600; }
+  .b2b-matrix__table .b2b-qty { width: 110px; height: 40px; }
+
+  /* Barra de totales + "Añadir al carrito": sticky por ENCIMA del nav inferior
+     fijo del móvil (~60px), siempre visible mientras se recorren las variantes. */
+  .b2b-matrix__bar {
+    flex-direction: column; align-items: stretch;
+    position: sticky; bottom: calc(60px + env(safe-area-inset-bottom, 0px)); z-index: 6;
+    background: #fff; border: 1px solid #e6e6e6; box-shadow: 0 -4px 16px rgba(0,0,0,.12);
+  }
+  .b2b-matrix__totals { justify-content: space-between; gap: 16px; }
+}
 
 /* Matrix B2B a lo ancho, debajo de imagen + info */
 .productView-b2b-full { clear: both; width: 100%; margin-top: 8px; }
