@@ -1224,6 +1224,9 @@ span.badge.custom-metafield-badge {
   .b2b-coll .b2b-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   .b2b-coll.column-mb-1 .b2b-grid { grid-template-columns: 1fr !important; }
   .b2b-coll.column-mb-2 .b2b-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  /* En móvil no se permite cambiar columnas: se oculta el switcher "ver como"
+     y queda fijo en 2 columnas. */
+  .toolbar-viewAs, [data-view-as], [data-view-as-mobile] { display: none !important; }
 }
 .b2b-card { border: 1px solid #eee; border-radius: 12px; padding: 10px; background: #fff; display: flex; flex-direction: column; }
 .b2b-card.is-out { opacity: .55; }
