@@ -146,6 +146,9 @@
 <script type="text/javascript">
 	window.addEventListener('load', () => {
 		const collectionLinksElement = document.querySelector('[data-collection-links]')
+		// Puede no existir (colecciones sin sub-colecciones). Sin esta guarda,
+		// el querySelectorAll sobre null lanza y contamina la consola/init.
+		if (!collectionLinksElement) return;
 		const collectionLinksList = [...collectionLinksElement.querySelectorAll('ul li.item')]
 		const firstLink = collectionLinksList[0]
 		const lastLink = collectionLinksList.pop()

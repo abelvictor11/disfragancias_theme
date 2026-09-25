@@ -770,7 +770,15 @@ function showWarning(content, time = null) {
     if (window.warningTimeout) {
         clearTimeout(window.warningTimeout);
     }
-    const warningPopupContent = document.getElementById('halo-warning-popup').querySelector('[data-halo-warning-content]')
+    // El popup de aviso no existe en todas las plantillas (p.ej. colección con
+    // grid de USF). Sin esta guarda, getElementById(...).querySelector lanza y
+    // rompe el resto del handler (ej. init/cableado de las cards). Degradamos a consola.
+    const warningPopup = document.getElementById('halo-warning-popup');
+    const warningPopupContent = warningPopup && warningPopup.querySelector('[data-halo-warning-content]');
+    if (!warningPopupContent) {
+        console.warn('[showWarning]', content);
+        return;
+    }
     warningPopupContent.textContent = content
     document.body.classList.add('has-warning')
 
