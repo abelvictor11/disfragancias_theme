@@ -6787,7 +6787,7 @@
         "min": 1,
         "step": 1,
         "unit": "t:settings_schema.newsletter_popup.settings.general.unit__1",
-        "default": 1
+        "default": 7
       },
       {
         "type": "range",

@@ -169,6 +169,43 @@ body.newsletter-message-show .halo-newsletter-message-popup{
 .newsletter-form__field-wrapper #NewsletterForm--Popup {
     text-align: center;
 }
+.halo-newsletter-popup .newsletter-phone-field {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    margin-top: 10px;
+}
+.halo-newsletter-popup .newsletter-phone-field__prefix {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 52px;
+    min-height: 46px;
+    color: var(--color-text);
+    background: rgba(230, 222, 211, .25);
+    border: 1px solid var(--form-input-border);
+    border-right: 0;
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.halo-newsletter-popup .newsletter-phone-field .field {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.halo-newsletter-popup .newsletter-phone-field .field__input {
+    height: 100%;
+    min-height: 46px;
+    border-radius: 0 4px 4px 0;
+    text-align: left;
+}
+.halo-newsletter-popup .newsletter-phone-help {
+    margin: 7px 0 12px;
+    color: var(--color-text2);
+    font-size: 11px;
+    line-height: 1.4;
+    text-align: left;
+}
 .newsletter-form__field-wrapper .field__labelInline {
     text-align: center;
 }

@@ -483,33 +483,6 @@
             "sort_value": "bestselling"
           }
         },
-        "qf_citas": {
-          "type": "pill",
-          "settings": {
-            "label": "Citas",
-            "action": "filter",
-            "value": "Citas",
-            "sort_value": "bestselling"
-          }
-        },
-        "qf_oficina": {
-          "type": "pill",
-          "settings": {
-            "label": "Oficina",
-            "action": "filter",
-            "value": "Oficina",
-            "sort_value": "bestselling"
-          }
-        },
-        "qf_gym": {
-          "type": "pill",
-          "settings": {
-            "label": "Gym",
-            "action": "filter",
-            "value": "Gym",
-            "sort_value": "bestselling"
-          }
-        },
         "qf_filtros": {
           "type": "pill",
           "settings": {
@@ -518,18 +491,45 @@
             "value": "",
             "sort_value": "bestselling"
           }
+        },
+        "qf_masculino": {
+          "type": "pill",
+          "settings": {
+            "label": "Masculino",
+            "action": "filter",
+            "value": "Masculino",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_femenino": {
+          "type": "pill",
+          "settings": {
+            "label": "Femenino",
+            "action": "filter",
+            "value": "Femenino",
+            "sort_value": "bestselling"
+          }
+        },
+        "qf_descuento": {
+          "type": "pill",
+          "settings": {
+            "label": "Descuento",
+            "action": "sort",
+            "value": "",
+            "sort_value": "-discount"
+          }
         }
       },
       "block_order": [
         "qf_filtros",
         "qf_todos",
-        "qf_topventas",
+        "qf_masculino",
+        "qf_femenino",
         "qf_arabe",
         "qf_nicho",
         "qf_disenador",
-        "qf_citas",
-        "qf_oficina",
-        "qf_gym"
+        "qf_topventas",
+        "qf_descuento"
       ],
       "settings": {
         "container": "1770",
