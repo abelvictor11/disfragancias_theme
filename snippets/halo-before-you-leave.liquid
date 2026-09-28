@@ -10,6 +10,12 @@
 	assign btn = settings.before_you_leave_btn
 	assign btn_link = settings.before_you_leave_btn_link
 -%}
+{%- comment -%}
+  No mostrar a clientes logueados que YA hicieron al menos una compra.
+  (Los invitados / compradores sin sesión se filtran en el JS con la
+  bandera dfg_has_purchased que fija el script de la página de pedido.)
+{%- endcomment -%}
+{%- unless customer.orders_count > 0 -%}
 <link rel="stylesheet" href="{{ 'component-before-you-leave.css' | asset_url }}" media="print" onload="this.media='all'">
 <noscript>{{ 'component-before-you-leave.css' | asset_url | stylesheet_tag }}</noscript>
 <before-you-leave-component class="halo-sidebar halo-sidebar-{{ position }} halo-leave-sidebar" id="halo-leave-sidebar" data-time="{{ time | times: 60000 }}">
@@ -70,6 +76,10 @@
 		}
 
 		connectedCallback() {
+			// No mostrar a quien ya compró en este navegador (invitados incluidos),
+			// ni volver a mostrarlo si ya se mostró recientemente (cap de frecuencia).
+			if (this.hasPurchased() || this.getCookie('before-you-leave-shown')) return;
+
 			this.time = parseInt(this.dataset.time);
 			this.idleTime = 0;
 			this.productCarousel = this.querySelector('.products-carousel');
@@ -103,6 +113,28 @@
 
 			this.initSlickSlider();
 			document.body.classList.add('before-you-leave-show');
+			// Cap de frecuencia: no volver a mostrarlo por 1 día.
+			this.setCookie('before-you-leave-shown', '1', 1);
+		}
+
+		// ¿Ya compró en este navegador? Bandera fijada por el script de la
+		// página de estado del pedido (checkout) o por sesión de cliente.
+		hasPurchased() {
+			try {
+				if (localStorage.getItem('dfg_has_purchased') === '1') return true;
+			} catch (e) {}
+			return this.getCookie('dfg_has_purchased') === '1';
+		}
+
+		getCookie(name) {
+			const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+			return match ? decodeURIComponent(match[1]) : '';
+		}
+
+		setCookie(name, value, days) {
+			const d = new Date();
+			d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+			document.cookie = name + '=' + value + ';expires=' + d.toUTCString() + ';path=/';
 		}
 
 		initSlickSlider() {
@@ -129,6 +161,9 @@
 	}
 
 	window.addEventListener('load', () => {
-		customElements.define('before-you-leave-component', BeforeYouLeave)
-	})	
+		if (!customElements.get('before-you-leave-component')) {
+			customElements.define('before-you-leave-component', BeforeYouLeave)
+		}
+	})
 </script>
+{%- endunless -%}

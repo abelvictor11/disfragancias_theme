@@ -56,6 +56,13 @@
     return activeFilterValues().indexOf(norm(value)) >= 0;
   }
 
+  // Los filtros Collection de USF guardan IDs numéricos en la URL, no sus
+  // etiquetas. En esos casos la fuente fiable es el botón real de la faceta.
+  function isFacetSelected(value) {
+    var btn = findFilterBtn(value);
+    return !!(btn && btn.classList.contains('usf-selected'));
+  }
+
   function currentSort() {
     var m = location.search.match(/[?&]usf_sort=([^&]+)/);
     return m ? decodeURIComponent(m[1]) : '';
@@ -101,15 +108,30 @@
     document.body.classList.add('open-mobile-sidebar');
   }
 
+  function curPath() { return location.pathname.replace(/\/+$/, ''); }
+  function linkPath(p) {
+    return (p.getAttribute('data-qf-link') || '').split('?')[0].split('#')[0].replace(/\/+$/, '');
+  }
+
   function refreshActive() {
     var anyFilter = hasAnyFilter();
     var sort = currentSort();
+    // ¿Estamos en la colección de algún pill de enlace? (para no marcar "Todos")
+    var onLinkColl = false;
+    bar.querySelectorAll('.qf-pill--link').forEach(function (p) {
+      var lk = linkPath(p);
+      if (lk && curPath() === lk) onLinkColl = true;
+    });
     bar.querySelectorAll('.qf-pill').forEach(function (p) {
       var action = p.getAttribute('data-qf-action');
       var active = false;
-      if (action === 'filter') active = isValueActive(p.getAttribute('data-qf-value'));
+      if (action === 'filter') {
+        var value = p.getAttribute('data-qf-value');
+        active = isFacetSelected(value) || isValueActive(value);
+      }
       else if (action === 'sort') active = sort === (p.getAttribute('data-qf-sort') || 'bestselling');
-      else if (action === 'clear') active = !anyFilter; // "Todos" activo si no hay filtros
+      else if (action === 'link') { var lk = linkPath(p); active = lk && curPath() === lk; }
+      else if (action === 'clear') active = !anyFilter && !onLinkColl; // "Todos" solo si no hay filtro ni colección-link
       p.classList.toggle('is-active', active);
     });
   }
@@ -119,6 +141,7 @@
     if (!pill) return;
     var action = pill.getAttribute('data-qf-action');
     if (action === 'sidebar') { e.stopPropagation(); return openSidebar(); }
+    if (action === 'link') { var u = pill.getAttribute('data-qf-link'); if (u) window.location.href = u; return; }
     if (action === 'sort') return applySort(pill.getAttribute('data-qf-sort'));
     if (action === 'clear') return clearAll();
     if (action === 'filter') applyFilter(pill.getAttribute('data-qf-value'));

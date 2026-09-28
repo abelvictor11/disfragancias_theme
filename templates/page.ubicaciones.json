@@ -1,0 +1,41 @@
+{
+  "sections": {
+    "ubicaciones": {
+      "type": "ubicaciones",
+      "blocks": {
+        "loc_medellin": {
+          "type": "location",
+          "settings": {
+            "badge": "Tienda principal · desde 1980",
+            "name": "Medellín",
+            "address": "Cra. 00 # 00-00, Medellín, Antioquia",
+            "phone": "+57 304 606 0403",
+            "hours": "<p>Lun–Sáb: 9:00 a.m. – 7:00 p.m.<br/>Dom y festivos: 10:00 a.m. – 5:00 p.m.</p>",
+            "maps_url": "",
+            "whatsapp": "https://wa.me/573046060403"
+          }
+        },
+        "perk_1": { "type": "perk", "settings": { "title": "100% originales", "text": "Sellados y garantizados" } },
+        "perk_2": { "type": "perk", "settings": { "title": "Asesoría experta", "text": "Te ayudamos a elegir" } },
+        "perk_3": { "type": "perk", "settings": { "title": "Prueba en tienda", "text": "Huele antes de comprar" } },
+        "perk_4": { "type": "perk", "settings": { "title": "Decants disponibles", "text": "Llévalo en tu tamaño" } }
+      },
+      "block_order": ["loc_medellin", "perk_1", "perk_2", "perk_3", "perk_4"],
+      "settings": {
+        "kicker": "Perfumería original desde 1980",
+        "hero_title": "Visítanos en nuestras tiendas",
+        "hero_subtitle": "Vive la experiencia Disfragancias en persona: prueba, huele y déjate asesorar por nuestro equipo.",
+        "intro_kicker": "Encuéntranos",
+        "intro_title": "Nuestras ubicaciones",
+        "intro_text": "Te esperamos con la selección más amplia de fragancias originales, decants y asesoría personalizada.",
+        "container": "1170",
+        "columns": "2",
+        "cta_title": "¿Tienes dudas antes de visitarnos?",
+        "cta_text": "Escríbenos por WhatsApp y con gusto te ayudamos.",
+        "cta_button_label": "Escríbenos por WhatsApp",
+        "cta_button_url": "https://wa.me/573046060403"
+      }
+    }
+  },
+  "order": ["ubicaciones"]
+}
