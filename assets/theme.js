@@ -2069,7 +2069,7 @@
                 }
 
                 if (productJson.media != undefined) {
-                    var mediaList = productJson.media.filter((index, element) => {
+                    var mediaList = productJson.media.filter((element) => {
                         return element.alt === title;
                     });
                 }
@@ -2087,7 +2087,9 @@
                 } else {
                     if (newImage) {
                         product.find('.card-media img:nth-child(1)')
+                        .attr('src', newImage)
                         .attr('srcset', newImage)
+                        .attr('data-src', newImage)
                         .attr('data-srcset', newImage);
                     }
                 }
