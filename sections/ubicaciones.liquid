@@ -43,6 +43,9 @@ SOFTWARE.
 
 <style>
   #ubic-{{ uid }} { --ubi-accent: {{ accent }}; --ubi-soft: {{ accent_soft }}; --ubi-dark: {{ dark }}; --ubi-beige: rgba(230,222,211,.28); --ubi-line: rgba(35,35,35,.10); }
+  /* Override the theme SVG fill so Heroicons remain outline icons. */
+  #ubic-{{ uid }} [data-heroicon] { fill:none; stroke:currentColor; stroke-width:1.5; }
+  #ubic-{{ uid }} .ubi-btn [data-heroicon] { width:15px; height:15px; flex-shrink:0; }
   #ubic-{{ uid }} .ubi-heading { font-family: var(--font-heading-family), 'Cinzel', serif; font-weight: 400; letter-spacing: .01em; color: var(--ubi-dark); }
   #ubic-{{ uid }} .ubi-kicker { display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color: var(--ubi-accent); font-weight:600; }
   #ubic-{{ uid }} .ubi-kicker::before { content:""; width:28px; height:1px; background: var(--ubi-accent); display:inline-block; }
