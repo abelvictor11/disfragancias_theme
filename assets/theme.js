@@ -2439,7 +2439,7 @@
             $doc.on('change', '[data-quickshop] .single-option', (event) => {
                 
                 var $target = $(event.target),
-                    product = $target.parents('.product-item'),
+                    product = $target.closest('.product-item'),
                     productJson = product.data('json-product'),
                     productAction = product.find('[data-btn-addtocart]'),
                     variantList,
@@ -2573,11 +2573,19 @@
                     return;
                 }
                 
-                productInput.val(selectedVariant.id);
+                // Scope the selected variant to the active quickshop form, never another card's form.
+                var activeQuickshop = $target.closest('[data-quickshop]');
+                var activeForm = activeQuickshop.find('form').first();
+                var variantSelect = activeForm.find('select[name="id"]');
+                if (variantSelect.length) {
+                    variantSelect.val(String(selectedVariant.id)).trigger('change');
+                } else {
+                    activeForm.find('input[name="id"]').val(String(selectedVariant.id)).trigger('change');
+                }
                 var value = $target.val();
                
                 // Update quickshop price display
-                var quickshopPrice = product.find('[data-quickshop-price]');
+                var quickshopPrice = activeQuickshop.find('[data-quickshop-price]');
                 if (quickshopPrice.length > 0) {
                     var priceHtml = '';
                     if (selectedVariant.compare_at_price && selectedVariant.compare_at_price > selectedVariant.price) {
