@@ -1168,3 +1168,50 @@ body:not(.quick_shop_option_3) .previewCartCollection .product-card__button2 {
         z-index: 3;
     }
 }
+/* B2C cart drawer redesign: scoped to quick cart only */
+.halo-cart-sidebar{width:min(560px,100vw);max-width:100vw;background:#fff}
+.halo-cart-sidebar .halo-sidebar-header{display:flex;align-items:center;padding:26px 28px 18px}
+.halo-cart-sidebar .b2c-cart-title{display:flex;align-items:center;gap:12px}
+.halo-cart-sidebar .b2c-cart-title .title{font-size:25px;font-weight:700;letter-spacing:-.04em;color:#171717}
+.halo-cart-sidebar .b2c-cart-count{display:grid;place-items:center;min-width:27px;height:27px;border-radius:50%;background:#161616;color:white;font-size:12px;font-weight:700;padding:0 5px}
+.halo-cart-sidebar .halo-sidebar-close{right:24px;top:26px;font-size:0}
+.halo-cart-sidebar .previewCartMessage{padding:4px 28px 18px}
+.halo-cart-sidebar .haloCalculatorShipping .progress_shipping{height:4px;border-radius:6px;background:#eee8de;overflow:hidden}
+.halo-cart-sidebar .haloCalculatorShipping .progress-meter{background:#bd9c54;border-radius:6px}
+.halo-cart-sidebar .haloCalculatorShipping .progress-truck-wrapper{display:none}
+.halo-cart-sidebar .previewCart{padding:0 28px 12px;overflow-y:auto}
+.halo-cart-sidebar .previewCartItem{display:grid;grid-template-columns:136px minmax(0,1fr);column-gap:20px;position:relative;padding:20px 0;border-bottom:1px solid #ececec;margin:0;min-height:194px;background:transparent}
+.halo-cart-sidebar .previewCartItem+.previewCartItem{margin:0}
+.halo-cart-sidebar .previewCartItem-image{position:relative;top:0;width:136px;height:160px;border-radius:12px;background:#f5f5f5;overflow:hidden}
+.halo-cart-sidebar .previewCartItem-image:before{display:none}
+.halo-cart-sidebar .previewCartItem-image img{position:static;width:100%;height:100%;object-fit:contain;padding:10px}
+.halo-cart-sidebar .previewCartItem-content{width:100%;padding:0;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.halo-cart-sidebar .previewCartItem-name{font-size:15px;font-weight:650;line-height:1.4;margin:0 90px 8px 0;color:#171717}
+.halo-cart-sidebar .previewCartItem-options{display:flex;align-items:center;gap:7px;padding:0;margin:0 0 12px}
+.halo-cart-sidebar .previewCartItem-variant{font-size:12px;color:#777}
+.halo-cart-sidebar .previewCartItem-edit{position:static;transform:none;padding:0;text-decoration:underline;font-size:12px;color:#171717}
+.halo-cart-sidebar .previewCartItem-change{display:flex;flex-direction:column;align-items:flex-start;margin-top:auto}
+.halo-cart-sidebar .previewCartItem-price{position:absolute;right:0;top:22px;width:auto;margin:0;text-align:right}
+.halo-cart-sidebar .previewCartItem-price .price{font-size:14px;font-weight:700;color:#171717}
+.halo-cart-sidebar .previewCartItem-qty{display:block;width:104px;margin:0 0 8px;border:1px solid #ddd;border-radius:25px;overflow:hidden;height:36px}
+.halo-cart-sidebar .previewCartItem-qty .quantity{height:34px;padding:0 30px;border:0;background:transparent;font-size:13px}
+.halo-cart-sidebar .previewCartItem-qty .btn-quantity{height:34px;width:32px}
+.halo-cart-sidebar .previewCartItem-qty .btn-quantity:before,.halo-cart-sidebar .previewCartItem-qty .btn-quantity.plus:after{top:17px}
+.halo-cart-sidebar .b2c-cart-unit-price{font-size:12px;color:#777}
+.halo-cart-sidebar .previewCartItem-remove{position:absolute;right:0;bottom:24px;font-size:12px;text-decoration:underline;color:#333;padding:0}
+.halo-cart-sidebar .b2c-cart-extra{display:none}
+.halo-cart-sidebar .previewCartList.b2c-expanded .b2c-cart-extra{display:grid}
+.halo-cart-sidebar .b2c-cart-more{display:block;margin:10px auto 20px;padding:8px 12px;background:transparent;border:0;font-size:13px;text-decoration:underline;color:#222;cursor:pointer}
+.halo-cart-sidebar .previewCartCollection{background:#f5f0e8;border-radius:14px;margin:12px 0 24px;padding:18px}
+.halo-cart-sidebar .previewCartCollection .previewCartTitle{font-size:15px;font-weight:700;color:#222;margin:0 0 12px}
+.halo-cart-sidebar .previewCartCollection .product-item{background:transparent}
+.halo-cart-sidebar .previewCartCollection .card{background:transparent;box-shadow:none}
+.halo-cart-sidebar .previewCartTool{display:none}
+.halo-cart-sidebar .previewCartInfo{padding:18px 28px 22px;border-top:1px solid #eee;background:#fff}
+.halo-cart-sidebar .previewCartTotalsPrice{display:none}
+.halo-cart-sidebar .previewCartGroup{display:block}
+.halo-cart-sidebar .previewCartGroup .button-checkout{display:block;width:100%;background:#171717;border:1px solid #171717;color:#fff;border-radius:9px;min-height:52px;font-size:15px;font-weight:700}
+.halo-cart-sidebar .b2c-cart-checkout-note,.halo-cart-sidebar .b2c-cart-payment-note{text-align:center;font-size:11px;line-height:1.5;color:#777;margin:9px 0 0}
+.halo-cart-sidebar .b2c-cart-payment-note{color:#333;font-weight:600}
+.halo-cart-sidebar :is(button,a,input):focus-visible{outline:2px solid #b3914c;outline-offset:3px}
+@media(max-width:550px){.halo-cart-sidebar{width:100vw}.halo-cart-sidebar .halo-sidebar-header{padding:22px 18px 14px}.halo-cart-sidebar .previewCartMessage{padding:0 18px 12px}.halo-cart-sidebar .previewCart{padding:0 18px 12px}.halo-cart-sidebar .previewCartItem{grid-template-columns:100px minmax(0,1fr);gap:12px;min-height:150px}.halo-cart-sidebar .previewCartItem-image{width:100px;height:130px}.halo-cart-sidebar .previewCartItem-name{margin-right:0;padding-right:65px;font-size:13px}.halo-cart-sidebar .previewCartItem-price{top:20px;font-size:12px}.halo-cart-sidebar .previewCartInfo{padding:16px 18px 20px}}
