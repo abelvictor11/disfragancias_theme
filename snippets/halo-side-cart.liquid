@@ -14,7 +14,7 @@
     <div class="previewCart">
         <ul class="previewCartList list-unstyled">
             {%- for item in cart.items -%}
-                <li class="previewCartItem clearfix" data-item-row>
+                <li class="previewCartItem clearfix{% if forloop.index > 2 %} b2c-cart-extra{% endif %}" data-item-row>
                     <a href="{{ item.url }}" class="previewCartItem-image">
                         <img srcset="{{ item.image | img_url: '110x' }}" src="{{ item.image | img_url: '110x' }}" width="110" height="{{ 110 | divided_by: item.image.aspect_ratio | round }}" alt="{{ item.title | escape }}" sizes="110px" loading="lazy">
                     </a>
@@ -41,7 +41,7 @@
                                     </span>
                                     {%- if settings.show_quick_edit_cart -%}
                                         <button type="button" class="previewCartItem-edit" data-open-edit-cart data-edit-cart-url="{{ item.url }}&view=ajax_edit_cart" data-edit-cart-id="{{ item.id }}" data-edit-cart-quantity="{{ item.quantity }}" data-line="{{ item.key }}" data-index="{{ item.index | plus: 1 }}" title="{{ 'sections.cart.edit_title' | t: title: item.variant.title }}">
-                                            {% render 'icon-edit' %}
+                                            Cambiar
                                         </button>
                                     {%- endif -%}
                                 </div>
@@ -125,17 +125,18 @@
                                 <input class="form-input quantity" name="quantity" id="upsell-update-{{ item.id }}" data-qtt-id1="quantity{{ item.id }}" value="{{ item.quantity }}" type="number"{% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %} data-inventory-quantity="{{ item.variant.inventory_quantity }}"{% endif %} data-cart-quantity data-cart-quantity-id="{{ item.id }}" data-line="{{ item.key }}" data-index="{{ item.index | plus: 1 }}"/>
                                 <a href="#" data-plus-quantity-cart="" class="plus btn-quantity"></a>
                             </cart-update-quantity>
+                            <span class="b2c-cart-unit-price">{{ item.final_price | money }} c/u</span>
                         </div>
                     </div>
                     <button type="button" class="previewCartItem-remove" data-cart-remove data-cart-remove-id="{{ item.id }}" data-line="{{ item.key }}" data-index="{{ item.index | plus: 1 }}" title="{{ 'sections.cart.remove_title' | t: title: item.title }}">
-                        {% render 'icon-close' %}
+                        Quitar
                     </button>
                 </li>
             {%- endfor -%}
         </ul>
-
-
-
+        {%- if cart.items.size > 2 -%}
+          <button class="b2c-cart-more" type="button" data-b2c-cart-more aria-expanded="false" data-more-label="{{ cart.items.size | minus: 2 }} productos más ↓" data-less-label="Ver menos ↑">{{ cart.items.size | minus: 2 }} productos más ↓</button>
+        {%- endif -%}
 
 {%- if settings.show_quick_cart_popular_product -%}
         {%- liquid
@@ -145,11 +146,13 @@
             assign show_dots = settings.quick_cart_popular_product_dots
             assign show_arrows = settings.quick_cart_popular_product_arrows
         -%}
-        <div class="previewCartCollection">
+        <div class="previewCartCollection b2c-cart-recommendations">
             {% if settings.quick_cart_popular_product_title != blank %}
                 <div class="previewCartTitle text-left">
                     {{ settings.quick_cart_popular_product_title | escape }}         
                 </div>
+            {% else %}
+                <div class="previewCartTitle text-left">Completa tu compra</div>
             {% endif %}
             <div class="previewCartProduct" data-product-collection-cart>
                 <div class="previewCartCarousel products-carousel" data-item-dots="{{ show_dots }}" data-item-arrows="{{ show_arrows }}">
@@ -386,11 +389,10 @@
             {%- endif -%}
             <div class="previewCartGroup">
                 <button class="button button-1 button-checkout" onclick="window.location='{{ routes.cart_url | split: '/cart' | first }}/checkout'"{% if settings.show_global_checkbox %} disabled="disabled"{% endif %} id="cart-sidebar-checkout">
-                    {{ 'sections.cart.checkout' | t }}
+                    Finalizar compra · {{ cart.total_price | money }}
                 </button>
-                <a class="button button-2 button-view-cart" href="{{ routes.cart_url }}">
-                    {{ 'sections.cart.view_cart' | t }}
-                </a>
+                <p class="b2c-cart-checkout-note">Impuestos incluidos. Envío y cupones en el pago.</p>
+                <p class="b2c-cart-payment-note">5% menos por transferencia · Addi y SisteCrédito</p>
             </div>
         </div>
     </div>
