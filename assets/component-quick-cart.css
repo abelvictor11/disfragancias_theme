@@ -1215,3 +1215,43 @@ body:not(.quick_shop_option_3) .previewCartCollection .product-card__button2 {
 .halo-cart-sidebar .b2c-cart-payment-note{color:#333;font-weight:600}
 .halo-cart-sidebar :is(button,a,input):focus-visible{outline:2px solid #b3914c;outline-offset:3px}
 @media(max-width:550px){.halo-cart-sidebar{width:100vw}.halo-cart-sidebar .halo-sidebar-header{padding:22px 18px 14px}.halo-cart-sidebar .previewCartMessage{padding:0 18px 12px}.halo-cart-sidebar .previewCart{padding:0 18px 12px}.halo-cart-sidebar .previewCartItem{grid-template-columns:100px minmax(0,1fr);gap:12px;min-height:150px}.halo-cart-sidebar .previewCartItem-image{width:100px;height:130px}.halo-cart-sidebar .previewCartItem-name{margin-right:0;padding-right:65px;font-size:13px}.halo-cart-sidebar .previewCartItem-price{top:20px;font-size:12px}.halo-cart-sidebar .previewCartInfo{padding:16px 18px 20px}}
+
+/* B2C staging refinements: compact recommendation and anchored checkout */
+.halo-cart-sidebar .previewCartCollection.b2c-cart-recommendations {
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  min-height: 0;
+  height: auto;
+}
+.halo-cart-sidebar .b2c-cart-recommendations .previewCartTitle {
+  margin-bottom: 8px;
+}
+.halo-cart-sidebar .b2c-cart-recommendations .previewCartProduct,
+.halo-cart-sidebar .b2c-cart-recommendations .previewCartCarousel,
+.halo-cart-sidebar .b2c-cart-recommendations .product,
+.halo-cart-sidebar .b2c-cart-recommendations .product-item,
+.halo-cart-sidebar .b2c-cart-recommendations .card {
+  min-height: 0;
+  height: auto;
+}
+.halo-cart-sidebar .b2c-cart-recommendations .card-media img {
+  max-height: 110px;
+  object-fit: contain;
+}
+.halo-cart-sidebar .previewCartGroup .button-checkout,
+.halo-cart-sidebar .previewCartGroup #cart-sidebar-checkout {
+  background: #171717 !important;
+  border-color: #171717 !important;
+  color: #fff !important;
+}
+.halo-cart-sidebar .previewCartGroup #cart-sidebar-checkout:hover {
+  background: #333 !important;
+  border-color: #333 !important;
+}
+.halo-cart-sidebar .previewCartGroup #cart-sidebar-checkout:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+.halo-cart-sidebar .previewCartInfo {
+  padding-bottom: max(32px, env(safe-area-inset-bottom, 0px) + 20px);
+}
