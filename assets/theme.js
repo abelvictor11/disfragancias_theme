@@ -2464,6 +2464,9 @@
                     }
                 });
                 if (!selectedOptions.length) return;
+                // The first option has no checked radio on initial mobile clone;
+                // preserve the form's initial variant until a complete choice exists.
+                if (selectedOptions.some(function (value) { return value === undefined; })) return;
 
                 // Prefer an exact combination, never silently choose a different
                 // variant (which previously caused incorrect prices and cart IDs).
@@ -2485,6 +2488,9 @@
                 } else {
                     activeForm.find('input[name="id"]').val(String(selectedVariant.id)).trigger('change');
                 }
+                // Some mobile layouts keep the add button outside the inner form.
+                // Always submit the form whose variant ID was just updated.
+                activeQuickshop.find('[data-btn-addtocart]').attr('data-form-id', '#' + activeForm.attr('id'));
                 var value = $target.val();
                
                 // Update quickshop price display
@@ -3155,6 +3161,9 @@
                 var form = quickshopMobilePopup.find('[data-quickshop] form').eq('0');
                 var mobilePopupId = form.attr('id') + 'mobile';
                 form.attr('id', mobilePopupId);
+                // AJAX add-to-cart resolves the form through data-form-id.
+                // Point cloned mobile buttons at the cloned form, not the hidden original.
+                quickshopMobilePopup.find('[data-quickshop] [data-btn-addtocart]').attr('data-form-id', '#' + mobilePopupId);
                 var optionInputs = form.find('.single-option');
                 var optionLabels = form.find('.single-label');
 
