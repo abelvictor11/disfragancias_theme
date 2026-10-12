@@ -346,6 +346,7 @@
         "subheading": "",
         "collection": "todos-los-productos",
         "products_limit": 12,
+        "columns_desktop": "4",
         "show_view_all": true,
         "width": "container",
         "bg_soft": false,
