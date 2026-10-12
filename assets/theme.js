@@ -2435,108 +2435,68 @@
             })
         },
 
+        // Exact variant resolution is shared by the price and cart paths.
+        // Never infer a variant from a partial option match.
+        resolveQuickShopVariant: function(form, productJson) {
+            if (!form.length || !productJson || !Array.isArray(productJson.variants)) return null;
+            var optionCount = Array.isArray(productJson.options) ? productJson.options.length : 0;
+            if (!optionCount) return null;
+            var selected = Array(optionCount).fill(null);
+            form.find('input.single-option:checked').each(function () {
+                var match = /^option([1-3])$/.exec($(this).attr('data-index') || '');
+                if (match && Number(match[1]) <= optionCount) selected[Number(match[1]) - 1] = $(this).val();
+            });
+            if (selected.some(function (value) { return value === null; })) return null;
+            return productJson.variants.find(function (variant) {
+                return Array.isArray(variant.options) &&
+                    variant.options.length === optionCount &&
+                    selected.every(function (value, index) { return variant.options[index] === value; });
+            }) || null;
+        },
+
         changeSwatchQuickShop: function () {
-            $doc.on('change', '[data-quickshop] .single-option', (event) => {
-                
-                // Resolve variants from the active form only. Cloned mobile cards can
-                // coexist with the original card and must never read its radio state.
-                var $target = $(event.target),
-                    activeQuickshop = $target.closest('[data-quickshop]'),
-                    activeForm = $target.closest('form'),
-                    product = $target.closest('.product-item'),
+            $doc.off('change.quickShopVariant', '[data-quickshop] .single-option')
+                .on('change.quickShopVariant', '[data-quickshop] .single-option', function (event) {
+                var target = $(event.currentTarget),
+                    form = target.closest('form'),
+                    quickshop = target.closest('[data-quickshop]'),
+                    product = target.closest('.product-item'),
                     productJson = product.data('json-product'),
-                    productAction = activeForm.find('[data-btn-addtocart]'),
-                    variantList = productJson && productJson.variants,
-                    swatch = activeForm.find('.swatch-element'),
-                    selectedVariant;
+                    action = form.find('[data-btn-addtocart]'),
+                    variant = halo.resolveQuickShopVariant(form, productJson),
+                    variantInput = form.find('[name="id"]').first();
 
-                if (!Array.isArray(variantList) || !variantList.length) {
-                    console.warn('[Quick Shop] Product variant data missing', product[0]);
-                    return;
-                }
+                target.closest('.selector-wrapper').find('.form-label span').text(target.val());
 
-                // data-option-index on the Liquid wrapper is a visual swatch position,
-                // not necessarily the Shopify variant option position. The radio's
-                // data-index="optionN" is the authoritative 1-based option index.
-                var selectedOptions = new Array(productJson.options.length);
-                activeForm.find('input.single-option:checked').each(function () {
-                    var match = /^option([1-3])$/.exec($(this).attr('data-index') || '');
-                    if (match) selectedOptions[Number(match[1]) - 1] = $(this).val();
-                });
-                if (selectedOptions.some(function (value) { return value === undefined; })) {
-                    activeQuickshop.find('[data-btn-addtocart]').prop('disabled', true);
-                    return;
-                }
-
-                // Prefer an exact combination, never silently choose a different
-                // variant (which previously caused incorrect prices and cart IDs).
-                selectedVariant = variantList.find(function (variant) {
-                    return selectedOptions.every(function (value, index) {
-                        return value === undefined || variant.options[index] === value;
-                    });
-                });
-                if (!selectedVariant) {
-                    activeForm.find('[data-btn-addtocart]').addClass('btn-unavailable').attr('data-available', 'false');
-                    activeForm.find('[data-quickshop-price-current]').empty();
-                    return;
-                }
-
-                // Scope the selected variant to the active quickshop form, never another card's form.
-                var variantSelect = activeForm.find('select[name="id"]');
-                if (variantSelect.length) {
-                    variantSelect.val(String(selectedVariant.id)).trigger('change');
-                } else {
-                    activeForm.find('input[name="id"]').val(String(selectedVariant.id)).trigger('change');
-                }
-                // Some mobile layouts keep the add button outside the inner form.
-                // Always submit the form whose variant ID was just updated.
-                activeQuickshop.find('[data-btn-addtocart]').attr('data-form-id', '#' + activeForm.attr('id'));
-                var value = $target.val();
-               
-                // Update quickshop price display
-                var quickshopPrice = activeQuickshop.find('[data-quickshop-price]');
-                if (quickshopPrice.length > 0) {
-                    var priceHtml = '';
-                    if (selectedVariant.compare_at_price && selectedVariant.compare_at_price > selectedVariant.price) {
-                        priceHtml = '<span class="price-item price-item--sale">' + Shopify.formatMoney(selectedVariant.price, window.money_format) + '</span>';
-                        priceHtml += '<s class="price-item price-item--compare">' + Shopify.formatMoney(selectedVariant.compare_at_price, window.money_format) + '</s>';
-                    } else {
-                        priceHtml = '<span class="price-item">' + Shopify.formatMoney(selectedVariant.price, window.money_format) + '</span>';
+                if (!variant || !variant.available || !variantInput.length) {
+                    // A missing/invalid combination must never silently submit the
+                    // initially selected option from the Liquid select.
+                    form.removeData('quickshop-variant-id');
+                    action.prop('disabled', true).addClass('btn-unavailable').attr('data-available', 'false');
+                    if (!variant || !variant.available) {
+                        quickshop.find('[data-quickshop-price-current]').empty();
                     }
-                    quickshopPrice.find('[data-quickshop-price-current]').html(priceHtml);
-                }
-                
-                $target.closest('.selector-wrapper').find('.form-label span').text(value);
-                if (selectedVariant.available) {
-                    product.find('[data-btn-addtocart]').removeClass('btn-unavailable');
-                    product.find('[data-quickshop] quickshop-update-quantity').removeClass('disabled');
-                    product.find('[data-btn-addtocart]').attr('data-available', 'true')
-                      
-                } else {
-                    product.find('[data-btn-addtocart]').addClass('btn-unavailable');
-                    product.find('[data-quickshop] quickshop-update-quantity').addClass('disabled');
-                    product.find('[data-btn-addtocart]').attr('data-available', 'false')
+                    return;
                 }
 
+                variantInput.val(String(variant.id)).trigger('change');
+                form.data('quickshop-variant-id', String(variant.id));
+                action.prop('disabled', false).removeClass('btn-unavailable').attr('data-available', 'true');
+
+                var money = typeof Shopify !== 'undefined' && Shopify.formatMoney ?
+                    function(value) { return Shopify.formatMoney(value, window.money_format); } :
+                    function(value) { return (value / 100).toLocaleString(); };
+                var html = '<span class="price-item' +
+                    (variant.compare_at_price > variant.price ? ' price-item--sale' : '') +
+                    '">' + money(variant.price) + '</span>';
+                if (variant.compare_at_price > variant.price) {
+                    html += '<s class="price-item price-item--compare">' + money(variant.compare_at_price) + '</s>';
+                }
+                quickshop.find('[data-quickshop-price-current]').html(html);
                 if (halo.checkNeedToConvertCurrency()) {
                     Currency.convertAll(window.shop_currency, $('#currencies .active').attr('data-currency'), 'span.money', 'money_format');
-                };
-
-                if (!$body.hasClass('quick_shop_option_2') && !$body.hasClass('quick_shop_option_3') && $win.width() < 767) {
-                    
-                } 
-
-                if ($body.hasClass('quick_shop_option_2') && $win.width() < 767) {
-                    if ($('.halo-popup-wrapper .card-product__wrapper [data-option-index="0"] .swatch-element').length == 1){
-                        $('.halo-popup-wrapper .card-product__wrapper [data-option-index="0"] .swatch-element').eq('0').find('.single-label').trigger('click');
-                    }
-                    if ($('.halo-product-list-view-popup .product-options-wrapper .product-item .card-information [data-option-index="0"] .swatch-element').length == 1) {
-                        $('.halo-product-list-view-popup .product-options-wrapper .product-item .card-information [data-option-index="0"] .swatch-element').eq('0').find('.single-label').trigger('click');
-                    }
-                } 
-
-                halo.checkStatusSwatchQuickShop(product, productJson);
-                halo.checkPreOrderOfVariant(selectedVariant, productAction, productJson);
+                }
+                halo.checkPreOrderOfVariant(variant, action, productJson);
             });
         },
 
@@ -2782,19 +2742,9 @@
                 }
             });
 
-            variantPopup.find('.selector-wrapper:not(.option-color)').each((index, element) => {
-                var item = $(element);
+            // Never auto-select options from availability checks: doing so can overwrite
+            // the customer's explicit choice and trigger nested change events.
 
-                if (item.find('.swatch-element').find('input:checked').length < 1) {
-                    if (item.find('.swatch-element.available').length > 0) {
-                        item.find('.swatch-element.available').eq('0').find('.single-label').trigger('click');
-                    } else {
-                        item.find('.swatch-element.soldout').eq('0').find('.single-label').trigger('click');
-                    }
-                }
-            });
-
-  
             if ($body.hasClass('quick_shop_option_2')) {
                 var variantId = product.find('[data-quickshop]').eq(1).find('[name="id"]').val();
                 var arrayInVarName = `quick_view_inven_array_${productId}`,
@@ -2841,10 +2791,21 @@
                     halo.actionAddToCart2($target, productForm);
                 } else {
                     if(!$target.hasClass('is-notify-me') && !$target.hasClass('is-soldout')){
-                        var form = $target.parents('form'),
-                            variantId = form.find('[name="id"]').val(),
-                            qty = form.find('[name="quantity"]').val(),
+                        var form = $target.closest('form'),
+                            variantId = form.find('[name="id"]').first().val(),
+                            qty = form.find('[name="quantity"]').first().val(),
                             input = form.find('[name="quantity"]').eq(0);
+                        if (form.closest('[data-quickshop]').length) {
+                            var quickProduct = form.closest('.product-item').data('json-product');
+                            var exactVariant = halo.resolveQuickShopVariant(form, quickProduct);
+                            if (!exactVariant || !exactVariant.available ||
+                                String(variantId) !== String(exactVariant.id)) {
+                                $target.prop('disabled', true).addClass('btn-unavailable');
+                                console.warn('[Quick Shop] Cart submission blocked: variant selection mismatch');
+                                return;
+                            }
+                            variantId = String(exactVariant.id);
+                        }
                         if(qty == undefined){
                             qty = 1;
                         }
