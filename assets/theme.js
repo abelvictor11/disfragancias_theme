@@ -2335,305 +2335,8 @@
                                 $body.addClass('quick_shop_popup_mobile');
                             }
                         } else {
-                            variantPopup.find('.selector-wrapper:not(.option-color)').each((index, element) => {
-                                $(element).find('.swatch-element:not(.soldout):not(.unavailable)').eq('0').find('.single-label').trigger('click');
-                            });
-                        }
-                    } else {
-                        halo.initAddToCartQuickShop($target, variantPopup);
-                    }
+                            // Never override a customer-selected option during availability checks.
 
-                    if (halo.checkNeedToConvertCurrency()) {
-                        Currency.convertAll(window.shop_currency, $('#currencies .active').attr('data-currency'), 'span.money', 'money_format');
-                    }
-                });
-
-                $doc.on('click', '[data-cancel-quickshop-popup]', (event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    var $target = $(event.currentTarget),
-                        product = $target.parents('.product-item'),
-                        quickshopMobilePopup = $doc.find('#halo-card-mobile-popup');
-
-                    product.removeClass('quickshop-popup-show');
-                    var productQuickshopShown = $doc.find('.quickshop-popup-show')
-                    productQuickshopShown.removeClass('quickshop-popup-show');
-                    $body.removeClass('quickshop-list-view-show');
-                     
-                    if ($body.hasClass('quick_shop_option_1') || $body.hasClass('quick_shop_option_2')) {
-                        $body.removeClass('quick_shop_popup_mobile');
-                        quickshopMobilePopup.removeClass('show');
-                    }
-                });
-
-                $doc.on('click', (event) => {
-                    if ($(event.target).closest('[data-quickshop-popup]').length === 0 && $(event.target).closest('.variants-popup').length === 0 && $(event.target).closest('.card-swatch').length === 0 && $(event.target).closest('[data-warning-popup]').length === 0) {
-                        $('.product-item').removeClass('quickshop-popup-show');
-                        if($body.hasClass('quick_shop_option_2')){
-                            $body.removeClass('quick_shop_popup_mobile');
-                        }
-                    }
-                });
-
-                halo.changeSwatchQuickShop();
-            }
-        },
-  
-        appendToListViewModal: function(product)  {
-            const quickshopMobilePopup = $doc.find('#list-view-popup');
-            const quickshopForm = product.clone();
-            quickshopMobilePopup.find('.halo-popup-content').empty();
-            quickshopMobilePopup.find('.halo-popup-content').append(quickshopForm);
-
-            const form = quickshopMobilePopup.find('[data-quickshop] .card-information .variants-popup form').eq('0');
-            const mobilePopupId = form.attr('id') + '-mobile';
-            const optionInputs = form.find('.single-option');
-            const optionLabels = form.find('.single-label');
-            const cardInfoWrapper = quickshopMobilePopup.find('.card-product')
-            const variantsPopup = quickshopMobilePopup.find('.variants-popup')
-            const submitBtn = quickshopMobilePopup.find('[data-btn-addtocart]')
-            variantsPopup.removeClass("card-list__hidden")
-            let clicked = {
-                selected1: false,
-                selected2: false,
-                selected3: false
-            } 
-
-            form.attr('id', mobilePopupId);
-            submitBtn.attr('data-form-id', submitBtn.attr('data-form-id') + '-mobile')
-
-            optionInputs.each((index, optionInput) => {
-                $(optionInput).attr('id', $(optionInput).attr('id') + '-mobile');
-                $(optionInput).attr('name', $(optionInput).attr('name') + '-mobile');
-                if (optionInput.checked) $(optionInput).trigger('change');
-            })
-
-            optionLabels.each((index, optionLabel) => {
-                $(optionLabel).attr('for', $(optionLabel).attr('for') + '-mobile');
-
-                const swatchWrapper = $(optionLabel).closest('.selector-wrapper')
-                const swatchElement = $(optionLabel).closest('.swatch-element')
-                if (!swatchElement.hasClass('available')) return 
-                
-                if (swatchWrapper.hasClass('selector-wrapper-1') && !clicked.selected1) {
-                    clicked.selected1 = true
-                    $(optionLabel).trigger('click')
-                } else if (swatchWrapper.hasClass('selector-wrapper-2') && !clicked.selected2) {
-                    clicked.selected2 = true 
-                    $(optionLabel).trigger('click')
-                } else if (swatchWrapper.hasClass('selector-wrapper-3') && !clicked.selected3) {
-                    clicked.selected3 = true
-                    $(optionLabel).trigger('click')
-                }
-            })
-
-            $body.addClass('quickshop-list-view-show');
-
-            $('.background-overlay').off('click.closeListViewModal').on('click.closeListViewModal', () => {
-                $body.removeClass('quickshop-list-view-show');
-            })
-        },
-
-        changeSwatchQuickShop: function () {
-            $doc.on('change', '[data-quickshop] .single-option', (event) => {
-                
-                var $target = $(event.target),
-                    product = $target.parents('.product-item'),
-                    productJson = product.data('json-product'),
-                    productAction = product.find('[data-btn-addtocart]'),
-                    variantList,
-                    optionColor = product.find('.option-color').data('option-position'),
-                    optionIndex = $target.closest('[data-option-index]').data('option-index'),
-                    swatch = product.find('.swatch-element'),
-                    thisVal = $target.val(),
-                    selectedVariant,
-                    productInput = product.find('[name=id]');
-
-                if ($('.productListing').hasClass('productList')) {
-                    var selectedOption1 = product.find('.card-information .selector-wrapper-1').find('input:checked').val(),
-                        selectedOption2 = product.find('.card-information .selector-wrapper-2').find('input:checked').val(),
-                        selectedOption3 = product.find('.card-information .selector-wrapper-3').find('input:checked').val();
-                }
-                else {
-                    var selectedOption1 = product.find('.selector-wrapper-1').find('input:checked').val(),
-                        selectedOption2 = product.find('.selector-wrapper-2').find('input:checked').val(),
-                        selectedOption3 = product.find('.selector-wrapper-3').find('input:checked').val();
-                }
-
-                if ($body.hasClass('quick_shop_option_2') && $('.productListing').hasClass('productList')) {
-                    selectedOption1 = product.find('.selector-wrapper-1').eq('1').find('input:checked').val();
-                } else {
-                    if ($('.productListing').hasClass('productList') && $win.width() < 767) {
-                        selectedOption1 = product.find('.selector-wrapper-1').eq('1').find('input:checked').val();
-                        selectedOption2 = product.find('[data-option-index="1"]').eq('1').find('input:checked').val();
-                    } else {
-                        selectedOption1 = product.find('.selector-wrapper-1').eq('0').find('input:checked').val();
-                    }
-                }
-
-                if (productJson != undefined) {
-                    variantList = productJson.variants;
-                }
-
-                swatch.removeClass('soldout');
-                swatch.find('input[type="radio"]').prop('disabled', false);
-
-                switch (optionIndex) {
-                    case 0:
-                        var availableVariants = variantList.find((variant) => {
-                            if (optionColor == 1) {
-                                if (selectedOption3 != undefined) {
-                                    return variant.option2 == thisVal && variant.option1 == selectedOption2 && variant.option3 == selectedOption3;
-                                }
-                                else {
-                                    return variant.option2 == thisVal && variant.option1 == selectedOption2;
-                                }
-                            } else {
-                                if (optionColor == 2) {
-                                    return variant.option3 == thisVal && variant.option1 == selectedOption2;
-                                } else {
-                                    return variant.option1 == thisVal && variant.option2 == selectedOption2;
-                                }
-                            }
-                        });
-
-                        if(availableVariants != undefined){
-                            selectedVariant =  availableVariants;
-                        } else{
-                            var altAvailableVariants = variantList.find((variant) => {
-                                if (optionColor == 1) {
-                                    return variant.option2 == thisVal;
-                                } else {
-                                    if (optionColor == 2) {
-                                        return variant.option3 == thisVal;
-                                    } else {
-                                        return variant.option1 == thisVal;
-                                    }
-                                }
-                            });
-
-                            selectedVariant =  altAvailableVariants;
-                        }
-
-                        break;
-                    case 1:
-                        var availableVariants = variantList.find((variant) => {
-                            if (optionColor == 1) {
-                                return variant.option2 == selectedOption1 && variant.option1 == thisVal && variant.option3 == selectedOption2;
-                            } else {
-                                if (optionColor == 2) {
-                                    return variant.option3 == selectedOption1 && variant.option1 == thisVal && variant.option2 == selectedOption2;
-                                } else {
-                                    return variant.option1 == selectedOption1 && variant.option2 == thisVal && variant.option3 == selectedOption2;
-                                }
-                            }
-                        });
-
-                        if(availableVariants != undefined){
-                            selectedVariant =  availableVariants;
-                        } else {
-                            var altAvailableVariants = variantList.find((variant) => {
-                                if (optionColor == 1) {
-                                    return variant.option2 == selectedOption1 && variant.option1 == thisVal;
-                                } else {
-                                    if (optionColor == 2) {
-                                        return variant.option3 == selectedOption1 && variant.option1 == thisVal;
-                                    } else {
-                                        return variant.option1 == selectedOption1 && variant.option2 == thisVal;
-                                    }
-                                }
-                            });
-
-                            selectedVariant =  altAvailableVariants;
-                        }
-
-                        break;
-                    case 2:
-                        var availableVariants = variantList.find((variant) => {
-                            if (optionColor == 1) {
-                                return variant.option2 == selectedOption1 && variant.option1 == selectedOption2 && variant.option3 == thisVal;
-                            } else {
-                                if (optionColor == 2) {
-                                    return variant.option3 == selectedOption1 && variant.option1 == selectedOption2 && variant.option2 == thisVal;
-                                } else {
-                                    return variant.option1 == selectedOption1 && variant.option2 == selectedOption2 && variant.option3 == thisVal;
-                                }
-                            }
-                        });
-
-                        if(availableVariants != undefined){
-                            selectedVariant =  availableVariants;
-                        }
-
-                        break;
-                }
-                            
-                if (selectedVariant == undefined) {
-                    return;
-                }
-                
-                productInput.val(selectedVariant.id);
-                var value = $target.val();
-               
-                // Update quickshop price display
-                var quickshopPrice = product.find('[data-quickshop-price]');
-                if (quickshopPrice.length > 0) {
-                    var priceHtml = '';
-                    if (selectedVariant.compare_at_price && selectedVariant.compare_at_price > selectedVariant.price) {
-                        priceHtml = '<span class="price-item price-item--sale">' + Shopify.formatMoney(selectedVariant.price, window.money_format) + '</span>';
-                        priceHtml += '<s class="price-item price-item--compare">' + Shopify.formatMoney(selectedVariant.compare_at_price, window.money_format) + '</s>';
-                    } else {
-                        priceHtml = '<span class="price-item">' + Shopify.formatMoney(selectedVariant.price, window.money_format) + '</span>';
-                    }
-                    quickshopPrice.find('[data-quickshop-price-current]').html(priceHtml);
-                }
-                
-                $target.parents('.selector-wrapper').find('.form-label span').text(value);
-                if (selectedVariant.available) {
-                    product.find('[data-btn-addtocart]').removeClass('btn-unavailable');
-                    product.find('[data-quickshop] quickshop-update-quantity').removeClass('disabled');
-                    product.find('[data-btn-addtocart]').attr('data-available', 'true')
-                      
-                } else {
-                    product.find('[data-btn-addtocart]').addClass('btn-unavailable');
-                    product.find('[data-quickshop] quickshop-update-quantity').addClass('disabled');
-                    product.find('[data-btn-addtocart]').attr('data-available', 'false')
-                }
-
-                if (halo.checkNeedToConvertCurrency()) {
-                    Currency.convertAll(window.shop_currency, $('#currencies .active').attr('data-currency'), 'span.money', 'money_format');
-                };
-
-                if (!$body.hasClass('quick_shop_option_2') && !$body.hasClass('quick_shop_option_3') && $win.width() < 767) {
-                    
-                } 
-
-                if ($body.hasClass('quick_shop_option_2') && $win.width() < 767) {
-                    if ($('.halo-popup-wrapper .card-product__wrapper [data-option-index="0"] .swatch-element').length == 1){
-                        $('.halo-popup-wrapper .card-product__wrapper [data-option-index="0"] .swatch-element').eq('0').find('.single-label').trigger('click');
-                    }
-                    if ($('.halo-product-list-view-popup .product-options-wrapper .product-item .card-information [data-option-index="0"] .swatch-element').length == 1) {
-                        $('.halo-product-list-view-popup .product-options-wrapper .product-item .card-information [data-option-index="0"] .swatch-element').eq('0').find('.single-label').trigger('click');
-                    }
-                } 
-
-                halo.checkStatusSwatchQuickShop(product, productJson);
-                halo.checkPreOrderOfVariant(selectedVariant, productAction, productJson);
-            });
-        },
-
-        checkStatusSwatchQuickShop: function(product, productJson){
-            var variantPopup = product.find('.card-variant'),
-                variantList,
-                productOption = product.find('[data-option-index]'),
-                optionColor = product.find('.option-color').data('option-position'),
-                selectedOption1 = product.find('[data-option-index="0"]').find('input:checked').val(),
-                selectedOption2 = product.find('[data-option-index="1"]').find('input:checked').val(),
-                selectedOption3 = product.find('[data-option-index="2"]').find('input:checked').val(),
-                productId = product.data('product-id');
-
-            
             if ($body.hasClass('quick_shop_option_2')) {
                 var height = product.find('.card-media').outerHeight(true);
                 if (selectedOption3 != undefined) {
@@ -2924,10 +2627,21 @@
                     halo.actionAddToCart2($target, productForm);
                 } else {
                     if(!$target.hasClass('is-notify-me') && !$target.hasClass('is-soldout')){
-                        var form = $target.parents('form'),
-                            variantId = form.find('[name="id"]').val(),
-                            qty = form.find('[name="quantity"]').val(),
+                        var form = $target.closest('form'),
+                            variantId = form.find('[name="id"]').first().val(),
+                            qty = form.find('[name="quantity"]').first().val(),
                             input = form.find('[name="quantity"]').eq(0);
+                        if (form.closest('[data-quickshop]').length) {
+                            var quickProduct = halo.getQuickShopProduct(form, form.closest('.product-item').data('json-product'));
+                            var exactVariant = halo.resolveQuickShopVariant(form, quickProduct);
+                            if (!exactVariant || !exactVariant.available ||
+                                String(variantId) !== String(exactVariant.id)) {
+                                $target.prop('disabled', true).addClass('btn-unavailable');
+                                console.warn('[Quick Shop] Cart submission blocked: variant selection mismatch');
+                                return;
+                            }
+                            variantId = String(exactVariant.id);
+                        }
                         if(qty == undefined){
                             qty = 1;
                         }
@@ -3244,6 +2958,7 @@
                 var form = quickshopMobilePopup.find('[data-quickshop] form').eq('0');
                 var mobilePopupId = form.attr('id') + 'mobile';
                 form.attr('id', mobilePopupId);
+                quickshopMobilePopup.find('[data-quickshop] [data-btn-addtocart]').attr('data-form-id', '#' + mobilePopupId);
                 var optionInputs = form.find('.single-option');
                 var optionLabels = form.find('.single-label');
 
