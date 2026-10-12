@@ -20,6 +20,7 @@
       {% render 'collection-b2b-listing',
         products: coll.products,
         limit: limit,
+        col: section.settings.columns_desktop,
         is_section: true,
         heading: section.settings.subheading
       %}
@@ -37,6 +38,14 @@
     { "type": "text", "id": "subheading", "label": "Texto del toolbar", "info": "Reemplaza el contador de productos" },
     { "type": "collection", "id": "collection", "label": "Colección" },
     { "type": "range", "id": "products_limit", "label": "Productos a mostrar", "min": 4, "max": 24, "step": 2, "default": 12 },
+    { "type": "select", "id": "columns_desktop", "label": "Productos por fila (escritorio)", "options": [
+      { "value": "2", "label": "2" },
+      { "value": "3", "label": "3" },
+      { "value": "4", "label": "4" },
+      { "value": "5", "label": "5" },
+      { "value": "6", "label": "6" },
+      { "value": "7", "label": "7" }
+    ], "default": "6" },
     { "type": "checkbox", "id": "show_view_all", "label": "Mostrar enlace 'Ver todo'", "default": true },
     { "type": "select", "id": "width", "label": "Ancho", "options": [
       { "value": "container", "label": "Contenedor" },
