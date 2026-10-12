@@ -2448,7 +2448,7 @@
                 console.warn('[Quick Shop] Variant data could not be parsed', error);
             }
             if (Array.isArray(options) && Array.isArray(variants)) {
-                return { options: options, variants: variants, id: cardProduct && cardProduct.id, handle: cardProduct && cardProduct.handle };
+                return { options: options, variants: variants, id: (cardProduct && cardProduct.id) || form.attr('data-quickshop-product-id'), handle: (cardProduct && cardProduct.handle) || form.attr('data-quickshop-product-handle') };
             }
             return cardProduct;
         },
@@ -2524,7 +2524,7 @@
                 action.attr('data-form-id', '#' + form.attr('id'));
                 if (variant.available) {
                     action.prop('disabled', false).removeClass('btn-unavailable').attr('data-available', 'true');
-                    halo.checkPreOrderOfVariant(variant, action, productJson);
+                    // Shopify's storefront availability is authoritative. The legacy\n                    // inventory-quantity check incorrectly disables sellable variants\n                    // with negative aggregate inventory.
                 } else {
                     action.prop('disabled', true).addClass('btn-unavailable').attr('data-available', 'false');
                 }
