@@ -9113,6 +9113,20 @@
       },
       {
         "type": "header",
+        "content": "Tarjetas de productos B2B"
+      },
+      {
+        "type": "select",
+        "id": "b2b_card_title_display",
+        "label": "Mostrar título de las cards",
+        "options": [
+          { "value": "single", "label": "Una sola línea" },
+          { "value": "full", "label": "Título completo" }
+        ],
+        "default": "single"
+      },
+      {
+        "type": "header",
         "content": "Matriz de variantes"
       },
       {

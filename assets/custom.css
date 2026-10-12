@@ -1234,6 +1234,14 @@ span.badge.custom-metafield-badge {
 .b2b-card__media img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
 .b2b-card__title { display: block; font-size: 13px; font-weight: 500; line-height: 1.3; color: inherit; margin-bottom: 6px; text-decoration: none;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Optional multiline B2B card titles (global theme setting). */
+.b2b-coll--title-full .b2b-card__title {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: anywhere;
+}
+
 .b2b-size { width: 100%; height: 32px; border: 1px solid #dcdcdc; border-radius: 6px; font-size: 12px; margin-bottom: 6px; padding: 0 6px; background: #fff; }
 .b2b-card__meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; margin-bottom: 8px; }
 /* SKU en una sola línea con elipsis (algunos SKU traen el handle completo) */
