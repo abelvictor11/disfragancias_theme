@@ -2437,20 +2437,46 @@
 
         // Exact variant resolution is shared by the price and cart paths.
         // Never infer a variant from a partial option match.
-        resolveQuickShopVariant: function(form, productJson) {
+        // Resolve only from the active Quick Shop form. The form carries a
+        // canonical copy of variants so mobile clones do not depend on card data.
+        getQuickShopProduct: function(form, cardProduct) {
+            var options, variants;
+            try {
+                options = JSON.parse(form.attr('data-quickshop-option-names') || 'null');
+                variants = JSON.parse(form.attr('data-quickshop-variants') || 'null');
+            } catch (error) {
+                console.warn('[Quick Shop] Variant data could not be parsed', error);
+            }
+            if (Array.isArray(options) && Array.isArray(variants)) {
+                return { options: options, variants: variants, id: (cardProduct && cardProduct.id) || form.attr('data-quickshop-product-id'), handle: (cardProduct && cardProduct.handle) || form.attr('data-quickshop-product-handle') };
+            }
+            return cardProduct;
+        },
+
+        resolveQuickShopVariant: function(form, productJson, changedInput) {
             if (!form.length || !productJson || !Array.isArray(productJson.variants)) return null;
-            var optionCount = Array.isArray(productJson.options) ? productJson.options.length : 0;
-            if (!optionCount) return null;
-            var selected = Array(optionCount).fill(null);
+            var count = Array.isArray(productJson.options) ? productJson.options.length : 0;
+            if (!count) return null;
+            var selected = Array(count).fill(null);
             form.find('input.single-option:checked').each(function () {
                 var match = /^option([1-3])$/.exec($(this).attr('data-index') || '');
-                if (match && Number(match[1]) <= optionCount) selected[Number(match[1]) - 1] = $(this).val();
+                if (match && Number(match[1]) <= count) selected[Number(match[1]) - 1] = String($(this).val());
             });
+            // The changed radio is authoritative even when cloned labels and
+            // browser check states update in different orders.
+            if (changedInput && changedInput.length) {
+                var changedMatch = /^option([1-3])$/.exec(changedInput.attr('data-index') || '');
+                if (changedMatch && Number(changedMatch[1]) <= count) {
+                    selected[Number(changedMatch[1]) - 1] = String(changedInput.val());
+                }
+            }
             if (selected.some(function (value) { return value === null; })) return null;
             return productJson.variants.find(function (variant) {
-                return Array.isArray(variant.options) &&
-                    variant.options.length === optionCount &&
-                    selected.every(function (value, index) { return variant.options[index] === value; });
+                var values = Array.isArray(variant.options) ? variant.options :
+                    [variant.option1, variant.option2, variant.option3].slice(0, count);
+                return values.length === count && selected.every(function(value, i) {
+                    return String(values[i]) === value;
+                });
             }) || null;
         },
 
@@ -2461,42 +2487,51 @@
                     form = target.closest('form'),
                     quickshop = target.closest('[data-quickshop]'),
                     product = target.closest('.product-item'),
-                    productJson = product.data('json-product'),
+                    productJson = halo.getQuickShopProduct(form, product.data('json-product')),
                     action = form.find('[data-btn-addtocart]'),
-                    variant = halo.resolveQuickShopVariant(form, productJson),
-                    variantInput = form.find('[name="id"]').first();
+                    variant = halo.resolveQuickShopVariant(form, productJson, target),
+                    variantInput = form.find('[name="id"]').first(),
+                    priceDisplay = quickshop.find('[data-quickshop-price-current]');
 
                 target.closest('.selector-wrapper').find('.form-label span').text(target.val());
-
-                if (!variant || !variant.available || !variantInput.length) {
-                    // A missing/invalid combination must never silently submit the
-                    // initially selected option from the Liquid select.
+                if (!variant || !variantInput.length) {
                     form.removeData('quickshop-variant-id');
                     action.prop('disabled', true).addClass('btn-unavailable').attr('data-available', 'false');
-                    if (!variant || !variant.available) {
-                        quickshop.find('[data-quickshop-price-current]').empty();
+                    if (!variant) {
+                        console.warn('[Quick Shop] No exact variant for selected options', {
+                            productId: productJson && productJson.id,
+                            selection: form.find('input.single-option:checked').map(function() { return $(this).val(); }).get()
+                        });
                     }
                     return;
                 }
 
-                variantInput.val(String(variant.id)).trigger('change');
-                form.data('quickshop-variant-id', String(variant.id));
-                action.prop('disabled', false).removeClass('btn-unavailable').attr('data-available', 'true');
-
+                // Price is shown for sold-out variants too; availability controls
+                // the button, not visibility of price.
                 var money = typeof Shopify !== 'undefined' && Shopify.formatMoney ?
                     function(value) { return Shopify.formatMoney(value, window.money_format); } :
                     function(value) { return (value / 100).toLocaleString(); };
-                var html = '<span class="price-item' +
-                    (variant.compare_at_price > variant.price ? ' price-item--sale' : '') +
+                var onSale = Number(variant.compare_at_price) > Number(variant.price);
+                var html = '<span class="price-item' + (onSale ? ' price-item--sale' : '') +
                     '">' + money(variant.price) + '</span>';
-                if (variant.compare_at_price > variant.price) {
+                if (onSale) {
                     html += '<s class="price-item price-item--compare">' + money(variant.compare_at_price) + '</s>';
                 }
-                quickshop.find('[data-quickshop-price-current]').html(html);
+                priceDisplay.html(html);
+
+                variantInput.val(String(variant.id)).trigger('change');
+                form.data('quickshop-variant-id', String(variant.id));
+                action.attr('data-form-id', '#' + form.attr('id'));
+                if (variant.available) {
+                    action.prop('disabled', false).removeClass('btn-unavailable').attr('data-available', 'true');
+                    // Shopify's storefront availability is authoritative. The legacy\n                    // inventory-quantity check incorrectly disables sellable variants\n                    // with negative aggregate inventory.
+                } else {
+                    action.prop('disabled', true).addClass('btn-unavailable').attr('data-available', 'false');
+                }
+
                 if (halo.checkNeedToConvertCurrency()) {
                     Currency.convertAll(window.shop_currency, $('#currencies .active').attr('data-currency'), 'span.money', 'money_format');
                 }
-                halo.checkPreOrderOfVariant(variant, action, productJson);
             });
         },
 
@@ -2796,7 +2831,7 @@
                             qty = form.find('[name="quantity"]').first().val(),
                             input = form.find('[name="quantity"]').eq(0);
                         if (form.closest('[data-quickshop]').length) {
-                            var quickProduct = form.closest('.product-item').data('json-product');
+                            var quickProduct = halo.getQuickShopProduct(form, form.closest('.product-item').data('json-product'));
                             var exactVariant = halo.resolveQuickShopVariant(form, quickProduct);
                             if (!exactVariant || !exactVariant.available ||
                                 String(variantId) !== String(exactVariant.id)) {
