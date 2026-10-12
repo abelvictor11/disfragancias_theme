@@ -15,7 +15,7 @@
 <a href="#" class="variants-popup-close" data-cancel-quickshop-popup alt="{{ 'general.common.close' | t }}">{% render 'icon-close' %}{{ 'general.common.close' | t }}</a>
 <div class="variants-popup-content text-center" data-quickshop>
     {%- assign formId = id | append: '-' | append: product.id -%}
-    <form action="{{ routes.cart_url }}/add" method="post" class="variants" id="swatch-{{ formId }}-{{ sectionId }}-{{ list }}" data-id="product-actions-{{ product.id }}{{ list }}" data-quickshop-option-names="{{ product.options | json | escape }}" data-quickshop-variants="{{ product.variants | json | escape }}" enctype="multipart/form-data">
+    <form action="{{ routes.cart_url }}/add" method="post" class="variants" id="swatch-{{ formId }}-{{ sectionId }}-{{ list }}" data-id="product-actions-{{ product.id }}{{ list }}" data-quickshop-product-id="{{ product.id }}" data-quickshop-product-handle="{{ product.handle }}" data-quickshop-option-names="{{ product.options | json | escape }}" data-quickshop-variants="{{ product.variants | json | escape }}" enctype="multipart/form-data">
         {%- assign product_swatch_option = settings.swatch | downcase -%}
         {%- for option in product.options_with_values -%}
             {%- assign option_name = option.name | downcase -%}
