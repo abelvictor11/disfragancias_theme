@@ -2455,18 +2455,18 @@
                     return;
                 }
 
-                var selectedOptions = [];
-                activeForm.find('.selector-wrapper[data-option-index]').each(function () {
-                    var index = Number($(this).attr('data-option-index'));
-                    var checked = $(this).find('input.single-option:checked').first();
-                    if (checked.length && Number.isInteger(index)) {
-                        selectedOptions[index] = checked.val();
-                    }
+                // data-option-index on the Liquid wrapper is a visual swatch position,
+                // not necessarily the Shopify variant option position. The radio's
+                // data-index="optionN" is the authoritative 1-based option index.
+                var selectedOptions = new Array(productJson.options.length);
+                activeForm.find('input.single-option:checked').each(function () {
+                    var match = /^option([1-3])$/.exec($(this).attr('data-index') || '');
+                    if (match) selectedOptions[Number(match[1]) - 1] = $(this).val();
                 });
-                if (!selectedOptions.length) return;
-                // The first option has no checked radio on initial mobile clone;
-                // preserve the form's initial variant until a complete choice exists.
-                if (selectedOptions.some(function (value) { return value === undefined; })) return;
+                if (selectedOptions.some(function (value) { return value === undefined; })) {
+                    activeQuickshop.find('[data-btn-addtocart]').prop('disabled', true);
+                    return;
+                }
 
                 // Prefer an exact combination, never silently choose a different
                 // variant (which previously caused incorrect prices and cart IDs).
