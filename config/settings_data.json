@@ -428,6 +428,7 @@
     "b2b_payment": "1 unidad despues de primera compra",
     "b2b_min_title": "Pago",
     "b2b_pay_title": "Pedido minimo",
+    "b2b_card_title_display": "full",
     "quick_cart_popular_product_collection": "accesorios-de-lujo-para-regalos",
     "show_review": false,
     "checkout_logo_image": "shopify://shop_images/Home-6-Logo-Parallax.png",
