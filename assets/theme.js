@@ -5270,6 +5270,38 @@
 
         initWishlist: function() {
             if(window.wishlist.show){
+                // Keep a temporary copy of guest favorites across the classic Shopify login redirect.
+                var wishlistKey = 'wishlistItem';
+                var backupKey = 'b2cWishlistLoginBackup';
+                var parseWishlist = function(raw) {
+                    try {
+                        var values = JSON.parse(raw || '[]');
+                        return Array.isArray(values) ? Array.from(new Set(values.filter(function(value) {
+                            return typeof value === 'string' && value.length > 0;
+                        }))) : [];
+                    } catch (error) {
+                        return [];
+                    }
+                };
+                try {
+                    var saved = parseWishlist(sessionStorage.getItem(backupKey));
+                    if (saved.length && !document.querySelector('form.customer-login-form')) {
+                        var existing = parseWishlist(localStorage.getItem(wishlistKey));
+                        var combined = Array.from(new Set(existing.concat(saved)));
+                        localStorage.setItem(wishlistKey, JSON.stringify(combined));
+                        sessionStorage.removeItem(backupKey);
+                    }
+                } catch (error) {
+                    console.warn('[Wishlist] Could not restore pending login favorites', error);
+                }
+                $doc.on('submit', 'form.customer-login-form', function() {
+                    try {
+                        var favorites = parseWishlist(localStorage.getItem(wishlistKey));
+                        if (favorites.length) sessionStorage.setItem(backupKey, JSON.stringify(favorites));
+                    } catch (error) {
+                        console.warn('[Wishlist] Could not back up favorites before login', error);
+                    }
+                });
                 halo.setLocalStorageProductForWishlist();
 
                 $doc.on('click', '[data-wishlist]', (event) => {
