@@ -1255,3 +1255,31 @@ body:not(.quick_shop_option_3) .previewCartCollection .product-card__button2 {
 .halo-cart-sidebar .previewCartInfo {
   padding-bottom: max(32px, env(safe-area-inset-bottom, 0px) + 20px);
 }
+
+/* Keep the B2C recommendation card content-sized above the checkout separator.
+   Scope overrides to the cart sidebar so other product sliders are unaffected. */
+.halo-cart-sidebar .previewCartCollection.b2c-cart-recommendations {
+    margin-top: 8px;
+    margin-bottom: 6px;
+    padding: 12px 14px 10px;
+}
+.halo-cart-sidebar .b2c-cart-recommendations .previewCartTitle {
+    margin-bottom: 6px;
+}
+.halo-cart-sidebar .b2c-cart-recommendations .previewCartCarousel .product {
+    min-height: 0 !important; /* Overrides legacy 180px carousel product minimum. */
+    height: auto;
+}
+.halo-cart-sidebar .b2c-cart-recommendations .product-item,
+.halo-cart-sidebar .b2c-cart-recommendations .card,
+.halo-cart-sidebar .b2c-cart-recommendations .card-information,
+.halo-cart-sidebar .b2c-cart-recommendations .card-information__wrapper {
+    min-height: 0;
+    height: auto;
+}
+.halo-cart-sidebar .b2c-cart-recommendations .card {
+    align-items: flex-start;
+}
+.halo-cart-sidebar .previewCart {
+    padding-bottom: 4px;
+}
