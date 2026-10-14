@@ -1283,3 +1283,9 @@ body:not(.quick_shop_option_3) .previewCartCollection .product-card__button2 {
 .halo-cart-sidebar .previewCart {
     padding-bottom: 4px;
 }
+
+/* Limit only the cart recommendations slider, not other Slick carousels. */
+.halo-cart-sidebar .b2c-cart-recommendations .slick-list {
+    height: 120px !important;
+    max-height: 120px;
+}
