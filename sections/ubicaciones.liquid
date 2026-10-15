@@ -118,7 +118,8 @@ SOFTWARE.
 <section id="ubic-{{ uid }}" class="ubicaciones-section" style="padding: {{ s.padding_top | default: 40 }}px 0 {{ s.padding_bottom | default: 60 }}px;">
   <div class="{% if container == '1770' %}container-1770{% elsif container == 'fullwidth' %}container-full{% else %}container-1170{% endif %}">
 
-    {%- comment -%} HERO {%- endcomment -%}
+    {%- comment -%} HERO (opcional, solo en la plantilla Ubicaciones) {%- endcomment -%}
+    {%- if s.show_hero -%}
     <div class="ubi-hero">
       {%- if hero_fallback_image != blank -%}
         <img class="ubi-hero__bg" src="{{ hero_fallback_image | image_url: width: 2000 }}" alt="" loading="eager" width="2000" height="900">
@@ -138,6 +139,7 @@ SOFTWARE.
         {%- if s.hero_subtitle != blank -%}<p class="ubi-hero__sub">{{ s.hero_subtitle }}</p>{%- endif -%}
       </div>
     </div>
+    {%- endif -%}
 
     {%- comment -%} INTRO {%- endcomment -%}
     {%- if s.intro_title != blank or s.intro_text != blank -%}
@@ -241,6 +243,7 @@ SOFTWARE.
   "class": "section-ubicaciones",
   "settings": [
     { "type": "header", "content": "Hero" },
+    { "type": "checkbox", "id": "show_hero", "label": "Mostrar hero", "default": true },
     { "type": "image_picker", "id": "hero_image", "label": "Imagen de fondo del hero" },
     { "type": "video", "id": "hero_video", "label": "Video de fondo del hero", "info": "Selecciona un video de Archivos de Shopify. Se reproduce sin sonido y en bucle; tiene prioridad sobre el enlace MP4." },
     { "type": "url", "id": "hero_video_mp4", "label": "Enlace MP4 de fondo", "info": "Alternativa al selector de video. Pega el enlace directo al archivo .mp4. La imagen del hero se usa como respaldo." },
