@@ -13,82 +13,15 @@
   assign dark = '#232323'
 -%}
 
+{%- render 'pdp-perks-style',
+  uid: uid, accent: accent, card_bg: s.card_bg, border_color: s.border_color,
+  lead_color: s.lead_color, sub_color: s.sub_color, card_radius: s.card_radius,
+  row_padding: s.row_padding, dividers: s.dividers, chip_size: s.chip_size,
+  chip_radius: s.chip_radius, title_size: s.title_size, lead_size: s.lead_size,
+  sub_size: s.sub_size, container: container
+-%}
 {%- style -%}
-  #pdp-perks-{{ uid }} {
-    --pp-accent: {{ accent }};
-    --pp-card-bg: {{ s.card_bg }};
-    --pp-border: {{ s.border_color }};
-    --pp-lead: {{ s.lead_color }};
-    --pp-sub: {{ s.sub_color }};
-    --pp-radius: {{ s.card_radius }}px;
-  }
-  #pdp-perks-{{ uid }} .pp-wrap {
-    max-width: {{ container }}px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-  #pdp-perks-{{ uid }} .pp-card {
-    background: var(--pp-card-bg);
-    border: 1px solid var(--pp-border);
-    border-radius: var(--pp-radius);
-    overflow: hidden;
-  }
-  #pdp-perks-{{ uid }} .pp-title {
-    font-family: var(--font-heading-family), 'Cinzel', serif;
-    font-weight: 400;
-    color: var(--pp-lead);
-    font-size: {{ s.title_size }}px;
-    margin: 0 0 14px;
-    letter-spacing: .01em;
-  }
-  #pdp-perks-{{ uid }} .pp-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    padding: {{ s.row_padding }}px {{ s.row_padding | plus: 2 }}px;
-  }
-  {%- if s.dividers -%}
-  #pdp-perks-{{ uid }} .pp-row + .pp-row { border-top: 1px solid var(--pp-border); }
-  {%- endif -%}
-  #pdp-perks-{{ uid }} .pp-chip {
-    flex: 0 0 auto;
-    width: {{ s.chip_size }}px;
-    height: {{ s.chip_size }}px;
-    border-radius: {{ s.chip_radius }}px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    font-size: {{ s.chip_size | times: 0.5 | round }}px;
-    font-weight: 700;
-    line-height: 1;
-  }
-  #pdp-perks-{{ uid }} .pp-chip img {
-    width: 62%;
-    height: 62%;
-    object-fit: contain;
-    display: block;
-  }
-  #pdp-perks-{{ uid }} .pp-text { min-width: 0; }
-  #pdp-perks-{{ uid }} .pp-lead {
-    margin: 0;
-    color: var(--pp-sub);
-    font-size: {{ s.lead_size }}px;
-    line-height: 1.4;
-  }
-  #pdp-perks-{{ uid }} .pp-lead strong,
-  #pdp-perks-{{ uid }} .pp-lead b { color: var(--pp-lead); font-weight: 700; }
-  #pdp-perks-{{ uid }} .pp-sub {
-    margin: 4px 0 0;
-    color: var(--pp-sub);
-    font-size: {{ s.sub_size }}px;
-    line-height: 1.45;
-    opacity: .85;
-  }
-  @media (max-width: 767px) {
-    #pdp-perks-{{ uid }} .pp-row { padding: {{ s.row_padding | minus: 2 }}px {{ s.row_padding }}px; gap: 12px; }
-    #pdp-perks-{{ uid }} .pp-chip { width: {{ s.chip_size | minus: 6 }}px; height: {{ s.chip_size | minus: 6 }}px; }
-  }
+  #pdp-perks-{{ uid }} .pp-wrap { padding: 0 15px; }
 {%- endstyle -%}
 
 <div id="pdp-perks-{{ uid }}"
@@ -99,24 +32,12 @@
     {%- endif -%}
     <div class="pp-card">
       {%- for block in section.blocks -%}
-        {%- liquid
-          assign bs = block.settings
-          assign chip_bg = bs.chip_bg | default: accent
-          assign chip_fg = bs.chip_fg | default: '#ffffff'
+        {%- assign bs = block.settings -%}
+        {%- render 'pdp-perk-row',
+          icon_type: bs.icon_type, icon_char: bs.icon_char, image: bs.image,
+          chip_bg: bs.chip_bg, chip_fg: bs.chip_fg, lead: bs.lead, sub: bs.sub,
+          accent: accent, shopify_attributes: block.shopify_attributes
         -%}
-        <div class="pp-row" {{ block.shopify_attributes }}>
-          <span class="pp-chip" style="background:{{ chip_bg }};color:{{ chip_fg }};">
-            {%- if bs.icon_type == 'image' and bs.image != blank -%}
-              {{ bs.image | image_url: width: 120 | image_tag: alt: bs.image.alt | escape, loading: 'lazy' }}
-            {%- else -%}
-              {{ bs.icon_char }}
-            {%- endif -%}
-          </span>
-          <div class="pp-text">
-            {%- if bs.lead != blank -%}<p class="pp-lead">{{ bs.lead }}</p>{%- endif -%}
-            {%- if bs.sub != blank -%}<p class="pp-sub">{{ bs.sub }}</p>{%- endif -%}
-          </div>
-        </div>
       {%- endfor -%}
     </div>
   </div>
