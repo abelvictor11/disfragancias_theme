@@ -115,15 +115,29 @@
     if (legSure) legSure.textContent = data.atomsMin + ' atomizaciones seguras por ml';
     if (legExtra) legExtra.textContent = 'hasta ' + data.atomsMax + ' por ml';
 
+    // Relleno visual del slider (webkit; Firefox usa ::-moz-range-progress)
+    function paintSlider() {
+      if (!perDayInput) return;
+      var mn = Number(perDayInput.min) || 1;
+      var mx = Number(perDayInput.max) || 20;
+      var vl = Number(perDayInput.value) || mn;
+      var pct = mx === mn ? 0 : ((vl - mn) / (mx - mn)) * 100;
+      perDayInput.style.background =
+        'linear-gradient(to right, var(--dc-accent) 0%, var(--dc-accent) ' + pct +
+        '%, var(--dc-track) ' + pct + '%, var(--dc-track) 100%)';
+    }
+
     // Slider
     if (perDayInput) {
       perDayInput.min = 1;
       perDayInput.max = data.maxPerDay || 20;
       perDayInput.value = state.perDay;
       if (perDayOut) perDayOut.textContent = state.perDay;
+      paintSlider();
       perDayInput.addEventListener('input', function () {
         state.perDay = Number(perDayInput.value) || 1;
         if (perDayOut) perDayOut.textContent = state.perDay;
+        paintSlider();
         recompute();
       });
     }
@@ -174,6 +188,10 @@
       var host = root.querySelector('[data-dc-trigger-fallback]') || root;
       host.appendChild(trigger);
     }
+
+    // Portal: mover el root al <body> para que overlay/modal queden fijos al
+    // viewport (si un ancestro tiene transform/filter, 'fixed' se rompería).
+    if (root.parentNode !== document.body) document.body.appendChild(root);
 
     selectSize(0);
   }
