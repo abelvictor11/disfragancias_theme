@@ -1,0 +1,22 @@
+{%- comment -%}
+  Una fila de beneficio: chip (imagen o carácter) + línea principal + subtexto.
+  Params: icon_type ('image'|'character'), icon_char, image, chip_bg, chip_fg,
+  lead, sub, accent, shopify_attributes (opcional).
+{%- endcomment -%}
+{%- liquid
+  assign _bg = chip_bg | default: accent | default: '#ba7a2d'
+  assign _fg = chip_fg | default: '#ffffff'
+-%}
+<div class="pp-row" {{ shopify_attributes }}>
+  <span class="pp-chip" style="background:{{ _bg }};color:{{ _fg }};">
+    {%- if icon_type == 'image' and image != blank -%}
+      {{ image | image_url: width: 120 | image_tag: loading: 'lazy', alt: image.alt }}
+    {%- else -%}
+      {{ icon_char }}
+    {%- endif -%}
+  </span>
+  <div class="pp-text">
+    {%- if lead != blank -%}<p class="pp-lead">{{ lead }}</p>{%- endif -%}
+    {%- if sub != blank -%}<p class="pp-sub">{{ sub }}</p>{%- endif -%}
+  </div>
+</div>

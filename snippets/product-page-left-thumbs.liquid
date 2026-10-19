@@ -1206,6 +1206,50 @@
                                                 %}
                                             </div>
                                         {%- endif -%}
+                                    {%- when 'trust_perks' -%}
+                                        {%- assign tp = block.settings -%}
+                                        {%- assign tp_uid = block.id -%}
+                                        <div class="productView-moreItem{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"
+                                            style="--spacing-top: {{ spacing_top | append: 'px' }};
+                                            --spacing-bottom: {{ spacing_bottom | append: 'px' }};"
+                                            {{ block.shopify_attributes }}
+                                        >
+                                            {%- render 'pdp-perks-style',
+                                                uid: tp_uid, accent: tp.accent_color, card_bg: tp.card_bg,
+                                                border_color: tp.border_color, lead_color: tp.lead_color,
+                                                sub_color: tp.sub_color, card_radius: tp.card_radius,
+                                                row_padding: tp.row_padding, dividers: tp.dividers,
+                                                chip_size: tp.chip_size, chip_radius: tp.chip_radius,
+                                                title_size: tp.title_size, lead_size: tp.lead_size,
+                                                sub_size: tp.sub_size, container: '1770'
+                                            -%}
+                                            <div id="pdp-perks-{{ tp_uid }}">
+                                                {%- if tp.heading != blank -%}<h3 class="pp-title">{{ tp.heading }}</h3>{%- endif -%}
+                                                <div class="pp-card">
+                                                    {%- for i in (1..4) -%}
+                                                        {%- liquid
+                                                            assign k_lead = 'row' | append: i | append: '_lead'
+                                                            assign k_sub = 'row' | append: i | append: '_sub'
+                                                            assign k_itype = 'row' | append: i | append: '_icon_type'
+                                                            assign k_char = 'row' | append: i | append: '_char'
+                                                            assign k_img = 'row' | append: i | append: '_image'
+                                                            assign k_bg = 'row' | append: i | append: '_chip_bg'
+                                                            assign k_fg = 'row' | append: i | append: '_chip_fg'
+                                                            assign r_lead = tp[k_lead]
+                                                            assign r_sub = tp[k_sub]
+                                                            assign r_img = tp[k_img]
+                                                        -%}
+                                                        {%- if r_lead != blank or r_sub != blank or r_img != blank -%}
+                                                            {%- render 'pdp-perk-row',
+                                                                icon_type: tp[k_itype], icon_char: tp[k_char], image: r_img,
+                                                                chip_bg: tp[k_bg], chip_fg: tp[k_fg], lead: r_lead, sub: r_sub,
+                                                                accent: tp.accent_color
+                                                            -%}
+                                                        {%- endif -%}
+                                                    {%- endfor -%}
+                                                </div>
+                                            </div>
+                                        </div>
                                     {%- when 'custom_liquid' -%}
                                         {{ block.settings.custom_liquid }}
                                     {%- when 'complementary_products' -%}
