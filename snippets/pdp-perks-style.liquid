@@ -1,0 +1,51 @@
+{%- comment -%}
+  Estilos scopeados para la lista de beneficios (PDP · Beneficios).
+  Reutilizado por la sección 'pdp-trust-list' y por el bloque 'trust_perks'
+  de main-product. Params:
+    uid, accent, card_bg, border_color, lead_color, sub_color,
+    card_radius, row_padding, dividers (bool), chip_size, chip_radius,
+    title_size, lead_size, sub_size, container
+{%- endcomment -%}
+{%- liquid
+  assign _accent = accent | default: '#ba7a2d'
+  assign _card_bg = card_bg | default: '#ffffff'
+  assign _border = border_color | default: '#e6e6e6'
+  assign _lead = lead_color | default: '#232323'
+  assign _sub = sub_color | default: '#3c3c3c'
+  assign _radius = card_radius | default: 14
+  assign _rowpad = row_padding | default: 18
+  assign _chip = chip_size | default: 40
+  assign _chipr = chip_radius | default: 10
+  assign _title = title_size | default: 22
+  assign _leads = lead_size | default: 16
+  assign _subs = sub_size | default: 13
+  assign _cont = container | default: '1170'
+  assign _chipfont = _chip | times: 0.5 | round
+-%}
+{%- style -%}
+  #pdp-perks-{{ uid }} {
+    --pp-accent: {{ _accent }};
+    --pp-card-bg: {{ _card_bg }};
+    --pp-border: {{ _border }};
+    --pp-lead: {{ _lead }};
+    --pp-sub: {{ _sub }};
+    --pp-radius: {{ _radius }}px;
+  }
+  #pdp-perks-{{ uid }} .pp-wrap { max-width: {{ _cont }}px; margin: 0 auto; }
+  #pdp-perks-{{ uid }} .pp-card { background: var(--pp-card-bg); border: 1px solid var(--pp-border); border-radius: var(--pp-radius); overflow: hidden; }
+  #pdp-perks-{{ uid }} .pp-title { font-family: var(--font-heading-family), 'Cinzel', serif; font-weight: 400; color: var(--pp-lead); font-size: {{ _title }}px; margin: 0 0 14px; letter-spacing: .01em; }
+  #pdp-perks-{{ uid }} .pp-row { display: flex; align-items: flex-start; gap: 14px; padding: {{ _rowpad }}px {{ _rowpad | plus: 2 }}px; }
+  {%- if dividers -%}
+  #pdp-perks-{{ uid }} .pp-row + .pp-row { border-top: 1px solid var(--pp-border); }
+  {%- endif -%}
+  #pdp-perks-{{ uid }} .pp-chip { flex: 0 0 auto; width: {{ _chip }}px; height: {{ _chip }}px; border-radius: {{ _chipr }}px; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: {{ _chipfont }}px; font-weight: 700; line-height: 1; }
+  #pdp-perks-{{ uid }} .pp-chip img { width: 62%; height: 62%; object-fit: contain; display: block; }
+  #pdp-perks-{{ uid }} .pp-text { min-width: 0; }
+  #pdp-perks-{{ uid }} .pp-lead { margin: 0; color: var(--pp-sub); font-size: {{ _leads }}px; line-height: 1.4; }
+  #pdp-perks-{{ uid }} .pp-lead strong, #pdp-perks-{{ uid }} .pp-lead b { color: var(--pp-lead); font-weight: 700; }
+  #pdp-perks-{{ uid }} .pp-sub { margin: 4px 0 0; color: var(--pp-sub); font-size: {{ _subs }}px; line-height: 1.45; opacity: .85; }
+  @media (max-width: 767px) {
+    #pdp-perks-{{ uid }} .pp-row { padding: {{ _rowpad | minus: 2 }}px {{ _rowpad }}px; gap: 12px; }
+    #pdp-perks-{{ uid }} .pp-chip { width: {{ _chip | minus: 6 }}px; height: {{ _chip | minus: 6 }}px; }
+  }
+{%- endstyle -%}
