@@ -1250,6 +1250,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    {%- when 'decant_calculator' -%}
+                                        {% render 'pdp-decant-calculator', block: block, product: product %}
                                     {%- when 'custom_liquid' -%}
                                         {{ block.settings.custom_liquid }}
                                     {%- when 'complementary_products' -%}
