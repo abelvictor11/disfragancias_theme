@@ -33,6 +33,16 @@
                     </div>
                 </div>
             {%- endif -%}
+            {%- if section.blocks.size > 1 -%}
+            {%- comment -%} Evita el salto del hero: antes de que Slick inicialice,
+                las slides se apilan y luego colapsan a una. Mostramos solo la 1ª
+                (ya reserva su altura por aspect-ratio) hasta que Slick agrega
+                .slick-initialized. {%- endcomment -%}
+            <style>
+              #slideshow-wrapper-{{ section.id }} .slideshow[data-init-slideshow]:not(.slick-initialized) > .item { display: none; }
+              #slideshow-wrapper-{{ section.id }} .slideshow[data-init-slideshow]:not(.slick-initialized) > .item[data-index="1"] { display: block; }
+            </style>
+            {%- endif -%}
             <div class="slideshow{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}" data-auto-video="{{ section.settings.auto_playvideo }}" {% if section.blocks.size > 1 %}data-init-slideshow data-arrows="{{arrow}}" data-dots="{{dots}}" data-autoplay="{{ autoplay }}" data-autoplay-speed="{{ autoplaySpeed }}" data-fade="{{ fade }}" {% endif %}>
             {%- for block in section.blocks -%}
                 {%- if block.type == 'image' or block.type == 'video' -%}
