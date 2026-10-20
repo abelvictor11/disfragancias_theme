@@ -36,7 +36,6 @@
     if (!data.sizes || !data.sizes.length) return;
 
     var modal = root.querySelector('[data-dc-modal]');
-    var overlay = root.querySelector('[data-dc-overlay]');
     var perDayInput = root.querySelector('[data-dc-slider]');
     var perDayOut = root.querySelector('[data-dc-perday]');
     var sizeBtns = root.querySelectorAll('[data-dc-size]');
@@ -163,21 +162,28 @@
       })(b);
     }
 
+    // <dialog> nativo: showModal() lo pinta en el top layer (sobre todo,
+    // sin importar transform/overflow de ancestros) y aporta el ::backdrop.
     function open() {
-      if (overlay) overlay.hidden = false;
-      if (modal) modal.hidden = false;
-      document.documentElement.style.overflow = 'hidden';
-      document.addEventListener('keydown', onKey);
+      if (!modal) return;
+      if (typeof modal.showModal === 'function') modal.showModal();
+      else modal.setAttribute('open', '');
     }
     function close() {
-      if (overlay) overlay.hidden = true;
-      if (modal) modal.hidden = true;
-      document.documentElement.style.overflow = '';
-      document.removeEventListener('keydown', onKey);
+      if (!modal) return;
+      if (typeof modal.close === 'function') modal.close();
+      else modal.removeAttribute('open');
     }
-    function onKey(e) { if (e.key === 'Escape') close(); }
 
-    if (overlay) overlay.addEventListener('click', close);
+    // Cerrar al hacer clic fuera de la tarjeta (en el backdrop).
+    if (modal) {
+      modal.addEventListener('click', function (e) {
+        var r = modal.getBoundingClientRect();
+        var inside = e.clientX >= r.left && e.clientX <= r.right &&
+                     e.clientY >= r.top && e.clientY <= r.bottom;
+        if (!inside) close();
+      });
+    }
     var closeBtns = root.querySelectorAll('[data-dc-close]');
     for (var c = 0; c < closeBtns.length; c++) closeBtns[c].addEventListener('click', close);
 
@@ -198,9 +204,6 @@
       var host = root.querySelector('[data-dc-trigger-fallback]') || root;
       host.appendChild(trigger);
     }
-
-    // Portal al <body> para que overlay/modal queden fijos al viewport.
-    if (root.parentNode !== document.body) document.body.appendChild(root);
 
     selectSize(0);
   }
