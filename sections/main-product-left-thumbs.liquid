@@ -3219,6 +3219,44 @@
             ]
         },
         {
+            "type": "decant_calculator",
+            "name": "Calculadora de decant",
+            "settings": [
+                { "type": "paragraph", "content": "Muestra un modal '¿Cuánto rinde tu decant?'. El enlace se inserta automáticamente en la fila de cantidad del PDP." },
+                { "type": "text", "id": "trigger_label", "label": "Texto del enlace", "default": "¿Cuánto rinde tu decant?" },
+                { "type": "text", "id": "heading", "label": "Título del modal", "default": "¿Cuánto rinde tu decant?" },
+                { "type": "textarea", "id": "subtitle", "label": "Subtítulo", "default": "Base: 15 a 18 atomizaciones por ml, el mismo dato que ya dice la ficha." },
+                { "type": "text", "id": "only_tag", "label": "Mostrar solo si el producto tiene esta etiqueta", "info": "Déjalo vacío para mostrarlo en todos los productos. Ej: Decant" },
+                { "type": "header", "content": "Base de rendimiento" },
+                { "type": "range", "id": "atoms_min", "label": "Atomizaciones mín. por ml", "min": 5, "max": 30, "step": 1, "default": 15 },
+                { "type": "range", "id": "atoms_max", "label": "Atomizaciones máx. por ml", "min": 5, "max": 40, "step": 1, "default": 18 },
+                { "type": "range", "id": "dot_unit", "label": "Atomizaciones por punto", "min": 1, "max": 20, "step": 1, "default": 5, "info": "Cada punto del dibujo representa esta cantidad de atomizaciones." },
+                { "type": "range", "id": "default_per_day", "label": "Atomizaciones/día por defecto", "min": 1, "max": 20, "step": 1, "default": 5 },
+                { "type": "range", "id": "max_per_day", "label": "Máximo del slider (por día)", "min": 5, "max": 40, "step": 1, "default": 20 },
+                { "type": "text", "id": "slider_label", "label": "Etiqueta del slider", "default": "Atomizaciones que usas al día" },
+                { "type": "header", "content": "Tamaños y precios" },
+                { "type": "select", "id": "price_source", "label": "Valor por atomización según", "default": "product_variant", "options": [ { "value": "product_variant", "label": "Precio de la variante del producto" }, { "value": "manual", "label": "Precios manuales de abajo" } ], "info": "Con 'variante' se usa el precio real del producto cuyo tamaño coincida con la etiqueta (ej. '5 ml'); si no coincide, usa el precio manual." },
+                { "type": "text", "id": "size1_label", "label": "Tamaño 1 · etiqueta", "default": "5 ml" },
+                { "type": "number", "id": "size1_ml", "label": "Tamaño 1 · ml", "default": 5 },
+                { "type": "number", "id": "size1_price", "label": "Tamaño 1 · precio (COP)", "default": 22000 },
+                { "type": "text", "id": "size2_label", "label": "Tamaño 2 · etiqueta", "default": "10 ml" },
+                { "type": "number", "id": "size2_ml", "label": "Tamaño 2 · ml", "default": 10 },
+                { "type": "number", "id": "size2_price", "label": "Tamaño 2 · precio (COP)", "default": 38000 },
+                { "type": "text", "id": "size3_label", "label": "Tamaño 3 · etiqueta", "default": "20 ml" },
+                { "type": "number", "id": "size3_ml", "label": "Tamaño 3 · ml", "default": 20 },
+                { "type": "number", "id": "size3_price", "label": "Tamaño 3 · precio (COP)", "default": 65000 },
+                { "type": "header", "content": "Textos de las tarjetas" },
+                { "type": "text", "id": "cap_total", "label": "Pie tarjeta 1", "default": "atomizaciones" },
+                { "type": "text", "id": "cap_weeks", "label": "Pie tarjeta 2", "default": "de uso diario" },
+                { "type": "text", "id": "cap_ppa", "label": "Pie tarjeta 3", "default": "por atomización*" },
+                { "type": "text", "id": "note_prefix", "label": "Prefijo de la nota", "default": "*Con precios de" },
+                { "type": "header", "content": "Colores" },
+                { "type": "color", "id": "accent_color", "label": "Acento (puntos, slider, tamaño activo)", "default": "#ba7a2d" },
+                { "type": "color", "id": "link_color", "label": "Color del enlace", "default": "#e24d2b" }
+            ]
+        },
+
+        {
             "type": "complementary_products",
             "name": "t:sections.main-product.settings.complementary.label",
             "settings": [
