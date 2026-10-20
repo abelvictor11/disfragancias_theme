@@ -1,6 +1,8 @@
 /* Calculadora "¿Cuánto rinde tu decant?" (Disfragancias).
    - Inyecta el disparador en la row de cantidad del PDP.
    - Modal editable por el cliente: tamaño y atomizaciones/día.
+   - Al cambiar el tamaño: la botella se llena y la grilla de puntos escala
+     (cada punto = dotUnit atomizaciones; rellenos = seguras, contorno = hasta máx).
    - Valor por atomización calculado desde el precio del producto (o manual).
    Datos entran por un <script type="application/json" id="decant-calc-data-{uid}">.
 */
@@ -15,7 +17,6 @@
   function norm(s) { return String(s || '').toLowerCase().replace(/\s+/g, ''); }
 
   function priceForSize(size, data) {
-    // Precio en pesos. Preferir variante del producto si así se configuró.
     if (data.priceSource === 'product_variant' && data.variants && data.variants.length) {
       var want = norm(size.label);
       for (var i = 0; i < data.variants.length; i++) {
@@ -42,27 +43,38 @@
     var elTotal = root.querySelector('[data-dc-total]');
     var elWeeks = root.querySelector('[data-dc-weeks]');
     var elPrice = root.querySelector('[data-dc-ppa]');
-    var dotsSure = root.querySelector('[data-dc-dots-sure]');
-    var dotsExtra = root.querySelector('[data-dc-dots-extra]');
+    var dotsEl = root.querySelector('[data-dc-dots]');
+    var bottle = root.querySelector('[data-dc-bottle]');
     var legSure = root.querySelector('[data-dc-leg-sure]');
     var legExtra = root.querySelector('[data-dc-leg-extra]');
 
-    var state = { sizeIndex: 0, perDay: data.defaultPerDay || 5 };
+    var unit = Number(data.dotUnit) || 5;
+    var maxMl = 0;
+    for (var i = 0; i < data.sizes.length; i++) maxMl = Math.max(maxMl, Number(data.sizes[i].ml) || 0);
+    if (maxMl <= 0) maxMl = 1;
 
-    function dots(container, count, cls) {
-      if (!container) return;
-      container.innerHTML = '';
-      for (var i = 0; i < count; i++) {
-        var d = document.createElement('span');
-        d.className = cls;
-        container.appendChild(d);
-      }
-    }
+    var state = { sizeIndex: 0, perDay: data.defaultPerDay || 5 };
 
     function rangeText(a, b, suffix) {
       a = Math.round(a); b = Math.round(b);
       if (a === b) return a + (suffix || '');
       return a + '–' + b + (suffix || '');
+    }
+
+    function renderDots(filled, total) {
+      if (!dotsEl) return;
+      total = Math.max(0, Math.round(total));
+      filled = Math.max(0, Math.min(total, Math.round(filled)));
+      // Evitar explosión de nodos.
+      if (total > 160) { var k = total / 160; total = 160; filled = Math.round(filled / k); }
+      dotsEl.innerHTML = '';
+      var frag = document.createDocumentFragment();
+      for (var i = 0; i < total; i++) {
+        var d = document.createElement('span');
+        d.className = 'dc-dot ' + (i < filled ? 'dc-dot--on' : 'dc-dot--off');
+        frag.appendChild(d);
+      }
+      dotsEl.appendChild(frag);
     }
 
     function recompute() {
@@ -77,12 +89,20 @@
       var perWeek = (state.perDay || 1) * 7;
       if (elWeeks) elWeeks.textContent = '≈ ' + rangeText(min / perWeek, max / perWeek);
 
-      // Más atomizaciones => menor costo por atomización.
-      var ppaLow = price / max;
-      var ppaHigh = price / min;
+      var ppaLow = price / max, ppaHigh = price / min;
       if (elPrice) {
         var lo = Math.round(ppaLow), hi = Math.round(ppaHigh);
-        elPrice.textContent = (lo === hi) ? money(lo) : (money(lo) + '–' + Math.round(hi).toLocaleString('es-CO'));
+        elPrice.textContent = (lo === hi) ? money(lo) : (money(lo) + '–' + hi.toLocaleString('es-CO'));
+      }
+
+      // Puntos: escala con el tamaño (cada punto = unit atomizaciones).
+      renderDots(min / unit, max / unit);
+
+      // Botella: fracción de llenado según el tamaño (piso 0.30 para legibilidad).
+      if (bottle) {
+        var frac = 0.30 + 0.70 * (ml / maxMl);
+        if (frac > 1) frac = 1;
+        bottle.style.setProperty('--dc-fill', (frac * 100).toFixed(1) + '%');
       }
     }
 
@@ -96,6 +116,9 @@
       recompute();
     }
 
+    if (legSure) legSure.textContent = unit + ' atomizaciones seguras';
+    if (legExtra) legExtra.textContent = 'hasta ' + unit + ' más';
+
     // Nota al pie con precios por tamaño
     var elFoot = root.querySelector('[data-dc-foot]');
     if (elFoot) {
@@ -107,13 +130,6 @@
       var title = data.productTitle ? (' ' + data.productTitle) : '';
       elFoot.textContent = prefix + title + ': ' + parts.join(' · ') + '.';
     }
-
-    // Dots por ml (constantes): seguras = atomsMin, extra = atomsMax - atomsMin.
-    var extra = Math.max(0, data.atomsMax - data.atomsMin);
-    dots(dotsSure, data.atomsMin, 'dc-dot dc-dot--on');
-    dots(dotsExtra, extra, 'dc-dot dc-dot--off');
-    if (legSure) legSure.textContent = data.atomsMin + ' atomizaciones seguras por ml';
-    if (legExtra) legExtra.textContent = 'hasta ' + data.atomsMax + ' por ml';
 
     // Relleno visual del slider (webkit; Firefox usa ::-moz-range-progress)
     function paintSlider() {
@@ -127,7 +143,6 @@
         '%, var(--dc-track) ' + pct + '%, var(--dc-track) 100%)';
     }
 
-    // Slider
     if (perDayInput) {
       perDayInput.min = 1;
       perDayInput.max = data.maxPerDay || 20;
@@ -148,7 +163,6 @@
       })(b);
     }
 
-    // Modal open/close
     function open() {
       if (overlay) overlay.hidden = false;
       if (modal) modal.hidden = false;
@@ -167,7 +181,7 @@
     var closeBtns = root.querySelectorAll('[data-dc-close]');
     for (var c = 0; c < closeBtns.length; c++) closeBtns[c].addEventListener('click', close);
 
-    // Inyectar disparador en la row de cantidad
+    // Disparador en la row de cantidad
     var trigger = document.createElement('button');
     trigger.type = 'button';
     trigger.className = 'dc-trigger';
@@ -178,19 +192,14 @@
     var placed = false;
     if (qty) {
       var row = qty.closest('.productView-moreItem') || qty.parentNode;
-      if (row) {
-        row.classList.add('dc-qty-row');
-        row.appendChild(trigger);
-        placed = true;
-      }
+      if (row) { row.classList.add('dc-qty-row'); row.appendChild(trigger); placed = true; }
     }
     if (!placed) {
       var host = root.querySelector('[data-dc-trigger-fallback]') || root;
       host.appendChild(trigger);
     }
 
-    // Portal: mover el root al <body> para que overlay/modal queden fijos al
-    // viewport (si un ancestro tiene transform/filter, 'fixed' se rompería).
+    // Portal al <body> para que overlay/modal queden fijos al viewport.
     if (root.parentNode !== document.body) document.body.appendChild(root);
 
     selectSize(0);

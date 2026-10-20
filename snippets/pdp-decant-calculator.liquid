@@ -49,12 +49,19 @@
   #decant-calc-{{ uid }} .dc-size.is-active { background:{{ dark }}; color:#fff; border-color:{{ accent }};
     box-shadow:0 0 0 2px {{ accent }}; }
 
-  #decant-calc-{{ uid }} .dc-viz { display:flex; align-items:center; gap:14px; margin:6px 0 10px; }
-  #decant-calc-{{ uid }} .dc-bottle { flex:0 0 auto; width:52px; height:78px; color:{{ accent }}; }
-  #decant-calc-{{ uid }} .dc-dots { display:flex; flex-wrap:wrap; gap:7px; align-content:center; }
-  #decant-calc-{{ uid }} .dc-dot { width:14px; height:14px; border-radius:50%; display:inline-block; }
+  #decant-calc-{{ uid }} .dc-viz { display:flex; align-items:stretch; gap:16px; margin:8px 0 10px; }
+  #decant-calc-{{ uid }} .dc-bottle { flex:0 0 auto; width:46px; display:flex; flex-direction:column; align-items:center; }
+  #decant-calc-{{ uid }} .dc-bottle .cap { width:16px; height:11px; background:{{ dark }}; border-radius:3px 3px 0 0; }
+  #decant-calc-{{ uid }} .dc-bottle .neck { width:24px; height:6px; background:{{ dark }}; border-radius:2px; }
+  #decant-calc-{{ uid }} .dc-bottle .body { flex:1; width:100%; min-height:44px; border:3px solid {{ dark }};
+    border-radius:9px; position:relative; overflow:hidden; background:#fff; }
+  #decant-calc-{{ uid }} .dc-bottle .fill { position:absolute; left:0; right:0; bottom:0; height:var(--dc-fill,40%);
+    background:linear-gradient(180deg, #d9a24a, #9a6420); transition:height .35s ease; }
+  #decant-calc-{{ uid }} .dc-dots { flex:1; display:flex; flex-wrap:wrap; gap:7px; align-content:flex-start; padding-top:2px; }
+  #decant-calc-{{ uid }} .dc-dot { width:14px; height:14px; border-radius:50%; box-sizing:border-box; }
   #decant-calc-{{ uid }} .dc-dot--on { background:{{ accent }}; }
   #decant-calc-{{ uid }} .dc-dot--off { background:transparent; border:2px solid {{ accent }}; }
+  @media (prefers-reduced-motion: reduce) { #decant-calc-{{ uid }} .dc-bottle .fill { transition:none; } }
   #decant-calc-{{ uid }} .dc-legend { display:flex; gap:22px; flex-wrap:wrap; margin:4px 0 20px;
     font-size:13.5px; color:#555; }
   #decant-calc-{{ uid }} .dc-legend span.m { display:inline-flex; align-items:center; gap:8px; }
@@ -117,6 +124,7 @@
     {
       "atomsMin": {{ s.atoms_min | default: 15 }},
       "atomsMax": {{ s.atoms_max | default: 18 }},
+      "dotUnit": {{ s.dot_unit | default: 5 }},
       "defaultPerDay": {{ s.default_per_day | default: 5 }},
       "maxPerDay": {{ s.max_per_day | default: 20 }},
       "priceSource": {{ s.price_source | default: 'product_variant' | json }},
@@ -145,16 +153,12 @@
     </div>
 
     <div class="dc-viz">
-      <svg class="dc-bottle" viewBox="0 0 52 78" fill="none" aria-hidden="true">
-        <rect x="20" y="2" width="12" height="10" rx="2" fill="currentColor"/>
-        <rect x="18" y="12" width="16" height="6" rx="1" fill="currentColor" opacity=".5"/>
-        <rect x="10" y="20" width="32" height="54" rx="7" stroke="currentColor" stroke-width="3"/>
-        <rect x="15" y="34" width="22" height="35" rx="4" fill="currentColor" opacity=".85"/>
-      </svg>
-      <div class="dc-dots">
-        <span data-dc-dots-sure style="display:contents"></span>
-        <span data-dc-dots-extra style="display:contents"></span>
+      <div class="dc-bottle" data-dc-bottle aria-hidden="true">
+        <span class="cap"></span>
+        <span class="neck"></span>
+        <span class="body"><span class="fill"></span></span>
       </div>
+      <div class="dc-dots" data-dc-dots></div>
     </div>
     <div class="dc-legend">
       <span class="m"><i class="i-on"></i><span data-dc-leg-sure></span></span>
