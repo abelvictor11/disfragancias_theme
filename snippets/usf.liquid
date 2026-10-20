@@ -1,3 +1,11 @@
+{%- comment -%} Pistas de red para acelerar USF: conexión temprana al servicio
+    de Hotyon y descarga en paralelo del runtime/estilos (antes iban en serie
+    después de usf-boot.js). {%- endcomment -%}
+<link rel="preconnect" href="https://svc-8-usf.hotyon.com" crossorigin>
+<link rel="dns-prefetch" href="https://svc-8-usf.hotyon.com">
+<link rel="preconnect" href="https://svc-8-analytics-usf.hotyon.com" crossorigin>
+<link rel="preload" as="style" href="{{ 'usf.css' | asset_url }}">
+<link rel="preload" as="script" href="{{ 'usf.js' | asset_url }}">
 <script data-usf-default-search-sort>
 (function () {
     var locationObject = window.location;
