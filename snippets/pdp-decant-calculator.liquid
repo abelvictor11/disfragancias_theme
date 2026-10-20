@@ -30,12 +30,13 @@
   .dc-trigger:hover { opacity:.85; }
 
   #decant-calc-{{ uid }} { --dc-accent: {{ accent }}; --dc-track: #e8e4dc; }
-  #decant-calc-{{ uid }} [data-dc-overlay] { position:fixed; inset:0; background:rgba(20,20,20,.55);
-    z-index:99998; }
-  #decant-calc-{{ uid }} [data-dc-modal] { position:fixed; z-index:99999; top:50%; left:50%;
-    transform:translate(-50%,-50%); width:calc(100% - 32px); max-width:540px; max-height:90vh;
-    overflow:auto; background:#fff; border:1px solid #ececec; border-radius:20px;
-    padding:28px 26px; box-shadow:0 20px 60px rgba(0,0,0,.22); }
+  /* <dialog> nativo: se pinta en el top layer del navegador, así ignora
+     transform/overflow/z-index de cualquier ancestro del PDP. */
+  dialog.dc-dialog { width:calc(100% - 32px); max-width:540px; max-height:90vh; overflow:auto;
+    background:#fff; color:inherit; border:1px solid #ececec; border-radius:20px; padding:28px 26px;
+    box-shadow:0 20px 60px rgba(0,0,0,.22); position:fixed; inset:0; margin:auto; }
+  dialog.dc-dialog::backdrop { background:rgba(20,20,20,.55); }
+  dialog.dc-dialog:not([open]) { display:none; }
   #decant-calc-{{ uid }} .dc-close { position:absolute; top:14px; right:16px; background:none; border:0;
     font-size:26px; line-height:1; cursor:pointer; color:#999; }
   #decant-calc-{{ uid }} .dc-title { font-family: var(--font-heading-family), 'Cinzel', serif;
@@ -136,8 +137,7 @@
     }
   </script>
 
-  <div data-dc-overlay hidden></div>
-  <div data-dc-modal role="dialog" aria-modal="true" aria-labelledby="dc-title-{{ uid }}" hidden>
+  <dialog class="dc-dialog" data-dc-modal aria-labelledby="dc-title-{{ uid }}">
     <button type="button" class="dc-close" data-dc-close aria-label="Cerrar">&times;</button>
     <h3 class="dc-title" id="dc-title-{{ uid }}">{{ s.heading | default: '¿Cuánto rinde tu decant?' }}</h3>
     {%- if s.subtitle != blank -%}<p class="dc-sub">{{ s.subtitle }}</p>{%- endif -%}
@@ -178,7 +178,7 @@
     </div>
     <p class="dc-foot" data-dc-foot></p>
     <span data-dc-trigger-fallback hidden></span>
-  </div>
+  </dialog>
 </div>
 
 <script src="{{ 'pdp-decant-calculator.js' | asset_url }}" defer="defer"></script>
