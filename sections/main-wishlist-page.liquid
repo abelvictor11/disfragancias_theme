@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="{{ 'component-pagination.css' | asset_url }}" media="print" onload="this.media='all'">
 <noscript>{{ 'component-wishlist.css' | asset_url | stylesheet_tag }}</noscript>
 <noscript>{{ 'component-pagination.css' | asset_url | stylesheet_tag }}</noscript>
+<script src="{{ 'wishlist-sharing.js' | asset_url }}"></script>
 
 {{ 'component-toolbar.css' | asset_url | stylesheet_tag }}
 {{ 'component-product-listing.css' | asset_url | stylesheet_tag }}
@@ -57,14 +58,27 @@
                 </div>  
             </div>  
             <div class="wishlist-footer pagination-right{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}" data-wishlist-footer>
-                <a class="wishlist-share link link-underline" href="mailto:?subject= {{ page.title | strip_html }}&amp;body=" data-wishlist-share>
-                    <div class="mail-icon-container">
-                        {% render 'icon-mail' %}
-                    </div>
-                    <span class="text">
-                        {{ 'wishlist.general.share' | t }}            
-                    </span>
-                </a>
+                <div class="wishlist-share-actions" role="group" aria-label="{{ 'general.share.share' | t | escape }}">
+                    <a class="wishlist-share link link-underline" href="mailto:?subject={{ page.title | strip_html | url_encode }}&amp;body=" data-wishlist-share>
+                        <span class="wishlist-share__icon" aria-hidden="true">
+                            {% render 'icon-mail' %}
+                        </span>
+                        <span class="text">{{ 'wishlist.general.share' | t }}</span>
+                    </a>
+                    <a class="wishlist-share link link-underline" href="https://wa.me/" target="_blank" rel="noopener noreferrer" data-wishlist-share-whatsapp>
+                        <span class="wishlist-share__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="presentation"><path d="M12.04 2a9.84 9.84 0 0 0-8.39 14.98L2 22l5.17-1.62A9.9 9.9 0 1 0 12.04 2Zm0 17.98a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.07.96 1-2.99-.2-.31a8.13 8.13 0 1 1 6.7 3.65Zm4.46-6.08c-.24-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.55.12-.16.24-.63.79-.77.95-.14.16-.28.18-.52.06-.24-.12-1.03-.38-1.95-1.21a7.3 7.3 0 0 1-1.35-1.68c-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.31-.75-1.8-.2-.47-.4-.41-.55-.42h-.46c-.16 0-.42.06-.65.3-.22.24-.85.83-.85 2.02s.87 2.34.99 2.5c.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28Z"/></svg>
+                        </span>
+                        <span class="text">{{ 'general.social.links.whatsapp' | t }}</span>
+                    </a>
+                    <button class="wishlist-share wishlist-share--button link link-underline" type="button" data-wishlist-share-copy>
+                        <span class="wishlist-share__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="presentation"><path d="M8 7V5a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-2v3a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h3Zm3-2a1 1 0 0 0-1 1v1h4a3 3 0 0 1 3 3v4h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-8Zm3 4H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1Z"/></svg>
+                        </span>
+                        <span class="text">{{ 'general.share.copy_to_clipboard' | t }}</span>
+                    </button>
+                    <span class="wishlist-share-status" role="status" aria-live="polite" data-wishlist-share-status data-copy-success="{{ 'general.share.success_message' | t | escape }}" data-copy-error="{{ 'accessibility.error' | t | escape }}"></span>
+                </div>
                 <ul class="pagination__list list-unstyled" role="list"  id="wishlist-paginate"></ul>
             </div>
         </div>
@@ -134,12 +148,15 @@
             this.wlpaggingContainer = document.getElementById('wishlist-paginate');
             this.wishlistContainer = this.closest('[data-wishlist-container]');
             this.wishlistFooter = document.querySelector('[data-wishlist-footer]');
+            this.copyShareButton = document.querySelector('[data-wishlist-share-copy]');
+            this.shareStatus = document.querySelector('[data-wishlist-share-status]');
 
             this.viewCols.forEach(viewCol => {
                 viewCol.addEventListener('click', this.onViewColClick.bind(this));
             })
 
             window.addEventListener('resize', this.onResize.bind(this));
+            this.copyShareButton?.addEventListener('click', this.copyWishlist.bind(this));
 
             this.initWishlistPage();
         }
@@ -241,6 +258,7 @@
                         document.addEventListener('addwishlistitem', async (e) => {
                             const handle = e.detail.handle;
                             await this.setProductForWishlistPage(handle);
+                            this.updateShareWishlistViaMail();
                             this.wishlistPagination();
                         });
                     } catch(err) {
@@ -433,19 +451,34 @@
         updateShareWishlistViaMail() {
             const regex = /(<([^>]+)>)/ig;
             const addedItems = document.querySelectorAll('[data-wishlist-added]');
-
             const shareLinkElement = document.querySelector('[data-wishlist-share]');
-            let href = 'mailto:?subject= Wish List&body=';
-
-            addedItems.forEach((item, index) => {
+            const whatsappLinkElement = document.querySelector('[data-wishlist-share-whatsapp]');
+            const items = Array.from(addedItems).map((item) => {
                 const price = item.querySelector('.price__sale .price__last .price-item')?.textContent || item.querySelector('.price__regular .price__last .price-item')?.textContent;
                 const title = item.querySelector('[data-product-title]')?.dataset.productTitle;
                 const url = item.querySelector('[data-product-url]')?.dataset.productUrl;
 
-                href += encodeURIComponent(title + '\nPrice: ' + price?.replace(regex, '') + '\nLink: ' + window.location.protocol + '//' + window.location.hostname + url +'\n\n');
-            })
+                return {
+                    title: title,
+                    price: price?.replace(regex, '').trim(),
+                    url: url
+                };
+            });
 
-            shareLinkElement.href = href;
+            this.sharePayload = window.WishlistSharing.buildPayload(items, window.location.origin);
+            shareLinkElement.href = window.WishlistSharing.buildEmailUrl(this.sharePayload);
+            whatsappLinkElement.href = window.WishlistSharing.buildWhatsAppUrl(this.sharePayload);
+        }
+
+        async copyWishlist() {
+            if (!this.sharePayload) return;
+
+            try {
+                await window.WishlistSharing.copyText(this.sharePayload, window);
+                this.shareStatus.textContent = this.shareStatus.dataset.copySuccess;
+            } catch (error) {
+                this.shareStatus.textContent = this.shareStatus.dataset.copyError;
+            }
         }
 
         calculateCard06Padding() {
@@ -469,12 +502,6 @@
     #WishlistSection-{{ section.id }}{
         padding-top: {{ padding_top }};
         padding-bottom: {{ padding_bottom }};
-    }
-
-    #WishlistSection-{{ section.id }} .wishlist-footer .wishlist-share {
-        display: flex; 
-        align-items: center;
-        gap: 15px;
     }
 
     @media (max-width: 1024px) {
