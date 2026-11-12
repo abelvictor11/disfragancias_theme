@@ -277,9 +277,15 @@
 
 /* START: Grid Layout */
 .wishlist-items-display.grid {
-    grid-template-columns: repeat(var(--grid-columns), 1fr);
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
     gap: 30px 15px;      
     overflow-x: clip;
+}
+
+.wishlist-items-display.grid > .product {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
 }
 
 .wishlist-items-display.grid.productList {
@@ -579,6 +585,16 @@
 }
 
 @media screen and (max-width: 550px) {
+    .wishlist-items-display.grid:not(.productList) .card-action .button {
+        width: 100%;
+        min-width: 0;
+        min-height: 44px;
+        padding-left: 6px;
+        padding-right: 6px;
+        white-space: normal;
+        line-height: 1.2;
+    }
+
     .wishlist-items-container .wishlist-meta .item-title {
         -webkit-line-clamp: 1;
     }
