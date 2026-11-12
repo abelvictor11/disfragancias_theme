@@ -261,6 +261,12 @@
     padding-right: 0;
 }
 
+/* Match Slick's final one-row geometry before its deferred script initializes. */
+.spotlight-block.enable_slider .halo-row[data-spotlight-slider]:not(.slick-initialized) {
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
 .spotlight-block .content_absolute .content.align-items--top {
     top: var(--align-items-postion-content-style);
     bottom: auto;
@@ -537,6 +543,11 @@
 }
 
 @media(max-width: 767px){
+    .spotlight-block.enable_slider .halo-row[data-spotlight-slider]:not(.slick-initialized) .halo-item {
+        flex: 0 0 50%;
+        margin-top: 0 !important;
+    }
+
     .spotlight-block .halo-row .halo-item{
         width: 100%;
     }
