@@ -30,7 +30,9 @@
         {%- endif -%}
         {% render 'meta-tags' %}
         {{ content_for_header }}
-{% render 'usf' %}
+        {%- if request.page_type == 'collection' or request.page_type == 'search' -%}
+            {% render 'usf' %}
+        {%- endif -%}
 
         {% render 'variable' %}
         {% render 'global-style' %}
