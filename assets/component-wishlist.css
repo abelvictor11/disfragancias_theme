@@ -236,9 +236,19 @@
     align-items: flex-start;
 }
 
-.wishlist-footer .wishlist-share {
+.wishlist-footer .wishlist-share-actions {
     order: 2;
     margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
+}
+
+.wishlist-footer .wishlist-share {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     width: max-content;
 }
 
@@ -246,7 +256,7 @@
     order: 1;
 }
 
-.wishlist-footer .mail-icon-container {
+.wishlist-footer .wishlist-share__icon {
     --mail-icon-size: 45px;
     background-color: var(--pagination-item-bg-color-active);
     width: var(--mail-icon-size);
@@ -256,14 +266,32 @@
     place-items: center;
 }
 
-.wishlist-footer .mail-icon-container svg {
+.wishlist-footer .wishlist-share__icon svg {
     width: 20px;
-    height: auto;
+    height: 20px;
     fill: var(--color-link);
+    stroke: none;
 }
 
-.wishlist-footer .wishlist-share:hover .mail-icon-container svg {
+.wishlist-footer .wishlist-share:hover .wishlist-share__icon svg {
     fill: var(--color-link-hover);
+}
+
+.wishlist-footer .wishlist-share--button {
+    appearance: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.wishlist-footer .wishlist-share-status {
+    flex: 0 0 100%;
+    min-height: 20px;
+    text-align: left;
+    font-size: 12px;
 }
 
 .wishlist-items-container .item-btn[disabled] {
@@ -682,7 +710,7 @@
         align-items: center;
     }
 
-    .wishlist-footer.pagination-left .wishlist-share {
+    .wishlist-footer.pagination-left .wishlist-share-actions {
         order: 2;
         margin-top: 0px;
     }
@@ -695,7 +723,7 @@
         flex-direction: column;
     }
 
-    .wishlist-footer.pagination-center .wishlist-share {
+    .wishlist-footer.pagination-center .wishlist-share-actions {
         align-self: flex-start;
         order: 2;
     }
@@ -711,7 +739,7 @@
         align-items: center;
     }
 
-    .wishlist-footer.pagination-right .wishlist-share {
+    .wishlist-footer.pagination-right .wishlist-share-actions {
         order: 1;
         margin-top: 0;
     }
@@ -722,5 +750,22 @@
 
     .product-card-layout-01 .wishlist-container .productList .card .card-product .card-compare {
         display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .wishlist-footer .wishlist-share-actions {
+        width: 100%;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .wishlist-footer .wishlist-share {
+        width: 100%;
+    }
+
+    .wishlist-footer .wishlist-share__icon {
+        --mail-icon-size: 40px;
+        flex: 0 0 var(--mail-icon-size);
     }
 }
