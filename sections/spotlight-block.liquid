@@ -1,8 +1,7 @@
 {%- if section.blocks.size > 0 -%}
 {%- assign swipe = section.settings.spotlight_block_swipe_on_mobile -%}
 {%- assign position_horizontal_slick_arrow = section.settings.position_horizontal_slick_arrow -%}
-<link rel="stylesheet" href="{{ 'component-spotlight-block.css' | asset_url }}" media="print" onload="this.media='all'">
-<noscript>{{ 'component-spotlight-block.css' | asset_url | stylesheet_tag }}</noscript>
+{{ 'component-spotlight-block.css' | asset_url | stylesheet_tag }}
 <div class="spotlight-block section-block-{{section.id}}{% if section.settings.block_layout == 'slider' %} enable_slider{% endif %}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}" id="spotlight-{{section.id}}"{% if section.settings.block_layout == 'slider' %} data-loader-script="{{ 'halo.slide-spotlight.js' | asset_url }}"{% endif %}>
     <div class="{% if section.settings.container == 'fullwidth' %}container-full{% elsif section.settings.container == '1770' %}container-1770 {% elsif section.settings.container == '1570'%}container-1570 {% elsif section.settings.container == '1470'%}container-1470 {% else %}{% if section.settings.container == '1200' %}layout--special{% endif %} container{% endif %}{% if section.settings.enable_custom_position_title %} enable_po_title{% endif %}">
         {%- if section.settings.spotlight_block_title != blank -%}
