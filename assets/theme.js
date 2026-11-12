@@ -1092,8 +1092,19 @@
 
                         var linkActive = listTabs.find('.tab-links.active'),
                             activeTab = $block.find('.product-tabs-content .tab-content.active');
-                            
-                        if (!$block.hasClass('ajax-loaded')) {
+
+                        tabContent.each(function () {
+                            const currentTab = $(this);
+
+                            if (currentTab.find('.products-load .product').length) {
+                                currentTab.addClass('loaded');
+                            }
+                        });
+
+                        if (activeTab.hasClass('loaded')) {
+                            $block.addClass('ajax-loaded');
+                        }
+                        else {
                             halo.doAjaxProductTabs(
                                 linkActive.data('href'), 
                                 activeTab.find('.loading'), 
