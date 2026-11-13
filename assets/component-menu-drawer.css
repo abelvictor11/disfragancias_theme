@@ -276,3 +276,22 @@ details[open].menu-opening > .menu-drawer__submenu {
 .menu-drawer__utility-links .list-social__link:hover {
     color: var(--color-foreground-75);
 }
+
+/* Mobile navigation needs a stronger reading weight than the desktop menu.
+   Scope this to the navigation drawer so cart, filters and desktop type stay unchanged. */
+@media screen and (max-width: 1024px) {
+    #navigation-mobile .menu--mobile-lv-1__action {
+        font-weight: 600;
+        line-height: 1.5;
+    }
+
+    #navigation-mobile :is(.menu--mobile-lv-2__action, .menu--mobile-lv-3__action) {
+        font-weight: 500;
+        line-height: 1.5;
+    }
+
+    #navigation-mobile .menu-drawer__close-button,
+    #navigation-mobile .menu-drawer__menu-item .label {
+        font-weight: 600;
+    }
+}
