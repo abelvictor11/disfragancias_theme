@@ -280,11 +280,13 @@ details[open].menu-opening > .menu-drawer__submenu {
 /* Mobile navigation needs a stronger reading weight than the desktop menu.
    Scope this to the navigation drawer so cart, filters and desktop type stay unchanged. */
 @media screen and (max-width: 1024px) {
+    #navigation-mobile [id^="MenuMobileListSection-"] .menu-lv-1__action,
     #navigation-mobile .menu--mobile-lv-1__action {
         font-weight: 600;
         line-height: 1.5;
     }
 
+    #navigation-mobile [id^="MenuMobileListSection-"] :is(.menu-lv-2__action, .menu-lv-3__action),
     #navigation-mobile :is(.menu--mobile-lv-2__action, .menu--mobile-lv-3__action) {
         font-weight: 500;
         line-height: 1.5;
