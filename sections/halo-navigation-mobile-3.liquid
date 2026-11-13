@@ -21,6 +21,8 @@
 			assign lv_1_font = section.settings.lv_1_font
 	        assign lv_1_font_size = section.settings.lv_1_font_size
 	        assign lv_1_font_weight = section.settings.lv_1_font_weight
+        assign lv_1_mobile_font_size = 15
+        assign lv_1_mobile_font_weight = 600
 	        assign lv_1_text_transform = section.settings.lv_1_text_transform
 	        assign lv_2_font = section.settings.lv_2_font
 	        assign lv_2_font_size = section.settings.lv_2_font_size
@@ -63,8 +65,8 @@
                 #MenuMobileListSection-{{ heading | handleize }} .menu-lv-1 > p {padding-top: 0;padding-bottom:0}
 				#MenuMobileListSection-{{ heading | handleize }} .menu-lv-1__action{
 					font-family: var(--lv-1-{{ heading | handleize }}-font);
-			        font-size: {{ lv_1_font_size | append: 'px' }};
-			        font-weight: {{ lv_1_font_weight }};
+			        font-size: {{ lv_1_mobile_font_size | append: 'px' }};
+			        font-weight: {{ lv_1_mobile_font_weight }};
 			        text-transform: {{ lv_1_text_transform }};
 				}
                 
