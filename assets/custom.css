@@ -1171,6 +1171,24 @@ span.badge.custom-metafield-badge {
     z-index: 9999999999;
 }
 
+/* En móvil, el editor de variante debe reemplazar temporalmente al drawer
+   del carrito. Al cerrar el modal, el carrito sigue abierto y reaparece. */
+@media (max-width: 550px) {
+    body.cart-sidebar-show.edit-cart-show .halo-cart-sidebar {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    body.cart-sidebar-show.edit-cart-show .background-overlay {
+        z-index: 10000000000;
+    }
+
+    body.cart-sidebar-show.edit-cart-show .halo-edit-cart-popup {
+        z-index: 10000000001;
+    }
+}
+
 /* =============================================================
    Colección: sidebar como panel deslizable (off-canvas) en desktop
    El tema, en @media (min-width:1025px), fuerza el sidebar inline
