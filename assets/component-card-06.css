@@ -78,7 +78,39 @@
 }
 
 .product-card-layout-06 .card-swatch+.card-action{
-	margin-top: 20px;
+	margin-top: 12px;
+}
+
+/* Ritmo vertical de la información: identidad, oferta y acciones. */
+.product-card-layout-06 .card-information__wrapper > .card-vendor,
+.product-card-layout-06 .card-information__wrapper > .card-information__group .card-vendor {
+	margin-top: 0;
+	margin-bottom: 4px;
+}
+
+.product-card-layout-06 .card-information__wrapper > .card__heading,
+.product-card-layout-06 .card-information__wrapper > .card__heading .card-title {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.product-card-layout-06 .card-information__wrapper > .card-acordes {
+	margin-top: 8px;
+	margin-bottom: 6px;
+}
+
+.product-card-layout-06 .card-price.card-price--primary-variant {
+	margin-top: 8px;
+	margin-bottom: 0;
+}
+
+.product-card-layout-06 .card-acordes + .card-price.card-price--primary-variant {
+	margin-top: 0;
+}
+
+.product-card-layout-06 .card-information__wrapper + .card-swatch,
+.product-card-layout-06 .card-information__wrapper + .usf-plugin-swatchs {
+	margin-top: 12px;
 }
 
 .product-card-layout-06 .price.price--on-sale .price-item--regular .money{
@@ -337,6 +369,23 @@
 
 	.product-card-layout-06 .price.price--on-sale .price-item--regular .money, .product-card-layout-06 .price-item .text{
 		font-size: calc(var(--product-price-font-size) - 4px) !important;
+	}
+}
+
+@media (max-width: 550px) {
+	.product-card-layout-06 .card-information__wrapper > .card-acordes {
+		margin-top: 6px;
+		margin-bottom: 5px;
+	}
+
+	.product-card-layout-06 .card-price.card-price--primary-variant {
+		margin-top: 6px;
+	}
+
+	.product-card-layout-06 .card-information__wrapper + .card-swatch,
+	.product-card-layout-06 .card-information__wrapper + .usf-plugin-swatchs,
+	.product-card-layout-06 .card-swatch + .card-action {
+		margin-top: 10px;
 	}
 }
 

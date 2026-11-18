@@ -459,6 +459,7 @@
                                 -%}
                                 {%- for block in block_tabs -%}
                                     {%- if block.type == 'ProductTabs' -%}
+                                        {%- assign render_complete_cards = forloop.first -%}
                                         {% if layout == 'scroll' %}<product-scroller>{% endif %}
                                             <div class="tab-content{% if forloop.first %} active{% endif %}{% if layout == 'scroll' %} is-scroll{% endif %}" data-product-TabContent id="product-tab-{{ section.id }}-{{ block.id }}"{% if layout == 'scroll' %} data-drag-container{% endif %}>
                                                 {%- if layout == 'grid' -%}
@@ -521,11 +522,23 @@
                                                         {%- if collection.products[0] != nil or collection != blank -%}
                                                             {%- for product in collection.products limit: limit -%}
                                                                 <div class="product{% if swipe == 'true' %} slider__slide grid__item{% endif %}">
-                                                                    {% render 'product-card-loading',
-                                                                        product_card_product: product,
-                                                                        media_size: image_ratio,
-                                                                        portrait_aspect_ratio: '133'
-                                                                    %}
+                                                                    {%- if render_complete_cards -%}
+                                                                        {% render 'product-grid-layout',
+                                                                            product_card_product: product,
+                                                                            portrait_aspect_ratio: '125',
+                                                                            serial: forloop.index,
+                                                                            sectionId: section.id,
+                                                                            media_size: image_ratio,
+                                                                            hasCountdown: hasCountdown,
+                                                                            loading: true
+                                                                        %}
+                                                                    {%- else -%}
+                                                                        {% render 'product-card-loading',
+                                                                            product_card_product: product,
+                                                                            media_size: image_ratio,
+                                                                            portrait_aspect_ratio: '133'
+                                                                        %}
+                                                                    {%- endif -%}
                                                                 </div>
                                                             {%- endfor -%}
                                                         {%- else -%}
