@@ -25,7 +25,7 @@
     var maximum = (Number(size.ml) || 0) * (Number(data.atomsMax) || 18);
     return {
       minimum: Math.max(1, Math.ceil(minimum / perDay)),
-      maximum: Math.max(1, Math.round(maximum / perDay))
+      maximum: Math.max(1, Math.floor(maximum / perDay))
     };
   }
 
