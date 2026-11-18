@@ -167,7 +167,7 @@
     color: var(--product-vendor-color, #666);
     font-size: 11px;
     line-height: 1.35;
-    margin: -2px 0 var(--product-price-margin-bottom);
+    margin: 4px 0 0;
 }
 
 @media (max-width: 550px) {
