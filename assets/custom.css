@@ -1171,6 +1171,23 @@ span.badge.custom-metafield-badge {
     z-index: 9999999999;
 }
 
+/* En móvil, el editor de variantes reemplaza temporalmente el drawer del carrito. */
+@media (max-width: 550px) {
+    body.cart-sidebar-show.edit-cart-show .halo-cart-sidebar {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    body.cart-sidebar-show.edit-cart-show .background-overlay {
+        z-index: 2147483645;
+    }
+
+    body.cart-sidebar-show.edit-cart-show .halo-edit-cart-popup {
+        z-index: 2147483646;
+    }
+}
+
 /* =============================================================
    Colección: sidebar como panel deslizable (off-canvas) en desktop
    El tema, en @media (min-width:1025px), fuerza el sidebar inline
