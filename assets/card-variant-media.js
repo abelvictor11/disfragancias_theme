@@ -90,6 +90,30 @@
         }).format(Math.round(cents / 100));
     }
 
+    function renderVariantPrice(card, variant) {
+        var price = card.querySelector('.card-price .price');
+        var regular = price && price.querySelector('.price__regular .price-item--regular');
+        var sale = price && price.querySelector('.price__sale .price-item--sale');
+        var compare = price && price.querySelector('.price__compare .price-item--regular');
+        var label = price && price.querySelector('.price__label_sale .label_sale');
+        var variantPrice = Number(variant && variant.price);
+        var compareAt = Number(variant && variant.compare_at_price);
+        var onSale = Number.isFinite(compareAt) && compareAt > variantPrice;
+        var discount;
+
+        if (!price || !Number.isFinite(variantPrice)) return;
+
+        price.classList.toggle('price--on-sale', onSale);
+        if (regular) regular.textContent = formatMoney(variantPrice);
+        if (sale) sale.textContent = formatMoney(variantPrice);
+        if (compare) compare.textContent = onSale ? formatMoney(compareAt) : '';
+
+        if (label) {
+            discount = onSale ? Math.round((compareAt - variantPrice) * 100 / compareAt) : 0;
+            label.textContent = onSale ? '(-' + discount + '%)' : '';
+        }
+    }
+
     function labelForVariant(card, variantId) {
         return card.querySelector('.swatch-label[data-variant-id="' + variantId + '"]') ||
             card.querySelector('.usf-plugin-swatchs label[for="size-' + variantId + '"]');
@@ -120,6 +144,7 @@
 
         if (!price || !variant) return;
 
+        renderVariantPrice(card, variant);
         price.classList.add('card-price--primary-variant');
 
         if (!size) {
@@ -154,11 +179,15 @@
         if (!primary) return;
 
         label = labelForVariant(card, String(primary.id));
-        if (!label) return;
 
         if (card.getAttribute('data-primary-variant-ready') !== String(primary.id)) {
             card.setAttribute('data-primary-variant-ready', String(primary.id));
-            if (!isLabelActive(label)) label.click();
+            if (label) {
+                if (!isLabelActive(label)) label.click();
+            } else {
+                updateMainImage(card, imageUrl(primary, null));
+                updateProductLinks(card, String(primary.id));
+            }
         }
 
         renderPrimaryPrice(card, selectedVariant(card, variants) || primary, variants);
@@ -185,7 +214,7 @@
     function imageUrl(variant, label) {
         var featured = variant && variant.featured_image;
         var media = variant && variant.featured_media;
-        var labelImage = label.getAttribute('data-variant-img');
+        var labelImage = label ? label.getAttribute('data-variant-img') : '';
 
         if (featured && featured.src) return featured.src;
         if (media && media.preview_image && media.preview_image.src) return media.preview_image.src;

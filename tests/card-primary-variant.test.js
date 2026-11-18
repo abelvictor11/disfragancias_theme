@@ -28,6 +28,12 @@ test('muestra tamaño principal y precio mínimo dinámico del decant', () => {
   assert.match(script, /Intl\.NumberFormat\('es-CO'/);
 });
 
+test('actualiza el precio principal aunque una sección no renderice swatches', () => {
+  assert.match(script, /function renderVariantPrice\(card, variant\)/);
+  assert.match(script, /price\.classList\.toggle\('price--on-sale', onSale\)/);
+  assert.match(script, /if \(label\) \{[\s\S]*label\.click\(\);[\s\S]*\} else \{[\s\S]*updateMainImage/);
+});
+
 test('mantiene la información compacta y apilada en móvil', () => {
   assert.match(css, /\.card-price\.card-price--primary-variant/);
   assert.match(css, /\.card-primary-variant-size/);
