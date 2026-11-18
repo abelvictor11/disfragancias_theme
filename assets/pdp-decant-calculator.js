@@ -182,7 +182,9 @@
     var trigger = document.createElement('button');
     trigger.type = 'button';
     trigger.className = 'dc-trigger';
-    trigger.textContent = data.triggerLabel || '¿Cuánto dura tu decant?';
+    trigger.textContent = !data.triggerLabel || data.triggerLabel === '¿Cuánto rinde tu decant?'
+      ? '¿Cuánto dura tu decant?'
+      : data.triggerLabel;
     trigger.addEventListener('click', open);
 
     var quantity = document.querySelector('.quantity_selector');
