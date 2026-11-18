@@ -1181,11 +1181,11 @@ span.badge.custom-metafield-badge {
     }
 
     body.cart-sidebar-show.edit-cart-show .background-overlay {
-        z-index: 10000000000;
+        z-index: 2147483645;
     }
 
     body.cart-sidebar-show.edit-cart-show .halo-edit-cart-popup {
-        z-index: 10000000001;
+        z-index: 2147483646;
     }
 }
 

@@ -7,8 +7,8 @@ const css = fs.readFileSync(path.join(__dirname, '..', 'assets/custom.css'), 'ut
 
 test('el editor de variante queda por encima del carrito únicamente en móvil', () => {
   assert.match(css, /@media \(max-width:\s*550px\)[\s\S]*cart-sidebar-show\.edit-cart-show \.halo-cart-sidebar[\s\S]*visibility:\s*hidden/);
-  assert.match(css, /cart-sidebar-show\.edit-cart-show \.background-overlay[\s\S]*z-index:\s*10000000000/);
-  assert.match(css, /cart-sidebar-show\.edit-cart-show \.halo-edit-cart-popup[\s\S]*z-index:\s*10000000001/);
+  assert.match(css, /cart-sidebar-show\.edit-cart-show \.background-overlay[\s\S]*z-index:\s*2147483645/);
+  assert.match(css, /cart-sidebar-show\.edit-cart-show \.halo-edit-cart-popup[\s\S]*z-index:\s*2147483646/);
 });
 
 test('el ajuste no altera la jerarquía del modal en desktop', () => {
