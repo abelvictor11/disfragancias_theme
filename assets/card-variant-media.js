@@ -85,11 +85,9 @@
     }
 
     function formatMoney(cents) {
-        if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
-            return window.Shopify.formatMoney(cents, window.money_format);
-        }
-
-        return '$' + Math.round(cents / 100).toLocaleString('es-CO');
+        return '$' + new Intl.NumberFormat('es-CO', {
+            maximumFractionDigits: 0
+        }).format(Math.round(cents / 100));
     }
 
     function labelForVariant(card, variantId) {
