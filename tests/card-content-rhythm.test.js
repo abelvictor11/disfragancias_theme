@@ -6,6 +6,8 @@ const path = require('node:path');
 const baseCss = fs.readFileSync(path.join(__dirname, '..', 'assets/component-card.css'), 'utf8');
 const layoutCss = fs.readFileSync(path.join(__dirname, '..', 'assets/component-card-06.css'), 'utf8');
 const productTab = fs.readFileSync(path.join(__dirname, '..', 'sections/product-tab-block.liquid'), 'utf8');
+const productGridLayout = fs.readFileSync(path.join(__dirname, '..', 'snippets/product-grid-layout.liquid'), 'utf8');
+const productCard = fs.readFileSync(path.join(__dirname, '..', 'snippets/product-card-06.liquid'), 'utf8');
 const themeJs = fs.readFileSync(path.join(__dirname, '..', 'assets/theme.js'), 'utf8');
 
 test('agrupa identidad, oferta y acciones con una escala vertical consistente', () => {
@@ -29,4 +31,11 @@ test('Product Tab entrega cards completas en la pestaña activa sin recarga redu
   assert.match(themeJs, /activeTab\.find\('\.product-item\[data-json-product\]'\)\.length/);
   assert.match(themeJs, /activeTab\.addClass\('loaded'\)/);
   assert.match(themeJs, /halo\.productBlockSilder\(activeTab\)/);
+});
+
+test('Product Tab habilita los tamaños necesarios para seleccionar la botella completa', () => {
+  assert.match(productTab, /show_variant_sizes:\s*true/);
+  assert.match(productGridLayout, /show_variant_sizes:\s*show_variant_sizes/);
+  assert.match(productCard, /if show_variant_sizes and isColor == false/);
+  assert.match(productCard, /unless settings\.show_swatch or show_variant_sizes/);
 });
