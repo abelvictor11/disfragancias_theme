@@ -1,221 +1,207 @@
-/* Calculadora "¿Cuánto rinde tu decant?" (Disfragancias).
-   - Inyecta el disparador en la row de cantidad del PDP.
-   - Modal editable por el cliente: tamaño y atomizaciones/día.
-   - Al cambiar el tamaño: la botella se llena y la grilla de puntos escala
-     (cada punto = dotUnit atomizaciones; rellenos = seguras, contorno = hasta máx).
-   - Valor por atomización calculado desde el precio del producto (o manual).
-   Datos entran por un <script type="application/json" id="decant-calc-data-{uid}">.
-*/
+/* Calculadora de duración del decant (Disfragancias). */
 (function () {
   'use strict';
 
-  function money(n) {
-    var v = Math.round(Number(n) || 0);
-    try { return '$' + v.toLocaleString('es-CO'); }
-    catch (e) { return '$' + String(v).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function money(value) {
+    var amount = Math.round(Number(value) || 0);
+    try { return '$' + amount.toLocaleString('es-CO'); }
+    catch (error) { return '$' + String(amount).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
   }
-  function norm(s) { return String(s || '').toLowerCase().replace(/\s+/g, ''); }
 
-  function priceForSize(size, data) {
-    if (data.priceSource === 'product_variant' && data.variants && data.variants.length) {
-      var want = norm(size.label);
-      for (var i = 0; i < data.variants.length; i++) {
-        var v = data.variants[i];
-        if (norm(v.title).indexOf(want) !== -1) return v.price / 100;
-      }
+  function normalized(value) {
+    return String(value || '').toLowerCase().replace(/\s+/g, '');
+  }
+
+  function variantForSize(size, variants) {
+    var wanted = normalized(size.label);
+    for (var index = 0; index < variants.length; index++) {
+      if (normalized(variants[index].title).indexOf(wanted) !== -1) return variants[index];
     }
-    return Number(size.price) || 0;
+    return null;
+  }
+
+  function rangeFor(size, perDay, data) {
+    var minimum = (Number(size.ml) || 0) * (Number(data.atomsMin) || 15);
+    var maximum = (Number(size.ml) || 0) * (Number(data.atomsMax) || 18);
+    return {
+      minimum: Math.max(1, Math.ceil(minimum / perDay)),
+      maximum: Math.max(1, Math.round(maximum / perDay))
+    };
+  }
+
+  function rangeText(range) {
+    return range.minimum === range.maximum ? String(range.minimum) : range.minimum + '–' + range.maximum;
+  }
+
+  function closestFrequency(value) {
+    var options = [3, 5, 8];
+    var selected = options[0];
+    for (var index = 1; index < options.length; index++) {
+      if (Math.abs(options[index] - value) < Math.abs(selected - value)) selected = options[index];
+    }
+    return selected;
   }
 
   function init(root) {
     var uid = root.getAttribute('data-uid');
-    var dataEl = document.getElementById('decant-calc-data-' + uid);
-    if (!dataEl) return;
+    var dataElement = document.getElementById('decant-calc-data-' + uid);
+    if (!dataElement) return;
     var data;
-    try { data = JSON.parse(dataEl.textContent); } catch (e) { return; }
-    if (!data.sizes || !data.sizes.length) return;
+    try { data = JSON.parse(dataElement.textContent); } catch (error) { return; }
+    if (!data.sizes || data.sizes.length < 2) return;
 
     var modal = root.querySelector('[data-dc-modal]');
-    var perDayInput = root.querySelector('[data-dc-slider]');
-    var perDayOut = root.querySelector('[data-dc-perday]');
-    var sizeBtns = root.querySelectorAll('[data-dc-size]');
-    var elTotal = root.querySelector('[data-dc-total]');
-    var elWeeks = root.querySelector('[data-dc-weeks]');
-    var elPrice = root.querySelector('[data-dc-ppa]');
-    var dotsEl = root.querySelector('[data-dc-dots]');
-    var bottle = root.querySelector('[data-dc-bottle]');
-    var legSure = root.querySelector('[data-dc-leg-sure]');
-    var legExtra = root.querySelector('[data-dc-leg-extra]');
+    var frequencyButtons = root.querySelectorAll('[data-dc-frequency]');
+    var sizeButtons = root.querySelectorAll('[data-dc-size]');
+    var resultElements = root.querySelectorAll('[data-dc-result]');
+    var barElements = root.querySelectorAll('[data-dc-bar]');
+    var barDayElements = root.querySelectorAll('[data-dc-bar-days]');
+    var addButton = root.querySelector('[data-dc-add]');
+    var foot = root.querySelector('[data-dc-foot]');
+    var state = { perDay: closestFrequency(Number(data.defaultPerDay) || 5), sizeIndex: 0 };
+    var variants = data.variants || [];
 
-    var unit = Number(data.dotUnit) || 5;
-    var maxMl = 0;
-    for (var i = 0; i < data.sizes.length; i++) maxMl = Math.max(maxMl, Number(data.sizes[i].ml) || 0);
-    if (maxMl <= 0) maxMl = 1;
-
-    var state = { sizeIndex: 0, perDay: data.defaultPerDay || 5 };
-
-    function rangeText(a, b, suffix) {
-      a = Math.round(a); b = Math.round(b);
-      if (a === b) return a + (suffix || '');
-      return a + '–' + b + (suffix || '');
-    }
-
-    function renderDots(filled, total) {
-      if (!dotsEl) return;
-      total = Math.max(0, Math.round(total));
-      filled = Math.max(0, Math.min(total, Math.round(filled)));
-      // Evitar explosión de nodos.
-      if (total > 160) { var k = total / 160; total = 160; filled = Math.round(filled / k); }
-      dotsEl.innerHTML = '';
-      var frag = document.createDocumentFragment();
-      for (var i = 0; i < total; i++) {
-        var d = document.createElement('span');
-        d.className = 'dc-dot ' + (i < filled ? 'dc-dot--on' : 'dc-dot--off');
-        frag.appendChild(d);
-      }
-      dotsEl.appendChild(frag);
-    }
-
-    function recompute() {
-      var size = data.sizes[state.sizeIndex];
-      var ml = Number(size.ml) || 0;
-      var min = ml * data.atomsMin;
-      var max = ml * data.atomsMax;
-      var price = priceForSize(size, data);
-
-      if (elTotal) elTotal.textContent = rangeText(min, max);
-
-      var perWeek = (state.perDay || 1) * 7;
-      if (elWeeks) elWeeks.textContent = '≈ ' + rangeText(min / perWeek, max / perWeek);
-
-      var ppaLow = price / max, ppaHigh = price / min;
-      if (elPrice) {
-        var lo = Math.round(ppaLow), hi = Math.round(ppaHigh);
-        elPrice.textContent = (lo === hi) ? money(lo) : (money(lo) + '–' + hi.toLocaleString('es-CO'));
+    function render() {
+      var ranges = [];
+      var longest = 1;
+      var index;
+      for (index = 0; index < data.sizes.length; index++) {
+        ranges[index] = rangeFor(data.sizes[index], state.perDay, data);
+        longest = Math.max(longest, ranges[index].maximum);
       }
 
-      // Puntos: escala con el tamaño (cada punto = unit atomizaciones).
-      renderDots(min / unit, max / unit);
+      for (index = 0; index < frequencyButtons.length; index++) {
+        var frequency = Number(frequencyButtons[index].getAttribute('data-dc-frequency'));
+        var frequencyActive = frequency === state.perDay;
+        frequencyButtons[index].classList.toggle('is-active', frequencyActive);
+        frequencyButtons[index].setAttribute('aria-pressed', frequencyActive ? 'true' : 'false');
+      }
 
-      // Botella: fracción de llenado según el tamaño (piso 0.30 para legibilidad).
-      if (bottle) {
-        var frac = 0.30 + 0.70 * (ml / maxMl);
-        if (frac > 1) frac = 1;
-        bottle.style.setProperty('--dc-fill', (frac * 100).toFixed(1) + '%');
+      for (index = 0; index < data.sizes.length; index++) {
+        var text = rangeText(ranges[index]);
+        if (resultElements[index]) resultElements[index].textContent = text;
+        if (barDayElements[index]) barDayElements[index].textContent = text + ' días';
+        if (barElements[index]) barElements[index].style.setProperty('--dc-scale', (ranges[index].maximum / longest).toFixed(3));
+
+        var variant = variantForSize(data.sizes[index], variants);
+        var button = sizeButtons[index];
+        if (!button) continue;
+        var price = button.querySelector('[data-dc-size-price]');
+        if (price) price.textContent = money(variant ? variant.price / 100 : data.sizes[index].price);
+        button.disabled = !variant || !variant.available;
+        var sizeActive = index === state.sizeIndex;
+        button.classList.toggle('is-active', sizeActive);
+        button.setAttribute('aria-pressed', sizeActive ? 'true' : 'false');
+      }
+
+      var selectedVariant = variantForSize(data.sizes[state.sizeIndex], variants);
+      addButton.disabled = !selectedVariant || !selectedVariant.available;
+      if (foot) foot.textContent = 'Duración estimada con 0,06 ml por atomización.';
+    }
+
+    function selectFirstAvailableSize() {
+      for (var index = 0; index < data.sizes.length; index++) {
+        var variant = variantForSize(data.sizes[index], variants);
+        if (variant && variant.available) { state.sizeIndex = index; return; }
       }
     }
 
-    function selectSize(idx) {
-      state.sizeIndex = idx;
-      for (var i = 0; i < sizeBtns.length; i++) {
-        var on = (i === idx);
-        sizeBtns[i].classList.toggle('is-active', on);
-        sizeBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
-      }
-      recompute();
-    }
-
-    if (legSure) legSure.textContent = unit + ' atomizaciones seguras';
-    if (legExtra) legExtra.textContent = 'hasta ' + unit + ' más';
-
-    // Nota al pie con precios por tamaño
-    var elFoot = root.querySelector('[data-dc-foot]');
-    if (elFoot) {
-      var parts = [];
-      for (var fi = 0; fi < data.sizes.length; fi++) {
-        parts.push(data.sizes[fi].label + ' ' + money(priceForSize(data.sizes[fi], data)));
-      }
-      var prefix = data.notePrefix || '*Con precios de';
-      var title = data.productTitle ? (' ' + data.productTitle) : '';
-      elFoot.textContent = prefix + title + ': ' + parts.join(' · ') + '.';
-    }
-
-    // Relleno visual del slider (webkit; Firefox usa ::-moz-range-progress)
-    function paintSlider() {
-      if (!perDayInput) return;
-      var mn = Number(perDayInput.min) || 1;
-      var mx = Number(perDayInput.max) || 20;
-      var vl = Number(perDayInput.value) || mn;
-      var pct = mx === mn ? 0 : ((vl - mn) / (mx - mn)) * 100;
-      perDayInput.style.background =
-        'linear-gradient(to right, var(--dc-accent) 0%, var(--dc-accent) ' + pct +
-        '%, var(--dc-track) ' + pct + '%, var(--dc-track) 100%)';
-    }
-
-    if (perDayInput) {
-      perDayInput.min = 1;
-      perDayInput.max = data.maxPerDay || 20;
-      perDayInput.value = state.perDay;
-      if (perDayOut) perDayOut.textContent = state.perDay;
-      paintSlider();
-      perDayInput.addEventListener('input', function () {
-        state.perDay = Number(perDayInput.value) || 1;
-        if (perDayOut) perDayOut.textContent = state.perDay;
-        paintSlider();
-        recompute();
-      });
-    }
-
-    for (var b = 0; b < sizeBtns.length; b++) {
-      (function (i) {
-        sizeBtns[i].addEventListener('click', function () { selectSize(i); });
-      })(b);
-    }
-
-    // <dialog> nativo: showModal() lo pinta en el top layer (sobre todo,
-    // sin importar transform/overflow de ancestros) y aporta el ::backdrop.
-    function open() {
-      if (!modal) return;
-      if (typeof modal.showModal === 'function') modal.showModal();
-      else modal.setAttribute('open', '');
-    }
     function close() {
       if (!modal) return;
       if (typeof modal.close === 'function') modal.close();
       else modal.removeAttribute('open');
     }
 
-    // Cerrar al hacer clic fuera de la tarjeta (en el backdrop).
+    function open() {
+      if (!modal) return;
+      if (typeof modal.showModal === 'function') modal.showModal();
+      else modal.setAttribute('open', '');
+    }
+
+    for (var frequencyIndex = 0; frequencyIndex < frequencyButtons.length; frequencyIndex++) {
+      frequencyButtons[frequencyIndex].addEventListener('click', function () {
+        state.perDay = Number(this.getAttribute('data-dc-frequency')) || 5;
+        render();
+      });
+    }
+
+    for (var sizeIndex = 0; sizeIndex < sizeButtons.length; sizeIndex++) {
+      (function (index) {
+        sizeButtons[index].addEventListener('click', function () {
+          if (this.disabled) return;
+          state.sizeIndex = index;
+          render();
+        });
+      })(sizeIndex);
+    }
+
+    addButton.addEventListener('click', function () {
+      var variant = variantForSize(data.sizes[state.sizeIndex], variants);
+      if (!variant || !variant.available || addButton.disabled) return;
+      addButton.classList.add('is-loading');
+      addButton.disabled = true;
+      fetch((window.routes && window.routes.cart_add_url) || '/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ items: [{ id: variant.id, quantity: 1 }] })
+      })
+      .then(function (response) {
+        if (!response.ok) return response.json().then(function (error) { throw error; });
+        return response.json();
+      })
+      .then(function (result) {
+        close();
+        if (window.ThemeCartAPI && typeof window.ThemeCartAPI.onItemAdded === 'function') {
+          window.ThemeCartAPI.onItemAdded(result);
+        } else {
+          window.location.href = (window.routes && window.routes.cart_url) || '/cart';
+        }
+      })
+      .catch(function (error) {
+        var message = (error && (error.description || error.message)) || 'No pudimos añadir este tamaño. Inténtalo de nuevo.';
+        if (typeof window.showWarning === 'function') window.showWarning(message);
+        else if (foot) foot.textContent = message;
+      })
+      .finally(function () {
+        addButton.classList.remove('is-loading');
+        render();
+      });
+    });
+
     if (modal) {
-      modal.addEventListener('click', function (e) {
-        var r = modal.getBoundingClientRect();
-        var inside = e.clientX >= r.left && e.clientX <= r.right &&
-                     e.clientY >= r.top && e.clientY <= r.bottom;
+      modal.addEventListener('click', function (event) {
+        var bounds = modal.getBoundingClientRect();
+        var inside = event.clientX >= bounds.left && event.clientX <= bounds.right &&
+          event.clientY >= bounds.top && event.clientY <= bounds.bottom;
         if (!inside) close();
       });
     }
-    var closeBtns = root.querySelectorAll('[data-dc-close]');
-    for (var c = 0; c < closeBtns.length; c++) closeBtns[c].addEventListener('click', close);
+    var closeButtons = root.querySelectorAll('[data-dc-close]');
+    for (var closeIndex = 0; closeIndex < closeButtons.length; closeIndex++) closeButtons[closeIndex].addEventListener('click', close);
 
-    // Disparador en la row de cantidad
     var trigger = document.createElement('button');
     trigger.type = 'button';
     trigger.className = 'dc-trigger';
-    trigger.textContent = data.triggerLabel || '¿Cuánto rinde tu decant?';
+    trigger.textContent = data.triggerLabel || '¿Cuánto dura tu decant?';
     trigger.addEventListener('click', open);
 
-    var qty = document.querySelector('.quantity_selector');
+    var quantity = document.querySelector('.quantity_selector');
     var placed = false;
-    if (qty) {
-      var row = qty.closest('.productView-moreItem') || qty.parentNode;
+    if (quantity) {
+      var row = quantity.closest('.productView-moreItem') || quantity.parentNode;
       if (row) { row.classList.add('dc-qty-row'); row.appendChild(trigger); placed = true; }
     }
-    if (!placed) {
-      var host = root.querySelector('[data-dc-trigger-fallback]') || root;
-      host.appendChild(trigger);
-    }
+    if (!placed) (root.querySelector('[data-dc-trigger-fallback]') || root).appendChild(trigger);
 
-    selectSize(0);
+    selectFirstAvailableSize();
+    render();
   }
 
   function boot() {
     var roots = document.querySelectorAll('[data-decant-calc]');
-    for (var i = 0; i < roots.length; i++) init(roots[i]);
+    for (var index = 0; index < roots.length; index++) init(roots[index]);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot);
-  } else {
-    boot();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();
