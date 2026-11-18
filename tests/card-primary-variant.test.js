@@ -25,7 +25,7 @@ test('muestra tamaño principal y precio mínimo dinámico del decant', () => {
   assert.match(script, /card-primary-variant-size/);
   assert.match(script, /card-decant-note/);
   assert.match(script, /o decant desde/);
-  assert.match(script, /Shopify\.formatMoney/);
+  assert.match(script, /Intl\.NumberFormat\('es-CO'/);
 });
 
 test('mantiene la información compacta y apilada en móvil', () => {
