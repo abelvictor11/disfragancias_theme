@@ -1,7 +1,6 @@
 {%- comment -%}
-  Calculadora "¿Cuánto rinde tu decant?" — modal del PDP.
+  Calculadora "¿Cuánto te dura tu decant?" — modal del PDP.
   Params: block (settings del bloque decant_calculator), product.
-  El disparador se inyecta por JS en la row de cantidad (.quantity_selector).
 {%- endcomment -%}
 {%- liquid
   assign s = block.settings
@@ -9,7 +8,6 @@
   assign accent = s.accent_color | default: '#ba7a2d'
   assign link_color = s.link_color | default: '#e24d2b'
   assign dark = '#232323'
-
   assign gate = s.only_tag | strip
   assign render_block = true
   if gate != blank
@@ -24,91 +22,80 @@
 {%- style -%}
   .dc-qty-row { display:flex; align-items:center; flex-wrap:wrap; gap:12px; }
   .dc-qty-row .quantity_selector { margin:0; }
-  .dc-trigger { margin-left:auto; background:none; border:0; padding:0; cursor:pointer;
-    color:{{ link_color }}; font: inherit; font-weight:600; text-decoration:underline;
-    text-underline-offset:3px; white-space:nowrap; }
+  .dc-trigger { margin-left:auto; background:none; border:0; padding:0; cursor:pointer; color:{{ link_color }};
+    font:inherit; font-weight:600; text-decoration:underline; text-underline-offset:3px; white-space:nowrap; }
   .dc-trigger:hover { opacity:.85; }
-
-  #decant-calc-{{ uid }} { --dc-accent: {{ accent }}; --dc-track: #e8e4dc; }
-  /* <dialog> nativo: se pinta en el top layer del navegador, así ignora
-     transform/overflow/z-index de cualquier ancestro del PDP. */
-  dialog.dc-dialog { width:calc(100% - 32px); max-width:540px; max-height:90vh; overflow:auto;
-    background:#fff; color:inherit; border:1px solid #ececec; border-radius:20px; padding:28px 26px;
+  .dc-trigger:focus-visible { outline:2px solid {{ accent }}; outline-offset:4px; }
+  #decant-calc-{{ uid }} { --dc-accent:{{ accent }}; --dc-dark:{{ dark }}; --dc-track:#ece9e4; }
+  dialog.dc-dialog { width:calc(100% - 32px); max-width:540px; max-height:90vh; overflow:auto; background:#fff;
+    color:var(--dc-dark); border:1px solid #ececec; border-radius:20px; padding:28px 26px;
     box-shadow:0 20px 60px rgba(0,0,0,.22); position:fixed; inset:0; margin:auto; }
-  dialog.dc-dialog::backdrop { background:rgba(20,20,20,.55); }
+  dialog.dc-dialog::backdrop { background:rgba(20,20,20,.58); }
   dialog.dc-dialog:not([open]) { display:none; }
-  #decant-calc-{{ uid }} .dc-close { position:absolute; top:14px; right:16px; background:none; border:0;
-    font-size:26px; line-height:1; cursor:pointer; color:#999; }
-  #decant-calc-{{ uid }} .dc-title { font-family: var(--font-heading-family), 'Cinzel', serif;
-    font-weight:400; color:{{ dark }}; font-size:26px; margin:0 6px 6px 0; letter-spacing:.01em; }
-  #decant-calc-{{ uid }} .dc-sub { color:#8a8a8a; font-size:14px; line-height:1.5; margin:0 0 18px; }
-
-  #decant-calc-{{ uid }} .dc-sizes { display:flex; gap:12px; margin-bottom:22px; }
-  #decant-calc-{{ uid }} .dc-size { flex:1; border:1px solid #e3e3e3; background:#f6f6f6; border-radius:12px;
-    padding:14px 8px; font-weight:700; font-size:15px; color:{{ dark }}; cursor:pointer; transition:.15s; }
-  #decant-calc-{{ uid }} .dc-size:hover { border-color:#cfcfcf; }
-  #decant-calc-{{ uid }} .dc-size.is-active { background:{{ dark }}; color:#fff; border-color:{{ accent }};
-    box-shadow:0 0 0 2px {{ accent }}; }
-
-  #decant-calc-{{ uid }} .dc-viz { display:flex; align-items:stretch; gap:16px; margin:8px 0 10px; }
-  #decant-calc-{{ uid }} .dc-bottle { flex:0 0 auto; width:46px; display:flex; flex-direction:column; align-items:center; }
-  #decant-calc-{{ uid }} .dc-bottle .cap { width:16px; height:11px; background:{{ dark }}; border-radius:3px 3px 0 0; }
-  #decant-calc-{{ uid }} .dc-bottle .neck { width:24px; height:6px; background:{{ dark }}; border-radius:2px; }
-  #decant-calc-{{ uid }} .dc-bottle .body { flex:1; width:100%; min-height:44px; border:3px solid {{ dark }};
-    border-radius:9px; position:relative; overflow:hidden; background:#fff; }
-  #decant-calc-{{ uid }} .dc-bottle .fill { position:absolute; left:0; right:0; bottom:0; height:var(--dc-fill,40%);
-    background:linear-gradient(180deg, #d9a24a, #9a6420); transition:height .35s ease; }
-  #decant-calc-{{ uid }} .dc-dots { flex:1; display:flex; flex-wrap:wrap; gap:7px; align-content:flex-start; padding-top:2px; }
-  #decant-calc-{{ uid }} .dc-dot { width:14px; height:14px; border-radius:50%; box-sizing:border-box; }
-  #decant-calc-{{ uid }} .dc-dot--on { background:{{ accent }}; }
-  #decant-calc-{{ uid }} .dc-dot--off { background:transparent; border:2px solid {{ accent }}; }
-  @media (prefers-reduced-motion: reduce) { #decant-calc-{{ uid }} .dc-bottle .fill { transition:none; } }
-  #decant-calc-{{ uid }} .dc-legend { display:flex; gap:22px; flex-wrap:wrap; margin:4px 0 20px;
-    font-size:13.5px; color:#555; }
-  #decant-calc-{{ uid }} .dc-legend span.m { display:inline-flex; align-items:center; gap:8px; }
-  #decant-calc-{{ uid }} .dc-legend i { width:12px; height:12px; border-radius:50%; display:inline-block; }
-  #decant-calc-{{ uid }} .dc-legend .i-on { background:{{ accent }}; }
-  #decant-calc-{{ uid }} .dc-legend .i-off { border:2px solid {{ accent }}; }
-
-  #decant-calc-{{ uid }} .dc-slider-head { display:flex; justify-content:space-between; align-items:baseline;
-    margin-bottom:8px; }
-  #decant-calc-{{ uid }} .dc-slider-head .lab { color:{{ dark }}; font-size:15px; }
-  #decant-calc-{{ uid }} .dc-slider-head .val { font-weight:700; font-size:18px; color:{{ dark }}; }
-  #decant-calc-{{ uid }} input[type=range] { -webkit-appearance:none; appearance:none; width:100%;
-    height:6px; border-radius:999px; background:var(--dc-track); margin:6px 0 24px; cursor:pointer; }
-  #decant-calc-{{ uid }} input[type=range]:focus-visible { outline:2px solid var(--dc-accent); outline-offset:4px; }
-  #decant-calc-{{ uid }} input[type=range]::-webkit-slider-runnable-track { height:6px; border-radius:999px; background:transparent; }
-  #decant-calc-{{ uid }} input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none;
-    width:20px; height:20px; border-radius:50%; background:var(--dc-accent); border:3px solid #fff;
-    box-shadow:0 1px 5px rgba(0,0,0,.3); margin-top:-7px; }
-  #decant-calc-{{ uid }} input[type=range]::-moz-range-track { height:6px; border-radius:999px; background:var(--dc-track); }
-  #decant-calc-{{ uid }} input[type=range]::-moz-range-progress { height:6px; border-radius:999px; background:var(--dc-accent); }
-  #decant-calc-{{ uid }} input[type=range]::-moz-range-thumb { width:20px; height:20px; border-radius:50%;
-    background:var(--dc-accent); border:3px solid #fff; box-shadow:0 1px 5px rgba(0,0,0,.3); }
-
-  #decant-calc-{{ uid }} .dc-tiles { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
-  #decant-calc-{{ uid }} .dc-tile { background:#f3f3f3; border-radius:14px; padding:16px 14px; }
-  #decant-calc-{{ uid }} .dc-tile .big { font-family: var(--font-heading-family), 'Cinzel', serif;
-    font-weight:400; font-size:26px; color:{{ dark }}; line-height:1.1; }
-  #decant-calc-{{ uid }} .dc-tile .cap { font-size:13px; color:#8a8a8a; margin-top:6px; }
-  #decant-calc-{{ uid }} .dc-foot { font-size:13px; color:#8a8a8a; line-height:1.5; margin:0; }
-
+  #decant-calc-{{ uid }} .dc-close { position:absolute; top:12px; right:12px; width:44px; height:44px; display:grid;
+    place-items:center; background:none; border:0; font-size:26px; line-height:1; cursor:pointer; color:#555; }
+  #decant-calc-{{ uid }} .dc-title { max-width:calc(100% - 42px); font-family:var(--font-heading-family),'Cinzel',serif;
+    font-weight:600; color:var(--dc-dark); font-size:26px; line-height:1.2; margin:0 0 18px; letter-spacing:0; }
+  #decant-calc-{{ uid }} .dc-question { color:#666; font-size:16px; line-height:1.4; margin:0 0 8px; }
+  #decant-calc-{{ uid }} .dc-frequency { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--dc-dark);
+    border-radius:10px; overflow:hidden; margin-bottom:18px; }
+  #decant-calc-{{ uid }} .dc-frequency-button { min-height:48px; border:0; border-right:1px solid var(--dc-dark);
+    background:#fff; color:var(--dc-dark); font:inherit; font-size:16px; font-weight:700; cursor:pointer; }
+  #decant-calc-{{ uid }} .dc-frequency-button:last-child { border-right:0; }
+  #decant-calc-{{ uid }} .dc-frequency-button.is-active { background:var(--dc-dark); color:#fff; }
+  #decant-calc-{{ uid }} .dc-results { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-bottom:18px; }
+  #decant-calc-{{ uid }} .dc-result { border:1px solid #dedede; border-radius:14px; padding:16px 12px; text-align:center; }
+  #decant-calc-{{ uid }} .dc-result-size { display:block; font-size:15px; font-weight:600; margin-bottom:6px; }
+  #decant-calc-{{ uid }} .dc-result-days { display:block; font-family:var(--font-heading-family),'Cinzel',serif;
+    font-size:30px; font-weight:600; line-height:1; font-variant-numeric:tabular-nums; }
+  #decant-calc-{{ uid }} .dc-result-unit { display:block; margin-top:7px; font-size:14px; }
+  #decant-calc-{{ uid }} .dc-bars { display:grid; gap:10px; margin-bottom:18px; }
+  #decant-calc-{{ uid }} .dc-bar-row { display:grid; grid-template-columns:48px minmax(0,1fr) 88px; align-items:center; gap:10px;
+    font-size:13px; font-variant-numeric:tabular-nums; }
+  #decant-calc-{{ uid }} .dc-bar-track { height:10px; overflow:hidden; border-radius:999px; background:var(--dc-track); }
+  #decant-calc-{{ uid }} .dc-bar-fill { display:block; width:100%; height:100%; border-radius:inherit;
+    background:var(--dc-dark); transform:scaleX(var(--dc-scale,.5)); transform-origin:left center; transition:transform .28s ease-out; }
+  #decant-calc-{{ uid }} .dc-bar-days { text-align:right; color:#555; }
+  #decant-calc-{{ uid }} .dc-sizes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-bottom:12px; }
+  #decant-calc-{{ uid }} .dc-size { min-height:68px; border:1px solid #d6d6d6; background:#fff; border-radius:12px;
+    padding:10px; color:var(--dc-dark); cursor:pointer; transition:border-color .15s ease,box-shadow .15s ease; }
+  #decant-calc-{{ uid }} .dc-size strong, #decant-calc-{{ uid }} .dc-size span { display:block; }
+  #decant-calc-{{ uid }} .dc-size strong { font-size:15px; margin-bottom:4px; }
+  #decant-calc-{{ uid }} .dc-size span { font-size:14px; }
+  #decant-calc-{{ uid }} .dc-size.is-active { border-color:var(--dc-dark); box-shadow:inset 0 0 0 1px var(--dc-dark); }
+  #decant-calc-{{ uid }} .dc-size:disabled { opacity:.45; cursor:not-allowed; }
+  #decant-calc-{{ uid }} .dc-add { width:100%; min-height:52px; border:1px solid var(--dc-dark); border-radius:10px;
+    background:var(--dc-dark); color:#fff; font:inherit; font-size:16px; font-weight:700; cursor:pointer; }
+  #decant-calc-{{ uid }} .dc-add[disabled] { opacity:.55; cursor:not-allowed; }
+  #decant-calc-{{ uid }} .dc-add.is-loading { color:transparent; position:relative; }
+  #decant-calc-{{ uid }} .dc-add.is-loading::after { content:''; position:absolute; inset:0; margin:auto; width:18px; height:18px;
+    border:2px solid rgba(255,255,255,.45); border-top-color:#fff; border-radius:50%; animation:dc-spin .7s linear infinite; }
+  #decant-calc-{{ uid }} .dc-foot { color:#777; font-size:12px; line-height:1.45; text-align:center; margin:12px 0 0; }
+  #decant-calc-{{ uid }} button:focus-visible { outline:2px solid var(--dc-accent); outline-offset:3px; }
+  @keyframes dc-spin { to { transform:rotate(360deg); } }
+  @media (prefers-reduced-motion:reduce) {
+    #decant-calc-{{ uid }} .dc-bar-fill { transition:none; }
+    #decant-calc-{{ uid }} .dc-add.is-loading::after { animation:none; }
+  }
   @media (max-width:460px) {
-    #decant-calc-{{ uid }} .dc-tiles { grid-template-columns:1fr 1fr; }
-    #decant-calc-{{ uid }} .dc-tile .big { font-size:22px; }
+    dialog.dc-dialog { width:calc(100% - 24px); max-height:calc(100dvh - 24px); border-radius:16px; padding:22px 16px 20px; }
+    #decant-calc-{{ uid }} .dc-title { font-size:21px; margin-bottom:16px; }
+    #decant-calc-{{ uid }} .dc-question { font-size:15px; }
+    #decant-calc-{{ uid }} .dc-result { padding:14px 8px; }
+    #decant-calc-{{ uid }} .dc-result-days { font-size:27px; }
+    #decant-calc-{{ uid }} .dc-bar-row { grid-template-columns:42px minmax(0,1fr) 78px; gap:8px; }
   }
 {%- endstyle -%}
 
-{%- comment -%} Datos para el JS {%- endcomment -%}
 {%- capture sizes_json -%}
 {%- assign sep = '' -%}
-{%- for i in (1..3) -%}
-  {%- assign lk = 'size' | append: i | append: '_label' -%}
-  {%- assign mk = 'size' | append: i | append: '_ml' -%}
-  {%- assign pk = 'size' | append: i | append: '_price' -%}
+{%- for i in (1..2) -%}
+  {%- assign lk = 'size' | append:i | append:'_label' -%}
+  {%- assign mk = 'size' | append:i | append:'_ml' -%}
+  {%- assign pk = 'size' | append:i | append:'_price' -%}
   {%- assign lbl = s[lk] -%}
   {%- if lbl != blank -%}
-    {{ sep }}{"label": {{ lbl | json }}, "ml": {{ s[mk] | default: 0 }}, "price": {{ s[pk] | default: 0 }}}
+    {{ sep }}{"label":{{ lbl | json }},"ml":{{ s[mk] | default:0 }},"price":{{ s[pk] | default:0 }}}
     {%- assign sep = ',' -%}
   {%- endif -%}
 {%- endfor -%}
@@ -116,70 +103,47 @@
 {%- capture variants_json -%}
 {%- assign vsep = '' -%}
 {%- for v in product.variants -%}
-{{ vsep }}{"title": {{ v.title | json }}, "price": {{ v.price }}}{%- assign vsep = ',' -%}
+  {{ vsep }}{"id":{{ v.id | json }},"title":{{ v.title | json }},"price":{{ v.price }},"available":{{ v.available | json }}}{%- assign vsep = ',' -%}
 {%- endfor -%}
 {%- endcapture -%}
 
 <div data-decant-calc data-uid="{{ uid }}" id="decant-calc-{{ uid }}">
   <script type="application/json" id="decant-calc-data-{{ uid }}">
-    {
-      "atomsMin": {{ s.atoms_min | default: 15 }},
-      "atomsMax": {{ s.atoms_max | default: 18 }},
-      "dotUnit": {{ s.dot_unit | default: 5 }},
-      "defaultPerDay": {{ s.default_per_day | default: 5 }},
-      "maxPerDay": {{ s.max_per_day | default: 20 }},
-      "priceSource": {{ s.price_source | default: 'product_variant' | json }},
-      "triggerLabel": {{ s.trigger_label | default: '¿Cuánto rinde tu decant?' | json }},
-      "productTitle": {{ product.title | json }},
-      "notePrefix": {{ s.note_prefix | default: '*Con precios de' | json }},
-      "sizes": [{{ sizes_json }}],
-      "variants": [{{ variants_json }}]
-    }
+    {"atomsMin":{{ s.atoms_min | default:15 }},"atomsMax":{{ s.atoms_max | default:18 }},
+     "defaultPerDay":{{ s.default_per_day | default:5 }},"triggerLabel":{{ s.trigger_label | default:'¿Cuánto dura tu decant?' | json }},
+     "sizes":[{{ sizes_json }}],"variants":[{{ variants_json }}]}
   </script>
-
   <dialog class="dc-dialog" data-dc-modal aria-labelledby="dc-title-{{ uid }}">
     <button type="button" class="dc-close" data-dc-close aria-label="Cerrar">&times;</button>
-    <h3 class="dc-title" id="dc-title-{{ uid }}">{{ s.heading | default: '¿Cuánto rinde tu decant?' }}</h3>
-    {%- if s.subtitle != blank -%}<p class="dc-sub">{{ s.subtitle }}</p>{%- endif -%}
-
-    <div class="dc-sizes">
-      {%- for i in (1..3) -%}
-        {%- assign lk = 'size' | append: i | append: '_label' -%}
-        {%- assign lbl = s[lk] -%}
-        {%- if lbl != blank -%}
-          <button type="button" class="dc-size" data-dc-size aria-pressed="false">{{ lbl }}</button>
-        {%- endif -%}
+    <h3 class="dc-title" id="dc-title-{{ uid }}">¿Cuánto te dura tu decant?</h3>
+    <p class="dc-question">¿Cuántas atomizaciones te aplicas al día?</p>
+    <div class="dc-frequency" role="group" aria-label="Atomizaciones al día">
+      <button type="button" class="dc-frequency-button" data-dc-frequency="3" aria-pressed="false">3</button>
+      <button type="button" class="dc-frequency-button" data-dc-frequency="5" aria-pressed="false">5</button>
+      <button type="button" class="dc-frequency-button" data-dc-frequency="8" aria-pressed="false">8</button>
+    </div>
+    <div class="dc-results" aria-live="polite">
+      {%- for i in (1..2) -%}{%- assign lk = 'size' | append:i | append:'_label' -%}
+        <div class="dc-result"><span class="dc-result-size">{{ s[lk] }}</span>
+          <strong class="dc-result-days" data-dc-result="{{ forloop.index0 }}">—</strong><span class="dc-result-unit">días</span></div>
       {%- endfor -%}
     </div>
-
-    <div class="dc-viz">
-      <div class="dc-bottle" data-dc-bottle aria-hidden="true">
-        <span class="cap"></span>
-        <span class="neck"></span>
-        <span class="body"><span class="fill"></span></span>
-      </div>
-      <div class="dc-dots" data-dc-dots></div>
+    <div class="dc-bars" aria-label="Comparación de duración">
+      {%- for i in (1..2) -%}{%- assign lk = 'size' | append:i | append:'_label' -%}
+        <div class="dc-bar-row"><strong>{{ s[lk] }}</strong><span class="dc-bar-track" aria-hidden="true">
+          <span class="dc-bar-fill" data-dc-bar="{{ forloop.index0 }}"></span></span>
+          <span class="dc-bar-days" data-dc-bar-days="{{ forloop.index0 }}">—</span></div>
+      {%- endfor -%}
     </div>
-    <div class="dc-legend">
-      <span class="m"><i class="i-on"></i><span data-dc-leg-sure></span></span>
-      <span class="m"><i class="i-off"></i><span data-dc-leg-extra></span></span>
+    <div class="dc-sizes" aria-label="Selecciona el tamaño para añadir">
+      {%- for i in (1..2) -%}{%- assign lk = 'size' | append:i | append:'_label' -%}
+        <button type="button" class="dc-size" data-dc-size aria-pressed="false"><strong>{{ s[lk] }}</strong><span data-dc-size-price>—</span></button>
+      {%- endfor -%}
     </div>
-
-    <div class="dc-slider-head">
-      <span class="lab">{{ s.slider_label | default: 'Atomizaciones que usas al día' }}</span>
-      <span class="val" data-dc-perday>5</span>
-    </div>
-    <input type="range" data-dc-slider min="1" max="20" step="1" value="5" aria-label="{{ s.slider_label | default: 'Atomizaciones que usas al día' }}">
-
-    <div class="dc-tiles">
-      <div class="dc-tile"><div class="big" data-dc-total>—</div><div class="cap">{{ s.cap_total | default: 'atomizaciones' }}</div></div>
-      <div class="dc-tile"><div class="big" data-dc-weeks>—</div><div class="cap">{{ s.cap_weeks | default: 'de uso diario' }}</div></div>
-      <div class="dc-tile"><div class="big" data-dc-ppa>—</div><div class="cap">{{ s.cap_ppa | default: 'por atomización*' }}</div></div>
-    </div>
-    <p class="dc-foot" data-dc-foot></p>
+    <button type="button" class="dc-add" data-dc-add>Añadir al carrito</button>
+    <p class="dc-foot" data-dc-foot>Duración estimada con 0,06 ml por atomización.</p>
     <span data-dc-trigger-fallback hidden></span>
   </dialog>
 </div>
-
 <script src="{{ 'pdp-decant-calculator.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
