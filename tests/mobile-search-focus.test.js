@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const theme = fs.readFileSync(path.join(__dirname, '..', 'assets/theme.js'), 'utf8');
+const styles = fs.readFileSync(path.join(__dirname, '..', 'assets/base.css'), 'utf8');
 
 test('mobile search focuses during the same opening click', () => {
     const handlerStart = theme.indexOf("$('[data-search-mobile]').on('click'");
@@ -20,4 +21,9 @@ test('mobile search focuses during the same opening click', () => {
     assert.match(handler, /#search-form-mobile input\[type="search"\]/);
     assert.ok(focusPosition > openPosition, 'the input should focus immediately after opening');
     assert.doesNotMatch(handler, /setTimeout|requestAnimationFrame|Promise|animationend/);
+});
+
+test('mobile search shows a visible active state when focused', () => {
+    assert.match(styles, /#search-form-mobile \.search-modal__form:focus-within\s*\{/);
+    assert.match(styles, /box-shadow:\s*inset 0 0 0 2px/);
 });
