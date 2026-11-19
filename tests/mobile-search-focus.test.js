@@ -5,6 +5,7 @@ const path = require('node:path');
 
 const theme = fs.readFileSync(path.join(__dirname, '..', 'assets/theme.js'), 'utf8');
 const styles = fs.readFileSync(path.join(__dirname, '..', 'assets/base.css'), 'utf8');
+const usfStyles = fs.readFileSync(path.join(__dirname, '..', 'assets/usf.css'), 'utf8');
 
 test('mobile search focuses during the same opening click', () => {
     const handlerStart = theme.indexOf("$('[data-search-mobile]').on('click'");
@@ -26,4 +27,9 @@ test('mobile search focuses during the same opening click', () => {
 test('mobile search shows a visible active state when focused', () => {
     assert.match(styles, /#search-form-mobile \.search-modal__form:focus-within\s*\{/);
     assert.match(styles, /box-shadow:\s*inset 0 0 0 2px/);
+});
+
+test('collection search shows the same visible active state', () => {
+    assert.match(usfStyles, /body\.usf-collections-page \.usf-sr-inputbox input:not\(\[type=submit\]\):focus\s*\{/);
+    assert.match(usfStyles, /box-shadow:\s*inset 0 0 0 1px/);
 });
