@@ -44,6 +44,10 @@ body:not(.usf-mobile) .usf-sr-config .toolbar,
 body:not(.usf-collections-page) .usf-sr-inputbox {
 	display: none;
 }
+body.usf-collections-page .usf-sr-inputbox input:not([type=submit]):focus {
+    border-color: var(--usf-secondary-color, #232323);
+    box-shadow: inset 0 0 0 1px var(--usf-secondary-color, #232323) !important;
+}
 .usf-sr-empty *{
     font-size: initial;
 }
