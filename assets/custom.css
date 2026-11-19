@@ -1262,6 +1262,88 @@ span.badge.custom-metafield-badge {
     .productGrid.column-5 .product:nth-child(-n+5) { margin-top: 0; }
 }
 
+/* Colecciones en móvil: priorizar filtros y productos en la primera pantalla. */
+@media (max-width: 767px) {
+    /* El carrusel es contenido secundario y no debe desplazar el catálogo. */
+    .template-collection .collection-banner-carousel-wrapper {
+        display: none !important;
+    }
+
+    /* El título conserva el contexto; breadcrumb y descripción se omiten. */
+    .template-collection [id^="HeaderCollectionSection-"] {
+        padding-top: 8px !important;
+        padding-bottom: 4px !important;
+    }
+    .template-collection [id^="HeaderCollectionSection-"] .collection-header {
+        padding-inline: 15px !important;
+    }
+    .template-collection [id^="HeaderCollectionSection-"] .collection-breadcrumb,
+    .template-collection [id^="HeaderCollectionSection-"] .collection-info-item {
+        display: none !important;
+    }
+    .template-collection [id^="HeaderCollectionSection-"] .collection-title {
+        margin: 0 !important;
+        font-size: 24px !important;
+        line-height: 1.2 !important;
+    }
+
+    /* Una sola fila de chips, desplazable y con blancos táctiles suficientes. */
+    .template-collection .quick-filters-section {
+        margin: 4px 0 8px;
+    }
+    .template-collection .quick-filters {
+        gap: 8px;
+        padding-bottom: 0;
+    }
+    .template-collection .qf-pill {
+        min-height: 40px;
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    /* Buscador y orden ocupan una única fila; los iconos de vista se ocultan. */
+    .template-collection #usf_container .usf-sr-container {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        column-gap: 8px;
+        align-items: center;
+    }
+    .template-collection #usf_container .usf-sr-inputbox {
+        min-width: 0;
+        height: 44px;
+        margin: 0;
+    }
+    .template-collection #usf_container .usf-sr-inputbox input {
+        height: 44px;
+        min-width: 0;
+        padding-block: 8px;
+    }
+    .template-collection #usf_container .usf-sr-config {
+        min-width: 0;
+        margin: 0;
+    }
+    .template-collection #usf_container .usf-sr-config > .toolbar,
+    .template-collection #usf_container .usf-sr-summary {
+        display: none !important;
+    }
+    .template-collection #usf_container .usf-c-select,
+    .template-collection #usf_container .usf-c-select__input-value {
+        height: 44px;
+        min-height: 44px;
+    }
+    .template-collection #usf_container .usf-c-select__input-value {
+        max-width: 132px;
+        padding-inline: 12px 30px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .template-collection #usf_container .usf-results {
+        grid-column: 1 / -1;
+        margin-top: 12px;
+    }
+}
+
 /* =============================================================
    Chats: un solo sistema ordenado
    - SeedGrow (WhatsApp nativo) oculto -> usamos botón propio.
