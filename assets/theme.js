@@ -526,6 +526,20 @@
                 $('[data-search-mobile]').on('click', (event) => {
                     event.preventDefault();
                     $('body').addClass('open_search_mobile');
+
+                    const searchInput = document.querySelector('#search-form-mobile input[type="search"]');
+                    if (searchInput) {
+                        try {
+                            searchInput.focus({ preventScroll: true });
+                        } catch (error) {
+                            searchInput.focus();
+                        }
+
+                        const valueLength = searchInput.value.length;
+                        try {
+                            searchInput.setSelectionRange(valueLength, valueLength);
+                        } catch (error) {}
+                    }
                 });
                 $('[data-search-close-sidebar], .background-overlay').on('click', (event) => {
                     event.preventDefault();
