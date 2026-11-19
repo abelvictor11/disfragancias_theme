@@ -133,14 +133,6 @@
     "product-grid": {
       "type": "main-collection-product-grid",
       "blocks": {
-        "banner_carousel_block_FiFpAm": {
-          "type": "banner_carousel_block",
-          "settings": {}
-        },
-        "feature_cards_block_BfwxHn": {
-          "type": "feature_cards_block",
-          "settings": {}
-        },
         "lookbook_RbdRWJ": {
           "type": "lookbook",
           "settings": {
@@ -189,8 +181,6 @@
         }
       },
       "block_order": [
-        "banner_carousel_block_FiFpAm",
-        "feature_cards_block_BfwxHn",
         "lookbook_RbdRWJ",
         "ce351101-2c54-4627-b740-b2c592067b4a",
         "6684d566-6940-4457-9cf9-f1a8a6e80573",
@@ -541,8 +531,8 @@
     "collection_banner_carousel_mj6XyL",
     "banner",
     "quick-filters",
-    "collection_feature_cards_qcYN9V",
     "product-grid",
+    "collection_feature_cards_qcYN9V",
     "product-recently-viewed",
     "custom_liquid_JmGBNU",
     "custom_image_banner_QaKyVt"
