@@ -1189,6 +1189,15 @@ span.badge.custom-metafield-badge {
     }
 }
 
+/* Si la colección tiene carrusel editorial, este ya contiene breadcrumb,
+   título y descripción. Evitar que la cabecera estándar los repita debajo. */
+@media (min-width: 768px) {
+    .template-collection:has(.collection-banner-carousel-wrapper)
+    [id^="HeaderCollectionSection-"] {
+        display: none !important;
+    }
+}
+
 /* =============================================================
    Colección: sidebar como panel deslizable (off-canvas) en desktop
    El tema, en @media (min-width:1025px), fuerza el sidebar inline
