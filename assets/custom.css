@@ -1421,3 +1421,17 @@ span.badge.custom-metafield-badge {
 .usf-sr-container .usf-sr-paging {
   grid-column: 1 / -1;
 }
+
+/* =============================================================================
+   Homepage · Spotlight (Custom Block): visibilidad del ícono del botón y
+   tarjeta completamente clickeable (sobre todo en móvil).
+   - El SVG pegado en el botón no traía tamaño y renderizaba a ~10px (invisible).
+   - La imagen de la card ya es un enlace, pero el .content superpuesto
+     interceptaba los taps en las zonas vacías: con pointer-events pasamos el
+     tap a la imagen (toda la card navega) manteniendo activos los enlaces.
+   ============================================================================= */
+.spotlight-block a.btn-aromas { display: flex; align-items: center; justify-content: center; }
+.spotlight-block a.btn-aromas svg { width: 100%; height: 100%; display: block; }
+.spotlight-block .content:not(.not-image) { pointer-events: none; }
+.spotlight-block .content:not(.not-image) a,
+.spotlight-block .content:not(.not-image) button { pointer-events: auto; }
