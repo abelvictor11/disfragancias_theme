@@ -1425,11 +1425,26 @@ expressOrderGridViewItem: `<div class="product grid-item" :product-selector="pro
 
     // Search result pages
     searchResultsPages: `
-    <center>
-    <ul class="pagination__list list-unstyled">
+    <nav class="usf-pagination" aria-label="Paginación">
+    <div v-if="usf.isMobile" class="usf-pagination-mobile">
+        <a v-if="page > 1" :href="prevUrl" :title="loc.prevPage" @click="onPrev" class="usf-pagination-mobile__control usf-pagination-mobile__control--prev motion-reduce" :aria-label="loc.prevPage">
+            <span class="usf-pagination-mobile__chevron" aria-hidden="true"></span>
+        </a>
+        <span v-else class="usf-pagination-mobile__spacer" aria-hidden="true"></span>
+        <span class="usf-pagination-mobile__status" aria-current="page">
+            <span>Página</span>
+            <strong>{{page}}</strong>
+            <span>de {{pagesTotal}}</span>
+        </span>
+        <a v-if="page < pagesTotal" :href="nextUrl" :title="loc.nextPage" @click="onNext" class="usf-pagination-mobile__control usf-pagination-mobile__control--next motion-reduce" :aria-label="loc.nextPage">
+            <span class="usf-pagination-mobile__chevron" aria-hidden="true"></span>
+        </a>
+        <span v-else class="usf-pagination-mobile__spacer" aria-hidden="true"></span>
+    </div>
+    <ul v-else class="pagination__list list-unstyled">
         <template v-for="e in elements">
             <li v-if="e.type === 'prev'" class="pagination-arrow">
-                <a href="javascript:void(0)" :title="loc.prevPage" @click="onPrev" class="pagination__item pagination__item--prev pagination__item-arrow link motion-reduce" aria-label="Prev">
+                <a :href="prevUrl" :title="loc.prevPage" @click="onPrev" class="pagination__item pagination__item--prev pagination__item-arrow link motion-reduce" :aria-label="loc.prevPage">
                     <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-caret" viewBox="0 0 10 6">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z">
                    </path></svg>
@@ -1437,9 +1452,9 @@ expressOrderGridViewItem: `<div class="product grid-item" :product-selector="pro
             </li>
             <li v-else-if="e.type === 'dots'" class="pagination-num"><span class="pagination__item">…</span></li>
             <li v-else-if="e.type === 'page' && e.current" class="pagination-num"><span class="pagination__item pagination__item--current" aria-current="page" :aria-label="e.page">{{e.page}}</span></li>
-            <li v-else-if="e.type === 'page' && !e.current" class="pagination-num"><a href="javascript:void(0)" class="pagination__item link" @click="ev=>onPage(e.page,ev)" :title="usf.utils.format(loc.gotoPage,e.page)" :aria-label="e.page">{{e.page}}</a></li>
+            <li v-else-if="e.type === 'page' && !e.current" class="pagination-num"><a :href="getPageUrl(e.page)" class="pagination__item link" @click="ev=>onPage(e.page,ev)" :title="usf.utils.format(loc.gotoPage,e.page)" :aria-label="e.page">{{e.page}}</a></li>
             <li v-else-if="e.type === 'next'" class="pagination-arrow">
-                <a href="javascript:void(0)" :title="loc.nextPage" @click="onNext" class="pagination__item pagination__item--next pagination__item-arrow link motion-reduce" aria-label="Next">
+                <a :href="nextUrl" :title="loc.nextPage" @click="onNext" class="pagination__item pagination__item--next pagination__item-arrow link motion-reduce" :aria-label="loc.nextPage">
                     <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-caret" viewBox="0 0 10 6">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z">
                    </path></svg>
@@ -1447,7 +1462,7 @@ expressOrderGridViewItem: `<div class="product grid-item" :product-selector="pro
             </li>
         </template>
     </ul>
-</center>
+    </nav>
 `,
     // List view item
     searchResultsListViewItem: ``,
