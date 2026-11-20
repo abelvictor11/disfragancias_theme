@@ -1430,8 +1430,11 @@ span.badge.custom-metafield-badge {
      interceptaba los taps en las zonas vacías: con pointer-events pasamos el
      tap a la imagen (toda la card navega) manteniendo activos los enlaces.
    ============================================================================= */
-.spotlight-block a.btn-aromas { display: flex; align-items: center; justify-content: center; }
-.spotlight-block a.btn-aromas svg { width: 100%; height: 100%; display: block; }
+.spotlight-block a.btn-aromas { display: flex; align-items: center; justify-content: center; padding: 0; }
+.spotlight-block a.btn-aromas svg { width: 18px; height: 18px; display: block; }
+@media screen and (max-width: 767px) {
+  .spotlight-block a.btn-aromas svg { width: 14px; height: 14px; }
+}
 .spotlight-block .content:not(.not-image) { pointer-events: none; }
 .spotlight-block .content:not(.not-image) a,
 .spotlight-block .content:not(.not-image) button { pointer-events: auto; }
