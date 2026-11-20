@@ -1108,16 +1108,28 @@
                             activeTab = $block.find('.product-tabs-content .tab-content.active');
                             
                         if (!$block.hasClass('ajax-loaded')) {
-                            halo.doAjaxProductTabs(
-                                linkActive.data('href'), 
-                                activeTab.find('.loading'), 
-                                activeTab.find('.products-load'), 
-                                $block.attr('sectionid'), 
-                                limit,
-                                $block
-                            );
+                            if (activeTab.find('.product-item[data-json-product]').length) {
+                                $block.addClass('ajax-loaded');
+                                activeTab.addClass('loaded');
+
+                                const initialProducts = activeTab.find('.products-load');
+                                if (initialProducts.hasClass('products-carousel')) {
+                                    halo.productBlockSilder(activeTab);
+                                } else if (activeTab.find('.products-cursor[data-enable-hover="true"]').length) {
+                                    halo.productBlockScroller(initialProducts);
+                                }
+                            } else {
+                                halo.doAjaxProductTabs(
+                                    linkActive.data('href'),
+                                    activeTab.find('.loading'),
+                                    activeTab.find('.products-load'),
+                                    $block.attr('sectionid'),
+                                    limit,
+                                    $block
+                                );
+                            }
                         }
-                        
+
                         tabLink.off('click').on('click', function (e) {
                             e.preventDefault();
                             e.stopPropagation();
