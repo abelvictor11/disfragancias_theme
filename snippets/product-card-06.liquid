@@ -37,6 +37,19 @@
         endif
     endfor
 
+    if show_variant_sizes and isColor == false
+        for option in product_card_product.options_with_values
+            assign option_name = option.name | downcase
+            if option_name contains 'size' or option_name contains 'tamaño' or option_name contains 'tamano'
+                assign isColor = true
+                assign index = forloop.index0
+                assign position = forloop.index | minus: 1
+                assign variant_selected = option.selected_value
+                break
+            endif
+        endfor
+    endif
+
     assign media_size = settings.product_block_image_ratio
     if media_size == 'portrait'
         assign portrait_aspect_ratio = settings.portrait_height
@@ -185,7 +198,7 @@
                 {% render 'combined-products-listing', product: product %}
             {%- else -%}
                 {%- if isColor -%}
-                    {%- unless settings.show_swatch -%}
+                    {%- unless settings.show_swatch or show_variant_sizes -%}
                     <div class="hidden">
                     {%- endunless -%}
                         {% render 'product-swatch',
@@ -193,7 +206,7 @@
                             index: index,
                             variant_selected: variant_selected
                         %}
-                    {%- unless settings.show_swatch -%}
+                    {%- unless settings.show_swatch or show_variant_sizes -%}
                     </div>
                     {%- endunless -%}
                 {%- endif -%}

@@ -149,6 +149,38 @@
     margin-bottom: var(--product-price-margin-bottom);
 }
 
+.card-price.card-price--primary-variant {
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.card-primary-variant-size {
+    color: var(--product-vendor-color, #777);
+    font-size: 11px;
+    font-weight: var(--font-weight-normal);
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+.card-decant-note {
+    color: var(--product-vendor-color, #666);
+    font-size: 11px;
+    line-height: 1.35;
+    margin: 4px 0 0;
+}
+
+@media (max-width: 550px) {
+    .card-price.card-price--primary-variant {
+        gap: 3px;
+    }
+
+    .card-primary-variant-size,
+    .card-decant-note {
+        font-size: 10px;
+    }
+}
+
 .card-quickview .quickview-button {
     font-family: var(--font-body-family);
     font-size: var(--product-quickview-font-size);
