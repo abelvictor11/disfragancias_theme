@@ -1411,3 +1411,12 @@ span.badge.custom-metafield-badge {
   /* En mobile la burbuja de IA también sube si aparece la sticky ATC */
   body:has(.productView-stickyCart.show-sticky) #WizybotShopifyWidget__iframe__outter__id { bottom: 140px !important; }
 }
+
+/* =============================================================================
+   Paginador de colecciones (USF): ocupar todo el ancho de la rejilla de resultados.
+   .usf-sr-container es un grid de 2 columnas; .usf-sr-paging caía en la columna
+   angosta (~108px) y los numeros se envolvian en una rejilla apretada en movil.
+   ============================================================================= */
+.usf-sr-container .usf-sr-paging {
+  grid-column: 1 / -1;
+}
