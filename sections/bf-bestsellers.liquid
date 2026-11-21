@@ -1,0 +1,86 @@
+{%- comment -%}
+  Black Friday · Lo más vendido en oferta (dark).
+  Riel horizontal que REUTILIZA la tarjeta de producto del tema vía
+  'product-grid-layout' (misma lógica de carrito/variantes/USF y el ajuste
+  de "precio de la variante alta"). No recodea el "Agregar".
+  Sección independiente y ocultable. Estilos en assets/bf-home.css.
+{%- endcomment -%}
+
+{{ 'bf-home.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.show_section -%}
+  {%- liquid
+    assign bs_collection = section.settings.collection
+    assign bs_limit = section.settings.products_limit | default: 10
+  -%}
+  <div class="bf-bs-sec">
+    <div class="bf-bs">
+      {%- if section.settings.heading != blank or section.settings.link_text != blank -%}
+        <div class="bf-sec-head">
+          {%- if section.settings.heading != blank -%}<h3>{{ section.settings.heading | escape }}</h3>{%- endif -%}
+          {%- if section.settings.link_text != blank -%}
+            <a href="{{ section.settings.link_url | default: bs_collection.url | default: '#' }}">{{ section.settings.link_text | escape }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if bs_collection != blank and bs_collection.products_count > 0 -%}
+        <div class="bf-bs__rail">
+          {%- for product in bs_collection.products limit: bs_limit -%}
+            <div class="product">
+              {% render 'product-grid-layout',
+                product_card_product: product,
+                show_add_to_cart: true,
+                serial: forloop.index,
+                sectionId: section.id,
+                show_list: true,
+                loading: true
+              %}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.cta_text != blank -%}
+          <a class="button button--primary bf-bs__cta"
+            href="{{ section.settings.cta_link | default: bs_collection.url | default: '#' }}">
+            {{ section.settings.cta_text | escape }}
+          </a>
+        {%- endif -%}
+      {%- else -%}
+        {%- if request.design_mode -%}
+          <p class="bf-bs__empty">Selecciona una colección en los ajustes de esta sección.</p>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "BF · Lo más vendido",
+  "tag": "section",
+  "class": "bf-bestsellers-section",
+  "settings": [
+    { "type": "checkbox", "id": "show_section", "label": "Mostrar sección", "default": true },
+    { "type": "text", "id": "heading", "label": "Encabezado", "default": "Lo más vendido en oferta" },
+    { "type": "text", "id": "link_text", "label": "Texto del enlace (opcional)", "default": "Ver todo" },
+    { "type": "url", "id": "link_url", "label": "Enlace del encabezado (por defecto, la colección)" },
+    { "type": "collection", "id": "collection", "label": "Colección" },
+    { "type": "range", "id": "products_limit", "min": 4, "max": 16, "step": 1, "label": "Productos a mostrar", "default": 10 },
+    { "type": "header", "content": "Botón inferior (opcional)" },
+    { "type": "text", "id": "cta_text", "label": "Texto del botón", "default": "Ver todas las ofertas" },
+    { "type": "url", "id": "cta_link", "label": "Enlace del botón (por defecto, la colección)" }
+  ],
+  "presets": [
+    {
+      "name": "BF · Lo más vendido",
+      "settings": {
+        "heading": "Lo más vendido en oferta",
+        "link_text": "Ver todo",
+        "products_limit": 10,
+        "cta_text": "Ver todas las ofertas"
+      }
+    }
+  ]
+}
+{% endschema %}

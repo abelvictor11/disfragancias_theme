@@ -270,3 +270,23 @@
   .bf-hcell--flash b{font-size:18px}
   .bf-flashtimer{font-size:16px;padding:8px 14px}
 }
+
+/* ===== BF · Lo más vendido en oferta (dark) ===== */
+.bf-bs-sec{background:var(--bf-dark);color:var(--bf-on-dark)}
+.bf-bs{padding:26px 0 30px}
+.bf-bs .bf-sec-head{padding:0 14px;margin-bottom:14px}
+.bf-bs .bf-sec-head h3{color:var(--bf-gold)}
+.bf-bs .bf-sec-head a{color:var(--bf-on-dark);text-decoration:underline;text-underline-offset:3px}
+.bf-bs__rail{display:flex;gap:10px;overflow-x:auto;padding:0 14px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.bf-bs__rail::-webkit-scrollbar{display:none}
+.bf-bs__rail .product{flex:0 0 150px;max-width:150px}
+.bf-bs__cta{display:block;width:calc(100% - 28px);margin:16px 14px 0;text-align:center}
+.bf-bs__cta.button--primary{--btn-1-bg:var(--bf-gold);--btn-1-bg-hover:var(--bf-gold);--btn-1-color:var(--bf-dark);--btn-1-color-hover:var(--bf-dark)}
+.bf-bs__empty{padding:0 14px;color:var(--bf-on-dark-mute);font-size:13px}
+@media screen and (min-width:750px){
+  .bf-bs{max-width:1200px;margin:0 auto;padding:40px 0 46px}
+  .bf-bs .bf-sec-head{padding:0 24px}
+  .bf-bs__rail{padding:0 24px 8px;gap:16px}
+  .bf-bs__rail .product{flex:0 0 220px;max-width:220px}
+  .bf-bs__cta{width:auto;margin:22px auto 0;max-width:320px}
+}
