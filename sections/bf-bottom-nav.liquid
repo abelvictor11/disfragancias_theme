@@ -1,0 +1,131 @@
+{%- comment -%}
+  Black Friday · Bottom nav (mobile, todo el sitio).
+  Va dentro de footer-group → se renderiza en todas las páginas y se oculta
+  desde el editor. Solo visible en mobile (CSS). Estilos en assets/bf-home.css.
+{%- endcomment -%}
+
+{{ 'bf-home.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.show_section and section.blocks.size > 0 -%}
+  <nav class="bf-bottomnav" aria-label="Navegación inferior">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign is_active = false
+        if block.settings.icon == 'home' and request.page_type == 'index'
+          assign is_active = true
+        endif
+        assign item_class = 'bf-bottomnav__item'
+        if block.settings.highlight
+          assign item_class = item_class | append: ' bf-bottomnav__item--highlight'
+        endif
+        if is_active
+          assign item_class = item_class | append: ' is-active'
+        endif
+      -%}
+      <a class="{{ item_class }}" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+        <span class="bf-bottomnav__icon">
+          {%- case block.settings.icon -%}
+            {%- when 'home' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7v9H3z"/></svg>
+            {%- when 'search' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            {%- when 'offers' -%}
+              {%- if block.settings.highlight -%}BF{%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 11.5 12.5 3.4a2 2 0 0 0-1.4-.6H5a2 2 0 0 0-2 2v6.1a2 2 0 0 0 .6 1.4l8.1 8.1a2 2 0 0 0 2.8 0l6.1-6.1a2 2 0 0 0 0-2.8Z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor"/></svg>
+              {%- endif -%}
+            {%- when 'cart' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+              {%- if block.settings.show_cart_count -%}
+                <span class="bf-bottomnav__badge" data-cart-count>{{ cart.item_count }}</span>
+              {%- endif -%}
+            {%- when 'whatsapp' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/></svg>
+            {%- when 'account' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+            {%- when 'wishlist' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.3-9.2-8.3A5 5 0 0 1 12 6a5 5 0 0 1 9.2 5.7C19 15.7 12 20 12 20Z"/></svg>
+          {%- endcase -%}
+        </span>
+        <span class="bf-bottomnav__label">{{ block.settings.label | escape }}</span>
+      </a>
+    {%- endfor -%}
+  </nav>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "BF · Bottom nav",
+  "class": "bf-bottomnav-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Mostrar barra inferior (solo mobile)",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "Barra de navegación fija en la parte inferior, en todas las páginas, solo en mobile."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Acceso",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "default": "home",
+          "options": [
+            { "value": "home", "label": "Inicio" },
+            { "value": "search", "label": "Buscar" },
+            { "value": "offers", "label": "Ofertas" },
+            { "value": "cart", "label": "Carrito" },
+            { "value": "whatsapp", "label": "WhatsApp" },
+            { "value": "account", "label": "Cuenta" },
+            { "value": "wishlist", "label": "Favoritos" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Texto",
+          "default": "Inicio"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Destacar (círculo elevado)",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_cart_count",
+          "label": "Mostrar contador (solo carrito)",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "BF · Bottom nav",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "home", "label": "Inicio" } },
+        { "type": "item", "settings": { "icon": "search", "label": "Buscar" } },
+        { "type": "item", "settings": { "icon": "offers", "label": "Ofertas", "highlight": true } },
+        { "type": "item", "settings": { "icon": "cart", "label": "Carrito", "show_cart_count": true } },
+        { "type": "item", "settings": { "icon": "whatsapp", "label": "WhatsApp" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
