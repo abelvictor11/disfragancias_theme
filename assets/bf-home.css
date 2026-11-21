@@ -190,3 +190,53 @@
   /* Deja aire para que el bar fijo no tape el contenido */
   body:has(.bf-bottomnav){padding-bottom:62px}
 }
+
+/* ===================== Encabezado de sección (compartido) ================= */
+.bf-sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 10px}
+.bf-sec-head h3{font-family:var(--font-heading-family);font-weight:600;font-size:18px;line-height:1.2;color:var(--bf-bronze);margin:0}
+.bf-sec-head a{flex:0 0 auto;font-family:var(--font-body-family);font-size:12px;color:var(--bf-ink,#232323);text-decoration:underline;text-underline-offset:3px}
+
+/* ===================== Tarjetas en dúo (género / colecciones) ============= */
+.bf-duo{padding:0 14px;margin:24px 0;font-family:var(--font-body-family)}
+.bf-duo__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.bf-card{
+  position:relative;isolation:isolate;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  border-radius:16px;border:1px solid var(--border-color,#e6ded3);
+  padding:14px;text-decoration:none;color:var(--bf-ink,#232323);
+}
+.bf-card--tall{min-height:190px}
+.bf-card--compact{min-height:120px}
+.bf-card__bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+.bf-card__scrim{position:absolute;inset:0;z-index:-1}
+.bf-card--on-light .bf-card__scrim{background:linear-gradient(transparent 45%,rgba(255,255,255,.35))}
+.bf-card--on-dark{color:#fff}
+.bf-card--on-dark .bf-card__scrim{background:linear-gradient(transparent 28%,rgba(0,0,0,.55))}
+.bf-card__tag{
+  position:absolute;top:12px;left:12px;z-index:1;
+  background:var(--bf-dark);color:#fff;font-size:10px;font-weight:700;letter-spacing:.05em;
+  padding:3px 7px;border-radius:6px;
+}
+.bf-card__title{font-family:var(--font-heading-family);font-weight:700;font-size:22px;line-height:1.1;margin:0}
+.bf-card--compact .bf-card__title{font-size:19px}
+.bf-card__sub{font-size:11.5px;line-height:1.35;margin-top:3px;opacity:.9}
+.bf-card--has-arrow .bf-card__title,
+.bf-card--has-arrow .bf-card__sub{padding-right:42px}
+.bf-card__arrow{
+  position:absolute;right:12px;bottom:14px;width:28px;height:28px;border-radius:50%;
+  background:#fff;color:var(--bf-ink,#232323);display:grid;place-items:center;
+}
+.bf-card__arrow svg{width:16px;height:16px}
+
+@media screen and (min-width:750px){
+  .bf-duo{max-width:1200px;margin:32px auto;padding:0 24px}
+  .bf-duo__grid{gap:16px}
+  .bf-sec-head h3{font-size:24px}
+  .bf-card--tall{min-height:320px}
+  .bf-card--compact{min-height:190px;padding:18px}
+  .bf-card__title{font-size:30px}
+  .bf-card--compact .bf-card__title{font-size:24px}
+  .bf-card__sub{font-size:13px}
+  .bf-card__arrow{width:34px;height:34px}
+  .bf-card__arrow svg{width:18px;height:18px}
+}
