@@ -197,8 +197,14 @@
   }
   .bf-bottomnav__item.is-active{color:var(--bf-nav-active,var(--bf-ink,#232323));font-weight:600}
   .bf-bottomnav__icon{display:grid;place-items:center;width:28px;height:28px}
-  .bf-bottomnav__icon svg{width:26px;height:26px}
+  .bf-bottomnav__icon svg{width:26px;height:26px;max-width:100%;max-height:100%}
   .bf-bottomnav__img{width:26px;height:26px;object-fit:contain;display:block}
+  /* SVG personalizado: adaptar su color al del ítem (monocromo). Por defecto
+     relleno; opción trazo. Así un SVG pegado deja de verse con sus colores. */
+  .bf-bottomnav__icon--svg-fill svg,
+  .bf-bottomnav__icon--svg-fill svg *{fill:currentColor !important;stroke:none !important}
+  .bf-bottomnav__icon--svg-stroke svg,
+  .bf-bottomnav__icon--svg-stroke svg *{stroke:currentColor !important;fill:none !important}
   .bf-bottomnav__badge{
     position:absolute;transform:translate(12px,-10px);
     background:var(--bf-red);color:#fff;font-size:9px;font-weight:700;

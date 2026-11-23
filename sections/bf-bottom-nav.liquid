@@ -48,9 +48,13 @@
         if is_active
           assign item_class = item_class | append: ' is-active'
         endif
+        assign icon_class = 'bf-bottomnav__icon'
+        if block.settings.icon_type == 'svg' and block.settings.svg_color != 'original'
+          assign icon_class = icon_class | append: ' bf-bottomnav__icon--svg-' | append: block.settings.svg_color
+        endif
       -%}
       <a class="{{ item_class }}" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
-        <span class="bf-bottomnav__icon">
+        <span class="{{ icon_class }}">
           {%- if block.settings.highlight and block.settings.highlight_text != blank -%}
             <span class="bf-bottomnav__bf">{{ block.settings.highlight_text | escape }}</span>
           {%- elsif block.settings.icon_type == 'image' and block.settings.custom_image != blank -%}
@@ -157,7 +161,19 @@
           "type": "textarea",
           "id": "custom_svg",
           "label": "SVG personalizado",
-          "info": "Pega el código <svg>…</svg>. Usa stroke/fill=\"currentColor\" para heredar el color."
+          "info": "Pega el código <svg>…</svg>."
+        },
+        {
+          "type": "select",
+          "id": "svg_color",
+          "label": "Color del SVG",
+          "default": "fill",
+          "info": "Adapta el SVG al color del ítem. Usa 'Trazo' si tu icono es de líneas.",
+          "options": [
+            { "value": "fill", "label": "Relleno (monocromo al tema)" },
+            { "value": "stroke", "label": "Trazo (monocromo al tema)" },
+            { "value": "original", "label": "Colores originales del SVG" }
+          ]
         },
         {
           "type": "image_picker",
