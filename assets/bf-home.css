@@ -197,12 +197,18 @@
     font-family:var(--font-body-family);
     box-shadow:0 -4px 16px rgba(0,0,0,.06);
   }
-  .bf-bottomnav__item{
+  /* Especificidad reforzada (a.…) para ganar al color de enlace del footer/tema */
+  .bf-bottomnav a.bf-bottomnav__item{
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
     padding:11px 4px 9px;text-decoration:none;
     color:var(--bf-nav-color,#727272);font-size:11px;font-weight:500;
+    transition:color .15s ease;-webkit-tap-highlight-color:transparent;
   }
-  .bf-bottomnav__item.is-active{color:var(--bf-nav-active,var(--bf-ink,#232323));font-weight:600}
+  .bf-bottomnav a.bf-bottomnav__item:hover,
+  .bf-bottomnav a.bf-bottomnav__item:active{color:var(--bf-nav-active,var(--bf-ink,#232323))}
+  .bf-bottomnav a.bf-bottomnav__item.is-active{color:var(--bf-nav-active,var(--bf-ink,#232323));font-weight:600}
+  /* El icono hereda explícitamente el color del ítem (evita que algo lo pinte) */
+  .bf-bottomnav__item .bf-bottomnav__icon{color:inherit}
   .bf-bottomnav__icon{display:grid;place-items:center;width:28px;height:28px}
   .bf-bottomnav__icon svg{width:26px;height:26px;max-width:100%;max-height:100%}
   .bf-bottomnav__img{width:26px;height:26px;object-fit:contain;display:block}
@@ -218,7 +224,9 @@
     border-radius:8px;padding:1px 5px;line-height:1.4;
   }
   /* Ítem destacado (Ofertas): círculo elevado sobre fondo oscuro */
-  .bf-bottomnav__item--highlight{color:var(--bf-nav-highlight-label,var(--bf-bronze));font-weight:700}
+  .bf-bottomnav a.bf-bottomnav__item--highlight,
+  .bf-bottomnav a.bf-bottomnav__item--highlight.is-active,
+  .bf-bottomnav a.bf-bottomnav__item--highlight:hover{color:var(--bf-nav-highlight-label,var(--bf-bronze));font-weight:700}
   .bf-bottomnav__item--highlight .bf-bottomnav__icon{
     width:54px;height:54px;border-radius:50%;margin-top:-22px;
     background:var(--bf-nav-highlight-bg,var(--bf-dark));
