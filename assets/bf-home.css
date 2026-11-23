@@ -328,3 +328,11 @@
   .bf-hcell--flash b{font-size:18px}
   .bf-flashtimer{font-size:16px;padding:8px 14px}
 }
+
+/* ===== Header · acceso personalizado que reemplaza el icono de búsqueda ===== */
+.header__bf-access{display:inline-flex;align-items:center;justify-content:center;color:var(--i-color,inherit)}
+.header__bf-access svg{width:24px;height:24px;fill:currentColor}
+.header__bf-access img{width:24px;height:24px;object-fit:contain;display:block}
+.header__bf-text{font-size:12px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;line-height:1;color:currentColor}
+.header__bf-access--boxed{padding:6px 10px;border-radius:8px}
+.header__bf-access--boxed .header__bf-text{font-size:11px}
