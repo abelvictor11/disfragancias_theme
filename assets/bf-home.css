@@ -265,7 +265,7 @@
   font-size:10px;font-weight:700;letter-spacing:.05em;
   padding:3px 7px;border-radius:var(--bf-badge-radius,6px);
 }
-.bf-card__title{font-family:var(--font-heading-family);font-weight:700;font-size:22px;line-height:1.1;margin:0}
+.bf-card__title{font-family:var(--font-heading-family);font-weight:700;font-size:22px;line-height:1.1;margin:0;color:var(--bf-card-title,inherit)}
 .bf-card--compact .bf-card__title{font-size:19px}
 .bf-card__sub{font-size:11.5px;line-height:1.35;margin-top:3px;opacity:.9}
 .bf-card--has-arrow .bf-card__title,
