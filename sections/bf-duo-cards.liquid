@@ -12,8 +12,32 @@
     if section.settings.card_height == 'tall'
       assign card_size = 'bf-card--tall'
     endif
+
+    assign has_bg = false
+    if section.settings.bg_image != blank or section.settings.bg_color != blank
+      assign has_bg = true
+    endif
+    assign bg_url = ''
+    if section.settings.bg_image != blank
+      assign bg_url = section.settings.bg_image | image_url: width: 2400
+    endif
+
+    capture bf_style
+      if section.settings.card_radius != blank
+        echo '--bf-radius:' | append: section.settings.card_radius | append: 'px;'
+      endif
+      if section.settings.heading_color != blank
+        echo '--bf-head-color:' | append: section.settings.heading_color | append: ';'
+      endif
+      if section.settings.bg_color != blank
+        echo 'background-color:' | append: section.settings.bg_color | append: ';'
+      endif
+      if bg_url != blank
+        echo "background-image:url('" | append: bg_url | append: "');"
+      endif
+    endcapture
   -%}
-  <div class="bf-duo">
+  <div class="bf-duo{% if has_bg %} bf-duo--has-bg{% endif %}"{% if bf_style != blank %} style="{{ bf_style }}"{% endif %}>
     {%- if section.settings.heading != blank or section.settings.link_text != blank -%}
       <div class="bf-sec-head">
         {%- if section.settings.heading != blank -%}<h3>{{ section.settings.heading | escape }}</h3>{%- endif -%}
@@ -102,6 +126,32 @@
         { "value": "tall", "label": "Alta (género)" },
         { "value": "compact", "label": "Compacta (colecciones)" }
       ]
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0, "max": 30, "step": 1, "unit": "px",
+      "label": "Radio de las cards",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color del encabezado"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Fondo de la sección (color)"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Fondo de la sección (imagen)"
     }
   ],
   "blocks": [

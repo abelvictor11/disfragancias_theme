@@ -7,7 +7,31 @@
 {{ 'bf-home.css' | asset_url | stylesheet_tag }}
 
 {%- if section.settings.show_section -%}
-  <div class="bf-hub-sec">
+  {%- liquid
+    assign has_bg = false
+    if section.settings.bg_image != blank or section.settings.bg_color != blank
+      assign has_bg = true
+    endif
+    assign bg_url = ''
+    if section.settings.bg_image != blank
+      assign bg_url = section.settings.bg_image | image_url: width: 2400
+    endif
+    capture bf_style
+      if section.settings.card_radius != blank
+        echo '--bf-radius:' | append: section.settings.card_radius | append: 'px;'
+      endif
+      if section.settings.heading_color != blank
+        echo '--bf-head-color:' | append: section.settings.heading_color | append: ';'
+      endif
+      if section.settings.bg_color != blank
+        echo 'background-color:' | append: section.settings.bg_color | append: ';'
+      endif
+      if bg_url != blank
+        echo "background-image:url('" | append: bg_url | append: "');"
+      endif
+    endcapture
+  -%}
+  <div class="bf-hub-sec{% if has_bg %} bf-hub-sec--has-bg{% endif %}"{% if bf_style != blank %} style="{{ bf_style }}"{% endif %}>
     <div class="bf-hub">
       {%- if section.settings.heading != blank or section.settings.link_text != blank -%}
         <div class="bf-sec-head">
@@ -97,7 +121,12 @@
     { "type": "text", "id": "flash_subtitle", "label": "Subtítulo", "default": "Cambian cada pocas horas" },
     { "type": "url", "id": "flash_link", "label": "Enlace (colección Flash)" },
     { "type": "checkbox", "id": "flash_show_timer", "label": "Mostrar temporizador", "default": true },
-    { "type": "range", "id": "flash_cycle_hours", "min": 1, "max": 24, "step": 1, "unit": "h", "label": "Ciclo del temporizador", "default": 4, "info": "Cuenta regresiva rotativa que se reinicia cada N horas." }
+    { "type": "range", "id": "flash_cycle_hours", "min": 1, "max": 24, "step": 1, "unit": "h", "label": "Ciclo del temporizador", "default": 4, "info": "Cuenta regresiva rotativa que se reinicia cada N horas." },
+    { "type": "header", "content": "Diseño" },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 30, "step": 1, "unit": "px", "label": "Radio de las celdas", "default": 14 },
+    { "type": "color", "id": "heading_color", "label": "Color del encabezado" },
+    { "type": "color", "id": "bg_color", "label": "Fondo de la sección (color)" },
+    { "type": "image_picker", "id": "bg_image", "label": "Fondo de la sección (imagen)" }
   ],
   "blocks": [
     {

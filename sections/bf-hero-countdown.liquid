@@ -11,12 +11,37 @@
     if section.settings.bottle_image != blank
       assign has_bottle = true
     endif
+
+    capture bf_style
+      if section.settings.card_radius != blank
+        echo '--bf-radius:' | append: section.settings.card_radius | append: 'px;'
+      endif
+      if section.settings.heading_color != blank
+        echo '--bf-head-color:' | append: section.settings.heading_color | append: ';'
+      endif
+      if section.settings.text_color != blank
+        echo '--bf-body-color:' | append: section.settings.text_color | append: ';'
+      endif
+      if section.settings.accent_color != blank
+        echo '--bf-accent:' | append: section.settings.accent_color | append: ';'
+      endif
+    endcapture
+    assign scrim = section.settings.bg_overlay | default: 0 | times: 0.01
   -%}
 
   <section
-    class="bf-hero{% unless has_bottle %} bf-hero--no-bottle{% endunless %}"
+    class="bf-hero{% unless has_bottle %} bf-hero--no-bottle{% endunless %}{% if section.settings.bg_image != blank %} bf-hero--has-bg{% endif %}"
     data-bf-countdown
-    data-bf-target="{{ section.settings.countdown_target }}">
+    data-bf-target="{{ section.settings.countdown_target }}"
+    {% if bf_style != blank %}style="{{ bf_style }}"{% endif %}>
+
+    {%- if section.settings.bg_image != blank -%}
+      <span class="bf-hero__bg" aria-hidden="true"
+        style="background-image:url('{{ section.settings.bg_image | image_url: width: 2400 }}')"></span>
+      {%- if scrim > 0 -%}
+        <span class="bf-hero__scrim" aria-hidden="true" style="opacity:{{ scrim }}"></span>
+      {%- endif -%}
+    {%- endif -%}
 
     {%- if has_bottle -%}
       <img
@@ -214,6 +239,46 @@
       "type": "url",
       "id": "cta_link",
       "label": "Enlace del botón"
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Imagen de fondo (banner)",
+      "info": "Opcional. Si se deja vacío, se usa el fondo oscuro por defecto."
+    },
+    {
+      "type": "range",
+      "id": "bg_overlay",
+      "min": 0, "max": 90, "step": 5, "unit": "%",
+      "label": "Oscurecer imagen de fondo",
+      "default": 45
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color del título"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color del texto (antetítulo/subtítulo)"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Color de acento",
+      "info": "Destacado del título, antetítulo y botón. Por defecto, el dorado de campaña."
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0, "max": 30, "step": 1, "unit": "px",
+      "label": "Radio de las cards (countdown)",
+      "default": 12
     }
   ],
   "presets": [
