@@ -67,6 +67,9 @@
           if block.settings.background != blank
             assign card_style = 'background:' | append: block.settings.background | append: ';'
           endif
+          if block.settings.title_color != blank
+            assign card_style = card_style | append: '--bf-card-title:' | append: block.settings.title_color | append: ';'
+          endif
           assign arrow_class = ''
           if block.settings.show_arrow
             assign arrow_class = ' bf-card--has-arrow'
@@ -191,6 +194,7 @@
       "settings": [
         { "type": "text", "id": "title", "label": "Título", "default": "Título" },
         { "type": "text", "id": "subtitle", "label": "Subtítulo" },
+        { "type": "color", "id": "title_color", "label": "Color del título", "info": "Opcional. Por defecto sigue el color del texto de la tarjeta." },
         { "type": "url", "id": "link", "label": "Enlace (colección)" },
         { "type": "image_picker", "id": "image", "label": "Imagen de fondo" },
         { "type": "color_background", "id": "background", "label": "Fondo degradado (si no hay imagen)" },
