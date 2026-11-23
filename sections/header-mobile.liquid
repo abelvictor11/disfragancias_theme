@@ -24,7 +24,20 @@
                             <style>.nav-menu-tab{background: {{ block.settings.menu_tab_bg }};}</style>
                         {%-  when 'search' -%}
                             {%- if block.settings.bf_replace -%}
-                                <a class="header__iconItem header__icon header__icon--search link link--text focus-inset header__bf-access" href="{{ block.settings.bf_link | default: '#' }}" style="--i-color: {{ block.settings.color }}" aria-label="{{ block.settings.bf_label | default: 'Ofertas' | escape }}">
+                                {%- liquid
+                                  assign bf_text_color = block.settings.bf_text_color | default: block.settings.color
+                                  capture bf_access_style
+                                    echo '--i-color:' | append: bf_text_color | append: ';color:' | append: bf_text_color | append: ';'
+                                    if block.settings.bf_bg_color != blank
+                                      echo 'background:' | append: block.settings.bf_bg_color | append: ';'
+                                    endif
+                                  endcapture
+                                  assign bf_boxed = ''
+                                  if block.settings.bf_bg_color != blank
+                                    assign bf_boxed = ' header__bf-access--boxed'
+                                  endif
+                                -%}
+                                <a class="header__iconItem header__icon header__icon--search link link--text focus-inset header__bf-access{{ bf_boxed }}" href="{{ block.settings.bf_link | default: '#' }}" style="{{ bf_access_style }}" aria-label="{{ block.settings.bf_label | default: 'Ofertas' | escape }}">
                                     {%- if block.settings.bf_icon_type == 'image' and block.settings.bf_image != blank -%}
                                         <img src="{{ block.settings.bf_image | image_url: width: 96 }}" alt="" width="24" height="24">
                                     {%- elsif block.settings.bf_icon_type == 'svg' and block.settings.bf_svg != blank -%}
@@ -502,6 +515,17 @@
                     "id": "bf_text",
                     "label": "Texto (si eliges tipo Texto)",
                     "default": "BF"
+                },
+                {
+                    "type": "color",
+                    "id": "bf_text_color",
+                    "label": "Color del texto / icono del acceso"
+                },
+                {
+                    "type": "color",
+                    "id": "bf_bg_color",
+                    "label": "Color de fondo del acceso",
+                    "info": "Si se define, el acceso se muestra como botón (con relleno y esquinas redondeadas)."
                 }
             ]
         },
