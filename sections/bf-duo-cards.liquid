@@ -38,6 +38,12 @@
       if section.settings.badge_color != blank
         echo '--bf-badge-color:' | append: section.settings.badge_color | append: ';'
       endif
+      if section.settings.arrow_bg != blank
+        echo '--bf-arrow-bg:' | append: section.settings.arrow_bg | append: ';'
+      endif
+      if section.settings.arrow_color != blank
+        echo '--bf-arrow-color:' | append: section.settings.arrow_color | append: ';'
+      endif
       if section.settings.bg_color != blank
         echo 'background-color:' | append: section.settings.bg_color | append: ';'
       endif
@@ -93,7 +99,7 @@
 
           {%- if block.settings.show_arrow -%}
             <span class="bf-card__arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              <svg viewBox="0 0 200 200" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M9.2,97.9c0.1-0.1,0.3-0.1,0.3-0.2c1.7-4,4.9-4.9,8.9-4.8c48.3,0.1,96.5,0,144.8,0c0.9,0,1.7,0,2.8,0c-1.1-1.7-2.3-2.7-3.5-3.9c-6.9-6.9-13.9-13.8-20.8-20.8c-4.1-4.1-2.4-10.4,3.2-12c2.8-0.8,5.1,0.2,7,2.2c5.2,5.2,10.4,10.3,15.6,15.5c6.8,6.8,13.6,13.6,20.5,20.4c3.7,3.6,3.7,7.7,0,11.3c-12,12-24,23.9-36,35.9c-4,4-9.8,3-12-1.9c-1.2-2.7-0.6-5.6,1.7-7.9c6.5-6.5,13-12.9,19.5-19.4c1.6-1.6,3.2-3.1,5.1-4.8c-1.3-0.5-2.2-0.4-3.1-0.4c-48.8,0-97.7,0-146.5,0c-3.3,0-5.6-1.4-6.9-4.5c-0.1-0.3-0.4-0.6-0.6-0.9C9.2,100.5,9.2,99.2,9.2,97.9z"/></svg>
             </span>
           {%- endif -%}
         </a>
@@ -185,6 +191,20 @@
       "type": "color",
       "id": "badge_color",
       "label": "Color del texto del badge"
+    },
+    {
+      "type": "header",
+      "content": "Botón de flecha"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg",
+      "label": "Fondo del botón de flecha"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Color de la flecha"
     }
   ],
   "blocks": [

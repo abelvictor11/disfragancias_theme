@@ -38,9 +38,28 @@
     {%- for block in section.blocks -%}
       {%- liquid
         assign is_active = false
-        if block.settings.icon == 'home' and request.page_type == 'index'
-          assign is_active = true
-        endif
+        case block.settings.icon
+          when 'home'
+            if request.page_type == 'index'
+              assign is_active = true
+            endif
+          when 'search'
+            if request.page_type == 'search'
+              assign is_active = true
+            endif
+          when 'cart'
+            if request.page_type == 'cart'
+              assign is_active = true
+            endif
+          when 'account'
+            if request.page_type contains 'account' or request.page_type contains 'customers'
+              assign is_active = true
+            endif
+          when 'wishlist'
+            if request.path contains 'wishlist'
+              assign is_active = true
+            endif
+        endcase
         assign item_class = 'bf-bottomnav__item'
         if block.settings.highlight
           assign item_class = item_class | append: ' bf-bottomnav__item--highlight'
