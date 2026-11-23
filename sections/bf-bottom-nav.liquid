@@ -7,7 +7,34 @@
 {{ 'bf-home.css' | asset_url | stylesheet_tag }}
 
 {%- if section.settings.show_section and section.blocks.size > 0 -%}
-  <nav class="bf-bottomnav" aria-label="Navegación inferior">
+  {%- liquid
+    assign bf_font = 'var(--font-heading-family)'
+    if section.settings.highlight_font == 'body'
+      assign bf_font = 'var(--font-body-family)'
+    endif
+    capture nav_style
+      if section.settings.bar_bg != blank
+        echo '--bf-nav-bg:' | append: section.settings.bar_bg | append: ';'
+      endif
+      if section.settings.item_color != blank
+        echo '--bf-nav-color:' | append: section.settings.item_color | append: ';'
+      endif
+      if section.settings.active_color != blank
+        echo '--bf-nav-active:' | append: section.settings.active_color | append: ';'
+      endif
+      if section.settings.highlight_bg != blank
+        echo '--bf-nav-highlight-bg:' | append: section.settings.highlight_bg | append: ';'
+      endif
+      if section.settings.highlight_icon_color != blank
+        echo '--bf-nav-highlight-icon:' | append: section.settings.highlight_icon_color | append: ';'
+      endif
+      if section.settings.highlight_label_color != blank
+        echo '--bf-nav-highlight-label:' | append: section.settings.highlight_label_color | append: ';'
+      endif
+      echo '--bf-nav-bf-font:' | append: bf_font | append: ';'
+    endcapture
+  -%}
+  <nav class="bf-bottomnav" aria-label="Navegación inferior" style="{{ nav_style }}">
     {%- for block in section.blocks -%}
       {%- liquid
         assign is_active = false
@@ -24,29 +51,38 @@
       -%}
       <a class="{{ item_class }}" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
         <span class="bf-bottomnav__icon">
-          {%- case block.settings.icon -%}
-            {%- when 'home' -%}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7v9H3z"/></svg>
-            {%- when 'search' -%}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            {%- when 'offers' -%}
-              {%- if block.settings.highlight -%}BF{%- else -%}
+          {%- if block.settings.highlight and block.settings.highlight_text != blank -%}
+            <span class="bf-bottomnav__bf">{{ block.settings.highlight_text | escape }}</span>
+          {%- elsif block.settings.icon_type == 'image' and block.settings.custom_image != blank -%}
+            <img class="bf-bottomnav__img" src="{{ block.settings.custom_image | image_url: width: 108 }}"
+              alt="" width="{{ block.settings.custom_image.width }}" height="{{ block.settings.custom_image.height }}" loading="lazy">
+          {%- elsif block.settings.icon_type == 'svg' and block.settings.custom_svg != blank -%}
+            {{ block.settings.custom_svg }}
+          {%- else -%}
+            {%- case block.settings.icon -%}
+              {%- when 'home' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7v9H3z"/></svg>
+              {%- when 'search' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              {%- when 'offers' -%}
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 11.5 12.5 3.4a2 2 0 0 0-1.4-.6H5a2 2 0 0 0-2 2v6.1a2 2 0 0 0 .6 1.4l8.1 8.1a2 2 0 0 0 2.8 0l6.1-6.1a2 2 0 0 0 0-2.8Z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor"/></svg>
-              {%- endif -%}
-            {%- when 'cart' -%}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
-              {%- if block.settings.show_cart_count -%}
-                <span class="bf-bottomnav__badge" data-cart-count>{{ cart.item_count }}</span>
-              {%- endif -%}
-            {%- when 'whatsapp' -%}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/></svg>
-            {%- when 'account' -%}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
-            {%- when 'wishlist' -%}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.3-9.2-8.3A5 5 0 0 1 12 6a5 5 0 0 1 9.2 5.7C19 15.7 12 20 12 20Z"/></svg>
-          {%- endcase -%}
+              {%- when 'cart' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+              {%- when 'whatsapp' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/></svg>
+              {%- when 'account' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+              {%- when 'wishlist' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.3-9.2-8.3A5 5 0 0 1 12 6a5 5 0 0 1 9.2 5.7C19 15.7 12 20 12 20Z"/></svg>
+            {%- endcase -%}
+          {%- endif -%}
+          {%- if block.settings.show_cart_count -%}
+            <span class="bf-bottomnav__badge" data-cart-count>{{ cart.item_count }}</span>
+          {%- endif -%}
         </span>
-        <span class="bf-bottomnav__label">{{ block.settings.label | escape }}</span>
+        {%- if block.settings.label != blank -%}
+          <span class="bf-bottomnav__label">{{ block.settings.label | escape }}</span>
+        {%- endif -%}
       </a>
     {%- endfor -%}
   </nav>
@@ -66,6 +102,24 @@
     {
       "type": "paragraph",
       "content": "Barra de navegación fija en la parte inferior, en todas las páginas, solo en mobile."
+    },
+    { "type": "header", "content": "Colores" },
+    { "type": "color", "id": "bar_bg", "label": "Fondo de la barra", "default": "#ffffff" },
+    { "type": "color", "id": "item_color", "label": "Color de los ítems", "default": "#727272" },
+    { "type": "color", "id": "active_color", "label": "Color del ítem activo", "default": "#232323" },
+    { "type": "header", "content": "Botón destacado (Black Friday)" },
+    { "type": "color", "id": "highlight_bg", "label": "Fondo del círculo", "default": "#141414" },
+    { "type": "color", "id": "highlight_icon_color", "label": "Color del icono/texto", "default": "#e0b252" },
+    { "type": "color", "id": "highlight_label_color", "label": "Color del texto inferior", "default": "#836038" },
+    {
+      "type": "select",
+      "id": "highlight_font",
+      "label": "Fuente del texto del botón",
+      "default": "heading",
+      "options": [
+        { "value": "heading", "label": "Títulos (Cinzel)" },
+        { "value": "body", "label": "Cuerpo (Inter)" }
+      ]
     }
   ],
   "blocks": [
@@ -75,8 +129,19 @@
       "settings": [
         {
           "type": "select",
+          "id": "icon_type",
+          "label": "Tipo de icono",
+          "default": "preset",
+          "options": [
+            { "value": "preset", "label": "Predefinido" },
+            { "value": "svg", "label": "SVG personalizado" },
+            { "value": "image", "label": "Imagen" }
+          ]
+        },
+        {
+          "type": "select",
           "id": "icon",
-          "label": "Icono",
+          "label": "Icono predefinido",
           "default": "home",
           "options": [
             { "value": "home", "label": "Inicio" },
@@ -87,6 +152,17 @@
             { "value": "account", "label": "Cuenta" },
             { "value": "wishlist", "label": "Favoritos" }
           ]
+        },
+        {
+          "type": "textarea",
+          "id": "custom_svg",
+          "label": "SVG personalizado",
+          "info": "Pega el código <svg>…</svg>. Usa stroke/fill=\"currentColor\" para heredar el color."
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Imagen del icono"
         },
         {
           "type": "text",
@@ -106,6 +182,13 @@
           "default": false
         },
         {
+          "type": "text",
+          "id": "highlight_text",
+          "label": "Texto del botón destacado",
+          "info": "Si se llena, se muestra este texto (ej: BF) dentro del círculo en vez del icono.",
+          "default": "BF"
+        },
+        {
           "type": "checkbox",
           "id": "show_cart_count",
           "label": "Mostrar contador (solo carrito)",
@@ -119,11 +202,11 @@
     {
       "name": "BF · Bottom nav",
       "blocks": [
-        { "type": "item", "settings": { "icon": "home", "label": "Inicio" } },
-        { "type": "item", "settings": { "icon": "search", "label": "Buscar" } },
-        { "type": "item", "settings": { "icon": "offers", "label": "Ofertas", "highlight": true } },
-        { "type": "item", "settings": { "icon": "cart", "label": "Carrito", "show_cart_count": true } },
-        { "type": "item", "settings": { "icon": "whatsapp", "label": "WhatsApp" } }
+        { "type": "item", "settings": { "icon": "home", "label": "Inicio", "highlight_text": "" } },
+        { "type": "item", "settings": { "icon": "search", "label": "Buscar", "highlight_text": "" } },
+        { "type": "item", "settings": { "icon": "offers", "label": "Ofertas", "highlight": true, "highlight_text": "BF" } },
+        { "type": "item", "settings": { "icon": "cart", "label": "Carrito", "show_cart_count": true, "highlight_text": "" } },
+        { "type": "item", "settings": { "icon": "whatsapp", "label": "WhatsApp", "highlight_text": "" } }
       ]
     }
   ]
