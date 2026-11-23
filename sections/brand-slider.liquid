@@ -412,7 +412,8 @@
     }
     {%- if section.settings.show_discount -%}
     .section-block-{{section.id}} .brand-discount{
-        display:inline-block;margin-top:4px;
+        display:block;width:-moz-fit-content;width:fit-content;max-width:100%;
+        margin:4px auto 0;text-align:center;
         font-family:var(--badge-font);font-size:var(--badge-font-size);font-weight:var(--badge-font-weight);
         line-height:var(--badge-line-height);letter-spacing:var(--badge-letter-spacing);
         padding:var(--badge-padding-top) var(--badge-padding-left-right) var(--badge-padding-bottom);
