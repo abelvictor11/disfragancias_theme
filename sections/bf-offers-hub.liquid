@@ -32,6 +32,14 @@
       if section.settings.badge_color != blank
         echo '--bf-badge-color:' | append: section.settings.badge_color | append: ';'
       endif
+      if section.settings.flash_bg_gradient != blank
+        echo '--bf-flash-bg:' | append: section.settings.flash_bg_gradient | append: ';'
+      elsif section.settings.flash_bg != blank
+        echo '--bf-flash-bg:' | append: section.settings.flash_bg | append: ';'
+      endif
+      if section.settings.flash_border != blank
+        echo '--bf-flash-border:' | append: section.settings.flash_border | append: ';'
+      endif
       if section.settings.bg_color != blank
         echo 'background-color:' | append: section.settings.bg_color | append: ';'
       endif
@@ -131,6 +139,9 @@
     { "type": "url", "id": "flash_link", "label": "Enlace (colección Flash)" },
     { "type": "checkbox", "id": "flash_show_timer", "label": "Mostrar temporizador", "default": true },
     { "type": "range", "id": "flash_cycle_hours", "min": 1, "max": 24, "step": 1, "unit": "h", "label": "Ciclo del temporizador", "default": 4, "info": "Cuenta regresiva rotativa que se reinicia cada N horas." },
+    { "type": "color", "id": "flash_bg", "label": "Fondo de la card flash" },
+    { "type": "color_background", "id": "flash_bg_gradient", "label": "Fondo de la card flash (degradado)" },
+    { "type": "color", "id": "flash_border", "label": "Color del borde de la card flash" },
     { "type": "header", "content": "Diseño" },
     { "type": "range", "id": "card_radius", "min": 0, "max": 30, "step": 1, "unit": "px", "label": "Radio de las celdas", "default": 14 },
     { "type": "color", "id": "heading_color", "label": "Color del encabezado" },
