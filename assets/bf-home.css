@@ -174,10 +174,17 @@
 .bf-chips::-webkit-scrollbar{display:none}
 .bf-chip{
   flex:0 0 auto;white-space:nowrap;text-decoration:none;
-  font-size:12px;font-weight:500;padding:6px 11px;border-radius:20px;
-  border:1px solid var(--border-color,#e6ded3);background:#fff;color:var(--bf-ink,#232323);
+  font-size:12px;font-weight:500;padding:6px 11px;
+  border-radius:var(--bf-chip-radius,20px);
+  border:1px solid var(--bf-chip-border,var(--border-color,#e6ded3));
+  background:var(--bf-chip-bg,#fff);color:var(--bf-chip-color,var(--bf-ink,#232323));
 }
-.bf-chip--hot{border-color:var(--bf-gold);background:var(--bf-gold-soft);color:var(--bf-bronze);font-weight:700}
+.bf-chip--hot{
+  border-color:var(--bf-chip-hot-border,var(--bf-gold));
+  background:var(--bf-chip-hot-bg,var(--bf-gold-soft));
+  color:var(--bf-chip-hot-color,var(--bf-bronze));
+  font-weight:700;
+}
 
 /* ===================== Bottom nav (mobile, todo el sitio) ================== */
 .bf-bottomnav{display:none}
