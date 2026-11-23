@@ -410,6 +410,18 @@
         {%- endif -%}
         .section-block-{{section.id}} .brands-slider .halo-item .wrapper-content.animate--slide-in {animation: var(--animation-slide-in);animation-delay: calc(var(--animation-order) * .1s);}
     }
+    {%- if section.settings.show_discount -%}
+    .section-block-{{section.id}} .brand-discount{
+        display:block;width:-moz-fit-content;width:fit-content;max-width:100%;
+        margin:4px auto 0;text-align:center;
+        font-family:var(--badge-font);font-size:var(--badge-font-size);font-weight:var(--badge-font-weight);
+        line-height:var(--badge-line-height);letter-spacing:var(--badge-letter-spacing);
+        padding:var(--badge-padding-top) var(--badge-padding-left-right) var(--badge-padding-bottom);
+        border-radius:var(--badge-border-radius);
+        color:{{ section.settings.discount_color | default: settings.sale_badge_color }};
+        background:{% if section.settings.discount_bg_gradient != blank %}{{ section.settings.discount_bg_gradient }}{% else %}{{ section.settings.discount_bg | default: settings.sale_badge_bg }}{% endif %};
+    }
+    {%- endif -%}
 </style>
 {%- if section.blocks.size > 0 -%}
 <div class="brand-slider section-block-{{section.id}}" id="brands-{{section.id}}" {% if section.settings.brand_layout == 'slider' %}data-loader-script="{{ 'halo.slide-brand.js' | asset_url }}"{% endif %}>
@@ -542,6 +554,9 @@
                                             {%- if block.settings.title != blank -%}
                                                 <a class="text" {% if block.settings.link == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.link }}"{% endif %}>{{ block.settings.title }}</a>
                                             {%- endif -%}
+                                            {%- if section.settings.show_discount and block.settings.discount != blank -%}
+                                                <span class="brand-discount">{{ block.settings.discount | escape }}</span>
+                                            {%- endif -%}
                                             {%- if block.settings.description != blank -%}
                                                 <a class="description"{% if block.settings.link == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.link }}"{% endif %}>{{ block.settings.description }}</a>
                                             {%- endif -%}
@@ -573,6 +588,9 @@
                                     {%- endif -%}
                                     {%- if block.settings.title != blank -%}
                                         <a class="text" {% if block.settings.link == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.link }}"{% endif %}>{{ block.settings.title }}</a>
+                                    {%- endif -%}
+                                    {%- if section.settings.show_discount and block.settings.discount != blank -%}
+                                        <span class="brand-discount">{{ block.settings.discount | escape }}</span>
                                     {%- endif -%}
                                     {%- if block.settings.description != blank -%}
                                         <a class="description"{% if block.settings.link == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.link }}"{% endif %}>{{ block.settings.description }}</a>
@@ -725,6 +743,34 @@
         "id": "display_brand_border",
         "label": "t:settings_schema.typography.settings.typography.border_enable",
         "default": true
+    },
+    {
+        "type": "header",
+        "content": "Badge de descuento (por marca)"
+    },
+    {
+        "type": "checkbox",
+        "id": "show_discount",
+        "label": "Mostrar badge de descuento",
+        "default": false,
+        "info": "Usa los tokens de badge de oferta del sitio. El % se define en cada marca."
+    },
+    {
+        "type": "color",
+        "id": "discount_color",
+        "label": "Color del texto del badge",
+        "default": "#ffffff"
+    },
+    {
+        "type": "color",
+        "id": "discount_bg",
+        "label": "Fondo del badge",
+        "default": "#e95144"
+    },
+    {
+        "type": "color_background",
+        "id": "discount_bg_gradient",
+        "label": "Fondo del badge (degradado)"
     },
     {
         "type" : "color",
@@ -1444,6 +1490,12 @@
                 "type": "url",
                 "id": "link",
                 "label": "t:sections.image-banner.blocks.image.settings.content.label__5"
+            },
+            {
+                "type": "text",
+                "id": "discount",
+                "label": "Descuento (badge)",
+                "info": "Ej: -40%. Se muestra si el badge de descuento está activo en la sección."
             }
             ]
         }

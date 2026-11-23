@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ 'component-menu-mobile.css' | asset_url }}" media="all" onload="this.media='all'">
 <noscript>{{ 'component-menu-mobile.css' | asset_url | stylesheet_tag }}</noscript>
+{{ 'bf-home.css' | asset_url | stylesheet_tag }}
 
 {%-liquid
     if request.page_type == 'index'
@@ -187,6 +188,55 @@
             {%- endfor -%}
         </div>
     </div>
+        {%- if section.settings.bf_search_enable -%}
+          {%- liquid
+            assign bf_chips = linklists[section.settings.bf_chips_menu]
+            capture bf_chips_style
+              if section.settings.bf_chip_radius != blank
+                echo '--bf-chip-radius:' | append: section.settings.bf_chip_radius | append: 'px;'
+              endif
+              if section.settings.bf_chip_border != blank
+                echo '--bf-chip-border:' | append: section.settings.bf_chip_border | append: ';'
+              endif
+              if section.settings.bf_chip_bg != blank
+                echo '--bf-chip-bg:' | append: section.settings.bf_chip_bg | append: ';'
+              endif
+              if section.settings.bf_chip_color != blank
+                echo '--bf-chip-color:' | append: section.settings.bf_chip_color | append: ';'
+              endif
+              if section.settings.bf_chip_hot_border != blank
+                echo '--bf-chip-hot-border:' | append: section.settings.bf_chip_hot_border | append: ';'
+              endif
+              if section.settings.bf_chip_hot_bg != blank
+                echo '--bf-chip-hot-bg:' | append: section.settings.bf_chip_hot_bg | append: ';'
+              endif
+              if section.settings.bf_chip_hot_color != blank
+                echo '--bf-chip-hot-color:' | append: section.settings.bf_chip_hot_color | append: ';'
+              endif
+            endcapture
+          -%}
+          <div class="bf-hsearch">
+            <form action="{{ routes.search_url }}" method="get" role="search" class="bf-hsearch__form">
+              <input type="hidden" name="type" value="product">
+              {% render 'icon-search' %}
+              <input
+                class="bf-hsearch__input"
+                type="search"
+                name="q"
+                value="{{ search.terms | escape }}"
+                placeholder="{{ section.settings.bf_search_placeholder | escape }}"
+                aria-label="{{ 'general.search.search' | t }}"
+                autocomplete="off">
+            </form>
+            {%- if bf_chips != blank and bf_chips.links.size > 0 -%}
+              <div class="bf-chips"{% if bf_chips_style != blank %} style="{{ bf_chips_style }}"{% endif %}>
+                {%- for link in bf_chips.links -%}
+                  <a class="bf-chip{% if forloop.index <= section.settings.bf_chips_hot %} bf-chip--hot{% endif %}" href="{{ link.url }}">{{ link.title | escape }}</a>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
 </{% if section.settings.sticky_header_type != 'none' %}sticky-header-mobile{% else %}div{% endif %}>
 
 <script src="{{ 'header-mobile-inline.js' | asset_url }}" defer="defer"></script>
@@ -276,6 +326,85 @@
             "unit": "px",
             "label": "t:sections.main-list-collections.settings.spacing.mg_bottom",
             "default": 0
+        },
+        {
+            "type": "header",
+            "content": "Black Friday — buscador + chips"
+        },
+        {
+            "type": "checkbox",
+            "id": "bf_search_enable",
+            "label": "Mostrar buscador fijo y chips",
+            "default": true
+        },
+        {
+            "type": "text",
+            "id": "bf_search_placeholder",
+            "label": "Placeholder del buscador",
+            "default": "Busca tu perfume, marca o aroma…"
+        },
+        {
+            "type": "link_list",
+            "id": "bf_chips_menu",
+            "label": "Menú de chips (categorías rápidas)",
+            "info": "Cada enlace del menú se muestra como chip. Vacío = sin chips."
+        },
+        {
+            "type": "range",
+            "id": "bf_chips_hot",
+            "label": "Chips destacados (dorado) al inicio",
+            "min": 0,
+            "max": 4,
+            "step": 1,
+            "default": 2
+        },
+        {
+            "type": "header",
+            "content": "Diseño de los chips"
+        },
+        {
+            "type": "range",
+            "id": "bf_chip_radius",
+            "label": "Radio de los chips",
+            "min": 0,
+            "max": 30,
+            "step": 1,
+            "unit": "px",
+            "default": 20
+        },
+        {
+            "type": "color",
+            "id": "bf_chip_bg",
+            "label": "Fondo del chip"
+        },
+        {
+            "type": "color",
+            "id": "bf_chip_border",
+            "label": "Borde del chip"
+        },
+        {
+            "type": "color",
+            "id": "bf_chip_color",
+            "label": "Texto del chip"
+        },
+        {
+            "type": "header",
+            "content": "Diseño de los chips destacados"
+        },
+        {
+            "type": "color",
+            "id": "bf_chip_hot_bg",
+            "label": "Fondo del chip destacado"
+        },
+        {
+            "type": "color",
+            "id": "bf_chip_hot_border",
+            "label": "Borde del chip destacado"
+        },
+        {
+            "type": "color",
+            "id": "bf_chip_hot_color",
+            "label": "Texto del chip destacado"
         }
     ],
     "blocks": [
