@@ -298,7 +298,8 @@
 .bf-hcell b{font-family:var(--font-body-family);font-size:14px;font-weight:700;line-height:1.2}
 .bf-hcell small{color:var(--bf-on-dark-faint);font-size:11.5px;line-height:1.3}
 .bf-hcell--flash{grid-column:span 3;flex-direction:row;align-items:center;justify-content:space-between;gap:12px;
-  background:linear-gradient(90deg,#2b2114,#1f1f1f);border-color:#4a3a20}
+  background:var(--bf-flash-bg,linear-gradient(90deg,#2b2114,#1f1f1f));
+  border-color:var(--bf-flash-border,#4a3a20)}
 .bf-hcell--flash b{font-size:15px}
 .bf-hcell__flashtxt{display:flex;flex-direction:column;gap:2px}
 .bf-flashtimer{flex:none;font-size:13px;font-weight:700;color:var(--bf-badge-color,#fff);background:var(--bf-badge-bg,var(--bf-red));
