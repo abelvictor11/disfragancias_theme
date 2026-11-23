@@ -23,6 +23,32 @@
                             </div>
                             <style>.nav-menu-tab{background: {{ block.settings.menu_tab_bg }};}</style>
                         {%-  when 'search' -%}
+                            {%- if block.settings.bf_replace -%}
+                                {%- liquid
+                                  assign bf_text_color = block.settings.bf_text_color | default: block.settings.color
+                                  capture bf_access_style
+                                    echo '--i-color:' | append: bf_text_color | append: ';color:' | append: bf_text_color | append: ';'
+                                    if block.settings.bf_bg_color != blank
+                                      echo 'background:' | append: block.settings.bf_bg_color | append: ';'
+                                    endif
+                                  endcapture
+                                  assign bf_boxed = ''
+                                  if block.settings.bf_bg_color != blank
+                                    assign bf_boxed = ' header__bf-access--boxed'
+                                  endif
+                                -%}
+                                <a class="header__iconItem header__icon header__icon--search link link--text focus-inset header__bf-access{{ bf_boxed }}" href="{{ block.settings.bf_link | default: '#' }}" style="{{ bf_access_style }}" aria-label="{{ block.settings.bf_label | default: 'Ofertas' | escape }}">
+                                    {%- if block.settings.bf_icon_type == 'image' and block.settings.bf_image != blank -%}
+                                        <img src="{{ block.settings.bf_image | image_url: width: 96 }}" alt="" width="24" height="24">
+                                    {%- elsif block.settings.bf_icon_type == 'svg' and block.settings.bf_svg != blank -%}
+                                        {{ block.settings.bf_svg }}
+                                    {%- elsif block.settings.bf_text != blank -%}
+                                        <span class="header__bf-text">{{ block.settings.bf_text | escape }}</span>
+                                    {%- else -%}
+                                        {% render 'icon-search', class: 'icon icon-search w-24 h-24' %}
+                                    {%- endif -%}
+                                </a>
+                            {%- else -%}
                             <details-modal class="header__iconItem header__search" style="--i-color: {{ block.settings.color }}">
                                 <details>
                                     <summary class="header__icon header__icon--search header__icon--summary link link--text focus-inset modal__toggle" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}" data-search-mobile>
@@ -30,6 +56,7 @@
                                     </summary>
                                 </details>
                             </details-modal>
+                            {%- endif -%}
                         {%-  when 'logo' -%}
                             <div class="header-mobile--icon" style="--logo-font-size: {{ block.settings.logo_font_size }}px; --logo-font-weight: {{ block.settings.logo_font_weight }}; --logo-color: {{ block.settings.logo_color }}">
                                 {%- if menu_tab.size > 0 -%}
@@ -439,6 +466,67 @@
                     "id": "color",
                     "label": "t:sections.header.settings.header_top.label__4",
                     "default": "#232323"
+                },
+                {
+                    "type": "header",
+                    "content": "Acceso personalizado (Black Friday)"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "bf_replace",
+                    "label": "Reemplazar icono de búsqueda por acceso personalizado",
+                    "default": false,
+                    "info": "Útil cuando el buscador abierto ya está visible: convierte este icono en un acceso (ej. Ofertas)."
+                },
+                {
+                    "type": "url",
+                    "id": "bf_link",
+                    "label": "Enlace del acceso"
+                },
+                {
+                    "type": "text",
+                    "id": "bf_label",
+                    "label": "Etiqueta accesible (aria-label)",
+                    "default": "Ofertas"
+                },
+                {
+                    "type": "select",
+                    "id": "bf_icon_type",
+                    "label": "Tipo de icono",
+                    "default": "svg",
+                    "options": [
+                        { "value": "svg", "label": "SVG personalizado" },
+                        { "value": "image", "label": "Imagen" },
+                        { "value": "text", "label": "Texto (ej. BF)" }
+                    ]
+                },
+                {
+                    "type": "textarea",
+                    "id": "bf_svg",
+                    "label": "SVG personalizado",
+                    "info": "Pega el código <svg>…</svg>. Usa fill/stroke=\"currentColor\" para heredar el color."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "bf_image",
+                    "label": "Imagen del icono"
+                },
+                {
+                    "type": "text",
+                    "id": "bf_text",
+                    "label": "Texto (si eliges tipo Texto)",
+                    "default": "BF"
+                },
+                {
+                    "type": "color",
+                    "id": "bf_text_color",
+                    "label": "Color del texto / icono del acceso"
+                },
+                {
+                    "type": "color",
+                    "id": "bf_bg_color",
+                    "label": "Color de fondo del acceso",
+                    "info": "Si se define, el acceso se muestra como botón (con relleno y esquinas redondeadas)."
                 }
             ]
         },
