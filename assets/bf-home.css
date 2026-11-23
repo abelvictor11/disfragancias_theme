@@ -115,23 +115,34 @@
   width:70px;height:auto;pointer-events:none;
 }
 
-/* ---- Desktop: dos columnas, número protagonista ---- */
+/* ---- Desktop: full-bleed (sirve de fondo al header transparente) ----
+   - Sin márgenes/radio/borde: ocupa todo el ancho y llega hasta arriba.
+   - padding-top alto para que el contenido empiece DEBAJO del menú.
+   - align-items:start + ancho de contenido delimitado para no invadir el menú. */
 @media screen and (min-width:750px){
   .bf-hero{
-    margin:24px auto;max-width:1200px;
-    padding:48px 56px;
-    display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:32px;
+    margin:0;max-width:none;
+    border:0;border-radius:0;
+    padding:clamp(210px,24vh,280px) 7vw 84px;
+    min-height:82vh;
+    display:grid;grid-template-columns:minmax(0,46ch) 1fr;align-items:start;gap:40px;
   }
-  .bf-hero__content{max-width:38ch}
+  .bf-hero__content{max-width:46ch}
   .bf-hero__title{font-size:64px;margin:12px 0 10px}
   .bf-hero__subtitle{font-size:16px}
-  .bf-countdown{gap:14px;margin-top:24px}
+  .bf-countdown{gap:14px;margin-top:24px;max-width:520px}
   .bf-flip__label{font-size:11px}
   .bf-flip__card{min-width:88px;height:92px}
   .bf-flip__card b{font-size:46px}
   .bf-hero__cta{display:inline-block;margin-top:22px}
-  .bf-hero__bottle{position:static;grid-column:2;justify-self:center;width:180px;opacity:1}
-  .bf-hero--no-bottle{grid-template-columns:1fr}
+  .bf-hero__bottle{position:static;grid-column:2;justify-self:end;align-self:center;width:200px;opacity:1}
+  .bf-hero--no-bottle{grid-template-columns:minmax(0,46ch)}
+}
+
+/* Pantallas grandes: limitar el contenido a un ancho de lectura y centrar el
+   bloque, manteniendo el fondo full-bleed. */
+@media screen and (min-width:1400px){
+  .bf-hero{padding-left:max(7vw,calc((100vw - 1320px) / 2));padding-right:max(7vw,calc((100vw - 1320px) / 2))}
 }
 
 /* ===================== Header: buscador fijo + chips (mobile) ============== */
