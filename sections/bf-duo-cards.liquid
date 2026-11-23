@@ -29,6 +29,15 @@
       if section.settings.heading_color != blank
         echo '--bf-head-color:' | append: section.settings.heading_color | append: ';'
       endif
+      if section.settings.badge_radius != blank
+        echo '--bf-badge-radius:' | append: section.settings.badge_radius | append: 'px;'
+      endif
+      if section.settings.badge_bg != blank
+        echo '--bf-badge-bg:' | append: section.settings.badge_bg | append: ';'
+      endif
+      if section.settings.badge_color != blank
+        echo '--bf-badge-color:' | append: section.settings.badge_color | append: ';'
+      endif
       if section.settings.bg_color != blank
         echo 'background-color:' | append: section.settings.bg_color | append: ';'
       endif
@@ -152,6 +161,27 @@
       "type": "image_picker",
       "id": "bg_image",
       "label": "Fondo de la sección (imagen)"
+    },
+    {
+      "type": "header",
+      "content": "Badge / etiqueta de las cards"
+    },
+    {
+      "type": "range",
+      "id": "badge_radius",
+      "min": 0, "max": 24, "step": 1, "unit": "px",
+      "label": "Radio del badge",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Fondo del badge"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Color del texto del badge"
     }
   ],
   "blocks": [

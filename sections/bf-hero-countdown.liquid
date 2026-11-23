@@ -25,6 +25,12 @@
       if section.settings.accent_color != blank
         echo '--bf-accent:' | append: section.settings.accent_color | append: ';'
       endif
+      if section.settings.btn_custom_radius
+        echo '--bf-btn-radius:' | append: section.settings.btn_radius | append: 'px;'
+      endif
+      if section.settings.btn_color != blank
+        echo '--bf-btn-color:' | append: section.settings.btn_color | append: ';'
+      endif
     endcapture
     assign scrim = section.settings.bg_overlay | default: 0 | times: 0.01
   -%}
@@ -279,6 +285,29 @@
       "min": 0, "max": 30, "step": 1, "unit": "px",
       "label": "Radio de las cards (countdown)",
       "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Botón (diseño)"
+    },
+    {
+      "type": "checkbox",
+      "id": "btn_custom_radius",
+      "label": "Usar radio de botón personalizado",
+      "default": false,
+      "info": "Si está apagado, usa el radio de botón del tema."
+    },
+    {
+      "type": "range",
+      "id": "btn_radius",
+      "min": 0, "max": 40, "step": 1, "unit": "px",
+      "label": "Radio del botón",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "btn_color",
+      "label": "Color del texto del botón"
     }
   ],
   "presets": [
