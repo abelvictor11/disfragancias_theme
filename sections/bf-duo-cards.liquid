@@ -38,6 +38,12 @@
       if section.settings.badge_color != blank
         echo '--bf-badge-color:' | append: section.settings.badge_color | append: ';'
       endif
+      if section.settings.arrow_bg != blank
+        echo '--bf-arrow-bg:' | append: section.settings.arrow_bg | append: ';'
+      endif
+      if section.settings.arrow_color != blank
+        echo '--bf-arrow-color:' | append: section.settings.arrow_color | append: ';'
+      endif
       if section.settings.bg_color != blank
         echo 'background-color:' | append: section.settings.bg_color | append: ';'
       endif
@@ -185,6 +191,20 @@
       "type": "color",
       "id": "badge_color",
       "label": "Color del texto del badge"
+    },
+    {
+      "type": "header",
+      "content": "Botón de flecha"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg",
+      "label": "Fondo del botón de flecha"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Color de la flecha"
     }
   ],
   "blocks": [

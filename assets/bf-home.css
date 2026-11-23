@@ -272,7 +272,8 @@
 .bf-card--has-arrow .bf-card__sub{padding-right:42px}
 .bf-card__arrow{
   position:absolute;right:12px;bottom:14px;width:28px;height:28px;border-radius:50%;
-  background:#fff;color:var(--bf-ink,#232323);display:grid;place-items:center;
+  background:var(--bf-arrow-bg,#fff);color:var(--bf-arrow-color,var(--bf-ink,#232323));
+  display:grid;place-items:center;
 }
 .bf-card__arrow svg{width:16px;height:16px}
 
