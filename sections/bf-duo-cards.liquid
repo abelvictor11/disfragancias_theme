@@ -1,0 +1,247 @@
+{%- comment -%}
+  Black Friday · Tarjetas en dúo. Reutilizable: Género (alta, tag + flecha) y
+  Colecciones (compacta, con encabezado). Sección independiente y ocultable.
+  Estilos en assets/bf-home.css.
+{%- endcomment -%}
+
+{{ 'bf-home.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.show_section and section.blocks.size > 0 -%}
+  {%- liquid
+    assign card_size = 'bf-card--compact'
+    if section.settings.card_height == 'tall'
+      assign card_size = 'bf-card--tall'
+    endif
+
+    assign has_bg = false
+    if section.settings.bg_image != blank or section.settings.bg_color != blank
+      assign has_bg = true
+    endif
+    assign bg_url = ''
+    if section.settings.bg_image != blank
+      assign bg_url = section.settings.bg_image | image_url: width: 2400
+    endif
+
+    capture bf_style
+      if section.settings.card_radius != blank
+        echo '--bf-radius:' | append: section.settings.card_radius | append: 'px;'
+      endif
+      if section.settings.heading_color != blank
+        echo '--bf-head-color:' | append: section.settings.heading_color | append: ';'
+      endif
+      if section.settings.badge_radius != blank
+        echo '--bf-badge-radius:' | append: section.settings.badge_radius | append: 'px;'
+      endif
+      if section.settings.badge_bg != blank
+        echo '--bf-badge-bg:' | append: section.settings.badge_bg | append: ';'
+      endif
+      if section.settings.badge_color != blank
+        echo '--bf-badge-color:' | append: section.settings.badge_color | append: ';'
+      endif
+      if section.settings.arrow_bg != blank
+        echo '--bf-arrow-bg:' | append: section.settings.arrow_bg | append: ';'
+      endif
+      if section.settings.arrow_color != blank
+        echo '--bf-arrow-color:' | append: section.settings.arrow_color | append: ';'
+      endif
+      if section.settings.bg_color != blank
+        echo 'background-color:' | append: section.settings.bg_color | append: ';'
+      endif
+      if bg_url != blank
+        echo "background-image:url('" | append: bg_url | append: "');"
+      endif
+    endcapture
+  -%}
+  <div class="bf-duo{% if has_bg %} bf-duo--has-bg{% endif %}"{% if bf_style != blank %} style="{{ bf_style }}"{% endif %}>
+    {%- if section.settings.heading != blank or section.settings.link_text != blank -%}
+      <div class="bf-sec-head">
+        {%- if section.settings.heading != blank -%}<h3>{{ section.settings.heading | escape }}</h3>{%- endif -%}
+        {%- if section.settings.link_text != blank -%}
+          <a href="{{ section.settings.link_url | default: '#' }}">{{ section.settings.link_text | escape }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="bf-duo__grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign tone = 'bf-card--on-light'
+          if block.settings.text_light
+            assign tone = 'bf-card--on-dark'
+          endif
+          assign card_style = ''
+          if block.settings.background != blank
+            assign card_style = 'background:' | append: block.settings.background | append: ';'
+          endif
+          if block.settings.title_color != blank
+            assign card_style = card_style | append: '--bf-card-title:' | append: block.settings.title_color | append: ';'
+          endif
+          assign arrow_class = ''
+          if block.settings.show_arrow
+            assign arrow_class = ' bf-card--has-arrow'
+          endif
+        -%}
+        <a class="bf-card {{ card_size }} {{ tone }}{{ arrow_class }}" href="{{ block.settings.link | default: '#' }}" style="{{ card_style }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <img class="bf-card__bg" src="{{ block.settings.image | image_url: width: 800 }}" alt="" loading="lazy"
+              width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}">
+          {%- endif -%}
+          <span class="bf-card__scrim" aria-hidden="true"></span>
+
+          {%- if block.settings.tag != blank -%}
+            <span class="bf-card__tag">{{ block.settings.tag | escape }}</span>
+          {%- endif -%}
+
+          <h4 class="bf-card__title">{{ block.settings.title | escape }}</h4>
+          {%- if block.settings.subtitle != blank -%}
+            <p class="bf-card__sub">{{ block.settings.subtitle | escape }}</p>
+          {%- endif -%}
+
+          {%- if block.settings.show_arrow -%}
+            <span class="bf-card__arrow" aria-hidden="true">
+              <svg viewBox="0 0 200 200" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M9.2,97.9c0.1-0.1,0.3-0.1,0.3-0.2c1.7-4,4.9-4.9,8.9-4.8c48.3,0.1,96.5,0,144.8,0c0.9,0,1.7,0,2.8,0c-1.1-1.7-2.3-2.7-3.5-3.9c-6.9-6.9-13.9-13.8-20.8-20.8c-4.1-4.1-2.4-10.4,3.2-12c2.8-0.8,5.1,0.2,7,2.2c5.2,5.2,10.4,10.3,15.6,15.5c6.8,6.8,13.6,13.6,20.5,20.4c3.7,3.6,3.7,7.7,0,11.3c-12,12-24,23.9-36,35.9c-4,4-9.8,3-12-1.9c-1.2-2.7-0.6-5.6,1.7-7.9c6.5-6.5,13-12.9,19.5-19.4c1.6-1.6,3.2-3.1,5.1-4.8c-1.3-0.5-2.2-0.4-3.1-0.4c-48.8,0-97.7,0-146.5,0c-3.3,0-5.6-1.4-6.9-4.5c-0.1-0.3-0.4-0.6-0.6-0.9C9.2,100.5,9.2,99.2,9.2,97.9z"/></svg>
+            </span>
+          {%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "BF · Tarjetas dúo",
+  "tag": "section",
+  "class": "bf-duo-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Mostrar sección",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Encabezado (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Texto del enlace (opcional)"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Enlace del encabezado"
+    },
+    {
+      "type": "select",
+      "id": "card_height",
+      "label": "Alto de tarjeta",
+      "default": "tall",
+      "options": [
+        { "value": "tall", "label": "Alta (género)" },
+        { "value": "compact", "label": "Compacta (colecciones)" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0, "max": 30, "step": 1, "unit": "px",
+      "label": "Radio de las cards",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color del encabezado"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Fondo de la sección (color)"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Fondo de la sección (imagen)"
+    },
+    {
+      "type": "header",
+      "content": "Badge / etiqueta de las cards"
+    },
+    {
+      "type": "range",
+      "id": "badge_radius",
+      "min": 0, "max": 24, "step": 1, "unit": "px",
+      "label": "Radio del badge",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Fondo del badge"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Color del texto del badge"
+    },
+    {
+      "type": "header",
+      "content": "Botón de flecha"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg",
+      "label": "Fondo del botón de flecha"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Color de la flecha"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Tarjeta",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Título", "default": "Título" },
+        { "type": "text", "id": "subtitle", "label": "Subtítulo" },
+        { "type": "color", "id": "title_color", "label": "Color del título", "info": "Opcional. Por defecto sigue el color del texto de la tarjeta." },
+        { "type": "url", "id": "link", "label": "Enlace (colección)" },
+        { "type": "image_picker", "id": "image", "label": "Imagen de fondo" },
+        { "type": "color_background", "id": "background", "label": "Fondo degradado (si no hay imagen)" },
+        { "type": "text", "id": "tag", "label": "Etiqueta (opcional)" },
+        { "type": "checkbox", "id": "show_arrow", "label": "Mostrar flecha", "default": false },
+        { "type": "checkbox", "id": "text_light", "label": "Texto claro (fondo oscuro)", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "BF · Género (dúo)",
+      "settings": { "card_height": "tall" },
+      "blocks": [
+        { "type": "card", "settings": { "title": "Hombre", "subtitle": "Más vendidos en oferta", "tag": "Black Friday", "show_arrow": true, "background": "linear-gradient(170deg,#e9edf1,#d5dce4)" } },
+        { "type": "card", "settings": { "title": "Mujer", "subtitle": "Más vendidos en oferta", "tag": "Black Friday", "show_arrow": true, "background": "linear-gradient(170deg,#f6ebe7,#ead6cf)" } }
+      ]
+    },
+    {
+      "name": "BF · Colecciones (dúo)",
+      "settings": { "card_height": "compact", "heading": "Colecciones" },
+      "blocks": [
+        { "type": "card", "settings": { "title": "Árabes", "subtitle": "Hombre · Mujer · Unisex", "background": "linear-gradient(150deg,#f4e6cc,#e6cfa3)" } },
+        { "type": "card", "settings": { "title": "Nicho", "subtitle": "Hombre · Mujer · Unisex", "background": "linear-gradient(150deg,#ece6dc,#d8cdbd)" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

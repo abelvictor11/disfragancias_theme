@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Black Friday · Home — estilos de secciones bf-*
+   CONSISTENCIA: tipografía y botones se apoyan en los tokens del tema
+   (var(--font-heading-family), var(--font-body-family), clase .button y
+   tokens --btn-1-*). Solo los acentos de CAMPAÑA (negro/dorado/rojo), que
+   no existen en el tema, se definen aquí como variables --bf-*.
+   ========================================================================== */
+:root{
+  /* Acentos de campaña Black Friday (no están en los tokens del tema) */
+  --bf-gold:#e0b252;
+  --bf-gold-soft:#fbf3e2;
+  --bf-bronze:#836038;
+  --bf-red:#e95144;
+  --bf-dark:#141414;
+  --bf-dark-line:#2c2a26;
+  --bf-dark-cell:rgba(255,255,255,.06);
+  --bf-dark-cell-line:#34312b;
+  --bf-on-dark:#ffffff;
+  --bf-on-dark-mute:#bdb6aa;
+  --bf-on-dark-faint:#a19d94;
+}
+
+/* ============================ Hero + countdown ============================ */
+.bf-hero{
+  position:relative;
+  margin:14px;
+  padding:22px 18px 18px;
+  border-radius:18px;
+  overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(224,178,82,.32), transparent 55%),
+    radial-gradient(90% 80% at 0% 100%, rgba(131,96,56,.35), transparent 60%),
+    var(--bf-dark);
+  border:1px solid var(--bf-dark-line);
+  color:var(--bf-on-dark);
+  font-family:var(--font-body-family);
+}
+/* Capa de imagen de fondo opcional (banner) + scrim para legibilidad */
+.bf-hero__bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.bf-hero__scrim{position:absolute;inset:0;z-index:1;background:#000;pointer-events:none}
+.bf-hero--has-bg .bf-hero__bottle{z-index:2}
+.bf-hero__content{position:relative;z-index:2;max-width:30ch}
+.bf-hero__eyebrow{
+  font-family:var(--font-body-family);
+  font-size:11px;letter-spacing:.25em;font-weight:700;color:var(--bf-accent,var(--bf-gold));
+  text-transform:uppercase;margin:0;
+}
+.bf-hero__title{
+  font-family:var(--font-heading-family);
+  font-weight:var(--font-heading-weight,700);
+  font-size:38px;line-height:1;margin:8px 0 6px;color:var(--bf-head-color,var(--bf-on-dark));
+}
+.bf-hero__title em{font-style:normal;color:var(--bf-accent,var(--bf-gold))}
+.bf-hero__subtitle{
+  font-family:var(--font-body-family);
+  font-size:13px;line-height:1.45;color:var(--bf-body-color,var(--bf-on-dark-mute));margin:0;
+}
+
+/* Countdown estilo flip-clock (split-flap): tile oscuro con costura central,
+   número grande y etiqueta arriba. */
+.bf-countdown{display:flex;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.bf-flip{display:flex;flex-direction:column;align-items:center;gap:7px;flex:1 1 0;min-width:0}
+.bf-flip__label{
+  font-family:var(--font-body-family);
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;
+  color:var(--bf-on-dark-faint);
+}
+.bf-flip__card{
+  position:relative;display:grid;place-items:center;width:100%;
+  min-width:0;height:66px;border-radius:var(--bf-radius,12px);
+  background:linear-gradient(180deg,#262b33 0%,#1a1e24 48%,#15181d 52%,#101216 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    inset 0 -1px 0 rgba(0,0,0,.5),
+    0 10px 22px rgba(0,0,0,.4);
+}
+/* costura central (el pliegue del flip) */
+.bf-flip__card::before{
+  content:"";position:absolute;left:0;right:0;top:50%;height:2px;transform:translateY(-1px);
+  background:linear-gradient(180deg,rgba(0,0,0,.55) 0 50%,rgba(255,255,255,.05) 50% 100%);
+}
+/* bisagras laterales (escalan con el ancho) */
+.bf-flip__card::after{
+  content:"";position:absolute;top:calc(50% - 5px);left:0;right:0;height:10px;pointer-events:none;
+  background:
+    linear-gradient(#0c0e12,#0c0e12) left center/4px 10px no-repeat,
+    linear-gradient(#0c0e12,#0c0e12) right center/4px 10px no-repeat;
+}
+.bf-flip__card b{
+  position:relative;z-index:1;
+  font-family:var(--font-body-family);
+  font-size:34px;font-weight:800;line-height:1;color:#f6f4ef;
+  font-variant-numeric:tabular-nums;letter-spacing:.01em;
+  text-shadow:0 1px 1px rgba(0,0,0,.6);
+}
+
+/* CTA: hereda forma/tipografía del botón del tema (.button.button--primary
+   → tokens --btn-1-*); solo invertimos el color a dorado de campaña para que
+   contraste sobre el fondo negro del hero. */
+.bf-hero__cta{
+  width:auto;
+  margin-top:16px;
+}
+.bf-hero__cta.button--primary,
+.bf-hero__cta.button--primary:hover{
+  background:var(--bf-accent,var(--bf-gold));
+  border-color:var(--bf-accent,var(--bf-gold));
+  color:var(--bf-btn-color,#232323);
+  border-radius:var(--bf-btn-radius,var(--btn-1-border-radius));
+}
+.bf-hero__cta.button--primary svg{fill:#232323}
+
+/* En móvil el CTA ocupa el ancho como el resto de botones del tema */
+@media screen and (max-width:749px){
+  .bf-hero__cta{display:block;width:100%}
+}
+
+.bf-hero__bottle{
+  position:absolute;right:14px;top:16px;z-index:1;opacity:.9;
+  width:70px;height:auto;pointer-events:none;
+}
+
+/* ---- Desktop: full-bleed (sirve de fondo al header transparente) ----
+   - Sin márgenes/radio/borde: ocupa todo el ancho y llega hasta arriba.
+   - padding-top alto para que el contenido empiece DEBAJO del menú.
+   - align-items:start + ancho de contenido delimitado para no invadir el menú. */
+@media screen and (min-width:750px){
+  .bf-hero{
+    margin:0;max-width:none;
+    border:0;border-radius:0;
+    padding:clamp(210px,24vh,280px) 7vw 84px;
+    min-height:82vh;
+    display:grid;grid-template-columns:minmax(0,46ch) 1fr;align-items:start;gap:40px;
+  }
+  .bf-hero__content{max-width:46ch}
+  .bf-hero__title{font-size:64px;margin:12px 0 10px}
+  .bf-hero__subtitle{font-size:16px}
+  .bf-countdown{gap:14px;margin-top:24px;max-width:520px}
+  .bf-flip__label{font-size:11px}
+  .bf-flip__card{min-width:88px;height:92px}
+  .bf-flip__card b{font-size:46px}
+  .bf-hero__cta{display:inline-block;margin-top:22px}
+  .bf-hero__bottle{position:static;grid-column:2;justify-self:end;align-self:center;width:200px;opacity:1}
+  .bf-hero--no-bottle{grid-template-columns:minmax(0,46ch)}
+}
+
+/* Pantallas grandes: limitar el contenido a un ancho de lectura y centrar el
+   bloque, manteniendo el fondo full-bleed. */
+@media screen and (min-width:1400px){
+  .bf-hero{padding-left:max(7vw,calc((100vw - 1320px) / 2));padding-right:max(7vw,calc((100vw - 1320px) / 2))}
+}
+
+/* ===================== Header: buscador fijo + chips (mobile) ============== */
+.bf-hsearch{padding:10px 14px 12px;font-family:var(--font-body-family)}
+.bf-hsearch__form{
+  display:flex;align-items:center;gap:8px;
+  background:var(--input-bg,var(--input-background,#fff));
+  border:1.5px solid var(--input-border-color,#e6e6e6);
+  border-radius:var(--input-border-radius,12px);padding:10px 12px;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+/* Estado focus: mismo patrón que el buscador del tema (color-foreground + anillo inset) */
+.bf-hsearch__form:focus-within{
+  border-color:var(--color-foreground,#232323);
+  box-shadow:inset 0 0 0 1px var(--color-foreground,#232323);
+}
+.bf-hsearch__form svg{flex:0 0 auto;width:18px;height:18px;color:var(--color-foreground,#232323);opacity:.55}
+.bf-hsearch__input{
+  flex:1 1 auto;min-width:0;border:0;background:none;outline:none;
+  font-family:inherit;font-size:14px;color:var(--input-color,var(--color-foreground,#232323));
+}
+.bf-hsearch__input::placeholder{color:var(--placeholder-color,#8a857b);opacity:1}
+.bf-chips{display:flex;gap:6px;margin-top:9px;overflow-x:auto;scrollbar-width:none}
+.bf-chips::-webkit-scrollbar{display:none}
+.bf-chip{
+  flex:0 0 auto;white-space:nowrap;text-decoration:none;
+  font-size:12px;font-weight:500;padding:6px 11px;
+  border-radius:var(--bf-chip-radius,20px);
+  border:1px solid var(--bf-chip-border,var(--border-color,#e6ded3));
+  background:var(--bf-chip-bg,#fff);color:var(--bf-chip-color,var(--bf-ink,#232323));
+}
+.bf-chip--hot{
+  border-color:var(--bf-chip-hot-border,var(--bf-gold));
+  background:var(--bf-chip-hot-bg,var(--bf-gold-soft));
+  color:var(--bf-chip-hot-color,var(--bf-bronze));
+  font-weight:700;
+}
+
+/* ===================== Bottom nav (mobile, todo el sitio) ================== */
+.bf-bottomnav{display:none}
+@media screen and (max-width:749px){
+  .bf-bottomnav{
+    display:grid;position:fixed;left:0;right:0;bottom:0;z-index:50;
+    grid-auto-flow:column;grid-auto-columns:1fr;
+    background:var(--bf-nav-bg,#fff);border-top:1px solid var(--border-color,#ebe5dc);
+    padding-bottom:env(safe-area-inset-bottom,0);
+    font-family:var(--font-body-family);
+    box-shadow:0 -4px 16px rgba(0,0,0,.06);
+  }
+  /* Especificidad reforzada (a.…) para ganar al color de enlace del footer/tema */
+  .bf-bottomnav a.bf-bottomnav__item{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    padding:11px 4px 9px;text-decoration:none;
+    color:var(--bf-nav-color,#727272);font-size:11px;font-weight:500;
+    transition:color .15s ease;-webkit-tap-highlight-color:transparent;
+  }
+  .bf-bottomnav a.bf-bottomnav__item:hover,
+  .bf-bottomnav a.bf-bottomnav__item:active{color:var(--bf-nav-active,var(--bf-ink,#232323))}
+  .bf-bottomnav a.bf-bottomnav__item.is-active{color:var(--bf-nav-active,var(--bf-ink,#232323));font-weight:600}
+  /* El icono hereda explícitamente el color del ítem (evita que algo lo pinte) */
+  .bf-bottomnav__item .bf-bottomnav__icon{color:inherit}
+  .bf-bottomnav__icon{display:grid;place-items:center;width:28px;height:28px}
+  .bf-bottomnav__icon svg{width:26px;height:26px;max-width:100%;max-height:100%}
+  .bf-bottomnav__img{width:26px;height:26px;object-fit:contain;display:block}
+  /* SVG personalizado: adaptar su color al del ítem (monocromo). Por defecto
+     relleno; opción trazo. Así un SVG pegado deja de verse con sus colores. */
+  .bf-bottomnav__icon--svg-fill svg,
+  .bf-bottomnav__icon--svg-fill svg *{fill:currentColor !important;stroke:none !important}
+  .bf-bottomnav__icon--svg-stroke svg,
+  .bf-bottomnav__icon--svg-stroke svg *{stroke:currentColor !important;fill:none !important}
+  .bf-bottomnav__badge{
+    position:absolute;transform:translate(12px,-10px);
+    background:var(--bf-red);color:#fff;font-size:9px;font-weight:700;
+    border-radius:8px;padding:1px 5px;line-height:1.4;
+  }
+  /* Ítem destacado (Ofertas): círculo elevado sobre fondo oscuro */
+  .bf-bottomnav a.bf-bottomnav__item--highlight,
+  .bf-bottomnav a.bf-bottomnav__item--highlight.is-active,
+  .bf-bottomnav a.bf-bottomnav__item--highlight:hover{color:var(--bf-nav-highlight-label,var(--bf-bronze));font-weight:700}
+  .bf-bottomnav__item--highlight .bf-bottomnav__icon{
+    width:54px;height:54px;border-radius:50%;margin-top:-22px;
+    background:var(--bf-nav-highlight-bg,var(--bf-dark));
+    color:var(--bf-nav-highlight-icon,var(--bf-gold));
+    box-shadow:0 0 0 4px var(--bf-nav-bg,#fff);
+  }
+  .bf-bottomnav__item--highlight .bf-bottomnav__icon svg{width:26px;height:26px}
+  .bf-bottomnav__item--highlight .bf-bottomnav__img{width:30px;height:30px}
+  /* Texto del botón BF: fuente y texto configurables */
+  .bf-bottomnav__bf{
+    font-family:var(--bf-nav-bf-font,var(--font-heading-family));
+    font-weight:800;font-size:15px;letter-spacing:.02em;line-height:1;
+  }
+  /* Deja aire para que el bar fijo no tape el contenido */
+  body:has(.bf-bottomnav){padding-bottom:76px}
+}
+
+/* ===================== Encabezado de sección (compartido) ================= */
+.bf-sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 10px}
+.bf-sec-head h3{font-family:var(--font-heading-family);font-weight:600;font-size:18px;line-height:1.2;color:var(--bf-head-color,var(--bf-bronze));margin:0}
+.bf-sec-head a{flex:0 0 auto;font-family:var(--font-body-family);font-size:12px;color:var(--bf-ink,#232323);text-decoration:underline;text-underline-offset:3px}
+
+/* ===================== Tarjetas en dúo (género / colecciones) ============= */
+.bf-duo{padding:0 14px;margin:24px 0;font-family:var(--font-body-family)}
+.bf-duo__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.bf-card{
+  position:relative;isolation:isolate;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  border-radius:var(--bf-radius,16px);border:1px solid var(--border-color,#e6ded3);
+  padding:14px;text-decoration:none;color:var(--bf-ink,#232323);
+}
+/* Fondo de sección opcional (color o imagen) */
+.bf-duo--has-bg{padding-top:24px;padding-bottom:24px;background-size:cover;background-position:center;background-repeat:no-repeat;border-radius:0}
+.bf-card--tall{min-height:190px}
+.bf-card--compact{min-height:120px}
+.bf-card__bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+.bf-card__scrim{position:absolute;inset:0;z-index:-1}
+.bf-card--on-light .bf-card__scrim{background:linear-gradient(transparent 45%,rgba(255,255,255,.35))}
+.bf-card--on-dark{color:#fff}
+.bf-card--on-dark .bf-card__scrim{background:linear-gradient(transparent 28%,rgba(0,0,0,.55))}
+.bf-card__tag{
+  position:absolute;top:12px;left:12px;z-index:1;
+  background:var(--bf-badge-bg,var(--bf-dark));color:var(--bf-badge-color,#fff);
+  font-size:10px;font-weight:700;letter-spacing:.05em;
+  padding:3px 7px;border-radius:var(--bf-badge-radius,6px);
+}
+.bf-card__title{font-family:var(--font-heading-family);font-weight:700;font-size:22px;line-height:1.1;margin:0;color:var(--bf-card-title,inherit)}
+.bf-card--compact .bf-card__title{font-size:19px}
+.bf-card__sub{font-size:11.5px;line-height:1.35;margin-top:3px;opacity:.9}
+.bf-card--has-arrow .bf-card__title,
+.bf-card--has-arrow .bf-card__sub{padding-right:42px}
+.bf-card__arrow{
+  position:absolute;right:12px;bottom:14px;width:28px;height:28px;border-radius:50%;
+  background:var(--bf-arrow-bg,#fff);color:var(--bf-arrow-color,var(--bf-ink,#232323));
+  display:grid;place-items:center;
+}
+.bf-card__arrow svg{width:16px;height:16px}
+
+@media screen and (min-width:750px){
+  .bf-duo{max-width:1200px;margin:32px auto;padding:0 24px}
+  .bf-duo__grid{gap:16px}
+  .bf-sec-head h3{font-size:24px}
+  .bf-card--tall{min-height:320px}
+  .bf-card--compact{min-height:190px;padding:18px}
+  .bf-card__title{font-size:30px}
+  .bf-card--compact .bf-card__title{font-size:24px}
+  .bf-card__sub{font-size:13px}
+  .bf-card__arrow{width:34px;height:34px}
+  .bf-card__arrow svg{width:18px;height:18px}
+}
+
+/* ===== BF · Hub de ofertas (dark) ===== */
+.bf-hub-sec{background:var(--bf-dark);color:var(--bf-on-dark)}
+.bf-hub-sec--has-bg{background-size:cover;background-position:center;background-repeat:no-repeat}
+.bf-hub{padding:26px 14px 30px}
+.bf-hub .bf-sec-head{margin-bottom:14px}
+.bf-hub .bf-sec-head h3{color:var(--bf-head-color,var(--bf-gold))}
+.bf-hub .bf-sec-head a{color:var(--bf-on-dark);text-decoration:underline;text-underline-offset:3px}
+.bf-hub__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.bf-hcell{display:flex;flex-direction:column;justify-content:space-between;gap:6px;
+  min-height:84px;padding:12px;border-radius:var(--bf-radius,14px);
+  background:var(--bf-dark-cell);border:1px solid var(--bf-dark-cell-line);
+  color:var(--bf-on-dark);text-decoration:none;transition:border-color .15s,transform .15s}
+.bf-hcell:hover{border-color:var(--bf-gold);transform:translateY(-1px)}
+.bf-hcell b{font-family:var(--font-body-family);font-size:14px;font-weight:700;line-height:1.2}
+.bf-hcell small{color:var(--bf-on-dark-faint);font-size:11.5px;line-height:1.3}
+.bf-hcell--flash{grid-column:span 3;flex-direction:row;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bf-flash-bg,linear-gradient(90deg,#2b2114,#1f1f1f));
+  border-color:var(--bf-flash-border,#4a3a20)}
+.bf-hcell--flash b{font-size:15px}
+.bf-hcell__flashtxt{display:flex;flex-direction:column;gap:2px}
+.bf-flashtimer{flex:none;font-size:13px;font-weight:700;color:var(--bf-badge-color,#fff);background:var(--bf-badge-bg,var(--bf-red));
+  padding:6px 10px;border-radius:var(--bf-badge-radius,8px);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+@media screen and (min-width:750px){
+  .bf-hub{max-width:1200px;margin:0 auto;padding:40px 24px 46px}
+  .bf-hub__grid{gap:14px}
+  .bf-hcell{min-height:120px;padding:18px;border-radius:var(--bf-radius,16px)}
+  .bf-hcell b{font-size:16px}
+  .bf-hcell small{font-size:13px}
+  .bf-hcell--flash b{font-size:18px}
+  .bf-flashtimer{font-size:16px;padding:8px 14px}
+}
