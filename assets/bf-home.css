@@ -211,6 +211,9 @@
   .bf-bottomnav__item .bf-bottomnav__icon{color:inherit}
   .bf-bottomnav__icon{display:grid;place-items:center;width:28px;height:28px}
   .bf-bottomnav__icon svg{width:26px;height:26px;max-width:100%;max-height:100%}
+  /* Iconos preset = solo trazo: anula la regla global svg{fill:currentColor} del tema */
+  .bf-bottomnav__icon--preset svg,
+  .bf-bottomnav__icon--preset svg *{fill:none !important;stroke:currentColor !important}
   .bf-bottomnav__img{width:26px;height:26px;object-fit:contain;display:block}
   /* SVG personalizado: adaptar su color al del ítem (monocromo). Por defecto
      relleno; opción trazo. Así un SVG pegado deja de verse con sus colores. */
