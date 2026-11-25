@@ -70,9 +70,31 @@
         assign icon_class = 'bf-bottomnav__icon'
         if block.settings.icon_type == 'svg' and block.settings.svg_color != 'original'
           assign icon_class = icon_class | append: ' bf-bottomnav__icon--svg-' | append: block.settings.svg_color
+        elsif block.settings.icon_type != 'svg' and block.settings.icon_type != 'image'
+          assign icon_class = icon_class | append: ' bf-bottomnav__icon--preset'
+        endif
+
+        assign item_url = block.settings.link
+        if item_url == blank
+          case block.settings.icon
+            when 'home'
+              assign item_url = routes.root_url
+            when 'search'
+              assign item_url = routes.search_url
+            when 'cart'
+              assign item_url = routes.cart_url
+            when 'account'
+              assign item_url = routes.account_url
+          endcase
+        endif
+        assign item_url = item_url | default: '#'
+
+        assign cart_drawer = false
+        if block.settings.icon == 'cart' and block.settings.link == blank and settings.show_quick_cart
+          assign cart_drawer = true
         endif
       -%}
-      <a class="{{ item_class }}" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+      <a class="{{ item_class }}" href="{{ item_url }}"{% if cart_drawer %} data-cart-sidebar{% endif %} {{ block.shopify_attributes }}>
         <span class="{{ icon_class }}">
           {%- if block.settings.highlight and block.settings.highlight_text != blank -%}
             <span class="bf-bottomnav__bf">{{ block.settings.highlight_text | escape }}</span>
